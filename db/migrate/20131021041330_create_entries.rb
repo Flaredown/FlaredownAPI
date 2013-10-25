@@ -10,7 +10,7 @@ class CreateEntries < ActiveRecord::Migration
 		t.boolean :complication_fistula
 		t.boolean :complication_other_fistula
 		t.boolean :complication_fever
-		t.boolean :opiates
+		t.integer :opiates
 		t.integer :mass
 		t.integer :hematocrit
 		t.integer :weight_current
