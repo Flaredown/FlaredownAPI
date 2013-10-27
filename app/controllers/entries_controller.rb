@@ -1,10 +1,15 @@
 class EntriesController < ApplicationController
 	def index
+		# This controller intends to calculate the CDAI score for each day that the user has entered data, and push it to an array that can be used by highcharts
+		# For reference: http://en.wikipedia.org/wiki/Crohn%27s_Disease_Activity_Index
+
+		# Big questions:
+		# How to deal with missing days (it currently invalidates almost two weeks of scores)
 
 		@entries = Entry.all
 
 		def makeScoreArray()
-
+			# Calculate the score for a given day
 			def makeScore(d)
 				score = 0;
 				# Sum of stools over the past week, weighting factor 2
@@ -31,16 +36,14 @@ class EntriesController < ApplicationController
 				score += ((Entry.select(:weight_current).where(created_at: d).last - 140)/Entry.select(:weight_current).where(created_at: d).last) * 100
 				return score
 			end
-
-			
+			# Push each day's score into an array
 			scoreArray = []
 			for entry in @entries
 				scoreArray.push(makeScore(entry.created_at))
 			end
 			return scoreArray
-
 		end
-
+		# Init highcharts and pass it the array of scores
 		@chart = LazyHighCharts::HighChart.new('graph') do |f|
 			f.title({ :text=> 'Disease History' })
 			f.xAxis(:type => 'datetime')
