@@ -7,7 +7,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<nav>
+	<h1 class="logo">CDAI.me</h1>
+	<ul>
+		<li><%= link_to "My CDAI", entries_path %></li>
+		<li><%= link_to "TODAY", new_entry_path %></li>
+	</ul>
+</nav>
 <%= yield %>
 
 </body>

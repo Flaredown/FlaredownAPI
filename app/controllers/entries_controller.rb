@@ -12,6 +12,8 @@ class EntriesController < ApplicationController
 			@entries.map {|e| [e.date, e.score]}
 		end
 
+		@dataseries = make_scores()
+
 		# Init highcharts and pass it the array of scores
 		@chart = LazyHighCharts::HighChart.new('graph') do |f|
 			f.title({ :text=> 'Disease History' })
@@ -22,5 +24,19 @@ class EntriesController < ApplicationController
 	end
 
 	def new
+		@entry = Entry.new
+	end
+
+	def create
+		@entry = Entry.new(params[:entry])
+		if @entry.save
+			redirect_to @entry
+		else
+			render :new
+		end
+	end
+
+	def show
+		@entry = Entry.find(params[:id])
 	end
 end
