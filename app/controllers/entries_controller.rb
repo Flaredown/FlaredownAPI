@@ -8,6 +8,10 @@ class EntriesController < ApplicationController
 
 		@entries = Entry.all
 
+		def today_logged
+			# Should return true if the use has already saved an entry for today's date
+		end
+
 		def make_scores()
 			@entries.map {|e| [e.date, e.score]}
 		end

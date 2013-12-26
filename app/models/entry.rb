@@ -5,9 +5,8 @@ class Entry < ActiveRecord::Base
 	def score
 		score = 0;
 
-		now = Time.new
-		start_range = now.beginning_of_day - 7.days
-		end_range = now.end_of_day
+		start_range = created_at.beginning_of_day - 7.days
+		end_range = created_at.end_of_day
 		past_entries = Entry.where("created_at >= ? and created_at <= ?", start_range, end_range).all
 
 		# past
@@ -60,7 +59,7 @@ class Entry < ActiveRecord::Base
 
 
 	def date
-		created_at.to_datetime.to_i*1000
+		created_at.beginning_of_day.to_datetime.to_i*1000
 	end
 
 end
