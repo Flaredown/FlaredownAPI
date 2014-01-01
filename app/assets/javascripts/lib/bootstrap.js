@@ -1,0 +1,12 @@
+//= require lib/bootstrap/affix
+//= require lib/bootstrap/alert
+//= require lib/bootstrap/button
+//= require lib/bootstrap/carousel
+//= require lib/bootstrap/collapse
+//= require lib/bootstrap/dropdown
+//= require lib/bootstrap/tab
+//= require lib/bootstrap/transition
+//= require lib/bootstrap/scrollspy
+//= require lib/bootstrap/modal
+//= require lib/bootstrap/tooltip
+//= require lib/bootstrap/popover

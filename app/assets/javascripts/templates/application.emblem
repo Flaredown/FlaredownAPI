@@ -1,0 +1,19 @@
+.container
+  #header.row
+    .col-md-6
+      h1 CDAI.me
+      if loggedIn
+        a.btn.btn-xs.btn-danger href="#" click="logout" id="logout" Logout
+    .col-md-6
+      if loggedIn
+        br
+        ul
+          li: small Use the API by providing the keys "user_email" and  "user_token" with the values displayed below for each request. The resource url is "/entry(ies)"
+          li 
+            strong email: 
+            = user.email
+          li
+            strong token: 
+            = user.authentication_token
+                    
+  #content.row= outlet

@@ -1,0 +1,1 @@
+App.EntriesController = Em.ArrayController.extend()

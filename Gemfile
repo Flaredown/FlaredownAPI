@@ -1,44 +1,55 @@
-source 'http://rubygems.org'
+source "https://rubygems.org"
 
-gem 'rails', '3.2.14'
+# Bundle edge Rails instead: gem "rails", github: "rails/rails"
+gem "rails", "4.0.2"
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+gem "pg"
 
-gem 'pg'
+gem "sass-rails", "~> 4.0.0"
+gem "uglifier", ">= 1.3.0"
+gem "coffee-rails", "~> 4.0.0"
+gem "emblem-rails"
 gem "slim"
 
+gem "devise"
+gem "active_model_serializers"
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem 'uglifier', '>= 1.0.3'
-end
-
-gem 'jquery-rails'
 gem 'lazy_high_charts'
 
-group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+group :production do
+  gem 'rails_12factor' # for heroku asset compilation
 end
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem "sdoc", require: false
+end
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
+group :test, :development do
+  gem "rspec-rails"
+  gem "guard-rspec"
+  gem "capybara"
+  gem "factory_girl"
+  gem "factory_girl_rails"
+  gem "database_cleaner"
+  gem "capybara-webkit"
+  gem "selenium-webdriver"
+  gem "timecop"
+  gem "teaspoon"
+  gem "simplecov"
+  gem "pry"
+  gem "coveralls"
+end
+
+
+# Use ActiveModel has_secure_password
+# gem "bcrypt-ruby", "~> 3.1.2"
 
 # Use unicorn as the app server
-# gem 'unicorn'
+# gem "unicorn"
 
-# Deploy with Capistrano
-# gem 'capistrano'
+# Use Capistrano for deployment
+# gem "capistrano", group: :development
 
-# To use debugger
-# gem 'debugger'
+# Use debugger
+# gem "debugger", group: [:development, :test]
