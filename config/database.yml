@@ -4,6 +4,7 @@ development:
   database: cdai_development
   pool: 5
   host: localhost
+  user: postgres
 
 test:
   adapter: postgresql
