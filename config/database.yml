@@ -11,3 +11,4 @@ test:
   database: cdai_test
   pool: 5
   host: localhost
+  user: postgres
