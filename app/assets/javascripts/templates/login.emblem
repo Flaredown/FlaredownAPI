@@ -1,0 +1,28 @@
+.row
+  .col-md-12
+    if loggedIn
+      p You are already logged in!
+    else
+      form.form-inline submit="login"
+        
+        if errorMessage
+          .row
+            .col-md-12.has-error style="text-align:center"
+              = errorMessage
+              br
+              br
+        
+        .row
+          .col-md-12
+            label Login Email
+            Ember.TextField type="email" valueBinding="email" class="form-email form-control" placeholder="your email" id="email"
+          .col-md-12
+            label Password
+            Ember.TextField type="password" valueBinding="password" class="form-password form-control" placeholder="your password" id="password"
+
+          br
+        .row
+          .col-md-6
+            button.btn.btn-success.col-md-12 Login
+          .col-md-6
+            linkTo "register" class="btn btn-default col-md-12" | Register Now

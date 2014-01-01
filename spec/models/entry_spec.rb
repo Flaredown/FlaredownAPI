@@ -1,29 +1,14 @@
 require 'spec_helper'
 
 describe Entry do
-  pending "add some examples to (or delete) #{__FILE__}"
-  describe "score" do
-  	it "should work when there's enough data" do
-  		Entry.create(stools: 2, ab_pain: 1, general: 4, complication_arthritis: true, complication_iritis: false, complication_erythema: true, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 2, hematocrit: 40, weight_current: 140, created_at: Time.now-17.day)
-		Entry.create(stools: 4, ab_pain: 1, general: 4, complication_arthritis: true, complication_iritis: true, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: true, mass: 5, hematocrit: 50, weight_current: 150, created_at: Time.now-16.day)
-		Entry.create(stools: 1, ab_pain: 1, general: 3, complication_arthritis: false, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 5, hematocrit: 40, weight_current: 140, created_at: Time.now-15.day)
-		Entry.create(stools: 2, ab_pain: 2, general: 4, complication_arthritis: true, complication_iritis: false, complication_erythema: true, complication_fistula: false, complication_fever: true, complication_other_fistula: true, opiates: true, mass: 5, hematocrit: 40, weight_current: 130, created_at: Time.now-14.day)
-		Entry.create(stools: 2, ab_pain: 2, general: 4, complication_arthritis: true, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 0, hematocrit: 38, weight_current: 140, created_at: Time.now-13.day)
-		Entry.create(stools: 3, ab_pain: 1, general: 4, complication_arthritis: true, complication_iritis: true, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: true, mass: 0, hematocrit: 40, weight_current: 140, created_at: Time.now-12.day)
-		Entry.create(stools: 2, ab_pain: 2, general: 3, complication_arthritis: true, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 5, hematocrit: 44, weight_current: 110, created_at: Time.now-11.day)
-		Entry.create(stools: 3, ab_pain: 3, general: 2, complication_arthritis: false, complication_iritis: false, complication_erythema: true, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 2, hematocrit: 43, weight_current: 140, created_at: Time.now-10.day)
-		Entry.create(stools: 2, ab_pain: 4, general: 2, complication_arthritis: true, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: true, mass: 5, hematocrit: 42, weight_current: 140, created_at: Time.now-9.day)
-		Entry.create(stools: 1, ab_pain: 4, general: 2, complication_arthritis: true, complication_iritis: true, complication_erythema: true, complication_fistula: false, complication_fever: true, complication_other_fistula: true, opiates: false, mass: 2, hematocrit: 40, weight_current: 140, created_at: Time.now-8.day)
-		Entry.create(stools: 1, ab_pain: 3, general: 1, complication_arthritis: false, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 2, hematocrit: 40, weight_current: 120, created_at: Time.now-7.day)
-		Entry.create(stools: 2, ab_pain: 2, general: 1, complication_arthritis: true, complication_iritis: true, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 5, hematocrit: 48, weight_current: 140, created_at: Time.now-6.day)
-		Entry.create(stools: 2, ab_pain: 3, general: 1, complication_arthritis: true, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 0, hematocrit: 40, weight_current: 150, created_at: Time.now-5.day)
-		Entry.create(stools: 4, ab_pain: 1, general: 1, complication_arthritis: false, complication_iritis: true, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: true, mass: 5, hematocrit: 56, weight_current: 140, created_at: Time.now-4.day)
-		Entry.create(stools: 4, ab_pain: 2, general: 2, complication_arthritis: true, complication_iritis: false, complication_erythema: true, complication_fistula: false, complication_fever: true, complication_other_fistula: true, opiates: false, mass: 5, hematocrit: 40, weight_current: 130, created_at: Time.now-3.day)
-		Entry.create(stools: 3, ab_pain: 1, general: 2, complication_arthritis: false, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 5, hematocrit: 52, weight_current: 140, created_at: Time.now-2.day)
-		Entry.create(stools: 2, ab_pain: 1, general: 4, complication_arthritis: true, complication_iritis: true, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 2, hematocrit: 40, weight_current: 140, created_at: Time.now-1.day)
-		Entry.create(stools: 2, ab_pain: 3, general: 2, complication_arthritis: true, complication_iritis: false, complication_erythema: false, complication_fistula: false, complication_fever: true, complication_other_fistula: false, opiates: false, mass: 5, hematocrit: 40, weight_current: 140, created_at: Time.now)
-  		entry = Entry.last
-  		entry.score.should == 0
-  	end
+  describe "#score" do
+    let(:user) { create :user }
+    
+    before(:each) do
+      10.times { create :entry, user: user}
+    end
+    it "should have one if there's enough data" do
+      expect(Entry.last.score).to be > 0
+    end
   end
 end

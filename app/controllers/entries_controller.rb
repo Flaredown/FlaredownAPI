@@ -6,7 +6,7 @@ class EntriesController < ApplicationController
 		# Big questions:
 		# How to deal with missing days (it currently invalidates almost two weeks of scores)
 
-		@entries = Entry.all
+		@entries = current_user.entries
 
 		def today_logged
 			# Should return true if the use has already saved an entry for today's date
@@ -18,13 +18,15 @@ class EntriesController < ApplicationController
 
 		@dataseries = make_scores()
 
-		# Init highcharts and pass it the array of scores
-		@chart = LazyHighCharts::HighChart.new('graph') do |f|
-			f.title({ :text=> 'Disease History' })
-			f.xAxis(:type => 'datetime')
-			f.legend(:enabled => false)
-			f.series(:type=> 'areaspline',:name=> 'CDAI Score',:data=> make_scores())
-		end
+    # Init highcharts and pass it the array of scores
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title({ :text=> 'Disease History' })
+      f.xAxis(:type => 'datetime')
+      f.legend(:enabled => false)
+      f.series(:type=> 'areaspline',:name=> 'CDAI Score',:data=> make_scores())
+    end
+    
+    respond_with @entries
 	end
 
 	def new

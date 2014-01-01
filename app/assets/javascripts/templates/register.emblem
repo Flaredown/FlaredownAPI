@@ -1,0 +1,32 @@
+if loggedIn
+  p You are already logged in!
+else    
+  .row
+    .col-md-12
+      h3 Your Registration Information
+
+      form.form-inline submit="register"
+        fieldset
+          .row
+            div class={errors.email:has-error :col-md-6 :form-group}
+              label Email
+              Ember.TextField valueBinding="email" class="form-email form-control" id="email"
+              if errors.email
+                small= errors.email
+          
+            div class={errors.password:has-error errors.password_confirmation:has-error :col-md-6 :form-group}
+              label Password
+              Ember.TextField type="password" valueBinding="password" placeholder="Desired password" class="form-password form-control" id="password"
+              if errors.password
+                small= errors.password
+              Ember.TextField type="password" valueBinding="password_confirmation" placeholder="Confirm Password" class="form-password-confirmation form-control" id="password_confirmation"
+              if errors.password_confirmation
+                small= errors.password_confirmation
+            
+          br
+          br
+          .row
+            .col-md-6
+              linkTo "login" class="btn btn-default col-md-12" | Back to Login
+            .col-md-6
+              button.btn.btn-success.col-md-12 Register

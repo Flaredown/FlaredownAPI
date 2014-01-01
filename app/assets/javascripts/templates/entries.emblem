@@ -1,0 +1,7 @@
+ul: each controller
+  li
+    strong= this.score
+    |&nbsp;@&nbsp;
+    em= this.date
+    
+    

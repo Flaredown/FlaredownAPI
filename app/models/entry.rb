@@ -1,13 +1,13 @@
 class Entry < ActiveRecord::Base
-   attr_accessible :stools, :ab_pain, :general, :complication_arthritis, :complication_iritis, :complication_erythema, :complication_fistula, :complication_other_fistula, :complication_fever, :opiates, :mass, :hematocrit, :weight_current, :created_at
+   # attr_accessible :stools, :ab_pain, :general, :complication_arthritis, :complication_iritis, :complication_erythema, :complication_fistula, :complication_other_fistula, :complication_fever, :opiates, :mass, :hematocrit, :weight_current, :created_at
 
-
-	def score
+  belongs_to :user
+  def score
 		score = 0;
 
 		start_range = created_at.beginning_of_day - 7.days
 		end_range = created_at.end_of_day
-		past_entries = Entry.where("created_at >= ? and created_at <= ?", start_range, end_range).all
+		past_entries = Entry.where("created_at >= ? and created_at <= ?", start_range, end_range).to_a
 
 		# past
 		score += stool_score(past_entries)
