@@ -1,9 +1,22 @@
-class EntrySerializer < ActiveModel::Serializer  
-  root false
+class EntrySerializer < ActiveModel::Serializer
   embed :ids, include: false
   
   attributes :id,
     :date,
-    :score
+    :score,
+    :stools,
+    :ab_pain,
+    :general,
+    :complication_arthritis,
+    :complication_iritis,
+    :complication_erythema,
+    :complication_fistula,
+    :complication_other_fistula,
+    :complication_fever,
+    :opiates,
+    :mass,
+    :hematocrit,
+    :weight_current,
+    :created_at
     
 end

@@ -15,5 +15,6 @@
           li
             strong token: 
             = user.authentication_token
-                    
+
+  hr
   #content.row= outlet

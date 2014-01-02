@@ -1,4 +1,6 @@
-ul: each controller
+linkTo "entries.new" | New Entry
+      
+ul: each savedEntries
   li
     strong= this.score
     |&nbsp;@&nbsp;

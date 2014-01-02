@@ -1,9 +1,11 @@
 App.Router.map ->
-  @resource "entries", path: "/"
+  @resource "entries", path: "/", ->
+    @route "new", path: "/new"
+  # @resource "entry", path: "/entry/:entry_id", ->
+    
     
   @resource "login", path: "login"
   @resource "register", path: "register"
-  
 
 App.AuthenticatedRoute = Ember.Route.extend
   beforeModel: (transition) ->
@@ -31,8 +33,3 @@ App.LoginRoute = Ember.Route.extend
       
   setupController: (controller, context) ->
     controller.reset()
-  
-App.EntriesRoute = App.AuthenticatedRoute.extend
-  model: -> @store.find("entry")
-    
-  
