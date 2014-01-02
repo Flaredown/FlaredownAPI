@@ -2,7 +2,6 @@
 # = require lib/jquery.cookie
 # = require lib/moment.min
 # = require lib/progress_bar
-# = require lib/bootstrap
 
 # EMBER
 # = require lib/handlebars-v1.1.2
