@@ -18,3 +18,7 @@ App.Entry = DS.Model.extend
   complication_fistula:   attr("boolean")
   complication_fever:     attr("boolean")
   opiates:                attr("boolean")
+  
+  jsDate: Em.computed ->
+    Date.parse "#{@get("date")}"
+  .property("date")

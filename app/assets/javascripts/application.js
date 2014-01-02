@@ -16,6 +16,9 @@
 //= require lib/moment.min
 //= require lib/progress_bar
 
+//= require lib/d3.v3.min
+//= require lib/rickshaw.custom
+
 // EMBER
 //= require lib/handlebars-v1.1.2
 //= require lib/ember
@@ -29,6 +32,7 @@
 //= require_tree ./routes
 //= require_tree ./mixins
 //= require_tree ./models
+//= require_tree ./views
 
 //= require_tree ./controllers
 //= require_tree ./initializers

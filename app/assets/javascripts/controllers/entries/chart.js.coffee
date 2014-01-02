@@ -1,0 +1,1 @@
+App.EntriesChartController = Ember.ObjectController.extend()
