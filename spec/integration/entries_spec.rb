@@ -7,6 +7,8 @@ feature "Entries" do
     login
     expect(page).to have_content ""
   end  
+  
+  
 
 end
 
