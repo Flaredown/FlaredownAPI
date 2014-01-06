@@ -8,11 +8,12 @@ App.RegisterController = Ember.Controller.extend
       email: ""
       password: ""
       password_confirmation: ""
+      weight: ""
 
   register: ->
 
     self = @
-    data = {user: @getProperties("email", "password", "password_confirmation")}
+    data = {user: @getProperties("email", "password", "password_confirmation", "weight")}
 
     @set('errors', {})
 

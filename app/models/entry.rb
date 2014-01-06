@@ -5,6 +5,10 @@ class Entry < ActiveRecord::Base
   validates_inclusion_of :stools, :in => [*0..30], :on => :create, :message => "not within allowed values"
   validates_inclusion_of :ab_pain, :in => [*0..3], :on => :create, :message => "not within allowed values"
   validates_inclusion_of :general, :in => [*0..4], :on => :create, :message => "not within allowed values"
+  validates_inclusion_of :mass, :in => [*0..5], :on => :create, :message => "not within allowed values"
+  validates_inclusion_of :hematocrit, :in => [*0..100], :on => :create, :message => "not within allowed values"
+  validates_inclusion_of :weight_current, :in => [*0..500], :on => :create, :message => "not within allowed values"
+
 
   # stools {[*0..10].sample}
   # ab_pain {[*0..3].sample}

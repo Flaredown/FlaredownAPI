@@ -1,5 +1,5 @@
 CDAI::Application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {registrations: "users/registrations"}
   root "application#app"
   
   resources :entries
