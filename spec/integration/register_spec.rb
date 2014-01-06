@@ -6,6 +6,7 @@ feature "register" do
     fill_in "email", with: "abc@123.com"
     fill_in "password", with: "testing123"
     fill_in "password_confirmation", with: "testing123"
+    fill_in "weight", with: "150"
     click_on "Register"
     expect(page).to have_content "abc@123.com"
   end
@@ -14,6 +15,7 @@ feature "register" do
     fill_in "email", with: "abc@123.com"
     fill_in "password", with: "nope"
     fill_in "password", with: "nope"
+    fill_in "weight", with: "150"
     click_on "Register"
     expect(page).to have_content "too short"
   end
