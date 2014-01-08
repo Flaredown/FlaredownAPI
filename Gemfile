@@ -14,7 +14,11 @@ gem "slim"
 gem "devise"
 gem "active_model_serializers"
 
+gem "resque"
+gem "redis-rails"
+
 gem 'lazy_high_charts'
+
 
 group :production do
   gem 'rails_12factor' # for heroku asset compilation
@@ -39,6 +43,10 @@ group :test, :development do
   gem "simplecov"
   gem "pry"
   gem "coveralls"
+end
+
+group :test do
+  gem "resque_spec"
 end
 
 

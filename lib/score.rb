@@ -1,6 +1,6 @@
 module Score
   def score
-		score = 0;
+		score = 0
 
 		start_range = created_at.beginning_of_day - 7.days
 		end_range = created_at.end_of_day
@@ -14,8 +14,7 @@ module Score
 		score += 20 if past_entries.select {|e| e.complication_fever}.length > 0
 
 		# current
-		[:complication_arthritis, :complication_erythema, :complication_fistula, 
-		 :complication_other_fistula, :complication_iritis].each do |attr|
+		[:complication_arthritis, :complication_erythema, :complication_fistula, :complication_other_fistula, :complication_iritis].each do |attr|
 			score += 20 if self[attr]
 		end
 

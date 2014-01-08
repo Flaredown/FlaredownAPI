@@ -12,6 +12,8 @@ Capybara.javascript_driver  = :webkit
 Capybara.default_selector   = :css
 Capybara.ignore_hidden_elements = false
 
+require 'resque_spec'
+
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -58,12 +60,15 @@ end
 
 DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean # cleanup of the test
+REDIS.flushdb
 
 RSpec.configure do |config|
   config.around(:each) do |example|
+    ResqueSpec.reset!
     FactoryGirl.reload
     Capybara.current_driver = :webkit
     example.run
+    REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
   end  
 end

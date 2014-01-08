@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Chart
   include TokenAuth::User
   
   has_many :entries
@@ -8,5 +9,4 @@ class User < ActiveRecord::Base
   validates_numericality_of :weight, :on => :create, :message => "is not a number"
   validates_inclusion_of :weight, :in => [*0..800], :message => "not within allowed values"
   validates_inclusion_of :gender, :in => %w( male female ), :message => "not within allowed values"
-  
 end
