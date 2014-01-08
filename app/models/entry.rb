@@ -2,27 +2,14 @@ class Entry < ActiveRecord::Base
   include Score
   belongs_to :user
   
-  validates_inclusion_of :stools, :in => [*0..30], :on => :create, :message => "not within allowed values"
-  validates_inclusion_of :ab_pain, :in => [*0..3], :on => :create, :message => "not within allowed values"
-  validates_inclusion_of :general, :in => [*0..4], :on => :create, :message => "not within allowed values"
-  validates_inclusion_of :mass, :in => [*0..5], :on => :create, :message => "not within allowed values"
-  validates_inclusion_of :hematocrit, :in => [*0..100], :on => :create, :message => "not within allowed values"
-  validates_inclusion_of :weight_current, :in => [*0..500], :on => :create, :message => "not within allowed values"
-
-
-  # stools {[*0..10].sample}
-  # ab_pain {[*0..3].sample}
-  # general {[*0..4].sample}
-  # complication_arthritis random_boolean
-  # complication_iritis random_boolean
-  # complication_erythema random_boolean
-  # complication_fistula random_boolean
-  # complication_fever random_boolean
-  # complication_other_fistula random_boolean
-  # opiates random_boolean
-  # mass {[*0..5].sample}
-  # hematocrit {[*40..50].sample}
-  # weight_current 140
+  validates_inclusion_of :stools,         in: [*0..30],  message: "not within allowed values"
+  validates_inclusion_of :ab_pain,        in: [*0..3],   message: "not within allowed values"
+  validates_inclusion_of :general,        in: [*0..4],   message: "not within allowed values"
+  validates_inclusion_of :mass,           in: [*0..5],   message: "not within allowed values"
+  validates_inclusion_of :hematocrit,     in: [*0..100], message: "not within allowed values"
+  validates_inclusion_of :weight_current, in: [*0..500], message: "not within allowed values"
+  validates :complication_arthritis, :complication_iritis, :complication_erythema, :complication_erythema, :complication_fever, :complication_other_fistula, :opiates,
+    inclusion: {in: [true,false],  message: "not within allowed values"}
 
 	def date
 		created_at.beginning_of_day.to_datetime.to_i*1000

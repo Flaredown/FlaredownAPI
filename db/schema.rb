@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140104180542) do
     t.boolean  "complication_fistula"
     t.boolean  "complication_other_fistula"
     t.boolean  "complication_fever"
-    t.integer  "opiates"
+    t.boolean  "opiates"
     t.integer  "mass"
     t.integer  "hematocrit"
     t.integer  "weight_current"
