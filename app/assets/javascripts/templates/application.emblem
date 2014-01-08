@@ -13,6 +13,10 @@
             strong email: 
             = user.email
           li
+            = user.gender
+            |&nbsp;
+            |{{user.weight}} lb
+          li
             strong token: 
             = user.authentication_token
 

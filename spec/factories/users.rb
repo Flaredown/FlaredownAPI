@@ -4,5 +4,6 @@ FactoryGirl.define do
     password "password"
     password_confirmation "password"
     weight 150
+    gender "male"
   end
 end

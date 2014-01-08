@@ -16,6 +16,8 @@ feature "register" do
     fill_in "password", with: "nope"
     fill_in "password", with: "nope"
     fill_in "weight", with: "150"
+    select("Male", :from => "gender")
+    
     click_on "Register"
     expect(page).to have_content "too short"
   end

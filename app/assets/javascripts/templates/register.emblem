@@ -13,11 +13,6 @@ else
               Ember.TextField valueBinding="email" class="form-email form-control" id="email"
               if errors.email
                 small= errors.email
-            div class={errors.weight:has-error :col-md-6 :form-group}
-              label Weight
-              Ember.TextField valueBinding="weight" class="form-weight form-control" id="weight"
-              if errors.weight
-                small= errors.weight
           
             div class={errors.password:has-error errors.password_confirmation:has-error :col-md-6 :form-group}
               label Password
@@ -27,6 +22,19 @@ else
               Ember.TextField type="password" valueBinding="password_confirmation" placeholder="Confirm Password" class="form-password-confirmation form-control" id="password_confirmation"
               if errors.password_confirmation
                 small= errors.password_confirmation
+          
+            div class={errors.weight:has-error :col-md-6 :form-group}
+              label Weight
+              Ember.TextField valueBinding="weight" class="form-weight form-control" id="weight"
+              if errors.weight
+                small= errors.weight
+                
+            div class={errors.gender:has-error :col-md-6 :form-group}
+              label Gender
+              Ember.Select content=genderOptions optionValuePath="content.value" optionLabelPath="content.label" valueBinding="gender" class="form-gender form-control" id="gender"
+              if errors.gender
+                small= errors.gender
+                
             
           br
           br

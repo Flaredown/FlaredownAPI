@@ -36,4 +36,3 @@
 
 //= require_tree ./controllers
 //= require_tree ./initializers
-//= require_tree ./components
