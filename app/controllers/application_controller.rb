@@ -7,7 +7,12 @@ class ApplicationController < ActionController::Base
   
   respond_to :json
   before_filter :set_format, except: [:app]
-    
+  
+  rescue_from ActiveRecord::RecordNotFound, with: :four_oh_four
+  def four_oh_four
+    respond_with "", status: 404
+  end
+  
   def app
   end
   

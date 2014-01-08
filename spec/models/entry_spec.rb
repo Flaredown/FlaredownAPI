@@ -10,13 +10,14 @@ describe Entry do
     
     it "calculating score adds to user's chart data" do
       with_resque {entry.calculate_score}
+      entry.reload
       expect(REDIS.hget("charts:score:#{entry.user.id}", entry.date.to_i.to_s)).to eq entry.score.to_s
     end
     
     
     describe "Scoring" do
       before(:each) do
-        10.times { create :entry, user: user}
+        10.times { with_resque{create :entry, user: user} }
       end
       it "should have one if there's enough data" do
         expect(Entry.last.score).to be > 0

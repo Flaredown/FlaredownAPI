@@ -43,6 +43,7 @@ group :test, :development do
   gem "simplecov"
   gem "pry"
   gem "coveralls"
+  gem "json_spec"
 end
 
 group :test do

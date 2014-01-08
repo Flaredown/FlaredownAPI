@@ -20,5 +20,8 @@
             strong token: 
             = user.authentication_token
 
+  
+  #chart.row
+    render "entries-chart" user
   hr
   #content.row= outlet

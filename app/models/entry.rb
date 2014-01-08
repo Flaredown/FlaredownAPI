@@ -24,6 +24,7 @@ class Entry < ActiveRecord::Base
   
   def self.perform(entry_id)
     entry = Entry.find_by_id(entry_id)
+    entry.update_column :score, entry.cdai_score
     REDIS.hset("charts:score:#{entry.user_id}", entry.date.to_i, entry.score) if entry
   end
 

@@ -13,7 +13,7 @@ App.EntriesChartView = Em.View.extend
     @$(".y-axis").html("")
     @$(".legend").html("")
 
-    data = @get("controller.chartData")
+    data = @get("controller.score_coordinates")
     data ||= []
     chart = new Rickshaw.Graph
       element: @$(".chart")[0]
@@ -62,7 +62,7 @@ App.EntriesChartView = Em.View.extend
   watchChart: Ember.observer ->
     chart = @get("chart")
     if chart
-      chart.series[0].data = @get("controller.chartData")
+      chart.series[0].data = @get("controller.score_coordinates")
       chart.update()
     
-  .observes("controller.chartData")
+  .observes("controller.score_coordinates")

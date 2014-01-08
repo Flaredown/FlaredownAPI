@@ -1,4 +1,5 @@
 class EntriesController < ApplicationController
+  before_filter :authenticate_user!
 	def index
 		# This controller intends to calculate the CDAI score for each day that the user has entered data, and push it to an array that can be used by highcharts
 		# For reference: http://en.wikipedia.org/wiki/Crohn%27s_Disease_Activity_Index
@@ -7,25 +8,6 @@ class EntriesController < ApplicationController
 		# How to deal with missing days (it currently invalidates almost two weeks of scores)
 
 		@entries = current_user.entries
-
-    # def today_logged
-    #   # Should return true if the use has already saved an entry for today's date
-    # end
-    # 
-    # def make_scores()
-    #   @entries.map {|e| [e.date, e.score]}
-    # end
-    # 
-    # @dataseries = make_scores()
-    # 
-    #     # Init highcharts and pass it the array of scores
-    #     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-    #       f.title({ :text=> 'Disease History' })
-    #       f.xAxis(:type => 'datetime')
-    #       f.legend(:enabled => false)
-    #       f.series(:type=> 'areaspline',:name=> 'CDAI Score',:data=> make_scores())
-    #     end
-    
     respond_with @entries
 	end
 
@@ -33,6 +15,15 @@ class EntriesController < ApplicationController
 		@entry = current_user.entries.new(entry_params)
     @entry.save
     respond_with @entry
+	end
+  
+	def update
+		@entry = current_user.entries.find(params[:id])
+    if @entry.update_attributes(entry_params)
+      render json: {id: @entry.id}, status: 200
+    else
+      respond_with @entry
+    end
 	end
 
 	def show

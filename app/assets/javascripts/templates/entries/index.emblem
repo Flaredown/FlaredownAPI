@@ -1,5 +1,3 @@
-
-render "entries-chart" controller
 linkTo "entries.new" | New Entry
 
 ul: each savedEntries

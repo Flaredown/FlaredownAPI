@@ -6,5 +6,6 @@ class UserSerializer < ActiveModel::Serializer
     :email,
     :authentication_token,
     :weight,
-    :gender
+    :gender,
+    :score_coordinates
 end

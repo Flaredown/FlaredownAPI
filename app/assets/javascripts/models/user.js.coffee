@@ -3,3 +3,5 @@ App.User = DS.Model.extend
   
   email:  attr "string"
   weight: attr "number"
+  
+  score_coordinates: attr "object"
