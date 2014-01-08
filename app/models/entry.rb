@@ -15,7 +15,7 @@ class Entry < ActiveRecord::Base
   after_save :calculate_score
 
 	def date
-		created_at.beginning_of_day.to_datetime.to_i*1000
+		created_at.beginning_of_day.to_datetime.to_i#*1000
 	end
   
   def calculate_score
