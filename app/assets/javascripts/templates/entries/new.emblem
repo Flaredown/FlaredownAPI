@@ -25,6 +25,9 @@ form enter="save"
       label Complication Fever
       = input type="checkbox" valueBinding="complication_fever"
     li
+      label Complication Other Fistula
+      = input type="checkbox" valueBinding="complication_other_fistula"
+    li
       label Opiates
       = input type="checkbox" valueBinding="opiates"
     li

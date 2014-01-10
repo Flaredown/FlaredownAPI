@@ -4,15 +4,15 @@ describe Entry do
   describe "#score" do
     let(:user) { create :user }
     let!(:entry) { create :entry }
-    it "should have a score queue in resque" do
-      expect(Entry).to have_queue_size_of(1)
-    end
+    # it "should have a score queue in resque" do
+    #   expect(Entry).to have_queue_size_of(1)
+    # end
     
-    it "calculating score adds to user's chart data" do
-      with_resque {entry.calculate_score}
-      entry.reload
-      expect(REDIS.hget("charts:score:#{entry.user.id}", entry.date.to_i.to_s)).to eq entry.score.to_s
-    end
+    # it "calculating score adds to user's chart data" do
+    #   with_resque {entry.calculate_score}
+    #   entry.reload
+    #   expect(REDIS.hget("charts:score:#{entry.user.id}", entry.date.to_i.to_s)).to eq entry.score.to_s
+    # end
     
     
     describe "Scoring" do

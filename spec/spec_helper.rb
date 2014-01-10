@@ -67,7 +67,7 @@ end
 
 DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean # cleanup of the test
-REDIS.flushdb
+# REDIS.flushdb
 
 RSpec.configure do |config|
   config.around(:each) do |example|
@@ -75,7 +75,7 @@ RSpec.configure do |config|
     FactoryGirl.reload
     Capybara.current_driver = :webkit
     example.run
-    REDIS.flushdb
+    # REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
   end  
 end

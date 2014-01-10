@@ -21,7 +21,8 @@
             = user.authentication_token
 
   
-  #chart.row
-    render "entries-chart" user
+  if loggedIn
+    #chart.row
+      render "entries-chart" user
   hr
   #content.row= outlet

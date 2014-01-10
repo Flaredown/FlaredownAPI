@@ -19,4 +19,8 @@ class EntrySerializer < ActiveModel::Serializer
     :weight_current,
     :created_at
     
+    def date
+      DateTime.strptime(object.date.to_s, "%s")
+    end
+    
 end

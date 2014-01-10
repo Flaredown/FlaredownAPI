@@ -4,6 +4,7 @@ App.EntriesChartView = Em.View.extend
     
   didInsertElement: -> 
     @renderChart()
+
     # that = @
     # $(window).resize ->
     #   that.get("chart").configure(width: that.$(".chart").width())
@@ -14,50 +15,50 @@ App.EntriesChartView = Em.View.extend
     @$(".legend").html("")
 
     data = @get("controller.score_coordinates")
-    data ||= []
-    chart = new Rickshaw.Graph
-      element: @$(".chart")[0]
-      renderer: "line"
-      interpolation: "linear"
-      width: 1000
-      height: 400
-      min: 0
-      series: [
-        {
-          name: "Score"
-          data: data
-          color: "#f39c12"
-        }
-      ]
+    unless Em.isEmpty(data)
+      chart = new Rickshaw.Graph
+        element: @$(".chart")[0]
+        renderer: "line"
+        interpolation: "linear"
+        width: 1000
+        height: 400
+        min: 0
+        series: [
+          {
+            name: "Score"
+            data: data
+            color: "#f39c12"
+          }
+        ]
         
-    y_axis = new Rickshaw.Graph.Axis.Y
-      graph: chart
-      orientation: 'left'
-      tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-      element: @$('.y-axis')[0]
-      ticksTreatment: 'fancy'
+      y_axis = new Rickshaw.Graph.Axis.Y
+        graph: chart
+        orientation: 'left'
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT
+        element: @$('.y-axis')[0]
+        ticksTreatment: 'fancy'
       
-    # x_axis = new Rickshaw.Graph.Axis.X
-    #   graph: chart
-    #   width: 1000
-    #   element: @$('.x-axis')[0]
-    #   tickFormat: (x) -> moment(new Date(x)).format("MM/DD")
-    #   ticksTreatment: 'fancy'
+      # x_axis = new Rickshaw.Graph.Axis.X
+      #   graph: chart
+      #   width: 1000
+      #   element: @$('.x-axis')[0]
+      #   tickFormat: (x) -> moment(new Date(x)).format("MM/DD")
+      #   ticksTreatment: 'fancy'
             
-    hoverDetail = new Rickshaw.Graph.HoverDetail
-      graph: chart,
-      xFormatter: (x) -> moment(new Date(x)).format("MM/DD")
-      yFormatter: (y) -> y
+      hoverDetail = new Rickshaw.Graph.HoverDetail
+        graph: chart,
+        xFormatter: (x) -> moment(new Date(x)).format("MM/DD")
+        yFormatter: (y) -> y
 
-    chart.offset   = "zero"
+      chart.offset   = "zero"
     
-    chart.renderer.unstack  = false
-    chart.renderer.offset  = false
+      chart.renderer.unstack  = false
+      chart.renderer.offset  = false
     
-    chart.render()
+      chart.render()
     
-    @set("chart", chart)
-    @watchChart()
+      @set("chart", chart)
+      @watchChart()
       
   watchChart: Ember.observer ->
     chart = @get("chart")

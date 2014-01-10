@@ -1,6 +1,6 @@
 require "spec_helper"
 feature "register" do
-  
+  @javascript
   scenario "register an account" do
     register_page
     fill_in "email", with: "abc@123.com"

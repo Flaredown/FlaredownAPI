@@ -7,6 +7,7 @@ feature "Login Functions" do
     visit root_path(auth_token: user.authentication_token, user_email: user.email)
     # login_email_on_page
   end
+
   scenario "login with credentials" do
     visit root_path
     fill_in "email", with: user.email
