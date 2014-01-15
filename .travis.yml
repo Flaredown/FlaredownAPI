@@ -4,6 +4,7 @@ rvm:
 
 services:
   - redis-server
+  - couchdb
   
 before_install:
   - "export DISPLAY=:99.0"

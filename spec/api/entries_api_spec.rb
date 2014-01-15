@@ -4,7 +4,7 @@ feature "find a user's entries" do
   let(:user) { create :user }
     
   scenario "see it's glory" do
-    entry = create :entry, user: user
+    entry = create :cdai_entry, user: user
     get entry_path(entry, api_credentials(user))
     expect(response.body).to be_json_eql EntrySerializer.new(entry).to_json
     returns_code 200
@@ -25,44 +25,62 @@ feature "entry creation" do
   end
   
   scenario "authenticated user creates entry" do
-    post entries_path({entry: entry_attributes}.merge(api_credentials(user)))
-    expect(json_response["entry"]["id"]).to eq 1
-    expect(user.entries.first.stools).to eq entry_attributes["stools"]
+    post "/entries", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
+    expect(user.entries.first.stools).to eq entry_attributes[:questions].select{|q| q[:name] == "stools"}.first[:response]
+    expect(user.entries.first.date).to eq Date.today
     returns_code 201
   end
   
-  scenario "missing something" do
-    invalid_attrs = entry_attributes; invalid_attrs.delete("stools")
-    post entries_path({entry: invalid_attrs}.merge(api_credentials(user)))
-    expect(json_response["errors"].keys).to include("stools")
-    returns_code 422
-  end
+  # scenario "missing something" do
+  #   invalid_attrs = entry_attributes; invalid_attrs[:questions].delete("stools")
+  #   post entries_path({entry: invalid_attrs}.merge(api_credentials(user)))
+  #   expect(json_response["errors"].keys).to include("stools")
+  #   returns_code 422
+  # end
 end
 
 feature "update a entry" do
   let!(:user) { login_with_user }
   
   context "authenticated" do
-    let(:entry) { create :entry, user: user }
+    let(:entry) { create :cdai_entry, user: user }
     scenario "successfully updated" do
       expect(entry.weight_current).to eq 140
-      patch entry_path(entry, {entry: {weight_current: 200}}.merge(api_credentials(user)))
-      expect(json_response["id"]).to eq 1
+      
+      attrs = entry_attributes
+      attrs[:questions].select{|q| q[:name] == "weight_current"}.first[:response] = 200
+
+      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      
       expect(entry.reload.weight_current).to eq 200
       returns_code 200
     end
-    
-    scenario "blank required attribute" do
-      expect(entry.weight_current).to eq 140
-      patch entry_path(entry, {entry: {weight_current: ""}}.merge(api_credentials(user)))
-      expect(entry.reload.weight_current).to eq 140
-      returns_code 422
+    scenario "successfully updated with true/false question" do
+      entry.questions.select{|q| q.name == "opiates"}.first.response = false
+      expect(entry.opiates).to eq false
+      
+      attrs = entry_attributes
+      attrs[:questions].select{|q| q[:name] == "opiates"}.first[:response] = true
+      
+      
+      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      expect(entry.reload.opiates).to eq true
+      
+      returns_code 200
     end
+    
+    # TODO enforce some attributes? currently there are none
+    # scenario "blank required attribute" do
+    #   expect(entry.weight_current).to eq 140
+    #   patch entry_path(entry, {entry: {date: ""}}.merge(api_credentials(user)))
+    #   expect(entry.reload.weight_current).to eq 140
+    #   returns_code 422
+    # end
     
   end
 end
 
-def entry_attributes
+def question_attributes
   {
     "stools"=>2,
     "ab_pain"=>1,
@@ -77,5 +95,11 @@ def entry_attributes
     "mass"=>2,
     "hematocrit"=>40,
     "weight_current"=>150
+  }
+end
+def entry_attributes
+  {
+    catalogs: ["cdai"],
+    questions: question_attributes.map{|q| {name: q.first, response: q.last}}
   }
 end

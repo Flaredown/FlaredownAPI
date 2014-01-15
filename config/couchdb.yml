@@ -1,0 +1,11 @@
+development:
+  host: localhost
+  port: 5984
+  prefix: cdai
+  suffix: dev
+  
+test:
+  host: localhost
+  port: 5984
+  prefix: cdai
+  suffix: test

@@ -1,28 +1,34 @@
 require 'spec_helper'
 
 describe Entry do
-  describe "#score" do
-    let(:user) { create :user }
-    let!(:entry) { create :entry }
-    # it "should have a score queue in resque" do
-    #   expect(Entry).to have_queue_size_of(1)
-    # end
-    
-    # it "calculating score adds to user's chart data" do
-    #   with_resque {entry.calculate_score}
-    #   entry.reload
-    #   expect(REDIS.hget("charts:score:#{entry.user.id}", entry.date.to_i.to_s)).to eq entry.score.to_s
-    # end
-    
-    
-    describe "Scoring" do
-      before(:each) do
-        10.times { with_resque{create :entry, user: user} }
-      end
-      it "should have one if there's enough data" do
-        expect(Entry.last.score).to be > 0
-      end
+  describe "AVAILABLE_CATALOGS" do
+    let(:entry) { create :entry }
+    before(:each) do
+      module FooCatalog; def bar; end; end
     end
-    
+    it "only accepts known catalogs" do
+      entry.catalogs << "foo"
+      entry.save
+      expect(entry).to_not respond_to :bar
+      
+      entry.catalogs << "cdai"
+      entry.save
+      expect(entry).to respond_to :score_cdai_entry
+    end
   end
+  
+  describe "initialization (using CDAI module)" do
+    let(:entry) { create :cdai_entry }
+    it "responds to CDAI specific methods" do
+      expect(entry).to respond_to :score_cdai_entry
+    end
+    it "has a list of applicable questions" do
+      expect(entry.class.question_names).to include :stools
+    end
+    it "responds to missing methods by checking if a Question of that name exists" do
+      expect(entry.methods).to_not include :stools
+      expect(entry.stools).to be_an Integer
+    end
+  end
+  
 end

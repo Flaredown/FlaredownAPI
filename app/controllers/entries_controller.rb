@@ -12,13 +12,13 @@ class EntriesController < ApplicationController
 	end
 
 	def create
-		@entry = current_user.entries.new(entry_params)
+		@entry = Entry.new(entry_params.merge(user_id: current_user.id, date: Date.today))
     @entry.save
     respond_with @entry
 	end
   
 	def update
-		@entry = current_user.entries.find(params[:id])
+		@entry = current_user.entries.find(params[:id]).first
     if @entry.update_attributes(entry_params)
       render json: {id: @entry.id}, status: 200
     else
@@ -28,11 +28,17 @@ class EntriesController < ApplicationController
 
 	def show
 		@entry = Entry.find(params[:id])
-    respond_with @entry
+    @entry ? respond_with(@entry) : four_oh_four
 	end
   
   private
   def entry_params
-    params.require(:entry).permit(:stools, :ab_pain, :general, :complication_arthritis, :complication_iritis, :complication_erythema, :complication_fistula, :complication_other_fistula, :complication_fever, :opiates, :mass, :hematocrit, :weight_current, :created_at)
+    # params[:entry] = JSON.parse(params[:entry])
+    
+    params.require(:entry).permit(
+      catalogs: [],
+      questions: [:name, :response],
+      treatments: [:name]
+    )
   end
 end

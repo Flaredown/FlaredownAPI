@@ -4,7 +4,9 @@ end
 def invalid_credentials(user)
   {user_email: user.email, user_token: "nogood"}
 end
-
+def data_is_json
+  {'CONTENT_TYPE' => "application/json", 'ACCEPT' => 'application/json'}
+end
 def login_with_user(user=nil)
   user ||= create :user
   post "/users/sign_in.json", api_credentials(user)

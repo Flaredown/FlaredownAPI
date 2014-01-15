@@ -3,6 +3,8 @@ ENV["RAILS_ENV"] ||= 'test'
 require "simplecov"
 SimpleCov.start "rails"
 
+require "couchrest"
+
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
@@ -76,6 +78,7 @@ RSpec.configure do |config|
     Capybara.current_driver = :webkit
     example.run
     # REDIS.flushdb
+    CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
     DatabaseCleaner.clean # cleanup of the test
   end  
 end
