@@ -11,19 +11,13 @@ class Entry < CouchRest::Model::Base
   end
   
   before_save :include_catalogs
-  def include_catalogs
-    if catalogs.present?
-      loadable_catalogs = catalogs.select{|catalog| AVAILABLE_CATALOGS.include?(catalog)}
-      loadable_catalogs.each{|catalog| self.class_eval { include "#{catalog}_catalog".classify.constantize }}
-    end
-  end
   
   belongs_to :user
   
   property :date,       Date
   property :catalogs,   [String]
 
-  property :questions,  Question,  :array => true
+  property :responses,  Response,  :array => true
   property :treatments, Treatment, :array => true
   property :scores,     Score,     :array => true
 
@@ -34,10 +28,21 @@ class Entry < CouchRest::Model::Base
     view :by_user_id
   end
   
+  def questions
+    Question.where(catalog: self.catalogs)
+  end
+  
+  private
+  def include_catalogs
+    if catalogs.present?
+      loadable_catalogs = catalogs.select{|catalog| AVAILABLE_CATALOGS.include?(catalog)}
+      loadable_catalogs.each{|catalog| self.class_eval { include "#{catalog}_catalog".classify.constantize }}
+    end
+  end
   def method_missing(name, *args)
     if self.question_names.include?(name)
-      question = questions.select{|q| q.name.to_sym == name}.first
-      return question.response if question
+      response = responses.select{|q| q.name.to_sym == name}.first
+      return response.value if response
     else
       super(name, *args)
     end

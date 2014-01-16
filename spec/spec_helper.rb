@@ -78,8 +78,8 @@ RSpec.configure do |config|
     Capybara.current_driver = :webkit
     example.run
     # REDIS.flushdb
-    CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
     DatabaseCleaner.clean # cleanup of the test
+    CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
   end  
 end
 

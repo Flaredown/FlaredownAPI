@@ -2,7 +2,7 @@
 module CdaiCatalog
   extend ActiveSupport::Concern
   
-  CDAI_QUESTIONS    = %i( complication_arthritis complication_iritis complication_erythema complication_fever complication_fistula complication_other_fistula opiates stools ab_pain general mass hematocrit weight_current )
+  CDAI_QUESTIONS    = %i( complication_arthritis complication_iritis complication_erythema complication_fever complication_fistula complication_other_fistula opiates stools ab_pain general mass hematocrit weight_current weight_typical )
   # BOOLEAN_QUESTIONS = %i( complication_arthritis complication_iritis complication_erythema complication_fever complication_fistula complication_other_fistula opiates )
   # INTEGER_QUESTIONS = %i( stools ab_pain general mass hematocrit weight_current )
   
@@ -11,22 +11,23 @@ module CdaiCatalog
     
     before_save :score_cdai_entry
     
-    class ::Question
-      validates_inclusion_of :response, in: [*0..30],   message: "not within allowed values", if: Proc.new{|q| q.name == "stools"}
-      validates_inclusion_of :response, in: [*0..3],    message: "not within allowed values", if: Proc.new{|q| q.name == "ab_pain"}
-      validates_inclusion_of :response, in: [*0..4],    message: "not within allowed values", if: Proc.new{|q| q.name == "general"}
-      validates_inclusion_of :response, in: [*0..5],    message: "not within allowed values", if: Proc.new{|q| q.name == "mass"}
-      validates_inclusion_of :response, in: [*0..100],  message: "not within allowed values", if: Proc.new{|q| q.name == "hematocrit"}
-      validates_inclusion_of :response, in: [*25..500], message: "not within allowed values", if: Proc.new{|q| q.name == "weight_current"}
+    class ::Response
+      validates_inclusion_of :value, in: [*0..30],   message: "not within allowed values", if: Proc.new{|r| r.name == "stools"}
+      validates_inclusion_of :value, in: [*0..3],    message: "not within allowed values", if: Proc.new{|r| r.name == "ab_pain"}
+      validates_inclusion_of :value, in: [*0..4],    message: "not within allowed values", if: Proc.new{|r| r.name == "general"}
+      validates_inclusion_of :value, in: [0,3,5],    message: "not within allowed values", if: Proc.new{|r| r.name == "mass"}
+      validates_inclusion_of :value, in: [*0..100],  message: "not within allowed values", if: Proc.new{|r| r.name == "hematocrit"}
+      validates_inclusion_of :value, in: [*25..500], message: "not within allowed values", if: Proc.new{|r| r.name == "weight_current"}
+      validates_inclusion_of :value, in: [*25..500], message: "not within allowed values", if: Proc.new{|r| r.name == "weight_typical"}
     
-      validates_inclusion_of :response, in: [true,false],  message: "not within allowed values",
-        if: Proc.new {|q| %w( complication_arthritis complication_iritis complication_erythema complication_erythema complication_fever complication_other_fistula opiates ).include?(q.name) }
+      validates_inclusion_of :value, in: [true,false],  message: "not within allowed values",
+        if: Proc.new {|r| %w( complication_arthritis complication_iritis complication_erythema complication_erythema complication_fever complication_other_fistula opiates ).include?(r.name) }
     end
   end
   
   def valid_cdai_entry?
-    return false if questions.empty?
-    (CDAI_QUESTIONS - questions.reduce([]) {|accu, question| (accu << question.name.to_sym) if question.name}) == []
+    return false if responses.empty?
+    (CDAI_QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
   end
   
   # def date

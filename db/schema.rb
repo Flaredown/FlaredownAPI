@@ -11,30 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140108153406) do
+ActiveRecord::Schema.define(version: 20140104180542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
-  create_table "entries", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "stools"
-    t.integer  "ab_pain"
-    t.integer  "general"
-    t.boolean  "complication_arthritis"
-    t.boolean  "complication_iritis"
-    t.boolean  "complication_erythema"
-    t.boolean  "complication_fistula"
-    t.boolean  "complication_other_fistula"
-    t.boolean  "complication_fever"
-    t.boolean  "opiates"
-    t.integer  "mass"
-    t.integer  "hematocrit"
-    t.integer  "weight_current"
+  create_table "questions", force: true do |t|
+    t.string   "catalog"
+    t.string   "name"
+    t.string   "group"
+    t.string   "kind"
+    t.integer  "section"
+    t.text     "options"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "score"
   end
+
+  add_index "questions", ["name"], name: "index_questions_on_name", unique: true, using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

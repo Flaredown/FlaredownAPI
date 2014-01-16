@@ -26,13 +26,13 @@ feature "entry creation" do
   
   scenario "authenticated user creates entry" do
     post "/entries", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
-    expect(user.entries.first.stools).to eq entry_attributes[:questions].select{|q| q[:name] == "stools"}.first[:response]
+    expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:name] == "stools"}.first[:value]
     expect(user.entries.first.date).to eq Date.today
     returns_code 201
   end
   
   # scenario "missing something" do
-  #   invalid_attrs = entry_attributes; invalid_attrs[:questions].delete("stools")
+  #   invalid_attrs = entry_attributes; invalid_attrs[:responses].delete("stools")
   #   post entries_path({entry: invalid_attrs}.merge(api_credentials(user)))
   #   expect(json_response["errors"].keys).to include("stools")
   #   returns_code 422
@@ -48,19 +48,19 @@ feature "update a entry" do
       expect(entry.weight_current).to eq 140
       
       attrs = entry_attributes
-      attrs[:questions].select{|q| q[:name] == "weight_current"}.first[:response] = 200
+      attrs[:responses].select{|q| q[:name] == "weight_current"}.first[:value] = 200
 
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
       
       expect(entry.reload.weight_current).to eq 200
       returns_code 200
     end
-    scenario "successfully updated with true/false question" do
-      entry.questions.select{|q| q.name == "opiates"}.first.response = false
+    scenario "successfully updated with true/false response" do
+      entry.responses.select{|q| q.name == "opiates"}.first.value = false
       expect(entry.opiates).to eq false
       
       attrs = entry_attributes
-      attrs[:questions].select{|q| q[:name] == "opiates"}.first[:response] = true
+      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = true
       
       
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
@@ -80,7 +80,7 @@ feature "update a entry" do
   end
 end
 
-def question_attributes
+def response_attributes
   {
     "stools"=>2,
     "ab_pain"=>1,
@@ -92,14 +92,15 @@ def question_attributes
     "complication_other_fistula"=>false,
     "complication_fever"=>true,
     "opiates"=>false,
-    "mass"=>2,
+    "mass"=>3,
     "hematocrit"=>40,
-    "weight_current"=>150
+    "weight_current"=>140,
+    "weight_typical"=>150
   }
 end
 def entry_attributes
   {
     catalogs: ["cdai"],
-    questions: question_attributes.map{|q| {name: q.first, response: q.last}}
+    responses: response_attributes.map{|q| {name: q.first, value: q.last}}
   }
 end

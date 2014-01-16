@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe Entry do
+  let(:entry) { create :entry, catalogs: ["cdai"] }
+  
   describe "AVAILABLE_CATALOGS" do
-    let(:entry) { create :entry }
     before(:each) do
       module FooCatalog; def bar; end; end
     end
@@ -11,9 +12,15 @@ describe Entry do
       entry.save
       expect(entry).to_not respond_to :bar
       
-      entry.catalogs << "cdai"
-      entry.save
-      expect(entry).to respond_to :score_cdai_entry
+      stub_const("Entry::AVAILABLE_CATALOGS", ["foo"])
+      expect(create :entry, catalogs: ["foo"]).to respond_to :bar
+    end
+  end
+  
+  describe "#questions" do
+    let!(:question) { create :question, :input, {catalog: "cdai"} }
+    it "should load questions by catalog" do
+      expect(entry.questions).to have(1).items
     end
   end
   

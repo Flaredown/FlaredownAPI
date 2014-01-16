@@ -5,8 +5,11 @@ class EntrySerializer < ActiveModel::Serializer
     :date,
     :scores,
     :questions,
+    :responses,
     :treatments,
     :catalogs
+    
+    
 
     def date
       DateTime.strptime(object.date.to_s, "%s")
