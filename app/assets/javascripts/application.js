@@ -23,7 +23,9 @@
 //= require lib/handlebars-v1.1.2
 //= require lib/ember
 // require lib/ember_canary
-//= require lib/ember-data
+// require lib/ember-data
+//= require lib/ember-data-canary
+// require lib/ember-couchdb-kit/ember-couchdb-kit
 
 //= require_tree ./templates
 
@@ -35,4 +37,5 @@
 //= require_tree ./views
 
 //= require_tree ./controllers
+//= require_tree ./components
 //= require_tree ./initializers

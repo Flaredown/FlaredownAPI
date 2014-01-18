@@ -1,5 +1,7 @@
 App.EntriesNewController = Em.ObjectController.extend
+  needs: ["user"]
   actions:
+    debugme: -> debugger
     save: ->
       that = @
       @get("model").save().then(

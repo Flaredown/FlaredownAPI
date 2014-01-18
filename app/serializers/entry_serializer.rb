@@ -1,18 +1,11 @@
 class EntrySerializer < ActiveModel::Serializer
-  embed :ids, include: false
-  
+  has_many :scores
+  has_many :questions, embed: :ids, include: true
+  has_many :responses
+  # :treatments,
+  # :catalogs
+   
   attributes :id,
-    :date,
-    :scores,
-    :questions,
-    :responses,
-    :treatments,
-    :catalogs
-    
-    
-
-    def date
-      DateTime.strptime(object.date.to_s, "%s")
-    end
+    :date
     
 end

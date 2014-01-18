@@ -26,7 +26,7 @@ feature "entry creation" do
   
   scenario "authenticated user creates entry" do
     post "/entries", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
-    expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:name] == "stools"}.first[:value]
+    expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:id] == "stools"}.first[:value]
     expect(user.entries.first.date).to eq Date.today
     returns_code 201
   end
@@ -48,7 +48,7 @@ feature "update a entry" do
       expect(entry.weight_current).to eq 140
       
       attrs = entry_attributes
-      attrs[:responses].select{|q| q[:name] == "weight_current"}.first[:value] = 200
+      attrs[:responses].select{|q| q[:id] == "weight_current"}.first[:value] = 200
 
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
       
@@ -56,11 +56,11 @@ feature "update a entry" do
       returns_code 200
     end
     scenario "successfully updated with true/false response" do
-      entry.responses.select{|q| q.name == "opiates"}.first.value = false
+      entry.responses.select{|q| q.id == "opiates"}.first.value = false
       expect(entry.opiates).to eq false
       
       attrs = entry_attributes
-      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = true
+      attrs[:responses].select{|q| q[:id] == "opiates"}.first[:value] = true
       
       
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
@@ -101,6 +101,6 @@ end
 def entry_attributes
   {
     catalogs: ["cdai"],
-    responses: response_attributes.map{|q| {name: q.first, value: q.last}}
+    responses: response_attributes.map{|q| {id: q.first, value: q.last}}
   }
 end

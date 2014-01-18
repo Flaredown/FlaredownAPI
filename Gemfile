@@ -42,6 +42,7 @@ group :test, :development do
   gem "teaspoon"
   gem "simplecov"
   gem "pry"
+  gem "pry-remote"
   gem "coveralls"
   gem "json_spec"
 end

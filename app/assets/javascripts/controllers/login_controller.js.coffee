@@ -28,18 +28,20 @@ App.LoginController = Ember.Controller.extend
     data = @getProperties('email', 'password')
     
     # // Clear out any error messages.
-    this.set('errorMessage', null)
+    @set('errorMessage', null)
 
-    $.post('/users/sign_in.json', {user: data}).then(
-      (response) ->
+    $.ajax
+      type: "POST"
+      url: "/users/sign_in.json"
+      data: {user: data}
+      contentType: "application/x-www-form-urlencoded; charset=UTF-8"
+      success: (response) ->
         self.set 'loginId', response.id
         self.set "controllers.user.content", response
         self.redirectToTransition()
-      ,
-      (response) ->
+      error: (response) ->
         $.removeCookie('loginId')
         self.set('errorMessage', JSON.parse(response.responseText).error)
-    )
       
   redirectToTransition: ->
     attemptedTransition = @get('attemptedTransition')

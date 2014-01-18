@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   # end
   def cdai_score_coordinates
     coords = self.entries.map do |entry|
-      score = entry.scores.select{|s| s.name == "cdai"}.first.value
+      score = entry.scores.select{|s| s[:id] == "cdai"}.first.value
       {x: entry.date.to_time.to_i, y: score}
     end
     coords ||= []

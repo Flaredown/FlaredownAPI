@@ -1,24 +1,21 @@
 App.Entry = DS.Model.extend
-  user: belongsTo("user")
+  user:       belongsTo("user")
   
-  score:  attr("number")
+  scores:     hasMany("score")
+  questions:  hasMany("question")
+  responses:  hasMany("response")
+  catalogs:   attr()
   date:   attr("date")
   
-  stools:         attr("number")
-  ab_pain:        attr("number")
-  general:        attr("number")
-  mass:           attr("number")
-  hematocrit:     attr("number")
-  mass:           attr("number")
-  weight_current: attr("number")
-
-  complication_arthritis: attr("boolean")
-  complication_iritis:    attr("boolean")
-  complication_erythema:  attr("boolean")
-  complication_fistula:   attr("boolean")
-  complication_fever:     attr("boolean")
-  opiates:                attr("boolean")
+  # questions:  attr("object")
+  # responses:  attr("object")
+  # treatments: attr("object")
+  # catalogs:   attr("object")
   
   jsDate: Em.computed ->
     Date.parse "#{@get("date")}"
   .property("date")
+  
+App.EntrySerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
+  attrs:
+    responses: {embedded: "always"}

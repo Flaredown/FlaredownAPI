@@ -17,15 +17,20 @@ class EntriesController < ApplicationController
 	end
 
 	def show
-		@entry = Entry.find(params[:id])
-    @entry ? respond_with(@entry) : four_oh_four
+    if params[:by_date]
+      @entry = Entry.by_date(key: Date.parse(params[:id])).first
+      render(json: {id: @entry.try(:id)})
+    else
+      @entry = Entry.find(params[:id])
+      @entry ? respond_with(@entry) : four_oh_four
+    end    
 	end
   
   private
   def entry_params    
     params.require(:entry).permit(
       catalogs: [],
-      responses: [:name, :value],
+      responses: [:id, :value],
       treatments: [:name]
     )
   end

@@ -18,12 +18,12 @@ App.AuthenticatedRoute = Ember.Route.extend
     loginController.set('attemptedTransition', transition)
     @transitionTo('login')
         
-  actions:
-    error: (reason, transition) ->
-      if (reason.status is 401)
-        @redirectToLogin(transition)
-      else
-        App.generalError("There was a problem navigating to that page. Please make sure you've entered it correctly and try again.")
+  # actions:
+  #   error: (reason, transition) ->
+  #     if (reason.status is 401)
+  #       @redirectToLogin(transition)
+  #     else
+  #       App.generalError("There was a problem navigating to that page. Please make sure you've entered it correctly and try again.")
       
 App.RegisterRoute = Ember.Route.extend()
 App.LoginRoute = Ember.Route.extend

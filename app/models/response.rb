@@ -1,7 +1,8 @@
 class Response
   include CouchRest::Model::Embeddable
   include ActiveModel::Validations
+  include ActiveModel::SerializerSupport
   
-  property :name,      String
+  property :id,      String
   property :value
 end

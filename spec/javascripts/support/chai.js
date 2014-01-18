@@ -302,7 +302,7 @@ AssertionError.prototype.constructor = AssertionError;
 
 AssertionError.prototype.toJSON = function (stack) {
   var extend = exclude('constructor', 'toJSON', 'stack')
-    , props = extend({ name: this.name }, this);
+    , props = extend({ id: this.name }, this);
 
   // include stack if exists and not turned off
   if (false !== stack && this.stack) {
@@ -2587,7 +2587,7 @@ module.exports = function (chai, util) {
    * Asserts that `value` is an object (as revealed by
    * `Object.prototype.toString`).
    *
-   *     var selection = { name: 'Chai', serve: 'with spices' };
+   *     var selection = { id: 'Chai', serve: 'with spices' };
    *     assert.isObject(selection, 'tea selection is an object');
    *
    * @name isObject
