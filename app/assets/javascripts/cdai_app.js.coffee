@@ -16,16 +16,10 @@ window.App = Ember.Application.create
   rootElement: "#ember-app"
   LOG_TRANSITIONS: true
 
-App.ApplicationSerializer = DS.ActiveModelSerializer.extend()
-App.ApplicationAdapter = DS.RESTAdapter.extend
-  findQuery: (store, type, query) ->
-    if (query.id)
-      url = this.buildURL(type.typeKey, query.id)
-      delete query.id
-    else
-      url = this.buildURL(type.typeKey)
+window.uuid = (name, doc_id) ->
+  "#{name}_#{doc_id}"
 
-    @ajax(url, 'GET', { data: query })
+App.ApplicationSerializer = DS.ActiveModelSerializer.extend()
   
 window.App.generalError = (message) ->
   unless message then message = "We've encountered an unexpected error! Please refresh the page and try again, if the error persists please contact support via the 'Contact Us' link."

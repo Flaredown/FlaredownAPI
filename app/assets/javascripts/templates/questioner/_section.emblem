@@ -1,0 +1,6 @@
+section 
+h4 Section {{section}} of {{sections.length}}
+
+each response in sectionResponses
+  strong= response.id
+  = partial response.question.inputPartial

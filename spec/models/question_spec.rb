@@ -7,6 +7,10 @@ describe Question do
       question.name = "Some Crazy name"
       expect(question).to be_invalid
     end
+    it "has an i18n entry for a sensible name" do
+      question.name = "hematocrit"
+      expect(question.localized_name).to eq "Hematocrit level"
+    end
   end
   
   describe "#options" do

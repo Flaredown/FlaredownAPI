@@ -21,7 +21,7 @@ gem "resque"
 gem "redis-rails"
 
 group :production do
-  gem 'rails_12factor' # for heroku asset compilation
+  gem "rails_12factor" # for heroku asset compilation
 end
 
 group :doc do
@@ -45,6 +45,7 @@ group :test, :development do
   gem "pry-remote"
   gem "coveralls"
   gem "json_spec"
+  gem "i18n-tasks", "~> 0.2.10"
 end
 
 group :test do

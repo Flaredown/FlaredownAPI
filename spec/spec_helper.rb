@@ -5,7 +5,10 @@ SimpleCov.start "rails"
 
 require "couchrest"
 
+require File.expand_path("../../config/application", __FILE__)
 require File.expand_path("../../config/environment", __FILE__)
+I18n.default_locale = :en
+
 require 'rspec/rails'
 require 'rspec/autorun'
 

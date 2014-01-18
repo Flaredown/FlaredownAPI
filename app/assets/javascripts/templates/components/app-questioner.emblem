@@ -4,18 +4,29 @@ h3 Questioner!
 each catalog in catalogs
   = catalog
 
-p
-  |Questions???
-  strong= questions.length
-  = each question in questions
-    br
-    = question.name
+div style="background-color: #ddd;"
+  h5 :: debug ::
+
+  p
+    |Questions???
+    strong= questions.length
+    ul: each question in questions
+      li= question.name
   
-p
-  |Responses???
-  strong= responses.length
-  = each response in responses
-    br
-    | {{response.id}} :: {{response.value}}
+  p
+    |Responses???
+    strong= responses.length
+    ul: each response in responses
+      li {{response.id}} :: {{response.value}}
+  
+nav
+  a href="" click="previousSection" <<
+  each section in sections
+    |&nbsp;&nbsp;
+    a href="" click="setSection section.number" class={section.selected:selected}= section.number
+  |&nbsp;&nbsp;
+  a href="" click="nextSection" >>
+
+= partial "questioner/section"
   
 hr

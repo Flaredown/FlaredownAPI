@@ -21,3 +21,18 @@
 
 en:
   hello: "Hello world"
+  questions:
+    ab_pain:  ""
+    general: ""
+    mass: ""
+    stools: ""
+    hematocrit: "Hematocrit level"
+    weight_current: ""
+    weight_typical: ""
+    opiates: ""
+    complication_arthritis: ""
+    complication_iritis: ""
+    complication_erythema: ""
+    complication_fever: ""
+    complication_fistula: ""
+    complication_other_fistula: ""

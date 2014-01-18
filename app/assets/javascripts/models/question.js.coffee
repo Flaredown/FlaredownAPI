@@ -6,8 +6,11 @@ App.Question = DS.Model.extend
   kind:     attr("string")
   section:  attr("number")
   group:    attr("string")
+  
+  inputPartial: Em.computed ->
+    "questioner/#{@get("kind")}_input"
+  .property("kind")
 
-# App.QuestionSerializer = DS.RESTSerializer.extend
-#   extractSingle: (store, type, payload, id, requestType) ->
-#     modified_payload = $().extend payload, {options: payload.input_options}
-#     @._super(store, type, modified_payload , id, requestType)
+App.QuestionSerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
+  attrs:
+    input_options: {embedded: "always"}

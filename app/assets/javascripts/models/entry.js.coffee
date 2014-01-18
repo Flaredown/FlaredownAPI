@@ -5,7 +5,7 @@ App.Entry = DS.Model.extend
   questions:  hasMany("question")
   responses:  hasMany("response")
   catalogs:   attr()
-  date:   attr("date")
+  date:       attr("date")
   
   # questions:  attr("object")
   # responses:  attr("object")
@@ -19,3 +19,4 @@ App.Entry = DS.Model.extend
 App.EntrySerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
   attrs:
     responses: {embedded: "always"}
+    questions: {embedded: "always"}

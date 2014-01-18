@@ -1,0 +1,13 @@
+ul: each option in response.question.input_options
+  li
+    a href="" click="setResponse response option.value"
+      |Set to: 
+      strong= option.value
+    ul
+      li meta_label: {{option.meta_label}}
+      li label: {{option.label}}
+      li helper: {{option.helper}}
+    
+  
+
+    

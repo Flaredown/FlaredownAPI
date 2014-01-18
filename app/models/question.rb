@@ -11,7 +11,7 @@ class Question < ActiveRecord::Base
   validate :options_attributes
   
   def localized_name
-    t(self.name)
+    I18n.t("questions.#{self.name}")
   end
   
   private
