@@ -10,11 +10,11 @@ App.AppQuestionerComponent = Ember.Component.extend
     self = @
     @get("questions").forEach (question) ->
       _uuid = uuid question.get("name"), self.get("entry.id")
-      response = self.get("responses").findBy("uuid", _uuid )
+      response = self.get("responses").findBy("id", _uuid )
       if response
         response.set("question", question)
-      else  
-        self.get("responses").createRecord({uuid: _uuid , id: question.get("name"), value: null, question: question})
+      else
+        self.get("responses").createRecord({id: _uuid , name: question.get("name"), value: null, question: question})
   .observes("entry.isLoaded")
     
   # responseForQuestion: (question) ->
@@ -22,8 +22,8 @@ App.AppQuestionerComponent = Ember.Component.extend
   #   @get("responses").findBy("uuid", "#{question.get('name')}_#{@get("entry.id")}")
   
   sectionResponses: Em.computed ->
-    ids =  @get("questions").filterBy("section", @get("section")).mapBy("name")
-    @get("responses").filter (response) -> ids.contains(response.id)
+    names = @get("questions").filterBy("section", @get("section")).mapBy("name")
+    @get("responses").filter (response) -> names.contains(response.get("name"))
     
   .property("questions.section", "section", "responses.@each")
   
@@ -33,12 +33,14 @@ App.AppQuestionerComponent = Ember.Component.extend
       {number: section, selected: section is self.get("section")}
   .property("questions.section", "section")
   
+  bla: -> debugger
   # click: -> debugger
   
   actions:
     setResponse: (response, value) -> 
       response.set("value", value)
       @send("nextSection") if @get("sectionResponses.length") == 1
+      @sendAction()
       
     setSection: (section) -> @set("section", section)
     nextSection: -> @set("section", @get("section")+1) unless @get("section") is @get("sections.lastObject")

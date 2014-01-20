@@ -46,6 +46,7 @@ group :test, :development do
   gem "coveralls"
   gem "json_spec"
   gem "i18n-tasks", "~> 0.2.10"
+  gem "ruby-prof"
 end
 
 group :test do

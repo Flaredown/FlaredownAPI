@@ -26,9 +26,22 @@ feature "entry creation" do
   
   scenario "authenticated user creates entry" do
     post "/entries", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
-    expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:id] == "stools"}.first[:value]
+    expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:name] == "stools"}.first[:value]
     expect(user.entries.first.date).to eq Date.today
     returns_code 201
+  end
+  
+  scenario "returns nested errors for bad response values" do
+    attrs = entry_attributes
+    attrs[:responses].select{|q| q[:name] == "stools"}.first[:value] = 999999
+
+    post "/entries", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+    
+    expect(json_response["errors"]).to be_present
+    expect(json_response["errors"]["responses"]).to be_present
+    expect(json_response["errors"]["responses"]["stools"]).to eq "Not within allowed values"
+    
+    returns_code 422
   end
   
   # scenario "missing something" do
@@ -48,19 +61,27 @@ feature "update a entry" do
       expect(entry.weight_current).to eq 140
       
       attrs = entry_attributes
-      attrs[:responses].select{|q| q[:id] == "weight_current"}.first[:value] = 200
+      attrs[:responses].select{|q| q[:name] == "weight_current"}.first[:value] = 200
 
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
       
       expect(entry.reload.weight_current).to eq 200
       returns_code 200
     end
+    scenario "expect same ID in response as sent" do
+      create :cdai_entry, user: user
+      
+      patch "/entries/#{entry.id}", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
+      expect(json_response["id"]).to eq entry.id
+      
+      returns_code 200
+    end
     scenario "successfully updated with true/false response" do
-      entry.responses.select{|q| q.id == "opiates"}.first.value = false
+      entry.responses.select{|q| q.name == "opiates"}.first.value = false
       expect(entry.opiates).to eq false
       
       attrs = entry_attributes
-      attrs[:responses].select{|q| q[:id] == "opiates"}.first[:value] = true
+      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = true
       
       
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
@@ -101,6 +122,6 @@ end
 def entry_attributes
   {
     catalogs: ["cdai"],
-    responses: response_attributes.map{|q| {id: q.first, value: q.last}}
+    responses: response_attributes.map{|r| {name: r.first, value: r.last}}
   }
 end

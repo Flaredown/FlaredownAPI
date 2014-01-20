@@ -1,7 +1,8 @@
 ul: each option in response.question.input_options
   li
-    = input type="number" valueBinding="response.value"
-    button click="setResponse response response.value" Continue
+    form
+      = input type="number" valueBinding="response.value" submit="setResponse response response.value"
+      button type="submit" click="setResponse response response.value" Continue
     ul
       li meta_label: {{option.meta_label}}
       li label: {{option.label}}

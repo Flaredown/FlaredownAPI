@@ -8,7 +8,7 @@ class EntriesController < ApplicationController
 	end
   
 	def update
-		@entry = current_user.entries.find(params[:id]).first
+		@entry = current_user.entries.select{|e| e.id == params[:id]}.first
     if @entry.update_attributes(entry_params)
       render json: {id: @entry.id}, status: 200
     else
@@ -27,10 +27,10 @@ class EntriesController < ApplicationController
 	end
   
   private
-  def entry_params    
+  def entry_params
     params.require(:entry).permit(
       catalogs: [],
-      responses: [:id, :value],
+      responses: [:name, :value],
       treatments: [:name]
     )
   end

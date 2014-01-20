@@ -41,11 +41,12 @@ class Entry < CouchRest::Model::Base
   end
   def method_missing(name, *args)
     if self.question_names.include?(name)
-      response = responses.select{|q| q.id.to_sym == name}.first
+      response = responses.select{|r| r.name.to_sym == name}.first
       return response.value if response
     else
       super(name, *args)
     end
   end
+
 
 end

@@ -14,24 +14,27 @@ FactoryGirl.define do
     catalogs ["cdai"]
     sequence(:date) {|n| (n-1).days.from_now}
     responses []
-
+    
+    
     before(:create) do |entry|
-      entry.responses << build(:response, {id: :stools      , value: [*0..10].sample})
-      entry.responses << build(:response, {id: :ab_pain     , value: [*0..3].sample})
-      entry.responses << build(:response, {id: :general     , value: [*0..4].sample})
-      entry.responses << build(:response, {id: :mass        , value: [0,3,5].sample})
-      entry.responses << build(:response, {id: :hematocrit  , value: [*40..50].sample})
-
-      entry.responses << build(:response, {id: :complication_arthritis      , value: random_boolean})
-      entry.responses << build(:response, {id: :complication_iritis         , value: random_boolean})
-      entry.responses << build(:response, {id: :complication_erythema       , value: random_boolean})
-      entry.responses << build(:response, {id: :complication_fistula        , value: random_boolean})
-      entry.responses << build(:response, {id: :complication_fever          , value: random_boolean})
-      entry.responses << build(:response, {id: :complication_other_fistula  , value: random_boolean})
-      entry.responses << build(:response, {id: :opiates                     , value: random_boolean})
+      setup_cdai_questions
       
-      entry.responses << build(:response, {id: :weight_current, value: 140})
-      entry.responses << build(:response, {id: :weight_typical, value: 150})
+      entry.responses << build(:response, {name: :stools      , value: [*0..10].sample})
+      entry.responses << build(:response, {name: :ab_pain     , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :general     , value: [*0..4].sample})
+      entry.responses << build(:response, {name: :mass        , value: [0,3,5].sample})
+      entry.responses << build(:response, {name: :hematocrit  , value: [*40..50].sample})
+      
+      entry.responses << build(:response, {name: :complication_arthritis      , value: random_boolean})
+      entry.responses << build(:response, {name: :complication_iritis         , value: random_boolean})
+      entry.responses << build(:response, {name: :complication_erythema       , value: random_boolean})
+      entry.responses << build(:response, {name: :complication_fistula        , value: random_boolean})
+      entry.responses << build(:response, {name: :complication_fever          , value: random_boolean})
+      entry.responses << build(:response, {name: :complication_other_fistula  , value: random_boolean})
+      entry.responses << build(:response, {name: :opiates                     , value: random_boolean})
+
+      entry.responses << build(:response, {name: :weight_current, value: 140})
+      entry.responses << build(:response, {name: :weight_typical, value: 150})
       Entry.class_eval{ include CdaiCatalog }
       entry.score_cdai_entry
     end
@@ -40,7 +43,7 @@ FactoryGirl.define do
 end
 FactoryGirl.define do
   factory :response do  
-    id ""
+    name ""
     value ""
   end
 end

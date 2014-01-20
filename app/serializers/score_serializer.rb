@@ -1,9 +1,5 @@
 class ScoreSerializer < ActiveModel::Serializer  
   attributes :id,
-    :uuid,
+    :name,
     :value
-    
-  def uuid
-    "#{object.id}_#{object.base_doc.id}"
-  end
 end

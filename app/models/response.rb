@@ -3,6 +3,14 @@ class Response
   include ActiveModel::Validations
   include ActiveModel::SerializerSupport
   
-  property :id,      String
+  property :name, String
   property :value
+  
+  def question
+    Question.find_by_name(self.id)
+  end
+  def id
+    "#{name}_#{base_doc.id}"
+  end
+  
 end

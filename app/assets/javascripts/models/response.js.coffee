@@ -1,5 +1,3 @@
 App.Response = DS.Model.extend
+  name:  attr("string")
   value:  attr()
-  
-App.ResponseSerializer = DS.ActiveModelSerializer.extend
-  primaryKey: "uuid"

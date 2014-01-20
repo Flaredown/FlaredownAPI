@@ -17,7 +17,7 @@ div style="background-color: #ddd;"
     |Responses???
     strong= responses.length
     ul: each response in responses
-      li {{response.id}} :: {{response.value}}
+      li {{response.name}} :: {{response.value}}
   
 nav
   a href="" click="previousSection" <<
