@@ -4,11 +4,12 @@ require "simplecov"
 SimpleCov.start "rails"
 
 require "couchrest"
-Entry.all.each{|e| e.destroy} # destroy CouchDB docs
 
 require File.expand_path("../../config/application", __FILE__)
 require File.expand_path("../../config/environment", __FILE__)
 I18n.default_locale = :en
+
+Entry.all.each{|e| e.destroy} # destroy CouchDB docs
 
 require 'rspec/rails'
 require 'rspec/autorun'
