@@ -6,6 +6,6 @@ class UserSerializer < ActiveModel::Serializer
     :email,
     :authentication_token,
     :weight,
-    :gender
-    # :cdai_score_coordinates
+    :gender,
+    :cdai_score_coordinates
 end

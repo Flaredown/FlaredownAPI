@@ -1,26 +1,23 @@
 .entries-chart
   .chart-container 
-    position: relative
     font-family: Arial, Helvetica, sans-serif
     margin-top: 10px
-  .chart
-    margin-left: 40px
-    min-height: 400
+    width: 950px
+    height: 500px
     svg
-      width: 100%
-  .y-axis
-    position: absolute
-    top: 0
-    bottom: 0
-    width: 39px
-  .x-axis
-    position: relative
-    margin-top: -40px
-    margin-left: 40px
-    height: 40px
-  .legend
-    display: inline-block
-    vertical-align: top
-    margin: 0 0 0 10px
-  .x_grid_d3, .y_grid
-    display: none
+      background-color: #eee
+    line.horizontalGrid
+      stroke: #ccc
+    line.verticalGrid
+      stroke: #ccc
+    circle.score
+      fill: blue
+      
+    .score-text
+      fill: #333
+      font-size: 13px
+    
+    .line
+      fill: none
+      stroke: steelblue
+      stroke-width: 1.5px
