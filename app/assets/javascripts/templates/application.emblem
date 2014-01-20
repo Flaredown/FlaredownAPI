@@ -5,6 +5,7 @@
       ul.nav
         li: linkTo "entries.new" | New Entry
         if loggedIn
+          li: strong Hello, {{user.email}}
           li: a.btn.btn-xs.btn-danger href="#" click="logout" id="logout" Logout
 
     / .col-md-6

@@ -4,6 +4,7 @@ require "simplecov"
 SimpleCov.start "rails"
 
 require "couchrest"
+Entry.all.each{|e| e.destroy} # destroy CouchDB docs
 
 require File.expand_path("../../config/application", __FILE__)
 require File.expand_path("../../config/environment", __FILE__)
@@ -82,7 +83,9 @@ RSpec.configure do |config|
     example.run
     # REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
-    CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
+    Entry.all.each{|e| e.destroy} # destroy CouchDB docs
+    # CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
+    # sleep(0.01) # takes a second to recreate I guess
   end  
 end
 

@@ -12,7 +12,7 @@ describe "Chart" do
     
     let(:coordinates) { user.cdai_score_coordinates }
     it "should return coordinates" do
-      expect(coordinates.count).to eq 3
+      expect(coordinates.count).to eq 2 # 1 of 3 has score of zero, isn't included
       expect(coordinates.first).to have_key(:x)
       expect(coordinates.first).to have_key(:y)
     end
