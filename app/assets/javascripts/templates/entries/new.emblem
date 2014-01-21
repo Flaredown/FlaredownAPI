@@ -1,49 +1,6 @@
-h1 click="debugme" = id
-
+= app-modal elementId="entry-modal" title=id
+  = app-questioner entry=this user=user action="save" modal=true
+  
+h1= id
 = responses.length
 = app-questioner entry=this user=user action="save"
-
-// 
-  form enter="save"
-    ul.entry-form
-      li
-        label Stools
-        = input type="number" valueBinding="stools"
-      li
-        label Ab Pain
-        = input type="number" valueBinding="ab_pain"
-      li
-        label General
-        = input type="number" valueBinding="general"
-      li
-        label Complication Arthritis
-        = input type="checkbox" valueBinding="complication_arthritis"
-      li
-        label Complication Iritis
-        = input type="checkbox" valueBinding="complication_iritis"
-      li
-        label Complication Erythema
-        = input type="checkbox" valueBinding="complication_erythema"
-      li
-        label Complication Fistula
-        = input type="checkbox" valueBinding="complication_fistula"
-      li
-        label Complication Fever
-        = input type="checkbox" valueBinding="complication_fever"
-      li
-        label Complication Other Fistula
-        = input type="checkbox" valueBinding="complication_other_fistula"
-      li
-        label Opiates
-        = input type="checkbox" valueBinding="opiates"
-      li
-        label Mass
-        = input type="number" valueBinding="mass"
-      li
-        label Hematocrit
-        = input type="number" valueBinding="hematocrit"
-      li
-        label Weight Current
-        = input type="number" valueBinding="weight_current"
-    
-    button click="save" Submit

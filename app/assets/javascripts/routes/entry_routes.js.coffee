@@ -1,10 +1,20 @@
 App.EntriesIndexRoute = App.AuthenticatedRoute.extend()
   # model: -> @store.find("entry")
   
-App.EntriesNewRoute = App.AuthenticatedRoute.extend
-  model: -> 
+App.EntriesEntryRoute = App.AuthenticatedRoute.extend
+  renderTemplate: (controller, model) ->
+    controller.set("title", model.get("id"))
+    @render "entries/modal"
+    
+  model: (params, transition, queryParams) ->
     self = @
-    date = new Date()
+    date = null
+    
+    if params.date is "today"
+      date = new Date();
+    else
+      date = new Date(params.date);
+      
     $.get("entries/#{date.toDateString()}", {by_date: true}).then(
       (response) ->
         if response.id
@@ -15,3 +25,6 @@ App.EntriesNewRoute = App.AuthenticatedRoute.extend
       (response) ->
         debugger
     )
+    
+  actions:
+    close: -> @transitionTo "entries.index"

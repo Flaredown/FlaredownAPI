@@ -1,0 +1,1 @@
+App.EntriesNewView = Em.View.extend()

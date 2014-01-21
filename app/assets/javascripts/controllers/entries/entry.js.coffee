@@ -1,4 +1,4 @@
-App.EntriesNewController = Em.ObjectController.extend
+App.EntriesEntryController = Em.ObjectController.extend
   needs: ["user"]
     
   actions:

@@ -16,15 +16,10 @@ App.AppQuestionerComponent = Ember.Component.extend
       else
         self.get("responses").createRecord({id: _uuid , name: question.get("name"), value: null, question: question})
   .observes("entry.isLoaded")
-    
-  # responseForQuestion: (question) ->
-  #   debugger
-  #   @get("responses").findBy("uuid", "#{question.get('name')}_#{@get("entry.id")}")
   
   sectionResponses: Em.computed ->
     names = @get("questions").filterBy("section", @get("section")).mapBy("name")
     @get("responses").filter (response) -> names.contains(response.get("name"))
-    
   .property("questions.section", "section", "responses.@each")
   
   sections: Em.computed ->
@@ -32,9 +27,6 @@ App.AppQuestionerComponent = Ember.Component.extend
     @get("questions").mapBy("section").uniq().sort().map (section) -> 
       {number: section, selected: section is self.get("section")}
   .property("questions.section", "section")
-  
-  bla: -> debugger
-  # click: -> debugger
   
   actions:
     setResponse: (response, value) -> 

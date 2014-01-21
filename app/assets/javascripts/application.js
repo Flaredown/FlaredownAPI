@@ -19,6 +19,9 @@
 //= require lib/d3.v3.min
 //= require lib/rickshaw.custom
 
+// BOOTSTRAP
+//= require bootstrap/modal
+
 // EMBER
 //= require lib/handlebars-v1.1.2
 //= require lib/ember

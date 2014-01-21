@@ -1,23 +1,21 @@
-hr
-h3 Questioner!
-
 each catalog in catalogs
   = catalog
 
-div style="background-color: #ddd;"
-  h5 :: debug ::
+unless modal
+  div style="background-color: #ddd;"
+    h5 :: debug ::
 
-  p
-    |Questions???
-    strong= questions.length
-    ul: each question in questions
-      li= question.name
+    p
+      |Questions???
+      strong= questions.length
+      ul: each question in questions
+        li= question.name
   
-  p
-    |Responses???
-    strong= responses.length
-    ul: each response in responses
-      li {{response.name}} :: {{response.value}}
+    p
+      |Responses???
+      strong= responses.length
+      ul: each response in responses
+        li {{response.name}} :: {{response.value}}
   
 nav
   a href="" click="previousSection" <<
@@ -28,5 +26,3 @@ nav
   a href="" click="nextSection" >>
 
 = partial "questioner/section"
-  
-hr

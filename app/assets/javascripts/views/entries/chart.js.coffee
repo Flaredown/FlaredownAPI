@@ -15,7 +15,7 @@ App.EntriesChartView = Em.View.extend
     coordinates = @get("controller.user.cdai_score_coordinates")
 
     if coordinates
-      coordinates = coordinates.map (coordinate) -> Em.Object.create coordinate
+      coordinates = coordinates.map (coordinate) -> Em.Object.createWithMixins App.ChartDatum, coordinate
     
       $container  = $(".chart-container")
       margin      = {top: 20, right: 10, bottom: 20, left: 10}
@@ -80,7 +80,7 @@ App.EntriesChartView = Em.View.extend
             cy: (d) -> y d.y
             text: (d) -> d.x
             r: 10
-          .on("click", (d,i) -> debugger)
+          .on("click", (d,i) -> d.send("activate"))
           .on("mouseover", (d,i) -> d3.select(this).transition().attr("r", 15) )
           .on("mouseout", (d,i) -> d3.select(this).transition().attr("r", 10) )
         

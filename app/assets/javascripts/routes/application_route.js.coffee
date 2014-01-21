@@ -1,8 +1,6 @@
 App.Router.map ->
   @resource "entries", path: "/", ->
-    @route "new", path: "/new"
-  # @resource "entry", path: "/entry/:entry_id", ->
-    
+    @route "entry", path: "/entry/:date"
     
   @resource "login", path: "login"
   @resource "register", path: "register"
