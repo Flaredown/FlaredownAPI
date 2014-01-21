@@ -1,12 +1,25 @@
-.container
-  #header.row
-    .col-md-6
-      h1 CDAI.me
-      ul.nav
-        li: linkTo "entries.entry" "today"  | Today
+nav.navbar.navbar-default role="navigation"
+  .container
+    .navbar-header
+      button.navbar-toggle data-target="#navbarCollapse" data-toggle="collapse" type="button"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      strong.navbar-brand CDAI.me
+    #navbarCollapse.collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
         if loggedIn
-          li: strong Hello, {{user.email}}
-          li: a.btn.btn-xs.btn-danger href="#" click="logout" id="logout" Logout
+          li: linkTo "entries.entry" "today"  | Today
+          li.dropdown
+            a.dropdown-toggle data-toggle="dropdown" href="#"
+              | {{user.email}}
+              b.caret
+            ul.dropdown-menu
+              li: linkTo "Profile"
+              li: linkTo "Treatments"
+              li: a href="#" click="logout" id="logout" Logout
+        
 
     / .col-md-6
     /   if loggedIn
@@ -24,7 +37,7 @@
     /         strong token: 
     /         = user.authentication_token
 
-  
+.container
   if loggedIn
     #chart.row
       render "entries-chart" user

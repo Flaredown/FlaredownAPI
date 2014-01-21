@@ -37,7 +37,7 @@ App.EntriesChartView = Em.View.extend
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-      svg.selectAll("line.horizontalGrid").data(y.ticks(20)).enter()
+      svg.selectAll("line.horizontalGrid").data(y.ticks(6)).enter()
         .append("line")
           .attr
             "class" : "horizontalGrid"
@@ -50,7 +50,7 @@ App.EntriesChartView = Em.View.extend
             "stroke" : "black"
             "stroke-width" : "1px"
             
-      svg.selectAll("line.verticalGrid").data(x.ticks(20)).enter()
+      svg.selectAll("line.verticalGrid").data(x.ticks(12)).enter()
         .append("line")
           .attr
             "class" : "verticalGrid"

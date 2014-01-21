@@ -21,6 +21,7 @@
 
 // BOOTSTRAP
 //= require bootstrap/modal
+//= require bootstrap/dropdown
 
 // EMBER
 //= require lib/handlebars-v1.1.2
