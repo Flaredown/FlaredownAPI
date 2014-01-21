@@ -3,7 +3,7 @@
     .col-md-6
       h1 CDAI.me
       ul.nav
-        li: linkTo "entries.entry" "today"  | Today
+        li: link-to "entry.index" "today" 1 | Today
         if loggedIn
           li: strong Hello, {{user.email}}
           li: a.btn.btn-xs.btn-danger href="#" click="logout" id="logout" Logout

@@ -18,7 +18,7 @@ App.EntriesChartView = Em.View.extend
       coordinates = coordinates.map (coordinate) -> App.ChartDatum.create coordinate, target: that.get("controller.target")
     
       $container  = $(".chart-container")
-      margin      = {top: 20, right: 10, bottom: 20, left: 10}
+      margin      = {top: 50, right: 50, bottom: 50, left: 50}
       width       = $container.width() - margin.left - margin.right
       height      = $container.height() - margin.top - margin.bottom
 

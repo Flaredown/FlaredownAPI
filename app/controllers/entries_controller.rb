@@ -18,7 +18,8 @@ class EntriesController < ApplicationController
 
 	def show
     if params[:by_date]
-      @entry = Entry.by_date(key: Date.parse(params[:id])).first
+      date = Date.parse(params[:id])
+      @entry = Entry.by_date(key: date).first
       render(json: {id: @entry.try(:id)})
     else
       @entry = Entry.find(params[:id])

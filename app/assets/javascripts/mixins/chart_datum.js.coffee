@@ -1,10 +1,10 @@
 App.ChartDatum = Em.Controller.extend
   datumText: Em.computed ->
-    "#{moment(new Date(@get('x'))).format('MM/DD')} - #{@get('y')}"
+    "#{moment(@get('x')).format('MM/DD')} - #{@get('y')}"
   .property("x", "y")
   
   entryDate: Em.computed -> 
-    moment(new Date(@get("x"))).format("MM-DD-YYYY")
+    moment(@get("x")).format("MMM-DD-YYYY")
   .property("x")
   
-  goTo: -> @transitionToRoute("entries.entry", @get("entryDate"))
+  goTo: -> @transitionToRoute("entry.index", @get("entryDate"), 1)

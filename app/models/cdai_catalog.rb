@@ -9,7 +9,7 @@ module CdaiCatalog
   included do |base_class|
     base_class.question_names = base_class.question_names.push(*CDAI_QUESTIONS).uniq
     
-    before_save :score_cdai_entry
+    after_save :score_cdai_entry
     
     validate :response_ranges
     def response_ranges
@@ -59,6 +59,7 @@ module CdaiCatalog
   def score_cdai_entry
     self.scores << {name: "cdai", value: nil} unless cdai_score.present?
     cdai_score.value = self.calculate_cdai_score if valid_cdai_entry?
+    self.save
     # Resque.enqueue(Entry, self.id)
     # REDIS.hset("charts:cdai_score:#{self.user_id}", self.date.to_i, self.score)
   end
