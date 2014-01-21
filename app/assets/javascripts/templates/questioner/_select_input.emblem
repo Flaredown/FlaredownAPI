@@ -1,12 +1,12 @@
-ul: each option in response.question.input_options
+ul: each input in response.question.inputs
   li
-    a href="" click="setResponse response option.value"
+    a href="" click="setResponse response input.value"
       |Set to: 
-      strong= option.value
+      strong= input.value
     ul
-      li meta_label: {{option.meta_label}}
-      li label: {{option.label}}
-      li helper: {{option.helper}}
+      li meta_label: {{input.meta_label}}
+      li label: {{input.label}}
+      li helper: {{input.helper}}
     
   
 

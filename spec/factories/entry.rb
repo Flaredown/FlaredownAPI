@@ -1,5 +1,5 @@
 def random_boolean
-  [true,false].sample
+  [0,1].sample
 end
 
 FactoryGirl.define do

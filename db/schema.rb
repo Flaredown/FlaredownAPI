@@ -15,7 +15,14 @@ ActiveRecord::Schema.define(version: 20140104180542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
+
+  create_table "question_inputs", force: true do |t|
+    t.integer "question_id"
+    t.integer "value"
+    t.string  "label"
+    t.string  "meta_label"
+    t.string  "helper"
+  end
 
   create_table "questions", force: true do |t|
     t.string   "catalog"
@@ -23,7 +30,6 @@ ActiveRecord::Schema.define(version: 20140104180542) do
     t.string   "group"
     t.string   "kind"
     t.integer  "section"
-    t.text     "options"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

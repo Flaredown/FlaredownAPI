@@ -6,8 +6,6 @@ class CreateQuestions < ActiveRecord::Migration
       t.string :group
       t.string :kind
       t.integer :section
-      t.text :options
-      # t.hstore :options, :array => true
             
       t.timestamps
     end

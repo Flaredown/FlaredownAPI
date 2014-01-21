@@ -1,5 +1,5 @@
 App.Question = DS.Model.extend
-  input_options: hasMany("question_option")
+  inputs:   hasMany("input")
   
   catalog:  attr("string")
   name:     attr("string")
@@ -11,6 +11,6 @@ App.Question = DS.Model.extend
     "questioner/#{@get("kind")}_input"
   .property("kind")
 
-App.QuestionSerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
-  attrs:
-    input_options: {embedded: "always"}
+# App.QuestionSerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
+#   attrs:
+#     input_options: {embedded: "always"}

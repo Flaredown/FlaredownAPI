@@ -77,15 +77,15 @@ feature "update a entry" do
       returns_code 200
     end
     scenario "successfully updated with true/false response" do
-      entry.responses.select{|q| q.name == "opiates"}.first.value = false
-      expect(entry.opiates).to eq false
+      entry.responses.select{|q| q.name == "opiates"}.first.value = 0
+      expect(entry.opiates).to eq 0
       
       attrs = entry_attributes
-      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = true
+      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = 1
       
       
       patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
-      expect(entry.reload.opiates).to eq true
+      expect(entry.reload.opiates).to eq 1
       
       returns_code 200
     end
@@ -106,13 +106,13 @@ def response_attributes
     "stools"=>2,
     "ab_pain"=>1,
     "general"=>4,
-    "complication_arthritis"=>true,
-    "complication_iritis"=>false,
-    "complication_erythema"=>true,
-    "complication_fistula"=>false,
-    "complication_other_fistula"=>false,
-    "complication_fever"=>true,
-    "opiates"=>false,
+    "complication_arthritis"=>1,
+    "complication_iritis"=>0,
+    "complication_erythema"=>1,
+    "complication_fistula"=>0,
+    "complication_other_fistula"=>0,
+    "complication_fever"=>1,
+    "opiates"=>0,
     "mass"=>3,
     "hematocrit"=>40,
     "weight_current"=>140,

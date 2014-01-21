@@ -38,7 +38,7 @@ module CdaiCatalog
     def response_booleans
       %w( complication_arthritis complication_iritis complication_erythema complication_erythema complication_fever complication_other_fistula opiates ).each do |name|
         response = responses.select{|r| r.name == name}.first
-        if response and not [true,false].include? response.value
+        if response and not [0,1].include? response.value
           self.errors.messages[:responses] ||= {}
           self.errors.messages[:responses][name.to_sym] = "Must be true or false"
         end
@@ -91,7 +91,7 @@ module CdaiCatalog
             
       # current
       [:complication_arthritis, :complication_erythema, :complication_fistula, :complication_other_fistula, :complication_iritis].each do |question_name|
-        tally += 20 if self.send(question_name)
+        tally += 20 unless self.send(question_name).zero?
       end
             
       tally += 30 if opiates

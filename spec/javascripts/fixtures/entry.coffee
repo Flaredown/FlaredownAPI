@@ -2,6 +2,45 @@ App.Entry.FIXTURES = [
   id: "0fe7a3b3e3d8eaf063bd82f77502e649"
   date: "2014-01-08"
 ]
+
+# App.QuestionOption.FIXTURES = [
+#     value: 0
+#     label: "well"
+#     meta_label: "happy_face"
+#     helper: null
+#     id: "general_0"
+#   ,
+#     value: 1
+#     label: "below_par"
+#     meta_label: "neutral_face"
+#     helper: null
+#     id: "general_1"
+#   ,
+#     value: 2
+#     label: "poor"
+#     meta_label: "frowny_face"
+#     helper: null
+#     id: "general_2"
+#   ,
+#     value: 3
+#     label: "very_poor"
+#     meta_label: "sad_face"
+#     helper: null
+#     id: "general_3"
+#   ,
+#     value: 4
+#     label: "terrible"
+#     meta_label: "terrible_face"
+#     helper: null
+#     id: "general_4"
+#   ,
+#     value: 0
+#     label: null
+#     meta_label: null
+#     helper: "typical_weight"
+#     id: "weight_typical_0"
+#   ]
+
 App.Question.FIXTURES = [
   id: "1"
   catalog: "cdai"
@@ -18,37 +57,7 @@ App.Question.FIXTURES = [
   kind: "select"
   group: null
   section: 2
-  input_options: [
-    value: 0
-    label: "well"
-    meta_label: "happy_face"
-    helper: null
-    id: "general_0"
-  ,
-    value: 1
-    label: "below_par"
-    meta_label: "neutral_face"
-    helper: null
-    id: "general_1"
-  ,
-    value: 2
-    label: "poor"
-    meta_label: "frowny_face"
-    helper: null
-    id: "general_2"
-  ,
-    value: 3
-    label: "very_poor"
-    meta_label: "sad_face"
-    helper: null
-    id: "general_3"
-  ,
-    value: 4
-    label: "terrible"
-    meta_label: "terrible_face"
-    helper: null
-    id: "general_4"
-  ]
+  input_options: 
 ,
   id: "3"
   catalog: "cdai"
@@ -130,11 +139,7 @@ App.Question.FIXTURES = [
   group: null
   section: 7
   input_options: [
-    value: 0
-    label: null
-    meta_label: null
-    helper: "typical_weight"
-    id: "weight_typical_0"
+    
   ]
 ,
   id: "8"

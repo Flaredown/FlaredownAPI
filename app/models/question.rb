@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
-  serialize :options # TODO upgrade to hstore when it's available :: http://inopinatus.org/2013/07/12/using-arrays-of-hstore-with-rails-4/
+  # serialize :options # TODO upgrade to hstore when it's available :: http://inopinatus.org/2013/07/12/using-arrays-of-hstore-with-rails-4/
+  has_many :inputs, class_name: "QuestionInput"
     
   validates_presence_of     :name, :message => "can't be blank"
   validates_uniqueness_of   :name, :message => "must be unique"
@@ -8,20 +9,18 @@ class Question < ActiveRecord::Base
   validates_presence_of     :section, :message => "can't be blank"
   validates_numericality_of :section, :message => "is not a number"
   
-  validate :options_attributes
+  # validate :input_attributes
   
   def localized_name
     I18n.t("questions.#{self.name}")
   end
   
   private
-  def options_attributes
-    self.errors.add :options, "No options present" if kind == "select" and not options.count > 1
+  def input_attributes
+    self.errors.add :inputs, "No options present" if kind == "select" and not inputs.count > 1
     
-    if options.present?
-      options.each do |option|
-        self.errors.add :options, "Missing value on option" if option[:value].nil?
-      end
+    inputs.each do |input|
+      self.errors.add :inputs, "Missing value on option" if input[:value].nil?
     end
     
   end

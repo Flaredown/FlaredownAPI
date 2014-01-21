@@ -5,12 +5,13 @@ FactoryGirl.define do
     
     trait :select do
       kind "select"
-      options [
-        {value: 0, label: "none",     meta_label: "happy_face",   helper: nil},
-        {value: 1, label: "mild",     meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "moderate", meta_label: "frowny_face",  helper: nil},
-        {value: 3, label: "severe",   meta_label: "sad_face",     helper: nil}
-      ]
+      
+      after(:create) do |question|
+        QuestionInput.create({question_id: question.id, value: 0, label: "none", meta_label: "happy_face", helper: nil})
+        QuestionInput.create({question_id: question.id, value: 1, label: "mild", meta_label: "neutral_face", helper: nil})
+        QuestionInput.create({question_id: question.id, value: 2, label: "moderate", meta_label: "frowny_face", helper: nil})
+        QuestionInput.create({question_id: question.id, value: 3, label: "severe", meta_label: "sad_face", helper: nil})
+      end
     end
     trait :yes_no do
       kind "checkbox"

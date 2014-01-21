@@ -1,9 +1,9 @@
-ul: each option in response.question.input_options
+ul: each input in response.question.inputs
   li
     form
       = input type="number" valueBinding="response.value" submit="setResponse response response.value"
       button type="submit" click="setResponse response response.value" Continue
     ul
-      li meta_label: {{option.meta_label}}
-      li label: {{option.label}}
-      li helper: {{option.helper}}
+      li meta_label: {{input.meta_label}}
+      li label: {{input.label}}
+      li helper: {{input.helper}}
