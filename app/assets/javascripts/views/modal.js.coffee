@@ -1,6 +1,11 @@
 App.EntriesModalView = Em.View.extend
   tagName: "div"
-  classNames: "modal fade in form-custom-field-modal".w()
+  classNames: "modal fade in".w()
+  
+  attributeBindings: "tabindex role ariaLabelledby".w()
+  tabindex: "-1"
+  role: "dialog"
+  ariaLabelledby: Em.computed(-> @get("controller.title")).property("controller.title")
     
   didInsertElement: ->
     @$().modal "show"

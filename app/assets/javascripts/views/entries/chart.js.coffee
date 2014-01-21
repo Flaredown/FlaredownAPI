@@ -72,18 +72,28 @@ App.EntriesChartView = Em.View.extend
         .attr("class", "line")
         .attr("d", line)
           
-      svg.selectAll("circle.score").data(coordinates).enter()
-        .append("circle")
+      circles = svg.selectAll("g.score-circle").data(coordinates).enter()
+        .append("g")
           .attr
-            class: "score"
-            cx: (d) -> x d.x
-            cy: (d) -> y d.y
-            text: (d) -> d.x
-            r: 6
-          .on("click", (d,i) -> d.goTo())
-          .on("mouseover", (d,i) -> d3.select(this).transition().attr("r", 9) )
-          .on("mouseout", (d,i) -> d3.select(this).transition().attr("r", 6) )
+            class: "score-circle"
+      circles.append("circle")
+        .attr
+          class: "score"
+          cx: (d) -> x d.x
+          cy: (d) -> y d.y
+          r: 6
         
+      circles.append("circle")
+        .attr
+          class: "hitbox"
+          r: 40
+          cx: (d) -> x d.x
+          cy: (d) -> y d.y
+          fill: "transparent"
+        .on("mouseover", (d,i) -> d3.select(this.parentNode).select(".score").transition().attr("r", 9) )
+        .on("mouseout", (d,i) -> d3.select(this.parentNode).select(".score").transition().attr("r", 6) )
+        .on("click", (d,i) -> d.goTo())
+      
             
       svg.selectAll("text.score-text").data(coordinates).enter()
        .append("text")
@@ -93,10 +103,10 @@ App.EntriesChartView = Em.View.extend
            dy: (d) -> y d.y
          .text (d) -> d.get("datumText")
          
-  watchChart: Ember.observer ->
-    chart = @get("chart")
-    if chart
-      chart.series[0].data = @get("controller.score_coordinates")
-      chart.update()
-    
-  .observes("controller.score_coordinates")
+  # watchChart: Ember.observer ->
+  #   chart = @get("chart")
+  #   if chart
+  #     chart.series[0].data = @get("controller.score_coordinates")
+  #     chart.update()
+  #   
+  # .observes("controller.score_coordinates")
