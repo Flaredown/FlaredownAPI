@@ -44,7 +44,7 @@ group :test, :development do
   gem "simplecov"
   gem "pry"
   gem "pry-remote"
-  gem "coveralls"
+  gem "coveralls", require: false
   gem "json_spec"
   gem "i18n-tasks", "~> 0.2.10"
   gem "ruby-prof"
