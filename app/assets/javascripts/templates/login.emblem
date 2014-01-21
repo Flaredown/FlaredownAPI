@@ -25,4 +25,4 @@
           .col-md-6
             button.btn.btn-success.col-md-12 Login
           .col-md-6
-            linkTo "register" class="btn btn-default col-md-12" | Register Now
+            link-to "register" class="btn btn-default col-md-12" | Register Now

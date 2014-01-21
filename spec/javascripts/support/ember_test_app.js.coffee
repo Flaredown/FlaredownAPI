@@ -11,3 +11,9 @@ Ember.FEATURES["query-params"] = true
 
 window.App = Ember.Application.create
   rootElement: "body"
+
+
+App.Adapter = DS.FixtureAdapter.extend({ simulateRemoteResponse: false })
+App.Store = DS.Store.extend
+  revision: 13
+  adapter: App.Adapter

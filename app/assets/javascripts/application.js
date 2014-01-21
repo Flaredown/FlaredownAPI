@@ -16,9 +16,7 @@
 //= require lib/moment.min
 //= require lib/moment-timezone
 //= require lib/progress_bar
-
 //= require lib/d3.v3.min
-//= require lib/rickshaw.custom
 
 // BOOTSTRAP
 //= require bootstrap/modal
@@ -30,7 +28,6 @@
 //= require lib/ember-canary
 // require lib/ember-data
 //= require lib/ember-data-canary
-// require lib/ember-couchdb-kit/ember-couchdb-kit
 
 //= require_tree ./templates
 

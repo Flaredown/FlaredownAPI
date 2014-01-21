@@ -1,0 +1,17 @@
+  
+
+    / .col-md-6
+    /   if loggedIn
+    /     br
+    /     ul
+    /       li: small Use the API by providing the keys "user_email" and  "user_token" with the values displayed below for each request. The resource url is "/entry(ies)"
+    /       li 
+    /         strong email: 
+    /         = user.email
+    /       li
+    /         = user.gender
+    /         |&nbsp;
+    /         |{{user.weight}} lb
+    /       li
+    /         strong token: 
+    /         = user.authentication_token

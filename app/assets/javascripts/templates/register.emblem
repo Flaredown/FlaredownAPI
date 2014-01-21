@@ -40,6 +40,6 @@ else
           br
           .row
             .col-md-6
-              linkTo "login" class="btn btn-default col-md-12" | Back to Login
+              link-to "login" class="btn btn-default col-md-12" | Back to Login
             .col-md-6
               button.btn.btn-success.col-md-12 Register

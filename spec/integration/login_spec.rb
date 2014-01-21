@@ -29,6 +29,7 @@ feature "Login Functions" do
     fill_in "password", with: user.password
     click_on "Login"
     expect(page).to have_content user.email
+    click_on user.email
     page.find("#logout").click()
     expect(page).to_not have_content user.email
   end

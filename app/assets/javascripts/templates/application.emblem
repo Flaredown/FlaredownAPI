@@ -1,41 +1,4 @@
-nav.navbar.navbar-default role="navigation"
-  .container
-    .navbar-header
-      button.navbar-toggle data-target="#navbarCollapse" data-toggle="collapse" type="button"
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      strong.navbar-brand CDAI.me
-    #navbarCollapse.collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
-        if loggedIn
-          li: linkTo "entries.entry" "today"  | Today
-          li.dropdown
-            a.dropdown-toggle data-toggle="dropdown" href="#"
-              | {{user.email}}
-              b.caret
-            ul.dropdown-menu
-              li: linkTo "Profile"
-              li: linkTo "Treatments"
-              li: a href="#" click="logout" id="logout" Logout
-        
-
-    / .col-md-6
-    /   if loggedIn
-    /     br
-    /     ul
-    /       li: small Use the API by providing the keys "user_email" and  "user_token" with the values displayed below for each request. The resource url is "/entry(ies)"
-    /       li 
-    /         strong email: 
-    /         = user.email
-    /       li
-    /         = user.gender
-    /         |&nbsp;
-    /         |{{user.weight}} lb
-    /       li
-    /         strong token: 
-    /         = user.authentication_token
+partial "header"
 
 .container
   if loggedIn

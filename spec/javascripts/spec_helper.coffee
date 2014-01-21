@@ -1,17 +1,22 @@
 # = require lib/jquery-2.0.3
 # = require lib/jquery.cookie
 # = require lib/moment.min
+# = require lib/moment-timezone
 # = require lib/progress_bar
+# = require lib/d3.v3.min
+
+# BOOTSTRAP
+# = require bootstrap/modal
+# = require bootstrap/dropdown
 
 # EMBER
 # = require lib/handlebars-v1.1.2
-# = require lib/ember
-# = require lib/ember-data
+# = require lib/ember-canary
+# = require lib/ember-data-canary
 
 # = require_tree ../../app/assets/javascripts/templates
 
 # = require support/bootstrap
-# = require_tree ./fixtures
 
 # = require support/ember_test_app
 
@@ -19,15 +24,23 @@
 # = require_tree ../../app/assets/javascripts/mixins
 # = require_tree ../../app/assets/javascripts/models
 # = require_tree ../../app/assets/javascripts/controllers
+# = require_tree ../../app/assets/javascripts/components
 # = require_tree ../../app/assets/javascripts/initializers
 # = require_tree ../../app/assets/javascripts/components
 # = require_tree ../../app/assets/javascripts/helpers
 # = require_tree ../../app/assets/javascripts/views
 
+# = require_tree ./fixtures
+
+# = require support/adapter
 # = require support/helpers
 # = require support/chai
 # = require support/chai-jquery
 window.expect = chai.expect
+
+document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
+document.write('<style>#ember-testing-container { position: absolute; background: white; bottom: 0; right: 0; width: 640px; height: 384px; overflow: auto; z-index: 9999; border: 1px solid #ccc; } .ember-test { zoom: 50%; }</style>');
+App.rootElement = '#ember-testing';
 
 # This hook defers the readiness of the application, so that you can start 
 # the app when your tests are ready to run. It also sets the router's location
@@ -54,23 +67,52 @@ App.setupForTesting()
 # Returns a promise that fulfills when all async behavior is complete.
 App.injectTestHelpers()
 
-beforeEach (done) ->  
+# Prevent the router from manipulating the browser's URL.
+App.Router.reopen location: 'none'
+
+# Useful for placing local test vars
+window.Test ||= {}
+# Shorthand
+window.T = Test
+
+beforeEach( (done) ->
+  # Fake XHR
+  # window.server = TestUtil.fakeServer()
+
+  # Prevent automatic scheduling of runloops. For tests, we
+  # want to have complete control of runloops.
+  Ember.testing = true
+
   # reset all test variables!
   window.Test = {}
-  window.T    = Test
   
-  test_root = "test-#{(new Date).getTime()}"
-  $("body").append("<div id=#{test_root} style='display:none;'></div>")
-  App.rootElement = "##{test_root}"
+  T.store   = lookupStore()
+  T.router  = lookupRouter()
   
-  Ember.run ->
-    App.advanceReadiness()
-    App.then -> 
-      T.store   = lookupStore()
-      T.router  = lookupRouter()
-      done() # When App readiness promise resolves, setup is complete  
-      
-afterEach ->
-  Em.run -> App.reset()
-  
+  Ember.run( ->
+    # Advance App readiness, which was deferred when the app
+    # was created.
 
+    # This needs to be done here, after each iframe has been setup,
+    # instead of in a global `before`.
+    App.advanceReadiness()
+
+    # When App readiness promise resolves, setup is complete
+    App.then( ->
+      done()
+    )
+  )
+)
+
+afterEach( ->
+  # Reset App
+  Ember.run( ->
+    App.reset()
+  )
+
+  # reset all test variables!
+  window.Test = {}
+
+  # Restore XHR
+  # window.server.restore()
+)
