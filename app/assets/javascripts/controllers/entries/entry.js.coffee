@@ -14,6 +14,6 @@ App.EntriesEntryController = Em.ObjectController.extend
         type: "PATCH"
         data: JSON.stringify data
         success: (response) -> 
-          console.log response.id
+          null
         error: (response) ->
           debugger

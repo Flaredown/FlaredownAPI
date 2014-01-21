@@ -25,6 +25,6 @@ App.EntriesEntryRoute = App.AuthenticatedRoute.extend
       (response) ->
         debugger
     )
-    
+  
   actions:
     close: -> @transitionTo "entries.index"

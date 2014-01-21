@@ -8,7 +8,8 @@
 
 # Clear it out first
 Entry.all.each{|e| e.destroy}
-User.delete_all
+old_user=User.find_by_email("test@test.com")
+old_user.delete if old_user
 Question.delete_all
 
 u=User.create(email: "test@test.com", password: "testing123", password_confirmation: "testing123", gender: "male", weight: 145)
