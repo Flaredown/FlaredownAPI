@@ -16,11 +16,20 @@ describe CdaiCatalog do
     
     
     describe "Scoring" do
-      before(:each) do
-        10.times { with_resque{create :cdai_entry, user: user} }
+      # before(:each) do
+      #   10.times { with_resque{create :cdai_entry, user: user} }
+      # end
+      let(:entry) { create :cdai_entry, user: user }
+      it "has a score if all responses are present" do
+        expect(entry.responses.count).to eq Question.where(catalog: "cdai").count
+        expect(entry.cdai_score.value).to be > 0
       end
-      it "should have one if there's enough data" do
-        expect(Entry.by_date.last.cdai_score.value).to be > 0
+      it "reverts to nil if responses are removed" do
+        entry.responses.delete entry.responses.first
+        entry.save
+        
+        expect(entry.responses.count).to be < Question.where(catalog: "cdai").count
+        expect(entry.reload.cdai_score.value).to be_nil
       end
     end
     

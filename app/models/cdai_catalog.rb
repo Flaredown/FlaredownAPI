@@ -58,7 +58,7 @@ module CdaiCatalog
   
   def score_cdai_entry
     self.scores << {name: "cdai", value: nil} unless cdai_score.present?
-    cdai_score.value = self.calculate_cdai_score if valid_cdai_entry?
+    cdai_score.value = valid_cdai_entry? ? calculate_cdai_score : nil
     self.save
     # Resque.enqueue(Entry, self.id)
     # REDIS.hset("charts:cdai_score:#{self.user_id}", self.date.to_i, self.score)

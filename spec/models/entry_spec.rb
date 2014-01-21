@@ -24,6 +24,13 @@ describe Entry do
     end
   end
   
+  describe "#responses" do
+    let(:entry) { create :cdai_entry }
+    it "should have associated question" do
+      expect(entry.responses.first.question).to be_a Question
+    end
+  end
+  
   describe "initialization (using CDAI module)" do
     let(:entry) { create :cdai_entry }
     it "responds to CDAI specific methods" do
@@ -35,6 +42,9 @@ describe Entry do
     it "responds to missing methods by checking if a Question of that name exists" do
       expect(entry.methods).to_not include :stools
       expect(entry.stools).to be_an Integer
+    end
+    it "an actual missing method supers to method_missing" do
+      expect{ entry.nosuchmethod }.to raise_error NoMethodError
     end
   end
   

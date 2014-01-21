@@ -90,13 +90,13 @@ feature "update a entry" do
       returns_code 200
     end
     
-    # TODO enforce some attributes? currently there are none
-    # scenario "blank required attribute" do
-    #   expect(entry.weight_current).to eq 140
-    #   patch entry_path(entry, {entry: {date: ""}}.merge(api_credentials(user)))
-    #   expect(entry.reload.weight_current).to eq 140
-    #   returns_code 422
-    # end
+    scenario "response with bad value" do
+      attrs = entry_attributes
+      attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = "valuenogood"
+      
+      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      returns_code 422
+    end
     
   end
 end

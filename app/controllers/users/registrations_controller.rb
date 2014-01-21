@@ -11,10 +11,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       u.permit(:weight, :gender,
         :email, :password, :password_confirmation)
     end
-    devise_parameter_sanitizer.for(:account_update) do |u|
-      u.permit(:weight,
-        :email, :password, :password_confirmation, :current_password)
-    end
+    # devise_parameter_sanitizer.for(:account_update) do |u|
+    #   u.permit(:weight,
+    #     :email, :password, :password_confirmation, :current_password)
+    # end
   end
  
 end

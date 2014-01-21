@@ -17,6 +17,15 @@ describe "Chart" do
       expect(coordinates.first).to have_key(:y)
     end
     
+    it "strips entries without scores from coordinates" do
+      entry = Entry.find coordinates.first[:entry_id]
+      entry.responses.delete entry.responses.first
+      entry.scores.first.write_attribute "value", nil
+      entry.save
+
+      expect(user.reload.cdai_score_coordinates.count).to eq 2
+    end
+    
     it "should return unix time and score for x and y" do
       expect(DateTime.strptime(coordinates.first[:x].to_s, "%s")).to be_a DateTime
       expect(coordinates.first[:y]).to be_an Integer

@@ -9,20 +9,8 @@ class Question < ActiveRecord::Base
   validates_presence_of     :section, :message => "can't be blank"
   validates_numericality_of :section, :message => "is not a number"
   
-  # validate :input_attributes
-  
   def localized_name
     I18n.t("questions.#{self.name}")
-  end
-  
-  private
-  def input_attributes
-    self.errors.add :inputs, "No options present" if kind == "select" and not inputs.count > 1
-    
-    inputs.each do |input|
-      self.errors.add :inputs, "Missing value on option" if input[:value].nil?
-    end
-    
   end
   
 end

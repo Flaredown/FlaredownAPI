@@ -7,7 +7,7 @@ class Response
   property :value, Integer
   
   def question
-    Question.find_by_name(self.id)
+    Question.find_by_name(name)
   end
   def id
     "#{name}_#{base_doc.id}"
