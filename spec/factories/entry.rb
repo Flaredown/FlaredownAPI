@@ -12,7 +12,7 @@ FactoryGirl.define do
   factory :cdai_entry, class: Entry do  
     user
     catalogs ["cdai"]
-    sequence(:date) {|n| (n-1).days.from_now}
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
     
     

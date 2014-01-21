@@ -35,12 +35,14 @@ App.AppQuestionerComponent = Ember.Component.extend
   .property("questions.section", "section", "responses.@each")
   
   sectionChanged: Em.observer ->
+    @set "section", 1 unless @get("sections").mapBy("number").contains @get("section")
+    
     that = @
     Em.run.next -> 
       that.setFocus()
       that.$("input").attr("tabindex", "1") if that.$("input")
       that.$("button[type=submit]").attr("tabindex", "2") if that.$("button[type=submit]")
-  .observes("section")
+  .observes("section").on("init")
   
   keyDown: (e) ->    
     unless $(document.activeElement).is("input")

@@ -1,8 +1,8 @@
 ul: each input in response.question.inputs
   li
     form
-      = input type="number" valueBinding="response.value" submit="setResponse response response.value"
-      button type="submit" click="setResponse response response.value" Continue
+      = input class="response-input" type="number" valueBinding="response.value" submit="setResponse response response.value"
+      button.response-continue-link type="submit" click="setResponse response response.value" Continue
     ul
       li meta_label: {{input.meta_label}}
       li label: {{input.label}}

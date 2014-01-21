@@ -1,6 +1,6 @@
 ul: each input in response.question.inputs
   li
-    a href="" click="setResponse response input.value"
+    a.response-input-link href="" click="setResponse response input.value"
       |Set to: 
       strong= input.value
     ul

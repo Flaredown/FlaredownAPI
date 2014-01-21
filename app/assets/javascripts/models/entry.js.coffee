@@ -38,7 +38,7 @@ App.Entry = DS.Model.extend
             normalized.push(response)
             response.set("value", parseInt(response.get("value")) )
         when "checkbox"
-          response.set("value", false) unless response.get("value")
+          response.set("value", 0) unless response.get("value")
           normalized.push(response)
             
     normalized.map (response) -> {name: response.get("name"), value: response.get("value")}

@@ -1,1 +1,1 @@
-button click="setResponse response true" Yes
+button click="setResponse response 1" Yes

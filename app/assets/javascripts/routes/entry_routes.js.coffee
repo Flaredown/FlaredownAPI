@@ -9,16 +9,12 @@ App.EntryRoute = App.AuthenticatedRoute.extend
 
   model: (params, transition, queryParams) ->
     self = @
-    date = null
+    date = params.date
     today = moment().format("MMM-DD-YYYY")
     @set "section", parseInt params.section
     
-    
-    if params.date is "today" or today is params.date
-      date = today
-    else
-      date = moment(params.date).format("MMM-DD-YYYY")
-    
+    date = today if params.date is "today" or today is params.date
+  
     controller = @controllerFor("entry")
     if controller
       return controller.get("model") if controller.get("model.entryDate") is date
@@ -42,6 +38,4 @@ App.EntryRoute = App.AuthenticatedRoute.extend
     @render "entries/modal"
     
   actions:
-    nextSection: -> debugger
-    previousSection: -> debugger
     close: -> @transitionTo "entries.index"
