@@ -15,7 +15,7 @@ App.EntriesChartView = Em.View.extend
     coordinates = @get("controller.user.cdai_score_coordinates")
 
     if coordinates
-      coordinates = coordinates.map (coordinate) -> Em.Object.createWithMixins App.ChartDatum, coordinate
+      coordinates = coordinates.map (coordinate) -> App.ChartDatum.create coordinate, target: that.get("controller.target")
     
       $container  = $(".chart-container")
       margin      = {top: 20, right: 10, bottom: 20, left: 10}
@@ -80,7 +80,7 @@ App.EntriesChartView = Em.View.extend
             cy: (d) -> y d.y
             text: (d) -> d.x
             r: 6
-          .on("click", (d,i) -> debugger)
+          .on("click", (d,i) -> d.goTo())
           .on("mouseover", (d,i) -> d3.select(this).transition().attr("r", 9) )
           .on("mouseout", (d,i) -> d3.select(this).transition().attr("r", 6) )
         
@@ -91,77 +91,8 @@ App.EntriesChartView = Em.View.extend
            class: "score-text"
            dx: (d) -> x(d.x)+15
            dy: (d) -> y d.y
-         .text (d) -> "#{moment(new Date(d.x)).format("MM/DD")} - #{d.y}"
+         .text (d) -> d.get("datumText")
          
-      
-         
-      # text = svg.append("text")
-      #   .text("0%")
-      #   .attr("text-anchor", "middle")
-      #   .style("font-size",fontSize+"px")
-      #   .attr("dy",fontSize / 3)
-      #   .attr("dx",2);
-      
-      # svg.selectAll(".vline").data(d3.range(coordinates.length)).enter()
-      #     .append("line")
-      #     .attr("x1", (d) -> return d * 40)
-      #     .attr("x2", (d) -> return d * 40)
-      #     .attr("y1", (d) -> return 0)
-      #     .attr("y2", (d) -> return 500)
-      #     .style("stroke", "#fff")
-          
-      
-        
-    # @$(".chart").html("")
-    # @$(".y-axis").html("")
-    # @$(".legend").html("")
-    # 
-    # data = @get("controller.score_coordinates")
-    # unless Em.isEmpty(data)
-    #   chart = new Rickshaw.Graph
-    #     element: @$(".chart")[0]
-    #     renderer: "line"
-    #     interpolation: "linear"
-    #     width: 1000
-    #     height: 400
-    #     min: 0
-    #     series: [
-    #       {
-    #         name: "Score"
-    #         data: data
-    #         color: "#f39c12"
-    #       }
-    #     ]
-    #     
-    #   y_axis = new Rickshaw.Graph.Axis.Y
-    #     graph: chart
-    #     orientation: "left"
-    #     tickFormat: Rickshaw.Fixtures.Number.formatKMBT
-    #     element: @$(".y-axis")[0]
-    #     ticksTreatment: "fancy"
-    #   
-    #   # x_axis = new Rickshaw.Graph.Axis.X
-    #   #   graph: chart
-    #   #   width: 1000
-    #   #   element: @$(".x-axis")[0]
-    #   #   tickFormat: (x) -> moment(new Date(x)).format("MM/DD")
-    #   #   ticksTreatment: "fancy"
-    #         
-    #   hoverDetail = new Rickshaw.Graph.HoverDetail
-    #     graph: chart,
-    #     xFormatter: (x) -> moment(new Date(x)).format("MM/DD")
-    #     yFormatter: (y) -> y
-    # 
-    #   chart.offset   = "zero"
-    # 
-    #   chart.renderer.unstack  = false
-    #   chart.renderer.offset  = false
-    # 
-    #   chart.render()
-    # 
-    #   @set("chart", chart)
-    #   @watchChart()
-      
   watchChart: Ember.observer ->
     chart = @get("chart")
     if chart
