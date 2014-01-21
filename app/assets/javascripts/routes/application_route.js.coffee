@@ -1,7 +1,4 @@
-App.Router.map ->
-  @resource "entries", path: "/", ->
-    @route "entry", path: "/entry/:date"
-    
+App.Router.map ->    
   @resource "login", path: "login"
   @resource "register", path: "register"
 

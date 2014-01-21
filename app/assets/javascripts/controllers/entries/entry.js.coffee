@@ -1,5 +1,10 @@
-App.EntriesEntryController = Em.ObjectController.extend
+App.EntryController = Em.ObjectController.extend
   needs: ["user"]
+  
+  sectionChanged: Em.observer ->
+    if @get("section")
+      @transitionToRoute("entry.index", @get("entryDateParam"), @get("section"))
+  .observes("section")
     
   actions:
     save: ->

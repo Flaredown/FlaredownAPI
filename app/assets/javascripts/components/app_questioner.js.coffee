@@ -1,6 +1,6 @@
 App.AppQuestionerComponent = Ember.Component.extend
   elementId: "questioner"
-  section: 1
+  sectionBinding: "entry.section"
   currentGroup: null
   
   questionsBinding: "entry.questions"
@@ -22,12 +22,6 @@ App.AppQuestionerComponent = Ember.Component.extend
     @$().attr({ tabindex: 1 })
     @$().focus()
   ).on('didInsertElement')
-      
-  
-  sectionResponses: Em.computed ->
-    names = @get("questions").filterBy("section", @get("section")).mapBy("name")
-    @get("responses").filter (response) -> names.contains(response.get("name"))
-  .property("questions.section", "section", "responses.@each")
   
   sections: Em.computed ->
     self = @
@@ -35,10 +29,17 @@ App.AppQuestionerComponent = Ember.Component.extend
       {number: section, selected: section is self.get("section")}
   .property("questions.section", "section")
   
+  sectionResponses: Em.computed ->
+    names = @get("questions").filterBy("section", @get("section")).mapBy("name")
+    @get("responses").filter (response) -> names.contains(response.get("name"))
+  .property("questions.section", "section", "responses.@each")
+  
   sectionChanged: Em.observer ->
     that = @
-    Em.run.next -> that.$("input").attr("tabindex", "1") if that.$("input")
-    Em.run.next -> that.$("button[type=submit]").attr("tabindex", "2") if that.$("button[type=submit]")
+    Em.run.next -> 
+      that.setFocus()
+      that.$("input").attr("tabindex", "1") if that.$("input")
+      that.$("button[type=submit]").attr("tabindex", "2") if that.$("button[type=submit]")
   .observes("section")
   
   keyDown: (e) ->    
@@ -66,6 +67,7 @@ App.AppQuestionerComponent = Ember.Component.extend
     setSection: (section) -> 
       if @get("sections").mapBy("number").contains(section)
         @set("section", section)
-        @setFocus()
-    nextSection: -> @set("section", @get("section")+1) unless @get("section") is @get("sections.lastObject.number")
-    previousSection: -> @set("section", @get("section")-1) unless @get("section") is @get("sections.firstObject.number")
+    nextSection: -> 
+      @set("section", @get("section")+1) unless @get("section") is @get("sections.lastObject.number")
+    previousSection: -> 
+      @set("section", @get("section")-1) unless @get("section") is @get("sections.firstObject.number")

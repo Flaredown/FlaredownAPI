@@ -3,7 +3,6 @@ App.EntriesModalView = Em.View.extend
   classNames: "modal fade in".w()
   
   attributeBindings: "tabindex role ariaLabelledby".w()
-  # tabindex: "-1"
   role: "dialog"
   ariaLabelledby: Em.computed(-> @get("controller.title")).property("controller.title")
     

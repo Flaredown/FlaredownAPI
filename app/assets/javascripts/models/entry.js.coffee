@@ -5,16 +5,25 @@ App.Entry = DS.Model.extend
   questions:  hasMany("question")
   responses:  hasMany("response")
   catalogs:   attr()
-  date:       attr("date")
+  date:       attr("string")
   
   # questions:  attr("object")
   # responses:  attr("object")
   # treatments: attr("object")
   # catalogs:   attr("object")
   
-  jsDate: Em.computed ->
-    Date.parse "#{@get("date")}"
+  entryDate: Em.computed -> 
+    moment(@get("date")).format("MMM-DD-YYYY")
   .property("date")
+  
+  entryDateParam: Em.computed -> 
+    return "today" if moment().format("MMM-DD-YYYY") is @get("entryDate")
+    @get("entryDate")
+  .property("entryDate")
+  
+  # jsDate: Em.computed ->
+  #   Date.parse "#{@get("date")}"
+  # .property("date")
   
   responsesData: Em.computed ->
     normalized = Em.A([])

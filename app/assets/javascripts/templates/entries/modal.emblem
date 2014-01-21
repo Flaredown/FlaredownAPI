@@ -1,8 +1,8 @@
 .modal-dialog
   .modal-content
     .modal-header
-      button.close click="close" type="button" aria-hidden="true" |&times;
+      button.close click="close" type="button" aria-hidden="true" | &times;
       h4.modal-title= controller.title
-    .modal-body = app-questioner entry=this user=user action="save" modal=true
+    .modal-body = app-questioner controller=this entry=this user=user action="save" modal=true
     .modal-footer
       button.btn.btn-default type="button" click="close" Close
