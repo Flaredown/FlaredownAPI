@@ -79,15 +79,16 @@ App.EntriesChartView = Em.View.extend
             cx: (d) -> x d.x
             cy: (d) -> y d.y
             text: (d) -> d.x
-            r: 10
-          .on("click", (d,i) -> d.send("activate"))
-          .on("mouseover", (d,i) -> d3.select(this).transition().attr("r", 15) )
-          .on("mouseout", (d,i) -> d3.select(this).transition().attr("r", 10) )
+            r: 6
+          .on("click", (d,i) -> debugger)
+          .on("mouseover", (d,i) -> d3.select(this).transition().attr("r", 9) )
+          .on("mouseout", (d,i) -> d3.select(this).transition().attr("r", 6) )
         
             
       svg.selectAll("text.score-text").data(coordinates).enter()
        .append("text")
          .attr
+           class: "score-text"
            dx: (d) -> x(d.x)+15
            dy: (d) -> y d.y
          .text (d) -> "#{moment(new Date(d.x)).format("MM/DD")} - #{d.y}"
