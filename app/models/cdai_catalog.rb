@@ -17,7 +17,7 @@ module CdaiCatalog
         ["stools", [*0..50]],
         ["ab_pain", [*0..3]],
         ["general", [*0..4]],
-        ["mass", [0,3,5]],
+        ["mass", [0,2,5]],
         ["hematocrit", [*0..100]],
         ["weight_current", [*25..500]],
         ["weight_typical", [*25..500]],

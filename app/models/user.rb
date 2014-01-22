@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   #   coords
   # end
   def cdai_score_coordinates
-    coords = self.entries.map do |entry|
+    coords = self.entries.to_a.map do |entry|
       score = entry.scores.select{|s| s[:name] == "cdai"}.first.value
       if score and not score.zero?
         {entry_id: entry.id, x: entry.date.to_time.to_ms, y: score}
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
       end
     end
     coords ||= []
-    coords.compact
+    coords.compact.sort_by{|c| c[:x]}
   end
   
 end

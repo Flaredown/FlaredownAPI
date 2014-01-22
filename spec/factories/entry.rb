@@ -5,7 +5,7 @@ end
 FactoryGirl.define do
   factory :entry do  
     user
-    sequence(:date) {|n| (n-1).days.from_now}
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
   end
 end
 FactoryGirl.define do
@@ -15,14 +15,13 @@ FactoryGirl.define do
     sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
     
-    
     before(:create) do |entry|
       setup_cdai_questions
       
       entry.responses << build(:response, {name: :stools      , value: [*0..10].sample})
       entry.responses << build(:response, {name: :ab_pain     , value: [*0..3].sample})
       entry.responses << build(:response, {name: :general     , value: [*0..4].sample})
-      entry.responses << build(:response, {name: :mass        , value: [0,3,5].sample})
+      entry.responses << build(:response, {name: :mass        , value: [0,2,5].sample})
       entry.responses << build(:response, {name: :hematocrit  , value: [*40..50].sample})
       
       entry.responses << build(:response, {name: :complication_arthritis      , value: random_boolean})

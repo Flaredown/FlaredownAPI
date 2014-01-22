@@ -27,12 +27,13 @@
 # = require_tree ../../app/assets/javascripts/components
 # = require_tree ../../app/assets/javascripts/initializers
 # = require_tree ../../app/assets/javascripts/components
-# = require_tree ../../app/assets/javascripts/helpers
+# require_tree ../../app/assets/javascripts/helpers
 # = require_tree ../../app/assets/javascripts/views
 
 # = require_tree ./fixtures
 
 # = require support/adapter
+# = require support/sinon-1.7.3
 # = require support/helpers
 # = require support/chai
 # = require support/chai-jquery
@@ -88,6 +89,8 @@ beforeEach( (done) ->
   
   T.store   = lookupStore()
   T.router  = lookupRouter()
+  T.server  = fakeServer()
+  T.server.autoRespond = true
   
   Ember.run( ->
     # Advance App readiness, which was deferred when the app
