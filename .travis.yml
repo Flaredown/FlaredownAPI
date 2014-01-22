@@ -16,6 +16,7 @@ before_script:
 script: 
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - bundle exec rspec spec
+  - bundle exec teaspoon
   
 env:
   SECRET_TOKEN: f725b5b4c0d0129c23bf080fe9048a9475c3f2f30621d43cd23de8a511b7655a9a94bb3233f2a8528adad590360829166816d0aedcf9f0a85e3b2ac45784ec96
