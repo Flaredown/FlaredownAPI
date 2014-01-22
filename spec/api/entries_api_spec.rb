@@ -113,7 +113,7 @@ def response_attributes
     "complication_other_fistula"=>0,
     "complication_fever"=>1,
     "opiates"=>0,
-    "mass"=>3,
+    "mass"=>2,
     "hematocrit"=>40,
     "weight_current"=>140,
     "weight_typical"=>150
