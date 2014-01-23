@@ -121,4 +121,4 @@ afterEach ->
   # Restore XHR
   T.server.restore()
 
-all -> Ember.testing = false
+after -> Ember.testing = false

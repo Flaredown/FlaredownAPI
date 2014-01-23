@@ -22,9 +22,32 @@ describe "App.EntryController", ->
       Em.run -> 
         expect(T.controller.get("section")).to.eql 2
         
-    it "changes sections#selected when section changes", ->
-      
+    it "changes sections#selected when section changes", ->  
       Em.run ->
         T.controller.send("setSection",2)
         expect(T.controller.get("section")).to.eql 2
         expect(T.controller.get("sections")[1].selected).to.be.true
+        
+    it "changes sections#selected when section changes", ->  
+      Em.run ->
+        T.controller.send("setSection",2)
+        expect(T.controller.get("section")).to.eql 2
+        expect(T.controller.get("sections")[1].selected).to.be.true
+    
+    describe "#actions", ->    
+      describe "#updateResponse", ->
+        beforeEach ->
+          T.server.respondWith("POST", "/entries/#{T.entry_raw.id}", [200, {"Content-Type": "application/json"}, ""])
+          Em.run ->
+            T.response = T.controller.get("responses.firstObject")
+            T.controller.send("setResponse", T.response, 99)
+            Em.run ->
+              T.server.respond()
+        
+        it "sets response value", -> 
+          expect(T.response.get("value")).to.eql 99
+        it "changes section", -> 
+          expect(T.controller.get("section")).to.eql 2
+        it "sends updates to server", -> 
+          responses = Em.A(T.server.responses).filter (res) -> res.method is "POST" and res.url is "/entries/#{T.entry_raw.id}"
+          expect(responses).to.have.length 1

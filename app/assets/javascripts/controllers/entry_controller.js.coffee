@@ -20,7 +20,7 @@ App.EntryController = Em.ObjectController.extend
   
   actions:
     setResponse: (response, value) -> 
-      response.set("value", value)
+      response.set("value", parseInt(value))
       @send("nextSection") if @get("sectionResponses.length") == 1
       @send("save")
     
@@ -45,4 +45,4 @@ App.EntryController = Em.ObjectController.extend
         success: (response) -> 
           null
         error: (response) ->
-          debugger
+          console.log "response error !!!"

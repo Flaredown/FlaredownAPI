@@ -21,28 +21,26 @@ App.Entry = DS.Model.extend
     @get("entryDate")
   .property("entryDate")
   
-  # jsDate: Em.computed ->
-  #   Date.parse "#{@get("date")}"
-  # .property("date")
-  
-  responsesData: Em.computed ->
-    normalized = Em.A([])
-    @get("responses").forEach (response) ->
-      switch response.get("question.kind")
-        when "number"
-          if response.get("value")
-            normalized.push(response)
-            response.set("value", parseInt(response.get("value")) )
-        when "select"
-          if response.get("value")
-            normalized.push(response)
-            response.set("value", parseInt(response.get("value")) )
-        when "checkbox"
-          response.set("value", 0) unless response.get("value")
-          normalized.push(response)
-            
-    normalized.map (response) -> {name: response.get("name"), value: response.get("value")}
-  .property("responses.@each.value")
+  validResponses: Em.computed.filter("responses", (response) -> !Em.isEmpty response.get("value"))
+  responsesData: Em.computed.map "validResponses",
+    (response) -> {name: response.get("name"), value: response.get("value")}
+      
+  # responsesData: Em.computed ->
+  #   normalized = Em.A([])
+  #   @get("responses").forEach (response) ->
+  #     switch response.get("question.kind")
+  #       when "number"
+  #         if response.get("value")
+  #           normalized.push(response)
+  #           response.set("value", parseInt(response.get("value")) )
+  #       when "select"
+  #         if response.get("value")
+  #           normalized.push(response)
+  #           response.set("value", parseInt(response.get("value")) )
+  #       when "checkbox"
+  #         response.set("value", 0) unless response.get("value")
+  #         normalized.push(response)      
+  # .property("responses.@each.value")
   
 App.EntrySerializer = DS.ActiveModelSerializer.extend DS.EmbeddedRecordsMixin,
   attrs:
