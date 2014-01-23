@@ -1,6 +1,0 @@
-= app-modal elementId="entry-modal" title=id
-  = app-questioner entry=this user=user action="save" modal=true
-  
-h1= id
-= responses.length
-= app-questioner entry=this user=user action="save"

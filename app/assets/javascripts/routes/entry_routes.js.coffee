@@ -1,12 +1,10 @@
 App.Router.map ->
   @resource "entries", path: "/", ->
-  @resource "entry", path: "/entry/:date/:section", ->
+  @route "entry", path: "/entry/:date/:section"
 
 App.EntriesIndexRoute = App.AuthenticatedRoute.extend()
-  # model: -> @store.find("entry")
   
 App.EntryRoute = App.AuthenticatedRoute.extend
-
   model: (params, transition, queryParams) ->
     self = @
     date = params.date
@@ -16,26 +14,31 @@ App.EntryRoute = App.AuthenticatedRoute.extend
     date = today if params.date is "today" or today is params.date
   
     controller = @controllerFor("entry")
-    if controller
-      return controller.get("model") if controller.get("model.entryDate") is date
-      
-    $.get("entries/#{date}", {by_date: true}).then(
-      (response) ->
-        if response.id
-          self.store.find("entry", response.id)
-        else
-          self.store.createRecord("entry", {catalogs: ["cdai"]}).save()
-      ,
-      (response) ->
-        debugger
-    )
+    if controller and controller.get("model.entryDate") is date
+      controller.get("model")
+    else      
+      $.get("entries/#{date}", {by_date: true}).then(
+        (response) ->
+          if response.id
+            self.store.find("entry", response.id)
+          else
+            self.store.createRecord("entry", {catalogs: ["cdai"]}).save()
+        ,
+        (response) ->
+          debugger
+      )
     
-  renderTemplate: (controller, model) ->
-    model.set "section", @get("section")
-    controller.setProperties
-      "title": model.get("id")
-      
-    @render "entries/modal"
+  afterModel: (model, transition, params) ->
+    model.set("section", @get("section"))
+    
+    # Insert all possible responses for forms to depend on
+    model.get("questions").forEach (question) ->
+      _uuid = uuid question.get("name"), model.get("id")
+      response = model.get("responses").findBy("id", _uuid )
+      if response
+        response.set("question", question)
+      else
+        model.get("responses").createRecord({id: _uuid , name: question.get("name"), value: null, question: question})
     
   actions:
     close: -> @transitionTo "entries.index"

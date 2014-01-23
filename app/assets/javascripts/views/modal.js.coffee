@@ -1,4 +1,6 @@
-App.EntriesModalView = Em.View.extend
+App.ModalView = Em.View.extend
+  templateName: "modal"
+  
   tagName: "div"
   classNames: "modal fade in".w()
   
@@ -11,4 +13,5 @@ App.EntriesModalView = Em.View.extend
     @$().bind "hide.bs.modal", $.proxy( (-> @get("controller").transitionToRoute("entries.index")), @)
     
   willDestroyElement: ->
+    @$().unbind "hide.bs.modal"
     @$().modal "hide"

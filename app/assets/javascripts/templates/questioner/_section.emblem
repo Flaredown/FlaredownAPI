@@ -1,7 +1,6 @@
 section 
 h4 Section {{section}} of {{sections.length}}
 
-= sectionsResponses.length
 each response in sectionResponses
   strong= response.name
   = partial response.question.inputPartial

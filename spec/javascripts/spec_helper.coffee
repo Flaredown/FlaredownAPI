@@ -11,16 +11,24 @@
 
 # EMBER
 # = require lib/handlebars-v1.1.2
-# = require lib/ember-canary
+
+#  require lib/ember-canary
+# = require lib/ember-1.4b3
+#  require lib/ember-1.3.1
+#  require lib/ember-1.2.0
+
 # = require lib/ember-data-canary
 
 # = require_tree ../../app/assets/javascripts/templates
 
 # = require support/bootstrap
 
-# = require support/ember_test_app
+# = require ../../app/assets/javascripts/cdai_app
+# = require ../../app/assets/javascripts/app_helpers
 
 # = require_tree ../../app/assets/javascripts/routes
+# = require support/no_login_required
+
 # = require_tree ../../app/assets/javascripts/mixins
 # = require_tree ../../app/assets/javascripts/models
 # = require_tree ../../app/assets/javascripts/controllers
@@ -41,7 +49,9 @@ window.expect = chai.expect
 
 document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
 document.write('<style>#ember-testing-container { position: absolute; background: white; bottom: 0; right: 0; width: 640px; height: 384px; overflow: auto; z-index: 9999; border: 1px solid #ccc; } .ember-test { zoom: 50%; }</style>');
-App.rootElement = '#ember-testing';
+App.rootElement = '#ember-testing'
+
+Ember.Test.adapter = Ember.Test.MochaAdapter.create()
 
 # This hook defers the readiness of the application, so that you can start 
 # the app when your tests are ready to run. It also sets the router's location
@@ -69,17 +79,18 @@ App.setupForTesting()
 App.injectTestHelpers()
 
 # Prevent the router from manipulating the browser's URL.
-App.Router.reopen location: 'none'
+# App.Router.reopen location: 'none'
 
 # Useful for placing local test vars
 window.Test ||= {}
 # Shorthand
 window.T = Test
 
-beforeEach( (done) ->
-  # Fake XHR
-  # window.server = TestUtil.fakeServer()
-
+beforeEach (done) ->
+  Ember.run -> 
+    console.log "\n----- RESET -----\n"
+    App.reset()
+    
   # Prevent automatic scheduling of runloops. For tests, we
   # want to have complete control of runloops.
   Ember.testing = true
@@ -90,9 +101,9 @@ beforeEach( (done) ->
   T.store   = lookupStore()
   T.router  = lookupRouter()
   T.server  = fakeServer()
-  T.server.autoRespond = true
+  # T.server.autoRespond = true
   
-  Ember.run( ->
+  Ember.run ->
     # Advance App readiness, which was deferred when the app
     # was created.
 
@@ -101,21 +112,14 @@ beforeEach( (done) ->
     App.advanceReadiness()
 
     # When App readiness promise resolves, setup is complete
-    App.then( ->
+    App.then ->
       done()
-    )
-  )
-)
 
-afterEach( ->
-  # Reset App
-  Ember.run( ->
-    App.reset()
-  )
-
+afterEach ->
   # reset all test variables!
   window.Test = {}
 
   # Restore XHR
-  # window.server.restore()
-)
+  T.server.restore()
+
+all -> Ember.testing = false

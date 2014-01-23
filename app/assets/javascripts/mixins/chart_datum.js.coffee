@@ -7,4 +7,4 @@ App.ChartDatum = Em.Controller.extend
     moment(@get("x")).format("MMM-DD-YYYY")
   .property("x")
   
-  goTo: -> @transitionToRoute("entry.index", @get("entryDate"), 1)
+  goTo: -> @transitionToRoute("entry", @get("entryDate"), 1)

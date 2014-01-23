@@ -1,0 +1,12 @@
+ul: each catalog in catalogs
+  li= catalog
+  
+nav
+  a.previous-link href="" click="previousSection" <<
+  each section in sections
+    |&nbsp;&nbsp;
+    a href="" click="setSection section.number" class={::section-number-link section.selected:selected}= section.number
+  |&nbsp;&nbsp;
+  a.next-link href="" click="nextSection" >>
+
+= partial "questioner/section"

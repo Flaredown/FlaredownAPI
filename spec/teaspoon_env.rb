@@ -28,7 +28,7 @@ Teaspoon.setup do |config|
   #config.color               = true
 
   # Coverage (requires istanbul -- https://github.com/gotwarlost/istanbul)
-  #config.coverage            = true
-  #config.coverage_reports    = "text,html,cobertura"
-  #config.coverage_output_dir = "coverage"
+  config.coverage            = true
+  config.coverage_reports    = "text,html,cobertura,lcov"
+  config.coverage_output_dir = "js_coverage"
 end

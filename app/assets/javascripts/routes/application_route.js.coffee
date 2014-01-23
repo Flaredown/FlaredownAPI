@@ -5,8 +5,8 @@ App.Router.map ->
 App.AuthenticatedRoute = Ember.Route.extend
   beforeModel: (transition) ->
     login = @controllerFor('login')
-    if (!login.get("isAuthenticated"))
-      @redirectToLogin(transition)
+    # if (!login.get("isAuthenticated"))
+    #   @redirectToLogin(transition)
       
   redirectToLogin: (transition) ->
     loginController = @controllerFor('login')
