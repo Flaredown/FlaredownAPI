@@ -32,10 +32,10 @@
 # = require_tree ../../app/assets/javascripts/mixins
 # = require_tree ../../app/assets/javascripts/models
 # = require_tree ../../app/assets/javascripts/controllers
-# = require_tree ../../app/assets/javascripts/components
+#  require_tree ../../app/assets/javascripts/components
 # = require_tree ../../app/assets/javascripts/initializers
-# = require_tree ../../app/assets/javascripts/components
-# require_tree ../../app/assets/javascripts/helpers
+#  require_tree ../../app/assets/javascripts/components
+#  require_tree ../../app/assets/javascripts/helpers
 # = require_tree ../../app/assets/javascripts/views
 
 # = require_tree ./fixtures
