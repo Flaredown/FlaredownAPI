@@ -45,5 +45,4 @@
 //= require_tree ./views
 
 //= require_tree ./controllers
-// require_tree ./components
 //= require_tree ./initializers
