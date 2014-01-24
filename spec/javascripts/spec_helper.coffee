@@ -3,7 +3,7 @@
 # = require lib/moment.min
 # = require lib/moment-timezone
 # = require lib/progress_bar
-# = require lib/d3.v3.min
+# = require lib/d3.v3
 
 # BOOTSTRAP
 # = require bootstrap/modal
