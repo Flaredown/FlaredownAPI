@@ -37,8 +37,8 @@ describe Entry do
       with_resque{ entry.save }; entry.reload
     end
     
-    it "sets a class variable for catalog score components" do
-      expect(entry.cdai_score_components).to include :stools
+    it "includes a constant for for catalog score components" do
+      expect(Entry::CDAI_SCORE_COMPONENTS).to include :stools
     end
     it "has a list of applicable questions" do
       expect(entry.class.question_names).to include :stools

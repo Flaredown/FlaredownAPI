@@ -21,11 +21,11 @@ describe User do
     it "has a list of catalogs approaching their expected use" do
       process_delayed_queue_for_day(run: true)
       expect(user.upcoming_catalogs).to be_a Array
-      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.cdai_expected_use[-2]
+      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.class::CDAI_EXPECTED_USE[-2]
     end
     it "drops catalog as they move out of expected use range" do
       process_delayed_queue_for_day(run:true)
-      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.cdai_expected_use[-2]
+      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.class::CDAI_EXPECTED_USE[-2]
       
       8.times do |i|
         process_delayed_queue_for_day(date: Date.today+(i+2.days), run:true)
@@ -35,9 +35,9 @@ describe User do
     end
     it "creating a new entry for catalog resets upcoming score" do
       process_delayed_queue_for_day(run:true)
-      expect(user.upcoming_catalogs.first[1].to_i).to be < entry.cdai_expected_use.last
+      expect(user.upcoming_catalogs.first[1].to_i).to be < entry.class::CDAI_EXPECTED_USE.last
       with_resque{ create :cdai_entry, user: user }
-      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.cdai_expected_use.last
+      expect(user.upcoming_catalogs.first[1].to_i).to eql entry.class::CDAI_EXPECTED_USE.last
     end
   end
 

@@ -29,13 +29,13 @@ module CatalogScore
   end
   
   def calculate_score_components
-    send("#{@catalog}_score_components").map do |component|
+    self.class.const_get("#{@catalog.upcase}_SCORE_COMPONENTS").map do |component|
       {name: component.to_s, score: send("#{@catalog}_#{component}_score")}
     end
   end
   
   def update_upcoming_catalog(catalog)
-    REDIS.zadd("#{user_id}:upcoming_catalogs", send("#{catalog}_expected_use").last, catalog)
+    REDIS.zadd("#{user_id}:upcoming_catalogs", self.class.const_get("#{catalog.upcase}_EXPECTED_USE").last, catalog)
   end
 
 end

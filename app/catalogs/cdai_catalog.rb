@@ -10,7 +10,7 @@ module CdaiCatalog
   # INTEGER_QUESTIONS = %i( stools ab_pain general mass hematocrit weight_current weight_typical )
   
   included do |base_class|
-    base_class.question_names = base_class.question_names.push(*CDAI_QUESTIONS).uniq
+    base_class.question_names = base_class.question_names | CDAI_QUESTIONS
     
     validate :response_ranges
     def response_ranges
@@ -48,10 +48,6 @@ module CdaiCatalog
     
   end
   
-  def cdai_expected_use
-    CDAI_EXPECTED_USE
-  end
-  
   def valid_cdai_entry?
     return false if responses.empty?
     (CDAI_QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
@@ -62,8 +58,6 @@ module CdaiCatalog
 		end_range = date
 		@past_entries = Entry.by_date.startkey(start_range).endkey(end_range).to_a
   end
-  
-  def cdai_score_components; CDAI_SCORE_COMPONENTS; end
   
   def setup_cdai_scoring
     last_7_entries
