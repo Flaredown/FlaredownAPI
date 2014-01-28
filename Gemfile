@@ -18,7 +18,10 @@ gem "devise"
 gem "active_model_serializers"
 
 gem "resque"
-gem "redis-rails"
+gem "resque-scheduler", require: "resque_scheduler"
+gem "redis"
+
+gem "hashie"
 
 group :production do
   gem "rails_12factor" # for heroku asset compilation

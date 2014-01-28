@@ -5,6 +5,7 @@ feature "find a user's entries" do
     
   scenario "see it's glory" do
     entry = create :cdai_entry, user: user
+    with_resque{entry.save}; entry.reload
     get entry_path(entry, api_credentials(user))
     expect(response.body).to be_json_eql EntrySerializer.new(entry).to_json
     returns_code 200

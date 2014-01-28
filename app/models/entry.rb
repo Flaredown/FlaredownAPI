@@ -1,5 +1,6 @@
 class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
+  include CatalogScore
   AVAILABLE_CATALOGS = %w( cdai )
   
   @queue = :entries
@@ -11,6 +12,7 @@ class Entry < CouchRest::Model::Base
   end
   
   before_save :include_catalogs
+  after_save :enqueue
   
   belongs_to :user
   
@@ -31,6 +33,24 @@ class Entry < CouchRest::Model::Base
   def questions
     Question.where(catalog: self.catalogs)
   end
+
+  def enqueue
+    Resque.enqueue(Entry, self.id)
+  end
+  
+  def self.perform(entry_id)
+    entry = Entry.find(entry_id)
+    
+    entry.catalogs.each do |catalog|
+      entry.update_upcoming_catalog(catalog)
+      entry.send("save_score", catalog)
+      Entry.skip_callback(:save, :after, :enqueue)
+      entry.save
+      Entry.set_callback(:save, :after, :enqueue)
+    end
+    
+    true
+  end
   
   private
   def include_catalogs
@@ -43,6 +63,8 @@ class Entry < CouchRest::Model::Base
     if self.question_names.include?(name)
       response = responses.select{|r| r.name.to_sym == name}.first
       return response.value if response
+    elsif match = name.to_s.match(/(\w+)_score\Z/)
+      self.scores.select{|s| s[:name] == match[1] }.first.value
     else
       super(name, *args)
     end

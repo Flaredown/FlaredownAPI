@@ -7,5 +7,6 @@ class UserSerializer < ActiveModel::Serializer
     :authentication_token,
     :weight,
     :gender,
+    :upcoming_catalogs,
     :cdai_score_coordinates
 end

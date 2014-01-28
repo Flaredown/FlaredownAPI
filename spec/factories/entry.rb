@@ -35,7 +35,9 @@ FactoryGirl.define do
       entry.responses << build(:response, {name: :weight_current, value: 140})
       entry.responses << build(:response, {name: :weight_typical, value: 150})
       Entry.class_eval{ include CdaiCatalog }
-      entry.score_cdai_entry
+    end
+    after(:create) do |entry|
+      Entry.perform entry.id
     end
     
   end

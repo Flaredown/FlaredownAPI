@@ -24,6 +24,7 @@ feature "Entry Modal" do
     expect_fragment_is "/entry/today/2"
   end  
   scenario "navigate through yesterday's entry" do
+    Capybara.current_driver = :selenium # for clicking canvas stuff
     login
     entry = Entry.by_date.last
     entry_date = entry.date.strftime('%b-%d-%Y')

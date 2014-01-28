@@ -23,6 +23,8 @@ Capybara.default_selector   = :css
 Capybara.ignore_hidden_elements = false
 
 require 'resque_spec'
+# require 'resque_spec/scheduler'
+
 require "json_spec"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -77,15 +79,16 @@ end
 
 DatabaseCleaner.strategy = :truncation
 DatabaseCleaner.clean # cleanup of the test
-# REDIS.flushdb
+REDIS.flushdb
 
 RSpec.configure do |config|
   config.around(:each) do |example|
     ResqueSpec.reset!
+    Resque::Scheduler.mute = true
     FactoryGirl.reload
     Capybara.current_driver = :webkit
     example.run
-    # REDIS.flushdb
+    REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
     Entry.all.each{|e| e.destroy} # destroy CouchDB docs
     # CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!

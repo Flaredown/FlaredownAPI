@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
+  require "resque_scheduler"
   include TokenAuth::User
+  @queue = :user
+  
+  after_create :setup_user_queue
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -10,27 +14,28 @@ class User < ActiveRecord::Base
   
   def entries
     Entry.by_user_id.key(self.id.to_s)
-  end
+  end  
   
-  # TODO move this to it's own controller/model/serializer on a per catalog basis
-  
-  # TODO enable Redis/Resque on Heroku to use this code
-  # def score_coordinates
-  #   coords = []
-  #   REDIS.hgetall("charts:cdai_score:#{self.id}").each_pair{|k,v| coords << {x: k.to_i, y: v.to_i}}
-  #   coords
-  # end
   def cdai_score_coordinates
-    coords = self.entries.to_a.map do |entry|
-      score = entry.scores.select{|s| s[:name] == "cdai"}.first.value
-      if score and not score.zero?
-        {entry_id: entry.id, x: entry.date.to_time.to_ms, y: score}
-      else
-        nil
-      end
-    end
-    coords ||= []
-    coords.compact.sort_by{|c| c[:x]}
+    chart = CatalogChart.new(self.id, "cdai")
+    chart.score_coordinates(20.days.ago.to_date, Date.today)
   end
+  
+  def upcoming_catalogs
+    REDIS.zrange("#{self.id}:upcoming_catalogs", 0, 1000, with_scores: true)
+  end
+  
+  def setup_user_queue
+    Resque.enqueue_at(Date.tomorrow.to_time, User, self.id)
+  end
+  
+  def self.perform(user_id)
+    @user = User.find(user_id)
+    @user.upcoming_catalogs.each do |catalog|
+      REDIS.zincrby("#{@user.id}:upcoming_catalogs", -1, catalog[0])
+    end
+    Resque.enqueue_at(Date.tomorrow.to_time, User, @user.id)
+  end
+  
   
 end

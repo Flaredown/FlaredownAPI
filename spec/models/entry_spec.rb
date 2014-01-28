@@ -33,8 +33,12 @@ describe Entry do
   
   describe "initialization (using CDAI module)" do
     let(:entry) { create :cdai_entry }
-    it "responds to CDAI specific methods" do
-      expect(entry).to respond_to :score_cdai_entry
+    before(:each) do
+      with_resque{ entry.save }; entry.reload
+    end
+    
+    it "sets a class variable for catalog score components" do
+      expect(entry.cdai_score_components).to include :stools
     end
     it "has a list of applicable questions" do
       expect(entry.class.question_names).to include :stools
@@ -42,6 +46,10 @@ describe Entry do
     it "responds to missing methods by checking if a Question of that name exists" do
       expect(entry.methods).to_not include :stools
       expect(entry.stools).to be_an Integer
+    end
+    it "responds to missing methods by checking scores for a score in the format 'catalog'_score" do
+      expect(entry.methods).to_not include :cdai_score
+      expect(entry.cdai_score).to be_an Integer
     end
     it "an actual missing method supers to method_missing" do
       expect{ entry.nosuchmethod }.to raise_error NoMethodError

@@ -16,20 +16,34 @@ describe CdaiCatalog do
     
     
     describe "Scoring" do
-      # before(:each) do
-      #   10.times { with_resque{create :cdai_entry, user: user} }
-      # end
       let(:entry) { create :cdai_entry, user: user }
+      before(:each) do
+        6.times {
+          another_entry = create :cdai_entry, user: user
+          with_resque{ another_entry.save }
+        }
+        with_resque{ entry.save }; entry.reload
+      end
+
+      it "has a score if there is at least a week of data" do
+        pending
+        first_entry = Entry.by_date.first
+        expect(first_entry.cdai_score).to eql 0
+        expect(entry.cdai_score).to be > 0
+      end
+      it "resets all the week scores if any entries from the week are removed/invalidated" do
+        pending
+      end
       it "has a score if all responses are present" do
         expect(entry.responses.count).to eq Question.where(catalog: "cdai").count
-        expect(entry.cdai_score.value).to be > 0
+        expect(entry.cdai_score).to be > 0
       end
       it "reverts to nil if responses are removed" do
         entry.responses.delete entry.responses.first
-        entry.save
+        with_resque{ entry.save }; entry.reload
         
         expect(entry.responses.count).to be < Question.where(catalog: "cdai").count
-        expect(entry.reload.cdai_score.value).to be_nil
+        expect(entry.reload.cdai_score).to eql 0
       end
     end
     
