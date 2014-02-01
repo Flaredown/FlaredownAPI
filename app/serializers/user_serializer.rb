@@ -8,5 +8,11 @@ class UserSerializer < ActiveModel::Serializer
     :weight,
     :gender,
     :upcoming_catalogs,
-    :cdai_score_coordinates
+    :cdai_score_coordinates,
+    :medication_coordinates,
+    :medications
+  
+  def medications
+    [1,2,3]
+  end
 end
