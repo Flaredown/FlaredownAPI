@@ -15,6 +15,7 @@ gem "emblem-rails"
 gem "slim"
 
 gem "devise"
+gem "oauth"
 gem "active_model_serializers"
 
 gem "resque"

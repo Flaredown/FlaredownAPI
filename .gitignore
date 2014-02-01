@@ -23,3 +23,4 @@ dump.rdb
 .powrc
 /config/initializers/environment_vars.rb
 .tm_properties
+/howareyou_scratch.rb
