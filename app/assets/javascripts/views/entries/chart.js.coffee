@@ -223,11 +223,12 @@ App.EntriesChartView = Em.View.extend
         .on("mouseenter", (d,i) ->  
         
           d3.select(scoreCircle[0][d.score_index]).transition()
-            .duration(500)
+            .duration(200)
             .attr("r", 30)
+            .style("stroke-width", "3px")
             
           d3.select(scoreText[0][d.score_index]).transition()
-            .duration(500)
+            .duration(200)
             .attr("opacity", 1)
             .style("font-size", "20px")
             
@@ -235,11 +236,12 @@ App.EntriesChartView = Em.View.extend
         .on("mouseleave", (d,i) ->  
         
           d3.select(scoreCircle[0][d.score_index]).transition()
-            .duration(1000)
-            .attr("r", 10)
+            .duration(300)
+            .attr("r", 6)
+            .style("stroke-width", "2px")
             
           d3.select(scoreText[0][d.score_index]).transition()
-            .duration(1000)
+            .duration(300)
             .attr("opacity", 0)
             .style("font-size", "10px")
         )
@@ -261,7 +263,7 @@ App.EntriesChartView = Em.View.extend
         .delay((d,i) -> i*60)
         .attr
           opacity: 100
-          r: 10
+          r: 6
         
       
     @get("force").on "tick", (e) ->

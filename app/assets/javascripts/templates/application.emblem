@@ -1,8 +1,8 @@
 partial "header"
 
-.container
-  if loggedIn
-    #chart.row
-      render "entries-chart" user
-  hr
+if loggedIn
+  #chart.row
+    render "entries-chart" user
+
+.container.main
   #content.row= outlet

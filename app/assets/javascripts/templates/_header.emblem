@@ -1,5 +1,5 @@
-nav.navbar.navbar-default role="navigation"
-  .container
+.container
+  nav.navbar.navbar-default role="navigation"
     .navbar-header
       button.navbar-toggle data-target="#navbarCollapse" data-toggle="collapse" type="button"
         span.sr-only Toggle navigation
