@@ -6,3 +6,34 @@ if loggedIn
 
 .container.main
   #content.row= outlet
+  #stats.row
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        h1 Remission
+        h4 for 19 days running
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        h1 236
+        h4 total days logged
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        h1 119
+        h4 average total score
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        .c100.p25.green
+          span 36%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time in remission
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        .c100.p25
+          span 42%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time with active disease
+      .stat-box.col-xs-12.col-sm-6.col-md-4
+        .c100.p25.orange
+          span 22%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time with severe disease
