@@ -7,7 +7,7 @@
 @import "circle"
 
 @mixin standard-shadow
-	box-shadow: 0 2px 0 #ddd
+	box-shadow: 0 4px 0 rgba(0,0,0,.1)
 
 @mixin grad-green-orange-red
 	background: #98cb60
@@ -20,7 +20,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#98cb60', endColorstr='#d46976',GradientType=1 )
 
 //Colors
-$background: #F0F0F0
+$background: #F4EEDE
 
 body
 	background: $background
@@ -41,6 +41,10 @@ a:hover
 	border-top-right-radius: 0
 	.navbar-brand
 		font-size: 1.8em
+	.dropdown-menu
+		@include standard-shadow
+		border: none
+		border-radius: 3px
 
 .modal
 	.modal-dialog
@@ -89,6 +93,12 @@ a:hover
 		overflow: hidden
 		h1
 			font-size: 3.5em
+			color: #464F59
+			opacity: .8
 		&:hover
+			position: relative
+			top: 1px
 			color: #666
-			box-shadow: 0 2px 0 #ccc
+			box-shadow: 0 3px 0 rgba(0,0,0,.2)
+			h1
+				opacity: 1
