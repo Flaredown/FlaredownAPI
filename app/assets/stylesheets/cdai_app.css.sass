@@ -6,26 +6,49 @@
 @import "bootstrap"
 @import "circle"
 
+@mixin standard-shadow
+	box-shadow: 0 2px 0 #ddd
+
+//Colors
+$background: #F0F0F0
+
 body
-	background: #eee
+	background: $background
 
 .navbar
+	@include standard-shadow
 	background: #fff
 	border: none
-	padding: 2%
-	border-radius: 0
+	padding: 1% 2% 
+	border-top-left-radius: 0
+	border-top-right-radius: 0
 	.navbar-brand
 		font-size: 1.8em
 
-.main
-	background: #fff
+#questioner
+	ul
+		list-style-type: none
+		li
+			display: inline-block
+	.response-input-link
+		padding: 10%
+		border: 2px solid steelblue
+		border-radius: 999px
+		&:hover
+			background: steelblue
+			color: white
 
 #stats
-	padding: 4%
 	cursor: default
 	color: #bbb
+	padding: 2%
 	.stat-box
+		@include standard-shadow
 		margin-bottom: 8%
+		padding: 8%
+		background: white
+		border-radius: 3px
+		overflow: hidden
 		h1
 			font-size: 3.5em
 		&:hover

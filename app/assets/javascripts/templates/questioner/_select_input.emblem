@@ -1,12 +1,7 @@
 ul: each input in response.question.inputs
   li
     a.response-input-link href="" click="setResponse response input.value"
-      |Set to: 
       strong= input.value
-    ul
-      li meta_label: {{input.meta_label}}
-      li label: {{input.label}}
-      li helper: {{input.helper}}
     
   
 
