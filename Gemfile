@@ -22,6 +22,8 @@ gem "resque"
 gem "resque-scheduler", require: "resque_scheduler"
 gem "redis"
 
+gem "pusher"
+
 gem "hashie"
 
 group :production do
@@ -37,6 +39,7 @@ group :test, :development do
   gem "rspec-rails"
   gem "guard-rspec"
   gem "capybara"
+  gem "pusher-fake"
   gem "factory_girl"
   gem "factory_girl_rails"
   gem "database_cleaner"

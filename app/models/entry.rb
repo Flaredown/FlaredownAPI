@@ -38,6 +38,15 @@ class Entry < CouchRest::Model::Base
     Resque.enqueue(Entry, self.id)
   end
   
+  def chart_data
+    chart = CatalogChart.new(self.user_id, self.catalogs, self.date, self.date)
+    chart.data
+  end
+  
+  # def complete
+  #   catalogs.each{ return false unless self.send("#{catalog}_score")}
+  # end
+  
   def self.perform(entry_id)
     entry = Entry.find(entry_id)
     
@@ -46,12 +55,14 @@ class Entry < CouchRest::Model::Base
       entry.send("save_score", catalog)
       Entry.skip_callback(:save, :after, :enqueue)
       entry.save
+      Pusher.trigger("entries_for_#{entry.user_id}", "updates", {entry_date: entry.date, data: entry.chart_data}) # if entry.complete
       Entry.set_callback(:save, :after, :enqueue)
     end
     
     true
   end
   
+
   private
   def include_catalogs
     if catalogs.present?

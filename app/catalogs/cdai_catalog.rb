@@ -1,4 +1,3 @@
-# reload!;e=Entry.create(date: Date.today, catalogs:["cdai"])
 module CdaiCatalog
   extend ActiveSupport::Concern
   

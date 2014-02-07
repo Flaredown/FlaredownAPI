@@ -17,6 +17,10 @@ module CatalogScore
     REDIS.set("#{user_id}:scores:#{date.to_time.to_i}:#{@catalog}_score", score)
   end
   
+  def catalog_module
+    "#{@catalog.capitalize}Catalog".constantize
+  end
+  
   def calculate_score
     try("setup_#{@catalog}_scoring")
     
@@ -29,13 +33,14 @@ module CatalogScore
   end
   
   def calculate_score_components
-    self.class.const_get("#{@catalog.upcase}_SCORE_COMPONENTS").map do |component|
+    catalog_module.const_get("#{@catalog.upcase}_SCORE_COMPONENTS").map do |component|
       {name: component.to_s, score: send("#{@catalog}_#{component}_score")}
     end
   end
   
   def update_upcoming_catalog(catalog)
-    REDIS.zadd("#{user_id}:upcoming_catalogs", self.class.const_get("#{catalog.upcase}_EXPECTED_USE").last, catalog)
+    @catalog = catalog
+    REDIS.zadd("#{user_id}:upcoming_catalogs", catalog_module.const_get("#{@catalog.upcase}_EXPECTED_USE").last, @catalog)
   end
 
 end

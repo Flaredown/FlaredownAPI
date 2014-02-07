@@ -30,7 +30,7 @@ QuestionInput.create({question_id: q.id, value: 4, label: "terrible", meta_label
 
 q=Question.create(name: "mass", catalog: "cdai", kind: "select", section: 3, group: nil)
 QuestionInput.create({question_id: q.id, value: 0, label: "none", meta_label: nil, helper: nil})
-QuestionInput.create({question_id: q.id, value: 3, label: "questionable", meta_label: nil, helper: nil})
+QuestionInput.create({question_id: q.id, value: 2, label: "questionable", meta_label: nil, helper: nil})
 QuestionInput.create({question_id: q.id, value: 5, label: "present", meta_label: nil, helper: nil})
 
 q=Question.create(name: "stools", catalog: "cdai", kind: "number", section: 4, group: nil)

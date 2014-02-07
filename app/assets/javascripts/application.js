@@ -17,6 +17,7 @@
 //= require lib/moment-timezone
 //= require lib/progress_bar
 //= require lib/d3.v3
+//= require lib/pusher
 
 // BOOTSTRAP
 //= require bootstrap/modal
@@ -37,6 +38,7 @@
 //= require_tree ./templates
 
 //= require cdai_app
+//= require lib/pusher_ember
 //= require app_helpers
 
 //= require_tree ./routes

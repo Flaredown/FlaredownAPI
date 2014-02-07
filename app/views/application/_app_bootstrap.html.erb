@@ -2,4 +2,5 @@
   window.rails_env            = "<%= Rails.env %>";
   window.site_url             = "<%= ENV["SITE_URL"] %>";
   window.current_user         = <%= UserSerializer.new(current_user, {root: false}).to_json.html_safe %>
+  window.bootstrap_pusher_key = "<%= ENV["PUSHER_KEY"] %>"
 </script>

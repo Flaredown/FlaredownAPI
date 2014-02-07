@@ -2,7 +2,15 @@ App.Router.map ->
   @resource "entries", path: "/", ->
   @route "entry", path: "/entry/:date/:section"
 
-App.EntriesIndexRoute = App.AuthenticatedRoute.extend()
+App.ApplicationRoute = Em.Route.extend
+  enter: -> 
+    console.log "doing pusher stuff"
+    @get("pusher").subscribe("entries_for_#{@controllerFor("login").get("loginId")}")
+  actions:
+    updates: (data) -> console.log data
+  
+App.EntriesIndexRoute = App.AuthenticatedRoute.extend
+
   
 App.EntryRoute = App.AuthenticatedRoute.extend
   model: (params, transition, queryParams) ->

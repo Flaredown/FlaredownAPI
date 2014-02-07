@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   end  
   
   def cdai_score_coordinates
-    chart = CatalogChart.new(self.id, "cdai")
-    chart.score_coordinates(20.days.ago.to_date, Date.today)
+    chart = CatalogChart.new(self.id, ["cdai"])
+    chart.score_coordinates("cdai")
   end
   
   def upcoming_catalogs
