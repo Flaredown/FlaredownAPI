@@ -1,6 +1,3 @@
-section 
-h4 Section {{section}} of {{sections.length}}
-
-each response in sectionResponses
-  strong= response.name
+.section: each response in sectionResponses
+  h3= response.name
   = partial response.question.inputPartial

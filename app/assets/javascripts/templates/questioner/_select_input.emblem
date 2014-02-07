@@ -1,8 +1,4 @@
-ul: each input in response.question.inputs
+ul.response-select: each input in response.question.inputs
   li
-    a.response-input-link href="" click="setResponse response input.value"
-      strong= input.value
-    
-  
-
-    
+    a href="" click="setResponse response input.value"
+    	= input.value

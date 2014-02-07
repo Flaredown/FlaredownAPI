@@ -1,7 +1,7 @@
 partial "header"
 
 if loggedIn
-  #chart.row
+  #chart
     render "entries-chart" user
 
 .container

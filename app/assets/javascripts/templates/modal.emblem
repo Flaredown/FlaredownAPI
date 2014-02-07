@@ -4,5 +4,3 @@
       button.close click="close" type="button" aria-hidden="true" &times;
       h4.modal-title= title
     .modal-body: App.QuestionerView
-    .modal-footer
-      button.btn.btn-default type="button" click="close" Close
