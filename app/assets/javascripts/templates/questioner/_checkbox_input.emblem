@@ -1,1 +1,1 @@
-button click="setResponse response 1" Yes
+input type="checkbox" name="slider" click="setResponse response 1"

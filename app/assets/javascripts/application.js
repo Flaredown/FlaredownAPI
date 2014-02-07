@@ -23,6 +23,9 @@
 //= require bootstrap/modal
 //= require bootstrap/dropdown
 
+// BOOTSTRAP-SWITCH
+//= require lib/bootstrap-switch.min
+
 // EMBER
 //= require lib/handlebars-v1.1.2
 
