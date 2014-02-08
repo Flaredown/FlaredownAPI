@@ -1,9 +1,10 @@
 require 'spec_helper'
 
+class FakeCatalog
+  FAKE_SCORE_COMPONENTS = %i( foo bar )
+end
 class FakeEntry
   include CatalogScore
-  
-  FAKE_SCORE_COMPONENTS = %i( foo bar )
     
   # Entries always have the following attributes
   def user_id; 1; end

@@ -82,7 +82,11 @@ DatabaseCleaner.clean # cleanup of the test
 REDIS.flushdb
 
 RSpec.configure do |config|
+  config.before(:each) do
+    Pusher.stub "trigger"
+  end
   config.around(:each) do |example|
+    
     ResqueSpec.reset!
     Resque::Scheduler.mute = true
     FactoryGirl.reload
@@ -91,8 +95,5 @@ RSpec.configure do |config|
     REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
     Entry.all.each{|e| e.destroy} # destroy CouchDB docs
-    # CouchRest.database("http://127.0.0.1:5984/cdai_test").recreate!
-    # sleep(0.01) # takes a second to recreate I guess
   end  
 end
-

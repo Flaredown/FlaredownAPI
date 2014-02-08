@@ -1,4 +1,4 @@
-App.ChartMedication = Em.Controller.extend
+App.MedicationDatum = Em.Controller.extend
   dataBinding: "controller.medicationsData"
   
   text: Em.computed ->
@@ -9,7 +9,7 @@ App.ChartMedication = Em.Controller.extend
   .property("label", "dosage")
   
   entryDate: Em.computed -> 
-    moment(@get("date")).format("MMM-DD-YYYY")
+    moment(@get("date")*1000).format("MMM-DD-YYYY")
   .property("x")
   
   level: Em.computed ->
@@ -24,7 +24,7 @@ App.ChartMedication = Em.Controller.extend
   .property("med_id")
   
   y: Em.computed ->
-    @get("controller.meds-y")(@get("level"))
+    @get("level")
   .property("level")
   
   index: Em.computed ->
@@ -43,4 +43,4 @@ App.ChartMedication = Em.Controller.extend
     @get("objectFormat").setProperties index: @get("data").indexOf(@), model: @
   .property("kind")
   
-  goTo: -> @transitionToRoute("entry", @get("entryDate"), 1)
+  goTo: -> @transitionToRoute("entries.entry", @get("entryDate"), 1)

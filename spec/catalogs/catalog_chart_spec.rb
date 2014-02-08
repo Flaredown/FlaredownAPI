@@ -4,12 +4,6 @@ describe CatalogChart do
   let(:user) { create :user }
   let(:chart) { CatalogChart.new(user.id, "cdai") }
   
-  before(:each) do
-    # mock_client = mock('client')
-    
-    Pusher.stub("trigger")
-  end
-  
   it "#date_range" do
     range = chart.date_range(Date.today, Date.today+3.days)
     expect(range).to have(4).items

@@ -1,10 +1,10 @@
-App.EntryController = Em.ObjectController.extend
+App.EntriesEntryController = Em.ObjectController.extend
   needs: ["user"]
   
   titleBinding: "id"
   
   sectionChanged: Em.observer ->
-    @transitionToRoute("entry", @get("entryDateParam"), @get("section")) if @get("section")
+    @transitionToRoute("entries.entry", @get("entryDateParam"), @get("section")) if @get("section")
   .observes("section")
   
   sections: Em.computed ->

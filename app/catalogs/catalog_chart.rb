@@ -12,13 +12,15 @@ class CatalogChart
     (start_date..end_date).to_a.map{|day| day.to_time.to_i}
   end
   
-  def data
+  def medication_data
+    medication_coordinates(catalog)
+  end
+  def catalogs_data
     catalogs.map do |catalog|
       {
         name:         catalog,
         scores:       score_coordinates(catalog),
-        components:   score_component_coordinates(catalog),
-        medications:  medication_coordinates(catalog)
+        components:   score_component_coordinates(catalog)
       }
     end
   end

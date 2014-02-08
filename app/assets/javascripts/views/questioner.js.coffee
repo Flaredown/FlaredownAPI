@@ -19,7 +19,7 @@ App.QuestionerView = Ember.View.extend
       that.$("input").attr("tabindex", "1") if that.$("input")
       that.$("button[type=submit]").attr("tabindex", "2") if that.$("button[type=submit]")
     Em.run.next -> 
-      that.$("[name='slider']").bootstrapSwitch() if that.$("[name='slider']")
+      # that.$("[name='slider']").bootstrapSwitch() if that.$("[name='slider']")
   .observes("entry.section").on("init")
   
   keyDown: (e) ->    

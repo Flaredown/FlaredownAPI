@@ -10,7 +10,7 @@
     #navbarCollapse.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         if loggedIn
-          li: link-to "entry" "today" 1  | Today
+          li: link-to "entries.entry" "today" 1  | Today
           li.dropdown
             a.dropdown-toggle data-toggle="dropdown" href="#"
               | {{user.email}}

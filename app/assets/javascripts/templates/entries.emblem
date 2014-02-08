@@ -1,0 +1,44 @@
+= outlet
+
+#chart
+  render "entries-chart" user
+  
+hr
+
+#stats.row
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        h1 Remission
+        h4 for 19 days running
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        h1 236
+        h4 total days logged
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        h1 119
+        h4 average total score
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        .c100.p36.green
+          span 36%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time in remission
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        .c100.p42
+          span 42%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time with active disease
+    .col-xs-12.col-sm-6.col-md-4
+      .stat-box
+        .c100.p22.orange
+          span 22%
+          .slice
+            .bar
+            .fill
+        h4 percentage of time with severe disease

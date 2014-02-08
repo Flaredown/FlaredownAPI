@@ -21,6 +21,11 @@ class User < ActiveRecord::Base
     chart.score_coordinates("cdai")
   end
   
+  def chart_data
+    chart = CatalogChart.new(self.id, ["cdai"])
+    chart.catalogs_data
+  end
+  
   def upcoming_catalogs
     REDIS.zrange("#{self.id}:upcoming_catalogs", 0, 1000, with_scores: true)
   end

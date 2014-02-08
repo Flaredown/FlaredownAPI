@@ -31,6 +31,16 @@ describe Entry do
     end
   end
   
+  describe "#complete?" do
+    let(:entry) { create :cdai_entry }
+
+    it "is complete when all it's catalogs (1 or more) are complete" do
+      expect(entry).to be_complete
+      entry.responses.delete(entry.responses.first)
+      expect(entry).to_not be_complete
+    end
+  end
+  
   describe "initialization (using CDAI module)" do
     let(:entry) { create :cdai_entry }
     before(:each) do

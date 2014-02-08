@@ -1,18 +1,25 @@
 App.Router.map ->
   @resource "entries", path: "/", ->
-  @route "entry", path: "/entry/:date/:section"
+    @route "entry", path: "/entry/:date/:section"
 
-App.ApplicationRoute = Em.Route.extend
-  enter: -> 
-    console.log "doing pusher stuff"
-    @get("pusher").subscribe("entries_for_#{@controllerFor("login").get("loginId")}")
+App.ApplicationRoute = Em.Route.extend()
+  
+App.EntriesRoute = App.AuthenticatedRoute.extend
+  setupController: ->
+    controller = @controllerFor("entries_chart")
+    user = @controllerFor("user")
+    controller.set("content", Em.Object)
+    controller.addData(user.get("chart_data"))
+    
+  enter: ->
+    user_id = @controllerFor("login").get("loginId")
+    @get("pusher").subscribe("entries_for_#{user_id}") if user_id
   actions:
-    updates: (data) -> console.log data
-  
-App.EntriesIndexRoute = App.AuthenticatedRoute.extend
+    updates: (message) -> 
+      controller = @controllerFor("entries_chart")
+      debugger
 
-  
-App.EntryRoute = App.AuthenticatedRoute.extend
+App.EntriesEntryRoute = App.AuthenticatedRoute.extend
   model: (params, transition, queryParams) ->
     self = @
     date = params.date
@@ -21,7 +28,7 @@ App.EntryRoute = App.AuthenticatedRoute.extend
     
     date = today if params.date is "today" or today is params.date
   
-    controller = @controllerFor("entry")
+    controller = @controllerFor("entries_entry")
     if controller and controller.get("model.entryDate") is date
       controller.get("model")
     else      
