@@ -2,6 +2,7 @@ App.Router.map ->
   @resource "entries", path: "/", ->
   @route "entry", path: "/entry/:date/:section"
 
+
 App.ApplicationRoute = Em.Route.extend
   enter: -> 
     console.log "doing pusher stuff"
@@ -9,9 +10,9 @@ App.ApplicationRoute = Em.Route.extend
   actions:
     updates: (data) -> console.log data
   
-App.EntriesIndexRoute = App.AuthenticatedRoute.extend
+App.EntriesIndexRoute = App.AuthenticatedRoute.extend()
 
-  
+
 App.EntryRoute = App.AuthenticatedRoute.extend
   model: (params, transition, queryParams) ->
     self = @

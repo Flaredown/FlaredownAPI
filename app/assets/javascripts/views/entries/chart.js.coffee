@@ -59,7 +59,7 @@ App.EntriesChartView = Em.View.extend
     coordinates = @get("controller.user.cdai_score_coordinates")
 
     @set "container", $(".chart-container")
-    @set "margin", {top: 50, right: 50, bottom: 50, left: 50}
+    @set "margin", {top: 20, right: 0, bottom: 20, left: 0}
     @set "width", @get("container").width() - @get("margin").left - @get("margin").right
     @set "height", @get("container").height() - @get("margin").top - @get("margin").bottom
     
@@ -88,31 +88,31 @@ App.EntriesChartView = Em.View.extend
       .append("g")
         .attr("transform", "translate(" + @get("margin").left + "," + @get("margin").top + ")")
     
-    @get("svg").selectAll("line.horizontalGrid").data(@get("y").ticks(6)).enter()
-      .append("line")
-        .attr
-          "class" : "horizontalGrid"
-          "x1" : 0
-          "x2" : @get("width")
-          "y1" : (d) -> that.get("y")(d)
-          "y2" : (d) -> that.get("y")(d)
-          "fill" : "none"
-          "shape-rendering" : "crispEdges"
-          "stroke" : "black"
-          "stroke-width" : "1px"
+    # @get("svg").selectAll("line.horizontalGrid").data(@get("y").ticks(6)).enter()
+    #   .append("line")
+    #     .attr
+    #       "class" : "horizontalGrid"
+    #       "x1" : 0
+    #       "x2" : @get("width")
+    #       "y1" : (d) -> that.get("y")(d)
+    #       "y2" : (d) -> that.get("y")(d)
+    #       "fill" : "none"
+    #       "shape-rendering" : "crispEdges"
+    #       "stroke" : "black"
+    #       "stroke-width" : "1px"
           
-    @get("svg").selectAll("line.verticalGrid").data(@get("x").ticks(12)).enter()
-      .append("line")
-        .attr
-          "class" : "verticalGrid"
-          "y1" : 0
-          "y2" : @get("height")
-          "x1" : (d) -> that.get("x")(d)
-          "x2" : (d) -> that.get("x")(d)
-          "fill" : "none"
-          "shape-rendering" : "crispEdges"
-          "stroke" : "black"
-          "stroke-width" : "1px"
+    # @get("svg").selectAll("line.verticalGrid").data(@get("x").ticks(12)).enter()
+    #   .append("line")
+    #     .attr
+    #       "class" : "verticalGrid"
+    #       "y1" : 0
+    #       "y2" : @get("height")
+    #       "x1" : (d) -> that.get("x")(d)
+    #       "x2" : (d) -> that.get("x")(d)
+    #       "fill" : "none"
+    #       "shape-rendering" : "crispEdges"
+    #       "stroke" : "black"
+    #       "stroke-width" : "1px"
   
     # MEDS
     medications = @get("controller.user.medication_coordinates")
@@ -120,7 +120,7 @@ App.EntriesChartView = Em.View.extend
     @set "medicationsHistory", Em.A(@get("controller.user.medications"))
         
     @set "meds-container", $(".meds-chart-container")
-    @set "meds-margin", {top: 50, right: 50, bottom: 10, left: 50}
+    @set "meds-margin", {top: 50, right: 0, bottom: 10, left: 0}
     @set "meds-width", @get("meds-container").width() - @get("meds-margin").left - @get("meds-margin").right
     @set "meds-height", @get("meds-container").height() - @get("meds-margin").top - @get("meds-margin").bottom
 
@@ -161,13 +161,13 @@ App.EntriesChartView = Em.View.extend
         .duration(1000)
         .attr("d", endLine)
       
-    @get("svg").append("path")
-      .datum(@get("fillCoordinates"))
-      .attr("class", "chart-fill")
-      .attr("d", startLine)
-      .transition()
-        .duration(1000)
-        .attr("d", endLine)
+    # @get("svg").append("path")
+    #   .datum(@get("fillCoordinates"))
+    #   .attr("class", "chart-fill")
+    #   .attr("d", startLine)
+    #   .transition()
+    #     .duration(1000)
+    #     .attr("d", endLine)
         
     # @get("links")
     @get("force")
@@ -182,7 +182,7 @@ App.EntriesChartView = Em.View.extend
           class: "score"
           cx: (d) -> d.x
           cy: (d) -> d.y
-          r: 3
+          r: 2
         .call(@get("force").drag)
     
     
@@ -225,7 +225,6 @@ App.EntriesChartView = Em.View.extend
           d3.select(scoreCircle[0][d.score_index]).transition()
             .duration(200)
             .attr("r", 30)
-            .style("stroke-width", "3px")
             
           d3.select(scoreText[0][d.score_index]).transition()
             .duration(200)
@@ -237,8 +236,7 @@ App.EntriesChartView = Em.View.extend
         
           d3.select(scoreCircle[0][d.score_index]).transition()
             .duration(300)
-            .attr("r", 6)
-            .style("stroke-width", "2px")
+            .attr("r", 8)
             
           d3.select(scoreText[0][d.score_index]).transition()
             .duration(300)
@@ -263,7 +261,7 @@ App.EntriesChartView = Em.View.extend
         .delay((d,i) -> i*60)
         .attr
           opacity: 100
-          r: 6
+          r: 8
         
       
     @get("force").on "tick", (e) ->

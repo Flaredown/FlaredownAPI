@@ -23,9 +23,13 @@
     border-radius: 3px;
     overflow: hidden;
     h1 {
+      font-family: "proxima_novalight";
       font-size: 3.5em;
       color: $dark-navy;
       opacity: 0.75;
+    }
+    h4 {
+      font-family: "proxima_nova_rgregular"
     }
     &:hover {
       position: relative;
