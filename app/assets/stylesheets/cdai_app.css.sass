@@ -1,6 +1,6 @@
 //Mixins
 @mixin standard-shadow
-	box-shadow: 0 4px 0 rgba(0,0,0,.1)
+	box-shadow: 0 4px 0 rgba(0,0,0,.065)
 @mixin grad-green-orange-red
 	background: #98cb60
 	background: -moz-linear-gradient(left,  #98cb60 0%, #e2a745 50%, #d46976 100%)
@@ -12,8 +12,14 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#98cb60', endColorstr='#d46976',GradientType=1 )
 
 //Colors
+//#FAF8F3 dirty yellow - warm but too low-contrast
+//#FAF6ED even warmer yellow
+//#EFF0F4 grey - cold but clear
+//#E8F3F1 seafoam - maybe a little frivolous looking?
 $background: #FAF8F3
-$dark-navy: #464F59
+$blue-dark: #405878
+$blue-mid: #657e9e
+
 
 //External styles
 @import "progress_bar"

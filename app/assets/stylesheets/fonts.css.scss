@@ -10,9 +10,6 @@
 
 }
 
-
-
-
 @font-face {
     font-family: 'proxima_novalight';
     src: url('/assets/proximanova-light-webfont.eot');
@@ -24,9 +21,6 @@
     font-style: normal;
 
 }
-
-
-
 
 @font-face {
     font-family: 'proxima_nova_rgregular';
@@ -40,9 +34,6 @@
 
 }
 
-
-
-
 @font-face {
     font-family: 'proxima_nova_condensedlight';
     src: url('/assets/proximanovacond-light-webfont.eot');
@@ -54,9 +45,6 @@
     font-style: normal;
 
 }
-
-
-
 
 @font-face {
     font-family: 'proxima_nova_cn_rgregular';
@@ -70,9 +58,6 @@
 
 }
 
-
-
-
 @font-face {
     font-family: 'proxima_nova_condensedSBd';
     src: url('/assets/proximanovacond-semibold-webfont.eot');
@@ -85,9 +70,6 @@
 
 }
 
-
-
-
 @font-face {
     font-family: 'proxima_novasemibold';
     src: url('/assets/proximanova-semibold-webfont.eot');
@@ -99,3 +81,11 @@
     font-style: normal;
 
 }
+
+$proxima-light: "proxima_novalight", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-regular: "proxima_nova_rgregular", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-semibold: "proxima_novasemibold", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-bold: "proxima_nova_rgbold", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-cn-light: "proxima_nova_condensedlight", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-cn-regular: "proxima_nova_cn_rgregular", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+$proxima-cn-semibold: "proxima_nova_condensedSBd", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;

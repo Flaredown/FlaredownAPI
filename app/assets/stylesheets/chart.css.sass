@@ -12,7 +12,7 @@
       stroke-dasharray: 1,3
     circle.score
       fill: $background
-      stroke: steelblue
+      stroke: $blue-mid
       stroke-width: 4px
       
     .score-text
@@ -20,7 +20,7 @@
     
     .line
       fill: transparent
-      stroke: steelblue
+      stroke: $blue-mid
       stroke-width: 4px
       -webkit-filter: drop-shadow( -5px -5px 5px #000 )
       filter: drop-shadow( -5px -5px 5px #000 )
@@ -30,19 +30,23 @@
       
   .meds-chart-container 
     font-family: Arial, Helvetica, sans-serif
-    margin: 0 auto 30px auto
+    margin: 0 auto 50px auto
     width: 100%
     height: 100px
       
     .medication
+      stroke: $background
+      stroke-width: 6px
     .med-level-1
-      fill: steelblue
+      fill: $blue-mid
     .med-level-2
       fill: orange
     .med-level-3
       fill: pink
     .med-line
-      stroke-width: 1px
-      stroke: grey
+      stroke-width: 2px
+      stroke-dasharray: 1, 6
+      stroke: rgba(0,0,0,0.1)
       fill: none
+      stroke-linecap: round
       

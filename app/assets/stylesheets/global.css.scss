@@ -1,5 +1,6 @@
 body {
   background: $background;
+  font-family: $proxima-regular;
 }
 ul {
   list-style-type: none;
@@ -18,7 +19,7 @@ a:hover {
   .navbar-brand {
   	font-family: "proxima_novasemibold";
     font-size: 1.8em;
-    color: $dark-navy;
+    color: $blue-dark;
   }
   .dropdown-menu {
     @include standard-shadow;

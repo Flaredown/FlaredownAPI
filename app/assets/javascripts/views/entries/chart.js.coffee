@@ -59,7 +59,7 @@ App.EntriesChartView = Em.View.extend
     coordinates = @get("controller.user.cdai_score_coordinates")
 
     @set "container", $(".chart-container")
-    @set "margin", {top: 20, right: 0, bottom: 20, left: 0}
+    @set "margin", {top: 35, right: 0, bottom: 35, left: 0}
     @set "width", @get("container").width() - @get("margin").left - @get("margin").right
     @set "height", @get("container").height() - @get("margin").top - @get("margin").bottom
     
@@ -120,7 +120,7 @@ App.EntriesChartView = Em.View.extend
     @set "medicationsHistory", Em.A(@get("controller.user.medications"))
         
     @set "meds-container", $(".meds-chart-container")
-    @set "meds-margin", {top: 50, right: 0, bottom: 10, left: 0}
+    @set "meds-margin", {top: 20, right: 0, bottom: 10, left: 0}
     @set "meds-width", @get("meds-container").width() - @get("meds-margin").left - @get("meds-margin").right
     @set "meds-height", @get("meds-container").height() - @get("meds-margin").top - @get("meds-margin").bottom
 
@@ -257,7 +257,7 @@ App.EntriesChartView = Em.View.extend
     scoreCircle
       .transition()
         .each("start", (d,i) -> d.fixed = false)
-        .duration(2000)
+        .duration(500)
         .delay((d,i) -> i*60)
         .attr
           opacity: 100
@@ -297,14 +297,22 @@ App.EntriesChartView = Em.View.extend
       .append("g")
         .attr(class: "medication-group")
         .on("mouseenter", (d,i) ->
+          d3.select(this).select("circle").transition()
+            .duration(100)
+            .attr
+              r: 10
           d3.select(this).select("text").transition()
-            .duration(500)
+            .duration(100)
             .attr
               "opacity": 1
               "dy": (d) -> d.y - 20
             .style("font-size", "15px")
         )
         .on("mouseleave", (d,i) ->
+          d3.select(this).select("circle").transition()
+            .duration(100)
+            .attr
+              r: 8
           d3.select(this).select("text").transition()
             .duration(10)
             .attr
@@ -330,4 +338,4 @@ App.EntriesChartView = Em.View.extend
         class: (d) -> "medication med-level-#{d.medClass+1}"
         cx: (d) -> d.x
         cy: (d) -> d.y
-        r: 5
+        r: 8
