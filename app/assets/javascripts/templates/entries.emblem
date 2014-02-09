@@ -24,15 +24,15 @@ hr
     .col-xs-12.col-sm-6.col-md-4
       .stat-box
         h1 Remission
-        h4 for 19 days running
+        h4 for 19 days
     .col-xs-12.col-sm-6.col-md-4
       .stat-box
         h1 236
-        h4 total days logged
+        h4 total days tracked
     .col-xs-12.col-sm-6.col-md-4
       .stat-box
         h1 119
-        h4 average total score
+        h4 all-time average score
     .col-xs-12.col-sm-6.col-md-4
       .stat-box
         .c100.p36.green
