@@ -29,8 +29,8 @@
 // EMBER
 //= require lib/handlebars-v1.1.2
 
-// require lib/ember-canary
-//= require lib/ember-1.4b3
+//= require lib/ember-canary
+// require lib/ember-1.4b3
 // require lib/ember-1.3.1
 // require lib/ember-1.2.0
 

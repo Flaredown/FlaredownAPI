@@ -5,6 +5,22 @@ window.attr      = DS.attr
 window.belongsTo = DS.belongsTo
 window.hasMany   = DS.hasMany
 
+window.ajax = (url, options) ->
+  new Ember.RSVP.Promise((resolve, reject) ->
+    options = options or {}
+    options.url = url
+    options.success = (data) ->
+      Ember.run null, resolve, data
+      return
+
+    options.error = (jqxhr, status, something) ->
+      Ember.run null, reject, arguments
+      return
+
+    Ember.$.ajax options
+  )
+
+
 $.ajaxSetup
   contentType: "application/json; charset=utf-8"
   dataType: "json"

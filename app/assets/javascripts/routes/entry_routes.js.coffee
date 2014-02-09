@@ -1,23 +1,30 @@
 App.Router.map ->
-  @resource "entries", path: "/", ->
+  @resource "entries", path: "", ->
     @route "entry", path: "/entry/:date/:section"
 
 App.ApplicationRoute = Em.Route.extend()
-  
+
 App.EntriesRoute = App.AuthenticatedRoute.extend
-  setupController: ->
-    controller = @controllerFor("entries_chart")
+  model: (params) ->
     user = @controllerFor("user")
-    controller.set("content", Em.Object)
-    controller.addData(user.get("chart_data"))
-    
+    ajax "/chart", {data: {start_date: user.get("defaultStartDate"), end_date: user.get("defaultEndDate")}}
+
+  setupController: (controller,model) ->
+    user = @controllerFor("user")
+    controller.set("model", model.chart)
+    controller.set("startDate", moment(user.get("defaultStartDate")))
+    controller.set("endDate", moment(user.get("defaultEndDate")))
+
   enter: ->
     user_id = @controllerFor("login").get("loginId")
     @get("pusher").subscribe("entries_for_#{user_id}") if user_id
+  exit: ->
+    user_id = @controllerFor("login").get("loginId")
+    @get("pusher").unsubscribe("entries_for_#{user_id}") if user_id
+    
   actions:
-    updates: (message) -> 
-      controller = @controllerFor("entries_chart")
-      debugger
+    updates: (message) ->
+      @controllerFor("entries").get("catalog.scores").pushObject {x: 1391922000, y: 500 }
 
 App.EntriesEntryRoute = App.AuthenticatedRoute.extend
   model: (params, transition, queryParams) ->

@@ -3,6 +3,7 @@ CDAI::Application.routes.draw do
   root "application#app"
   
   resources :entries
+  get "/chart" => "chart#show"
   get "/users/:id" => "users#show"
   
   # The priority is based upon order of creation: first created -> highest priority.

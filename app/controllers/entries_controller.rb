@@ -1,5 +1,12 @@
 class EntriesController < ApplicationController
   before_filter :authenticate_user!
+  
+	def index
+    start_date  = Date.parse(params[:start_date])
+    end_date    = Date.parse(params[:end_date])
+    @entries = Entry.by_date(startkey: start_date, endkey: end_date)
+    render json: @entries.to_a, status: 200
+	end
 
 	def create
 		@entry = Entry.new(entry_params.merge(user_id: current_user.id, date: Date.today))

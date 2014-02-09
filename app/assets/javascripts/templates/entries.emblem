@@ -1,8 +1,23 @@
 = outlet
-
 #chart
-  render "entries-chart" user
+  .chart-container
+  .meds-chart-container
+  //  .y-axis
+  //  .chart
+  //  .x-axis
+  // .legend
+  // render "entries-chart" user
   
+render "entries-chart" controller=this
+
+.row
+  .col-md-2
+    = input type="text" valueBinding="startDateFormatted"
+    button.response-continue-link type="submit" click="setDateRange startDateFormatted endDateFormatted" Set
+  .col-md-8
+  .col-md-2
+    = input type="text" valueBinding="endDateFormatted"
+    button.response-continue-link type="submit" click="setDateRange startDateFormatted endDateFormatted" Set
 hr
 
 #stats.row

@@ -12,9 +12,17 @@ App.Entry = DS.Model.extend
   # treatments: attr("object")
   # catalogs:   attr("object")
   
-  entryDate: Em.computed -> 
-    moment(@get("date")).format("MMM-DD-YYYY")
+  moment: Em.computed ->
+    moment(@get("date"))
   .property("date")
+  
+  unixDate: Em.computed -> 
+    @get("moment").unix()
+  .property("moment")
+  
+  entryDate: Em.computed -> 
+    @get("moment").format("MMM-DD-YYYY")
+  .property("moment")
   
   entryDateParam: Em.computed -> 
     return "today" if moment().format("MMM-DD-YYYY") is @get("entryDate")

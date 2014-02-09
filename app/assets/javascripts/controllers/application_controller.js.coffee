@@ -5,5 +5,5 @@ App.ApplicationController = Ember.Controller.extend App.LoginStatusMixin,
   
   actions:
     logout: ->
-      @get("controllers.login").logout()
+      @get("controllers.login").send("logout")
       @transitionToRoute('login')
