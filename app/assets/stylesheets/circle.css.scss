@@ -46,7 +46,7 @@
   border-radius: 50%;
   float: left;
   margin: 0 0.1em 0.1em 0;
-  background-color: #F4EEDE;
+  background-color: $background;
 }
 .c100 *, .c100 *:before, .c100 *:after {
   -webkit-box-sizing: content-box;
@@ -64,6 +64,7 @@
   font-size: 80px;
 }
 .c100 > span {
+  font-family: $proxima-regular;
   position: absolute;
   width: 100%;
   z-index: 1;

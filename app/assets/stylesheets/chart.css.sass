@@ -1,6 +1,7 @@
 #chart
   .chart-container 
-    font-family: Arial, Helvetica, sans-serif
+    font-family: $proxima-semibold
+    color: $blue-mid
     margin: 0 auto
     width: 100%
     height: 300px
@@ -11,37 +12,46 @@
       stroke: #ccc
       stroke-dasharray: 1,3
     circle.score
-      fill: white
-      stroke: steelblue
-      stroke-width: 2px
+      fill: $background
+      stroke: $blue-mid
+      stroke-width: 4px
+    .purpleForegroundStop1
+      stop-color: darken($background, 7%)
+    .purpleForegroundStop2
+      stop-color: $background
       
     .score-text
-      fill: black
+      fill: $blue-mid
     
     .chart-line
       fill: transparent
-      stroke: steelblue
+      stroke: $blue-mid
       stroke-width: 4px
+      -webkit-filter: drop-shadow( -5px -5px 5px #000 )
+      filter: drop-shadow( -5px -5px 5px #000 )
       
     .chart-fill
-      fill: lightblue
-      opacity: 0.4
+      fill: /* url(#gradientForegroundPurple) */none
       
   .meds-chart-container 
-    font-family: Arial, Helvetica, sans-serif
-    margin: 0 auto
+    font-family: $proxima-regular
+    margin: 0 auto 50px auto
     width: 100%
     height: 100px
       
     .medication
+      stroke: $background
+      stroke-width: 6px
     .med-level-1
-      fill: steelblue
+      fill: $blue-mid
     .med-level-2
-      fill: orange
+      fill: $orange-dark
     .med-level-3
-      fill: pink
+      fill: $pink-mid
     .med-line
-      stroke-width: 1px
-      stroke: grey
+      stroke-width: 2px
+      stroke-dasharray: 1, 6
+      stroke: darken($background, 8%)
       fill: none
+      stroke-linecap: round
       
