@@ -25,8 +25,7 @@
     h1 {
       font-family: $proxima-regular;
       font-size: 3.5em;
-      color: $blue-mid;
-      opacity: 0.75;
+      color: $green-mid;
     }
     h4 {
       font-family: $proxima-regular;
@@ -36,10 +35,7 @@
       position: relative;
       top: 1px;
       color: #666666;
-      box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
-      h1 {
-        opacity: 1;
-      }
+      box-shadow: 0 3px 0 darken($background, 15%);
     }
   }
 }

@@ -17,9 +17,9 @@ a:hover {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   .navbar-brand {
-  	font-family: "proxima_novasemibold";
+  	font-family: $proxima-semibold;
     font-size: 1.8em;
-    color: $blue-dark;
+    color: $green-mid;
   }
   .dropdown-menu {
     @include standard-shadow;
