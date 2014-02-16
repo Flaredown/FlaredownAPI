@@ -20,7 +20,8 @@ render "entries-chart" controller=this
     button.response-continue-link type="submit" click="setDateRange startDateFormatted endDateFormatted" Set
 hr
 
-#stats.row
+.container
+  #stats.row
     .col-xs-12.col-sm-6.col-md-4
       .stat-box
         h1 Remission
