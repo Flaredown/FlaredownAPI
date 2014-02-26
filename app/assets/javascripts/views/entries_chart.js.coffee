@@ -136,8 +136,7 @@ App.EntriesChartView = Em.View.extend
     scoreCircle
       .enter()
         .append("circle")
-          .datum( (d) -> 
-            console.log "ENTERED !!!"
+          .datum( (d) ->
             d.set("x", that.get("x")(d.startx))
             d.set("y", that.get("y").domain()[0]+100)
           )

@@ -1,14 +1,9 @@
 = outlet
-#chart
-  .chart-container
-  .meds-chart-container
-  //  .y-axis
-  //  .chart
-  //  .x-axis
-  // .legend
-  // render "entries-chart" user
   
-render "entries-chart" controller=this
+if hasScores
+  render "entries-chart" controller=this
+else
+  h1 No scores in date range
 
 .row
   .col-md-2

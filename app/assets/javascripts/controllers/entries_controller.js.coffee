@@ -4,6 +4,8 @@ App.EntriesController = Ember.ArrayController.extend
   sortProperties: ["unixDate"]
   sortAscending: true
   
+  hasScores: Em.computed.notEmpty "catalog.scores.[]"
+  
   startDateFormatted: Em.computed( -> @get("startDate").format("MMM-DD-YYYY")).property("startDate")
   endDateFormatted: Em.computed( -> @get("endDate").format("MMM-DD-YYYY")).property("startEnd")
   
@@ -14,16 +16,18 @@ App.EntriesController = Ember.ArrayController.extend
   .property("content.@each")
   
   dateRange: Em.computed( ->
-
+    console.log @get("catalog.scores")
     current = moment(@get("catalog.scores.firstObject.x")*1000)
     range   = Em.A([current.unix()])
     a_day   = moment.duration(86400*1000)
     
-    until range.get("lastObject") is @get("catalog.scores.lastObject.x")
-      current.add a_day
-      range.pushObject current.unix()
-    
-    range
+    if @get("hasScores")
+      until range.get("lastObject") is @get("catalog.scores.lastObject.x")
+        current.add a_day
+        range.pushObject current.unix()
+      range
+    else
+      Em.A()
       
   ).property("catalog.scores")
     
