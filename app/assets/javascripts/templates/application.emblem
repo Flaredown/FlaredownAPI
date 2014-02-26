@@ -1,5 +1,4 @@
 partial "header"
 
-.container
-  .main
-    #content.row= outlet
+.main
+  #content= outlet
