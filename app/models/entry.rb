@@ -44,7 +44,7 @@ class Entry < CouchRest::Model::Base
   end
   
   def complete?
-    catalogs.each{|catalog| return false unless self.send("valid_#{catalog}_entry?")}
+    catalogs.each{|catalog| return false unless self.send("complete_#{catalog}_entry?")}
     true
   end
   
@@ -56,7 +56,7 @@ class Entry < CouchRest::Model::Base
       entry.send("save_score", catalog)
       Entry.skip_callback(:save, :after, :enqueue)
       entry.save
-      Pusher.trigger("entries_for_#{entry.user_id}", "updates", {entry_date: entry.date, data: entry.chart_data}) if entry.complete?
+      # Pusher.trigger("entries_for_#{entry.user_id}", "updates", {entry_date: entry.date, data: entry.chart_data}) if entry.complete?
       Entry.set_callback(:save, :after, :enqueue)
     end
     

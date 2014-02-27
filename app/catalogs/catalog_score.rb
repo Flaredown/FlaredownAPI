@@ -24,12 +24,15 @@ module CatalogScore
   def calculate_score
     try("setup_#{@catalog}_scoring")
     
-    components = send("valid_#{@catalog}_entry?") ? calculate_score_components : []
-    score = components.reduce(0) do |result, component|
-      result + component[:score]
+    if send("complete_#{@catalog}_entry?")
+      components = calculate_score_components
+      score = components.reduce(0) do |result, component|
+        result + component[:score]
+      end
+      return [score, components]
+    else
+      return [-1, []] # -1 == incomplete
     end
-    
-    [score, components]
   end
   
   def calculate_score_components

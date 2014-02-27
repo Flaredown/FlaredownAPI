@@ -48,18 +48,27 @@ module CdaiCatalog
   end
   
   def valid_cdai_entry?
-    return false if responses.empty?
+    return false unless last_6_entries.count == 6
+    !last_6_entries.map{|e| e.filled_cdai_entry?}.include?(false)
+  end
+  def filled_cdai_entry?
     (CDAI_QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
   end
   
-  def last_7_entries
-		start_range = date - 7.days
-		end_range = date
-		@past_entries = Entry.by_date.startkey(start_range).endkey(end_range).to_a
+  def complete_cdai_entry?
+    return false if responses.empty?
+    return false unless valid_cdai_entry?
+    filled_cdai_entry?
+  end
+  
+  def last_6_entries
+		start_date = date - 6.days
+		end_date = date - 1.day
+		@past_entries = Entry.by_date(startkey: start_date, endkey: end_date).to_a
   end
   
   def setup_cdai_scoring
-    last_7_entries
+    last_6_entries
   end
   def cdai_complications_score
     CDAI_COMPLICATIONS.reduce(0) do |sum, question_name|

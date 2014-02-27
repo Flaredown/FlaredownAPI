@@ -141,7 +141,7 @@ App.EntriesChartView = Em.View.extend
             d.set("y", that.get("y").domain()[0]+100)
           )
           .attr
-            class: "score"
+            class: (d) -> "score #{d.classes}"
             r: 3
             opacity: 0
       

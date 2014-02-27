@@ -16,7 +16,6 @@ App.EntriesController = Ember.ArrayController.extend
   .property("content.@each")
   
   dateRange: Em.computed( ->
-    console.log @get("catalog.scores")
     current = moment(@get("catalog.scores.firstObject.x")*1000)
     range   = Em.A([current.unix()])
     a_day   = moment.duration(86400*1000)
@@ -36,15 +35,17 @@ App.EntriesController = Ember.ArrayController.extend
   
   scoreByUnix: (unix) -> @get("catalog.scores").find (score) -> score.x == unix
   
-  datum:        (coord) -> App.EntryDatum.create({id: coord.x.toString(), catalog: @get("catalogName"), x: coord.x, y: coord.y, origin: {x: coord.x, y: coord.y}, date: coord.x, scoreText: coord.y, controller: @})
-  missingDatum: (coord) -> App.EntryDatum.create({id: coord.x.toString(), catalog: @get("catalogName"), x: coord.x, y: coord.y, origin: {x: coord.x, y: coord.y}, date: coord.x, scoreText: null, controller: @})
+  datum:        (coord) -> App.EntryDatum.create({id: coord.x.toString(), type: "normal", catalog: @get("catalogName"), x: coord.x, y: coord.y, origin: {x: coord.x, y: coord.y}, date: coord.x, controller: @})
+  missingDatum: (coord) -> App.EntryDatum.create({id: coord.x.toString(), type: "missing", catalog: @get("catalogName"), x: coord.x, y: coord.y, origin: {x: coord.x, y: coord.y}, date: coord.x, controller: @})
   
   scoreData: Em.computed.map("dateRange", (unix) ->
     that = @
     score = that.scoreByUnix(unix)
+    console.log score
     if score
       that.datum(score)
     else
+      console.log "??!?!"
       that.missingDatum({x: unix, y: 0})
   )
       
