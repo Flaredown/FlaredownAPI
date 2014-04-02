@@ -24,3 +24,4 @@ dump.rdb
 /config/initializers/environment_vars.rb
 .tm_properties
 /howareyou_scratch.rb
+kickstarter-todo.md
