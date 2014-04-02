@@ -1,7 +1,7 @@
 CDAI.me
 ==========
 
-A web tool for tracking your CDAI
+A web tool for tracking your CDAI.
 
 ### Status
 
