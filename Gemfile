@@ -35,6 +35,9 @@ group :doc do
   gem "sdoc", require: false
 end
 
+group :development do
+  gem "foreman"
+end
 group :test, :development do
   gem "rspec-rails"
   gem "guard-rspec"
