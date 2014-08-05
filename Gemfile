@@ -1,9 +1,9 @@
 source  "https://rubygems.org"
-ruby    "2.0.0"
+ruby    "2.1.2"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 # gem "rails", github: "inopinatus/rails", branch: "hstore_arrays_fix"
-gem "rails", "4.0.2"
+gem "rails", "4.1.0"
 
 gem "pg"
 gem "couchrest_model"
@@ -39,6 +39,7 @@ group :development do
   gem "foreman"
 end
 group :test, :development do
+  gem "dotenv-rails"
   gem "rspec-rails"
   gem "guard-rspec"
   gem "capybara"
