@@ -1,4 +1,4 @@
-.row
+.container: .row
   .col-md-12
     if loggedIn
       p You are already logged in!
