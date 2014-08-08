@@ -1,6 +1,0 @@
-.modal-dialog
-  .modal-content
-    .modal-header
-      button.close click="close" type="button" aria-hidden="true" &times;
-      h4.modal-title= title
-    .modal-body: App.QuestionerView

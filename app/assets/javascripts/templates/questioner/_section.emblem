@@ -1,3 +1,0 @@
-.section: each response in sectionResponses
-  h3= response.name
-  = partial response.question.inputPartial

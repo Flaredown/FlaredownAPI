@@ -1,4 +1,0 @@
-ul.response-select: each input in response.question.inputs
-  li
-    a href="" click="setResponse response input.value"
-    	= input.value
