@@ -35,11 +35,20 @@ group :doc do
   gem "sdoc", require: false
 end
 
+group :test, :development do
+  gem "dotenv-rails"
+  gem "pry"
+  gem "pry-remote"
+  gem "i18n-tasks", "~> 0.2.10"
+  gem "ruby-prof"
+end
+
 group :development do
   gem "foreman"
 end
-group :test, :development do
-  gem "dotenv-rails"
+group :test do
+  gem "resque_spec"
+  gem "foreman"
   gem "rspec-rails"
   gem "guard-rspec"
   gem "capybara"
@@ -53,18 +62,9 @@ group :test, :development do
   gem "timecop"
   gem "teaspoon"
   gem "simplecov"
-  gem "pry"
-  gem "pry-remote"
   gem "coveralls", require: false
   gem "json_spec"
-  gem "i18n-tasks", "~> 0.2.10"
-  gem "ruby-prof"
 end
-
-group :test do
-  gem "resque_spec"
-end
-
 
 # Use ActiveModel has_secure_password
 # gem "bcrypt-ruby", "~> 3.1.2"
