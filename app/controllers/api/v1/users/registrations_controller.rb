@@ -1,5 +1,5 @@
 # controllers/users/registrations_controller.rb
-class Users::RegistrationsController < Devise::RegistrationsController
+class Api::V1::Users::RegistrationsController < Devise::RegistrationsController
  
   before_filter :configure_permitted_parameters
  

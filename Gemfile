@@ -22,6 +22,8 @@ gem "resque"
 gem "resque-scheduler", require: "resque_scheduler"
 gem "redis"
 
+gem 'cancan'
+
 gem "pusher"
 
 gem "hashie"
@@ -48,7 +50,6 @@ group :development do
 end
 group :test do
   gem "resque_spec"
-  gem "foreman"
   gem "rspec-rails"
   gem "guard-rspec"
   gem "capybara"
