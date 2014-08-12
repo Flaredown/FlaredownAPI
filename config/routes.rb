@@ -8,7 +8,10 @@ CDAI::Application.routes.draw do
       devise_for :users, controllers: { registrations: "api/v1/users/registrations", sessions: "api/v1/users/sessions", confirmations: "api/v1/users/confirmations"}
       
       resources :entries
+      
+      resources :current_user
       resources :users
+      
       get "/chart" => "chart#show"
       get "/users/:id" => "users#show"
       

@@ -1,6 +1,4 @@
-class Api::V1::ChartController < Api::V1::BaseController
-  before_filter :authenticate_user!
-  
+class Api::V1::ChartController < Api::V1::BaseController  
 	def show
     start_date  = Date.parse(params[:start_date])
     end_date    = Date.parse(params[:end_date])
