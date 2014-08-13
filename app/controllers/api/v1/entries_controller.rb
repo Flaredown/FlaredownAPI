@@ -10,7 +10,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
 	def create
 		@entry = Entry.new(entry_params.merge(user_id: current_user.id, date: Date.today))
     @entry.save
-    respond_with @entry
+    respond_with :api, :v1, @entry
 	end
   
 	def update
@@ -19,7 +19,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
       @entry.enqueue
       render json: {id: @entry.id}, status: 200
     else
-      respond_with @entry
+      respond_with :api, :v1, @entry
     end
 	end
 
@@ -30,13 +30,14 @@ class Api::V1::EntriesController < Api::V1::BaseController
       render(json: {id: @entry.try(:id)})
     else
       @entry = Entry.find(params[:id])
-      @entry ? respond_with(@entry) : four_oh_four
+      @entry ? respond_with(:api, :v1, @entry) : four_oh_four
     end    
 	end
   
   private
   def entry_params
-    params.require(:entry).permit(
+    json_params = ActionController::Parameters.new( JSON.parse(params.require(:entry)) )
+    json_params.permit(
       catalogs: [],
       responses: [:name, :value],
       treatments: [:name]

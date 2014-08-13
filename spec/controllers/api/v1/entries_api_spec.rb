@@ -5,6 +5,7 @@ describe Api::V1::EntriesController, type: :controller do
   let(:user) { create :user }
   before(:each) do
     sign_in(user)
+    @request.env["HTTP_ACCEPT"] = "application/json"
   end
   
   context "find a user's entries" do  
@@ -30,7 +31,7 @@ describe Api::V1::EntriesController, type: :controller do
     # end
   
     it "authenticated user creates entry" do
-      post :create, {entry: entry_attributes}
+      post :create, entry: entry_attributes.to_json
       expect(user.entries.first.stools).to eq entry_attributes[:responses].select{|q| q[:name] == "stools"}.first[:value]
       expect(user.entries.first.date).to eq Date.today
       returns_code 201
@@ -40,7 +41,7 @@ describe Api::V1::EntriesController, type: :controller do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == "stools"}.first[:value] = 999999
 
-      post :entries, {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      post :create, entry: attrs.to_json
     
       expect(json_response["errors"]).to be_present
       expect(json_response["errors"]["responses"]).to be_present
@@ -66,7 +67,7 @@ describe Api::V1::EntriesController, type: :controller do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == "weight_current"}.first[:value] = 200
 
-      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      put :update, id: entry.id, entry: attrs.to_json
     
       expect(entry.reload.weight_current).to eq 200
       returns_code 200
@@ -74,7 +75,7 @@ describe Api::V1::EntriesController, type: :controller do
     it "expect same ID in response as sent" do
       create :cdai_entry, user: user
     
-      patch "/entries/#{entry.id}", {entry: entry_attributes}.merge(api_credentials(user)).to_json, data_is_json
+      patch :update, id: entry.id, entry: entry_attributes.to_json
       expect(json_response["id"]).to eq entry.id
     
       returns_code 200
@@ -87,7 +88,7 @@ describe Api::V1::EntriesController, type: :controller do
       attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = 1
     
     
-      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      patch :update, id: entry.id, entry: attrs.to_json
       expect(entry.reload.opiates).to eq 1
     
       returns_code 200
@@ -97,7 +98,7 @@ describe Api::V1::EntriesController, type: :controller do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == "opiates"}.first[:value] = "valuenogood"
     
-      patch "/entries/#{entry.id}", {entry: attrs}.merge(api_credentials(user)).to_json, data_is_json
+      patch :update, id: entry.id, entry: attrs.to_json
       returns_code 422
     end
   
