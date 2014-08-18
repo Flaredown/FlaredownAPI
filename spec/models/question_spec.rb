@@ -9,7 +9,7 @@ describe Question do
     end
     it "has an i18n entry for a sensible name" do
       question.name = "hematocrit"
-      expect(question.localized_name).to eq "Hematocrit level"
+      expect(question.localized_name).to eq "Hematocrit level (optional)"
     end
   end
   
