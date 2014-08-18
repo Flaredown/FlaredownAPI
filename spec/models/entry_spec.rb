@@ -42,28 +42,29 @@ describe Entry do
   end
   
   describe "initialization (using CDAI module)" do
+    pending "CDAI Not being used currently."
     let(:entry) { create :cdai_entry }
     before(:each) do
       with_resque{ entry.save }; entry.reload
     end
     
-    it "includes a constant for for catalog score components" do
-      expect(Entry::CDAI_SCORE_COMPONENTS).to include :stools
-    end
-    it "has a list of applicable questions" do
-      expect(entry.class.question_names).to include :stools
-    end
-    it "responds to missing methods by checking if a Question of that name exists" do
-      expect(entry.methods).to_not include :stools
-      expect(entry.stools).to be_an Integer
-    end
-    it "responds to missing methods by checking scores for a score in the format 'catalog'_score" do
-      expect(entry.methods).to_not include :cdai_score
-      expect(entry.cdai_score).to be_an Integer
-    end
-    it "an actual missing method supers to method_missing" do
-      expect{ entry.nosuchmethod }.to raise_error NoMethodError
-    end
+    # it "includes a constant for for catalog score components" do
+    #   expect(Entry::CDAI_SCORE_COMPONENTS).to include :stools
+    # end
+    # it "has a list of applicable questions" do
+    #   expect(entry.class.question_names).to include :stools
+    # end
+    # it "responds to missing methods by checking if a Question of that name exists" do
+    #   expect(entry.methods).to_not include :stools
+    #   expect(entry.stools).to be_an Integer
+    # end
+    # it "responds to missing methods by checking scores for a score in the format 'catalog'_score" do
+    #   expect(entry.methods).to_not include :cdai_score
+    #   expect(entry.cdai_score).to be_an Integer
+    # end
+    # it "an actual missing method supers to method_missing" do
+    #   expect{ entry.nosuchmethod }.to raise_error NoMethodError
+    # end
   end
   
 end
