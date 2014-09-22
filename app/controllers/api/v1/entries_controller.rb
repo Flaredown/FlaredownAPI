@@ -8,7 +8,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
 	end
 
 	def create
-		@entry = Entry.new(entry_params.merge(user_id: current_user.id, date: Date.today))
+		@entry = Entry.new({catalogs: params[:entry][:catalogs], user_id: current_user.id, date: Date.today})
     @entry.save
     respond_with :api, :v1, @entry
 	end

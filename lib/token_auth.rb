@@ -43,7 +43,7 @@ module TokenAuth
           sign_in user, store: false
           
           # This is Devise's authentication
-          authenticate_user!
+          authenticate_api_v1_user!
         end
       end
 

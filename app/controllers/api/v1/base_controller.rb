@@ -1,6 +1,6 @@
 class Api::V1::BaseController < ActionController::Base
   
-  # include TokenAuth::Controller
+  include TokenAuth::Controller
   before_filter :authenticate_api_v1_user!
   # before_filter :configure_permitted_parameters, if: :devise_controller?
   before_filter :set_format, except: [:app]
