@@ -29,7 +29,6 @@ gem "pusher"
 gem "hashie"
 
 group :production do
-  gem "rails_12factor" # for heroku asset compilation
 end
 
 group :doc do
