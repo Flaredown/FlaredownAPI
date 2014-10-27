@@ -17,10 +17,10 @@ Entry.all.each{|e| e.destroy} # destroy CouchDB docs
 require 'rspec/rails'
 require 'rspec/autorun'
 
-require 'capybara/rspec'
-Capybara.javascript_driver  = :webkit
-Capybara.default_selector   = :css
-Capybara.ignore_hidden_elements = false
+# require 'capybara/rspec'
+# Capybara.javascript_driver  = :webkit
+# Capybara.default_selector   = :css
+# Capybara.ignore_hidden_elements = false
 
 require 'resque_spec'
 # require 'resque_spec/scheduler'
@@ -37,7 +37,7 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
-  config.include Capybara::DSL
+  # config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods  
   config.include JsonSpec::Helpers
   
@@ -91,7 +91,7 @@ RSpec.configure do |config|
     ResqueSpec.reset!
     Resque::Scheduler.mute = true
     FactoryGirl.reload
-    Capybara.current_driver = :webkit
+    # Capybara.current_driver = :webkit
     example.run
     REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
