@@ -4,7 +4,7 @@ require "spec_helper"
 #
 #   let(:user) { create :user }
 #   before(:each) do
-#     3.times{|i| with_resque{ create :cdai_entry, user: user, date: Date.today-i.days}}
+#     3.times{|i| with_resque{ create :hbi_entry, user: user, date: Date.today-i.days}}
 #   end
 #
 #   scenario "see recent entries charted" do

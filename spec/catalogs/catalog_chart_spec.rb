@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CatalogChart do
   let(:user) { create :user }
-  let(:chart) { CatalogChart.new(user.id, "cdai") }
+  let(:chart) { CatalogChart.new(user.id, "hbi") }
   
   it "#date_range" do
     range = chart.date_range(Date.today, Date.today+3.days)
@@ -14,34 +14,34 @@ describe CatalogChart do
     let(:user) { create :user }
     before(:each) do
       3.times do |i|
-        create :cdai_entry, user: user, date: Date.today-i.days
+        create :hbi_entry, user: user, date: Date.today-i.days
       end
     end
     
-    let(:chart) { CatalogChart.new(user.id, ["cdai"]) } # default date span, 1 week before
+    let(:chart) { CatalogChart.new(user.id, ["hbi"]) } # default date span, 1 week before
     
     describe "#data" do
-      let(:data) { chart.data }
+      let(:data) { chart.catalogs_data }
       it "should return a hash with keys for various chart pieces" do
         expect(data).to be_a Array
         
         expect(data.first).to have_key(:name)
-        expect(data.first[:name]).to eq "cdai"
+        expect(data.first[:name]).to eq "hbi"
         
         expect(data.first).to have_key(:scores)
         expect(data.first).to have_key(:components)
-        expect(data.first).to have_key(:medications)
+        # expect(data.first).to have_key(:medications)
       end
     end
     
     describe "#score_coordinates" do
       
-      let(:coordinates) { chart.score_coordinates("cdai") }
+      let(:coordinates) { chart.score_coordinates("hbi") }
       it "should have x values sorted chronologically" do
         Timecop.freeze do
-          oldest_entry = with_resque{ create :cdai_entry, user: user, date: Date.today-6.days }
-          expect(chart.score_coordinates("cdai").count).to eq 4
-          expect(Time.at(chart.score_coordinates("cdai").first[:x]).to_date).to eq oldest_entry.date
+          oldest_entry = with_resque{ create :hbi_entry, user: user, date: Date.today-6.days }
+          expect(chart.score_coordinates("hbi").count).to eq 4
+          expect(Time.at(chart.score_coordinates("hbi").first[:x]).to_date).to eq oldest_entry.date
         end
       end
       it "should return coordinates" do
@@ -51,11 +51,12 @@ describe CatalogChart do
       end
     
       it "strips entries without scores from coordinates" do
+        pending "This shouldn't be possible due to incomplete catalogs going to -1"
         entry = Entry.by_date(key: Time.at(coordinates.first[:x]).to_date).first
         entry.responses.delete entry.responses.first
         entry.scores.first.write_attribute "value", nil
-        with_resque{ entry.save }
-        expect(chart.score_coordinates("cdai").count).to eq 2
+        with_resque{ entry.save }; entry.reload
+        expect(CatalogChart.new(user.id, "hbi").score_coordinates("hbi").count).to eq 2
       end
     
       it "should return unix time and score for x and y" do
@@ -65,8 +66,7 @@ describe CatalogChart do
     end
     
     it "should return a limit chart for a limited date range" do
-      
-      expect(chart.score_coordinates("cdai", Date.yesterday, Date.today).count).to eq 2
+      expect(chart.score_coordinates("hbi", Date.yesterday, Date.today).count).to eq 2
     end
         
   end

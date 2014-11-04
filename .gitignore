@@ -27,3 +27,5 @@ dump.rdb
 .tm_properties
 /howareyou_scratch.rb
 kickstarter-todo.md
+
+Procfile.vagrant

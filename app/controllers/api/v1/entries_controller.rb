@@ -8,8 +8,8 @@ class Api::V1::EntriesController < Api::V1::BaseController
 	end
 
 	def create
-		@entry = Entry.new({catalogs: params[:entry][:catalogs], user_id: current_user.id, date: Date.today})
-    @entry.save
+		@entry = Entry.new({user_id: current_user.id, catalogs: entry_params["catalogs"]}) # catalogs used here for module inclusion
+    @entry.update_attributes entry_params
     respond_with :api, :v1, @entry
 	end
   
@@ -38,6 +38,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
   def entry_params
     json_params = ActionController::Parameters.new( JSON.parse(params.require(:entry)) )
     json_params.permit(
+      :date,
       catalogs: [],
       responses: [:name, :value],
       treatments: [:name]

@@ -28,8 +28,8 @@ class CatalogChart
   def score_coordinates(catalog, start_date=start_date, end_date=end_date)
     date_range(start_date, end_date).map do |entry_date|
       
-      value = REDIS.get("#{user_id}:scores:#{entry_date}:#{catalog}_score").to_i
-      value.zero? ? nil : {x: entry_date, y: value}
+      value = REDIS.get("#{user_id}:scores:#{entry_date}:#{catalog}_score")
+      value.nil? ? nil : {x: entry_date, y: value.to_i}
       
     end.compact.sort_by{|c| c[:x]}
   end

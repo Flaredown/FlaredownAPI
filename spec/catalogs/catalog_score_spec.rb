@@ -13,6 +13,7 @@ class FakeEntry
   def scores; [Score.new({name: "fake", value: nil})]; end
   
   def valid_fake_entry?; true ;end
+  def complete_fake_entry?; true ;end
   def fake_score_components; %w( foo bar ) ;end
   def fake_foo_score; 15; end
   def fake_bar_score; 20; end
@@ -47,13 +48,13 @@ describe CatalogScore do
     expect(REDIS.hget("1:scores:#{entry.date.to_time.to_i}:fake", "foo")).to eq "15"
   end
   
-  describe "with CDAI catalog" do
+  describe "with HBI catalog" do
     let(:user) { create :user }
-    let!(:entry) { with_resque{ create :cdai_entry, user: user } }
+    let!(:entry) { with_resque{ create :hbi_entry, user: user } }
     
     it "#save_score" do
-      expect(REDIS.get("#{user.id}:scores:#{entry.date.to_time.to_i}:cdai_score").to_i).to be > 0
-      expect(REDIS.hget("#{user.id}:scores:#{entry.date.to_time.to_i}:cdai", "stools").to_i).to be > 0
+      expect(REDIS.get("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi_score").to_i).to be > 0
+      expect(REDIS.hget("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi", "stools").to_i).to be > 0
     end
     it "saves the score on the entry document" do
       expect(entry.reload.scores).to have(1).item
