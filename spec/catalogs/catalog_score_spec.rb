@@ -53,8 +53,8 @@ describe CatalogScore do
     let!(:entry) { with_resque{ create :hbi_entry, user: user } }
     
     it "#save_score" do
-      expect(REDIS.get("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi_score").to_i).to be > 0
-      expect(REDIS.hget("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi", "stools").to_i).to be > 0
+      expect(REDIS.get("#{user.id}:scores:#{entry.date.to_time.to_i}:cdai_score").to_i).to be_an Integer
+      expect(REDIS.hget("#{user.id}:scores:#{entry.date.to_time.to_i}:cdai", "stools").to_i).to be_an Integer
     end
     it "saves the score on the entry document" do
       expect(entry.reload.scores).to have(1).item
