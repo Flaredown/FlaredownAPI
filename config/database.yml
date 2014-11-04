@@ -1,15 +1,17 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: cdai_development
+  database: flaredown_development
   pool: 5
   host: localhost
   user: postgres
+  password: password
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: cdai_test
+  database: flaredown_test
   pool: 5
   host: localhost
   user: postgres
+  password: password

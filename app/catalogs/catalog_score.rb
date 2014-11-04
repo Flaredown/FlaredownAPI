@@ -1,6 +1,6 @@
 module CatalogScore
   
-  def save_score(catalog)
+   def save_score(catalog)
     @catalog = catalog
     score, components = calculate_score
     
@@ -26,6 +26,7 @@ module CatalogScore
     
     if send("complete_#{@catalog}_entry?")
       components = calculate_score_components
+      
       score = components.reduce(0) do |result, component|
         result + component[:score]
       end
@@ -37,13 +38,15 @@ module CatalogScore
   
   def calculate_score_components
     catalog_module.const_get("#{@catalog.upcase}_SCORE_COMPONENTS").map do |component|
-      {name: component.to_s, score: send("#{@catalog}_#{component}_score")}
+      score = respond_to?("#{@catalog}_#{component}_score") ? send("#{@catalog}_#{component}_score") : send(component)
+      {name: component.to_s, score: score}
     end
   end
-  
+
+  ### Was used for CDAI weekly stuff, TODO decide whether it belongs?
   def update_upcoming_catalog(catalog)
-    @catalog = catalog
-    REDIS.zadd("#{user_id}:upcoming_catalogs", catalog_module.const_get("#{@catalog.upcase}_EXPECTED_USE").last, @catalog)
+    # @catalog = catalog
+    # REDIS.zadd("#{user_id}:upcoming_catalogs", catalog_module.const_get("#{@catalog.upcase}_EXPECTED_USE").last, @catalog)
   end
 
 end

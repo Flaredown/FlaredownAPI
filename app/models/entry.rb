@@ -1,7 +1,7 @@
 class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
-  AVAILABLE_CATALOGS = %w( cdai )
+  AVAILABLE_CATALOGS = %w( hbi )
   
   @queue = :entries
   cattr_accessor(:question_names) {[]}
@@ -52,7 +52,7 @@ class Entry < CouchRest::Model::Base
     entry = Entry.find(entry_id)
     
     entry.catalogs.each do |catalog|
-      entry.update_upcoming_catalog(catalog)
+      # entry.update_upcoming_catalog(catalog)
       entry.send("save_score", catalog)
       Entry.skip_callback(:save, :after, :enqueue)
       entry.save
