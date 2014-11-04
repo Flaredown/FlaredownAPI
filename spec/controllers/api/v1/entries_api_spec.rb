@@ -24,11 +24,6 @@ describe Api::V1::EntriesController, type: :controller do
   end
 
   context "entry creation" do
-
-    # it "unauthenticated user" do
-    #   post :create, {entry: {weight_current: 123}}
-    #   expect_not_authenticated
-    # end
   
     it "authenticated user creates entry" do
       post :create, entry: entry_attributes.to_json
