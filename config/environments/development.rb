@@ -26,4 +26,17 @@ CDAI::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  config.action_mailer.asset_host = "http://#{ENV["HOSTNAME"]}"
+  config.action_mailer.default_url_options = { :host => "http://#{ENV["HOSTNAME"]}"}
+  # ActionMailer::Base.smtp_settings = {
+  #     :port =>           ENV["MAIL_PORT"].to_i,
+  #     :address =>        ENV["MAIL_ADDRESS"],
+  #     :user_name =>      ENV['MANDRILL_USERNAME'],
+  #     :password =>       ENV['MANDRILL_APIKEY'],
+  #     :domain =>         ENV["MAIL_DOMAIN"],
+  #     :enable_starttls_auto => true,
+  #     :authentication => "login"
+  # }
+  config.action_mailer.delivery_method = :letter_opener
 end

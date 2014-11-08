@@ -32,6 +32,8 @@ gem "pusher"
 
 gem "hashie"
 
+gem "letter_opener"
+
 group :production do
 end
 
