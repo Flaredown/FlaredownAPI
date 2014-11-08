@@ -26,11 +26,19 @@ CDAI::Application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
-  # Tell Action Mailer not to deliver emails to the real world.
-  # The :test delivery method accumulates sent emails in the
-  # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :test
-
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  config.action_mailer.asset_host = "http://#{ENV["HOSTNAME"]}"
+  config.action_mailer.default_url_options = { :host => "http://#{ENV["HOSTNAME"]}"}
+  # ActionMailer::Base.smtp_settings = {
+  #     :port =>           ENV["MAIL_PORT"].to_i,
+  #     :address =>        ENV["MAIL_ADDRESS"],
+  #     :user_name =>      ENV['MANDRILL_USERNAME'],
+  #     :password =>       ENV['MANDRILL_APIKEY'],
+  #     :domain =>         ENV["MAIL_DOMAIN"],
+  #     :enable_starttls_auto => true,
+  #     :authentication => "login"
+  # }
+  config.action_mailer.delivery_method = :test
 end
