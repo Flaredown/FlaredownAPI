@@ -17,6 +17,8 @@ gem "uglifier", ">= 1.3.0"
 gem "slim"
 
 gem "devise"
+gem 'devise_invitable'
+
 gem "oauth"
 gem "active_model_serializers"
 
