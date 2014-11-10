@@ -7,24 +7,24 @@ Flaredown is a chronic illness management tool
 ## Group Entry
 
 Entries are json documents that contain all the responses and results
-associated with a Flaredown user "check-in" and have the following
+associated with a Flaredown user "check-in" and have the following 
 possible attributes.
 
 - id
 - date
-- catalogs
+- catalogs 
 - catalog_definitions
 - responses
 - scores
 
 Depending on action, only specific attributes are included (e.g. `catalog_definitions` for new entries,
 `responses` and `scores` for existing entry lookup.
-
+ 
 
 ## Entries [/v1/entries/{id}]
 + Parameters
     + id (required, string, `abc123`) ... Entry document id
-
+    
 ### Get an Entry [GET]
 + Response 200 (application/json)
 
@@ -46,8 +46,8 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
 
 ## Entry Creation [/v1/entries/{date}]
 ### New Entry [POST]
-Creates a new Entry for the specified date or returns an existing one.
-This endpoint is unique in that it returns the `catalog` `definitions` along with
+Creates a new Entry for the specified date or returns an existing one. 
+This endpoint is unique in that it returns the `catalog` `definitions` along with 
 the the `entry`. In this way it should always be used to start the "check-in"
 process even if the `entry` exists so that the frontend knows how to build
 the form.
@@ -56,350 +56,349 @@ the form.
 
 + Parameters
     + date (required, string, `2014-08-13`) ... A date string in the format YYYY-MM-DD
-
+    
 + Request (application/json)
 
         { date: "2014-08-13" }
 
 + Response 201 (application/json)
 
-        {
-            "id": "d07b851b0f241f707dafa7c361fa76ee",
+        { 
+            "id": "d07b851b0f241f707dafa7c361fa76ee", 
             "catalogs": ["hbi"],
             "catalog_definitions": {
-									"hbi": {
-                  "ab_mass": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "none",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "dubious",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "definite",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "definite_and_tender",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "ab_mass",
-                          "section": 3
-                      }
-                  ],
-                  "ab_pain": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "none",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "mild",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "moderate",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "severe",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "ab_pain",
-                          "section": 1
-                      }
-                  ],
-                  "complications": [
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_arthralgia",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_uveitis",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_erythema_nodosum",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_aphthous_ulcers",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_anal_fissure",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_fistula",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_abscess",
-                          "section": 4
-                      }
-                  ],
-                  "general_well_being": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "very_well",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "slightly_below_par",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "poor",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "very_poor",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "terrible",
-                                  "meta_label": "sad_face",
-                                  "value": 4
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "general_well_being",
-                          "section": 0
-                      }
-                  ],
-                  "stools": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": "stools_daily",
-                                  "label": null,
-                                  "meta_label": null,
-                                  "value": 0
-                              }
-                          ],
-                          "kind": "number",
-                          "name": "stools",
-                          "section": 2
-                      }
-                  ]
-              }
-          }
+                "hbi": {
+                    "ab_mass": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "none",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "dubious",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "definite",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "definite_and_tender",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "ab_mass",
+                            "section": 3
+                        }
+                    ],
+                    "ab_pain": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "none",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "mild",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "moderate",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "severe",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "ab_pain",
+                            "section": 1
+                        }
+                    ],
+                    "complications": [
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_arthralgia",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_uveitis",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_erythema_nodosum",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_aphthous_ulcers",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_anal_fissure",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_fistula",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_abscess",
+                            "section": 4
+                        }
+                    ],
+                    "general_well_being": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "very_well",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "slightly_below_par",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "poor",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "very_poor",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "terrible",
+                                    "meta_label": "sad_face",
+                                    "value": 4
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "general_well_being",
+                            "section": 0
+                        }
+                    ],
+                    "stools": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": "stools_daily",
+                                    "label": null,
+                                    "meta_label": null,
+                                    "value": 0
+                                }
+                            ],
+                            "kind": "number",
+                            "name": "stools",
+                            "section": 2
+                        }
+                    ]
+                }
+            }
 
 + Response 200 (application/json)
 
-        {
+        { 
             "id": "d07b851b0f241f707dafa7c361fa76ee",
             "catalogs": ["hbi"],
             "catalog_definitions": {
-            "catalog_definitions": {
-									"hbi": {
-                  "ab_mass": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "none",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "dubious",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "definite",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "definite_and_tender",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "ab_mass",
-                          "section": 3
-                      }
-                  ],
-                  "ab_pain": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "none",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "mild",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "moderate",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "severe",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "ab_pain",
-                          "section": 1
-                      }
-                  ],
-                  "complications": [
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_arthralgia",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_uveitis",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_erythema_nodosum",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_aphthous_ulcers",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_anal_fissure",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_fistula",
-                          "section": 4
-                      },
-                      {
-                          "kind": "checkbox",
-                          "name": "complication_abscess",
-                          "section": 4
-                      }
-                  ],
-                  "general_well_being": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": null,
-                                  "label": "very_well",
-                                  "meta_label": "happy_face",
-                                  "value": 0
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "slightly_below_par",
-                                  "meta_label": "neutral_face",
-                                  "value": 1
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "poor",
-                                  "meta_label": "frowny_face",
-                                  "value": 2
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "very_poor",
-                                  "meta_label": "sad_face",
-                                  "value": 3
-                              },
-                              {
-                                  "helper": null,
-                                  "label": "terrible",
-                                  "meta_label": "sad_face",
-                                  "value": 4
-                              }
-                          ],
-                          "kind": "select",
-                          "name": "general_well_being",
-                          "section": 0
-                      }
-                  ],
-                  "stools": [
-                      {
-                          "inputs": [
-                              {
-                                  "helper": "stools_daily",
-                                  "label": null,
-                                  "meta_label": null,
-                                  "value": 0
-                              }
-                          ],
-                          "kind": "number",
-                          "name": "stools",
-                          "section": 2
-                      }
-                  ]
-              }
-          },
-          "responses": [
-              {
-                  "id": "ab_pain_d07b851b0f241f707dafa7c3619ad12a",
-                  "name": "ab_pain",
-                  "value": 3
-              }
-          ]
-      }
+                "hbi": {
+                    "ab_mass": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "none",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "dubious",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "definite",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "definite_and_tender",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "ab_mass",
+                            "section": 3
+                        }
+                    ],
+                    "ab_pain": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "none",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "mild",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "moderate",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "severe",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "ab_pain",
+                            "section": 1
+                        }
+                    ],
+                    "complications": [
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_arthralgia",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_uveitis",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_erythema_nodosum",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_aphthous_ulcers",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_anal_fissure",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_fistula",
+                            "section": 4
+                        },
+                        {
+                            "kind": "checkbox",
+                            "name": "complication_abscess",
+                            "section": 4
+                        }
+                    ],
+                    "general_well_being": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": null,
+                                    "label": "very_well",
+                                    "meta_label": "happy_face",
+                                    "value": 0
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "slightly_below_par",
+                                    "meta_label": "neutral_face",
+                                    "value": 1
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "poor",
+                                    "meta_label": "frowny_face",
+                                    "value": 2
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "very_poor",
+                                    "meta_label": "sad_face",
+                                    "value": 3
+                                },
+                                {
+                                    "helper": null,
+                                    "label": "terrible",
+                                    "meta_label": "sad_face",
+                                    "value": 4
+                                }
+                            ],
+                            "kind": "select",
+                            "name": "general_well_being",
+                            "section": 0
+                        }
+                    ],
+                    "stools": [
+                        {
+                            "inputs": [
+                                {
+                                    "helper": "stools_daily",
+                                    "label": null,
+                                    "meta_label": null,
+                                    "value": 0
+                                }
+                            ],
+                            "kind": "number",
+                            "name": "stools",
+                            "section": 2
+                        }
+                    ]
+                }
+            }
+            "responses": [
+                {
+                    "id": "ab_pain_d07b851b0f241f707dafa7c3619ad12a",
+                    "name": "ab_pain",
+                    "value": 3
+                }
+            ]
+        }
