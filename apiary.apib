@@ -21,30 +21,79 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
 `responses` and `scores` for existing entry lookup.
  
 
-## Entries [/v1/entries/{id}]
+## Entries [/v1/entries/{date}]
 + Parameters
-    + id (required, string, `abc123`) ... Entry document id
+    + date (required, string, `2014-08-13`) ... A date string in the format YYYY-MM-DD
     
 ### Get an Entry [GET]
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+        "entry": {   
+            "id": "abc123", 
+            "catalogs": ["hbi"],
+            "responses": [
+                {
+                    "id": "hbi_general_well_being_abc123",
+                    "name": "general_well_being",
+                    "value": 2,
+                    "catalog": "hbi"
+                },
+                {
+                    "id": "hbi_ab_pain_abc123",
+                    "name": "ab_pain",
+                    "value": 3,
+                    "catalog": "hbi"
+                },
+                {
+                    "id": "hbi_stools_abc123",
+                    "name": "stools",
+                    "value": 1,
+                    "catalog": "hbi"
+                },
+                {
+                    "id": "hbi_ab_mass_abc123",
+                    "name": "ab_mass",
+                    "value": 3,
+                    "catalog": "hbi"
+                },
+                {
+                    "id": "hbi_complication_uveitis_abc123",
+                    "name": "complication_uveitis",
+                    "value": 1,
+                    "catalog": "hbi"
+                },
+                {
+                    "id": "hbi_complication_abscess_abc123",
+                    "name": "complication_abscess",
+                    "value": 0,
+                    "catalog": "hbi"
+                }
+            ]
+            "scores": [
+                {
+                "id": "hbi_d07b851b0f241f707dafa7c3619ad12a",
+                "name": "hbi",
+                "value": 10
+                }
+            ]
+        }
+
 
 ### Update an Entry [PUT]
 + Response 200 (application/json)
 
-        [{
-          "id": 1, "title": "Jogging in park"
-        }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+        "entry": {   
+            "id": "abc123", 
+            "catalogs": ["hbi"],
+            "responses": [
+                {
+                    "name": "general_well_being",
+                    "value": 3,
+                    "catalog": "hbi"
+                }
+            ]
+        }
 
-
-## Entry Creation [/v1/entries/{date}]
 ### New Entry [POST]
 Creates a new Entry for the specified date or returns an existing one. 
 This endpoint is unique in that it returns the `catalog` `definitions` along with 
@@ -53,9 +102,6 @@ process even if the `entry` exists so that the frontend knows how to build
 the form.
 
 `catalogs` are automatically included based on the `User`s current subsscriptions.
-
-+ Parameters
-    + date (required, string, `2014-08-13`) ... A date string in the format YYYY-MM-DD
     
 + Request (application/json)
 
@@ -63,8 +109,8 @@ the form.
 
 + Response 201 (application/json)
 
-        { 
-            "id": "d07b851b0f241f707dafa7c361fa76ee", 
+        "entry": { 
+            "id": "abc123", 
             "catalogs": ["hbi"],
             "catalog_definitions": {
                 "hbi": {
@@ -230,8 +276,8 @@ the form.
 
 + Response 200 (application/json)
 
-        { 
-            "id": "d07b851b0f241f707dafa7c361fa76ee",
+        "entry": { 
+            "id": "abc123",
             "catalogs": ["hbi"],
             "catalog_definitions": {
                 "hbi": {
@@ -396,7 +442,7 @@ the form.
             },
             "responses": [
                 {
-                    "id": "ab_pain_d07b851b0f241f707dafa7c3619ad12a",
+                    "id": "ab_pain_abc123",
                     "name": "ab_pain",
                     "value": 3
                 }
