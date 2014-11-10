@@ -4,14 +4,14 @@ module HbiCatalog
   HBI_DEFINITION = {
     
     ### General Well-Being
-    general_well_being: [{
+    general_wellbeing: [{
       # 0 Very Well
       # 1 Slightly below par
       # 2 Poor
       # 3 Very poor
       # 4 Terrible
     
-      name: :general_well_being,
+      name: :general_wellbeing,
       section: 0,
       kind: :select,
       inputs: [
@@ -128,7 +128,7 @@ module HbiCatalog
     validate :response_ranges
     def response_ranges
       ranges = [
-        [:general_well_being, [*0..4]],
+        [:general_wellbeing, [*0..4]],
         [:ab_pain, [*0..3]],
         [:stools, [*0..50]],
         [:ab_mass, [*0..3]],

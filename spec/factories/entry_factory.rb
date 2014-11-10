@@ -19,7 +19,7 @@ FactoryGirl.define do
     before(:create) do |entry|
       # setup_hbi_questions
       
-      entry.responses << build(:response, {name: :general_well_being, value: [*0..4].sample})
+      entry.responses << build(:response, {name: :general_wellbeing, value: [*0..4].sample})
       entry.responses << build(:response, {name: :ab_pain           , value: [*0..3].sample})
       entry.responses << build(:response, {name: :stools            , value: [*0..10].sample})
       entry.responses << build(:response, {name: :ab_mass           , value: [*0..3].sample})

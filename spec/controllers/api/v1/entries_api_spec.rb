@@ -103,7 +103,7 @@ end
 
 def response_attributes
   {
-    general_well_being: 4,
+    general_wellbeing: 4,
     ab_pain: 1,
     stools: 2,
     ab_mass: 2,
