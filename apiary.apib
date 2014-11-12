@@ -15,6 +15,7 @@ possible attributes.
 - catalogs 
 - catalog_definitions
 - responses
+- treatments
 - scores
 
 Depending on action, only specific attributes are included (e.g. `catalog_definitions` for new entries,
@@ -69,7 +70,15 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
                     "value": 0,
                     "catalog": "hbi"
                 }
-            ]
+            ],
+            "treatments": [
+                {
+                    "id": "dihydrogen_monoxide_1_liter_abc123",
+                    "name": "Dihydrogen monoxide",
+                    "quantity": "1",
+                    "unit": "liter"
+                }
+            ],
             "scores": [
                 {
                 "id": "hbi_abc123",
@@ -92,6 +101,14 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
                     "name": "general_well_being",
                     "value": 3,
                     "catalog": "hbi"
+                }
+            ],
+            "treatments": [
+                {
+                    "id": "dihydrogen_monoxide_1_liter_abc123",
+                    "name": "Dihydrogen monoxide",
+                    "quantity": "1",
+                    "unit": "liter"
                 }
             ]
         }
@@ -444,6 +461,14 @@ the form.
                     ]
                 }
             },
+            "treatments": [
+                {
+                    "id": "dihydrogen_monoxide_1_liter_abc123",
+                    "name": "Dihydrogen monoxide",
+                    "quantity": "1",
+                    "unit": "liter"
+                }
+            ],
             "responses": [
                 {
                     "id": "ab_pain_abc123",
