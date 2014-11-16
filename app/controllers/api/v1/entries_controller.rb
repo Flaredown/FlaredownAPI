@@ -1,5 +1,5 @@
 class Api::V1::EntriesController < Api::V1::BaseController
-  
+
 	def index
     start_date  = Date.parse(params[:start_date])
     end_date    = Date.parse(params[:end_date])
@@ -12,7 +12,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
     @entry.update_attributes entry_params
     respond_with :api, :v1, @entry
 	end
-  
+
 	def update
 		@entry = current_user.entries.select{|e| e.id == params[:id]}.first
     if @entry.update_attributes(entry_params)
@@ -24,16 +24,16 @@ class Api::V1::EntriesController < Api::V1::BaseController
 	end
 
 	def show
-    if params[:by_date]
+    # if params[:by_date]
       date = Date.parse(params[:id])
       @entry = Entry.by_date(key: date).first
       render(json: {id: @entry.try(:id)})
-    else
-      @entry = Entry.find(params[:id])
-      @entry ? respond_with(:api, :v1, @entry) : four_oh_four
-    end    
+    # else
+    #   @entry = Entry.find(params[:id])
+    #   @entry ? respond_with(:api, :v1, @entry) : four_oh_four
+    # end
 	end
-  
+
   private
   def entry_params
     json_params = ActionController::Parameters.new( JSON.parse(params.require(:entry)) )
