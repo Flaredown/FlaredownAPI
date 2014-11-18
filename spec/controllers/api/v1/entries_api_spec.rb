@@ -68,12 +68,12 @@ describe Api::V1::EntriesController, type: :controller do
       expect(entry.reload.stools).to eq 3
       returns_code 200
     end
-    it "expect same ID in response as sent" do
+    it "expects OK response" do
       create :hbi_entry, user: user
 
       patch :update, id: entry.date.to_s, entry: entry_attributes.to_json
-      expect(json_response["id"]).to eq entry.id
 
+      expect(json_response["success"]).to eql true
       returns_code 200
     end
     it "successfully updated with true/false response" do

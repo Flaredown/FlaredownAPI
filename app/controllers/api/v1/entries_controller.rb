@@ -19,7 +19,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
     # @entry = current_user.entries.select{|e| e.id == params[:id]}.first
     if @entry.update_attributes(entry_params)
       @entry.enqueue
-      render json: {id: @entry.id}, status: 200
+      render json: {success: true}, status: 200
     else
       respond_with :api, :v1, @entry
     end

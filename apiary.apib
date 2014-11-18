@@ -7,31 +7,37 @@ Flaredown is a chronic illness management tool
 ## Group Entry
 
 Entries are json documents that contain all the responses and results
-associated with a Flaredown user "check-in" and have the following 
+associated with a Flaredown user "check-in" and have the following
 possible attributes.
 
 - id
 - date
-- catalogs 
+- catalogs
 - catalog_definitions
 - responses
 - treatments
+- triggers
+- notes
 - scores
 
 Depending on action, only specific attributes are included (e.g. `catalog_definitions` for new entries,
 `responses` and `scores` for existing entry lookup.
- 
+
 
 ## Entries [/v1/entries/{date}]
 + Parameters
     + date (required, string, `2014-08-13`) ... A date string in the format YYYY-MM-DD
-    
+
 ### Get an Entry [GET]
++ Request (application/json)
+
+		{ date: "Aug-13-2014" }
+
 + Response 200 (application/json)
 
-        "entry": {   
-            "id": "abc123", 
-            "date": "2014-08-13",
+        "entry": {
+            "id": "abc123",
+            "date": "Aug-13-2014",
             "catalogs": ["hbi"],
             "responses": [
                 {
@@ -73,10 +79,21 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
             ],
             "treatments": [
                 {
-                    "id": "dihydrogen_monoxide_1_liter_abc123",
+                    "id": "dihydrogen-monoxide_1_liter_abc123",
                     "name": "Dihydrogen monoxide",
                     "quantity": "1",
                     "unit": "liter"
+                }
+            ],
+							"notes": "Holy frijoles! I ate too many #beans... I'm going to try some #JumpingJacks and see what happens.",
+            "triggers": [
+                {
+                    "id": "beans_abc123",
+                    "name": "beans",
+                },
+                {
+                    "id": "jumping-jacks_abc123",
+                    "name": "jumping jacks",
                 }
             ],
             "scores": [
@@ -90,11 +107,10 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
 
 
 ### Update an Entry [PUT]
-+ Response 200 (application/json)
++ Request (application/json)
 
-        "entry": {   
-            "id": "abc123", 
-            "date": "2014-08-13",
+        "entry": {
+            "date": "Aug-13-2014",
             "catalogs": ["hbi"],
             "responses": [
                 {
@@ -103,9 +119,9 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
                     "catalog": "hbi"
                 }
             ],
+							"notes": "Holy frijoles! I ate too many #beans... I'm going to try some #JumpingJacks and see what happens.",
             "treatments": [
                 {
-                    "id": "dihydrogen_monoxide_1_liter_abc123",
                     "name": "Dihydrogen monoxide",
                     "quantity": "1",
                     "unit": "liter"
@@ -113,24 +129,32 @@ Depending on action, only specific attributes are included (e.g. `catalog_defini
             ]
         }
 
++ Response 200 (application/json)
+
+		{ success: true }
+
 ### New Entry [POST]
-Creates a new Entry for the specified date or returns an existing one. 
-This endpoint is unique in that it returns the `catalog` `definitions` along with 
+Creates a new `Entry` for the specified date or returns an existing one.
+This endpoint is unique in that it returns the `catalog` `definitions` along with
 the the `entry`. In this way it should always be used to start the "check-in"
 process even if the `entry` exists so that the frontend knows how to build
 the form.
 
-`catalogs` are automatically included based on the `User`s current subsscriptions.
-    
+`catalogs` are automatically included based on the `User`s current subscriptions.
+
+Please note the two possible responses, 201 (Created) and 200 (OK), where 201 means
+a new blank `Entry` has been created and 200 meaning an existing `Entry` has been
+fetched and the form should be pre-filled with any existing values.
+
 + Request (application/json)
 
-        { date: "2014-08-13" }
+        { date: "Aug-13-2014" }
 
 + Response 201 (application/json)
 
-        "entry": { 
-            "id": "abc123", 
-            "date": "2014-08-13",
+        "entry": {
+            "id": "abc123",
+            "date": "Aug-13-2014",
             "catalogs": ["hbi"],
             "catalog_definitions": {
                 "hbi": {
@@ -296,9 +320,9 @@ the form.
 
 + Response 200 (application/json)
 
-        "entry": { 
+        "entry": {
             "id": "abc123",
-            "date": "2014-08-13",
+            "date": "Aug-13-2014",
             "catalogs": ["hbi"],
             "catalog_definitions": {
                 "hbi": {
@@ -467,6 +491,17 @@ the form.
                     "name": "Dihydrogen monoxide",
                     "quantity": "1",
                     "unit": "liter"
+                }
+            ],
+							"notes": "Holy frijoles! I ate too many #beans... I'm going to try some #JumpingJacks and see what happens.",
+            "triggers": [
+                {
+                    "id": "beans_abc123",
+                    "name": "beans",
+                },
+                {
+                    "id": "jumping-jacks_abc123",
+                    "name": "jumping jacks",
                 }
             ],
             "responses": [
