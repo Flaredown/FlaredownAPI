@@ -13,36 +13,49 @@ describe Api::V1::EntriesController, type: :controller do
       entry = create :hbi_entry, user: user
       with_resque{entry.save}; entry.reload
       get :show, id: entry.date.to_s
+
+      expect(json_response["entry"].keys).to_not include "catalog_definitions"
       expect(response.body).to be_json_eql EntrySerializer.new(entry).to_json
+
       returns_code 200
     end
     it "it isn't found" do
       get :show, id: 1.year.ago.to_date
+
       expect(response.body).to be_json_eql({error: "Not found."}.to_json)
+
       returns_code 404
+    end
+    it "bad date" do
+      get :show, id: "xyz"
+
+      expect(response.body).to be_json_eql({error: "Invalid entry date."}.to_json)
+
+      returns_code 400
     end
   end
 
   context "entry creation" do
 
     it "authenticated user creates entry" do
-      post :create, entry: entry_attributes.to_json
-      expect(user.entries.first.stools).to eq entry_attributes[:responses].detect{|q| q[:name] == :stools}[:value]
-      expect(user.entries.first.date).to eq Date.parse("2014-09-22")
+      post :create, entry: {date: "Sep-22-2014"}.to_json
+
+      expect(user.entries.first.date).to eq Date.parse("Sep-22-2014")
+      expect(json_response["entry"].keys).to include *%w( id date catalogs catalog_definitions )
+
       returns_code 201
     end
 
-    it "returns nested errors for bad response values" do
-      attrs = entry_attributes
-      attrs[:responses].select{|q| q[:name] == :stools}.first[:value] = 999999
+    it "entry already exists" do
+      entry = create :hbi_entry, user: user, date: Date.parse("Sep-22-2014")
+      post :create, entry: {date: "Sep-22-2014"}.to_json
 
-      post :create, entry: attrs.to_json
+      expect(json_response["entry"].keys).to_not include "catalog_definitions"
 
-      expect(json_response["errors"]).to be_present
-      expect(json_response["errors"]["responses"]).to be_present
-      expect(json_response["errors"]["responses"]["stools"]).to eq "Not within allowed values"
+      expect(json_response["entry"]["responses"].detect{|q| q["name"] == "stools"}["value"]).to eq user.entries.first.stools
+      expect(Date.parse("Sep-22-2014")).to eq user.entries.first.date
 
-      returns_code 422
+      returns_code 200
     end
 
     # it "missing something" do
@@ -56,6 +69,7 @@ describe Api::V1::EntriesController, type: :controller do
   context "update a entry" do
 
     let(:entry) { create :hbi_entry, user: user, responses: [{name: :stools, value: 2}] }
+
     it "successfully updated" do
       expect(entry.stools).to eq 2
 
@@ -68,6 +82,7 @@ describe Api::V1::EntriesController, type: :controller do
       expect(entry.reload.stools).to eq 3
       returns_code 200
     end
+
     it "expects OK response" do
       create :hbi_entry, user: user
 
@@ -76,6 +91,7 @@ describe Api::V1::EntriesController, type: :controller do
       expect(json_response["success"]).to eql true
       returns_code 200
     end
+
     it "successfully updated with true/false response" do
       entry.responses.detect{|q| q.name == "stools"}.value = 0
       expect(entry.stools).to eq 0
@@ -95,6 +111,19 @@ describe Api::V1::EntriesController, type: :controller do
       attrs[:responses].detect{|q| q[:name] == :stools}[:value] = "valuenogood"
 
       patch :update, id: entry.date.to_s, entry: attrs.to_json
+      returns_code 422
+    end
+
+    it "returns nested errors for bad response values" do
+      attrs = entry_attributes
+      attrs[:responses].select{|q| q[:name] == :stools}.first[:value] = 999999
+
+      patch :update, id: entry.date.to_s, entry: attrs.to_json
+
+      expect(json_response["errors"]).to be_present
+      expect(json_response["errors"]["responses"]).to be_present
+      expect(json_response["errors"]["responses"]["stools"]).to eq "Not within allowed values"
+
       returns_code 422
     end
 
@@ -119,7 +148,7 @@ end
 def entry_attributes
   {
     catalogs: ["hbi"],
-    date: "2014-09-22",
+    date: "Sep-22-2014",
     responses: response_attributes.map{|r| {name: r.first, value: r.last}}
   }
 end

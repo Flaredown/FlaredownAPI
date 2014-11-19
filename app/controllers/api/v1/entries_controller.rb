@@ -1,27 +1,39 @@
 class Api::V1::EntriesController < Api::V1::BaseController
 
+  rescue_from ArgumentError, with: :invalid_entry_date
+  def invalid_entry_date(e)
+    raise e unless e.to_s == "invalid date"
+    render json: {error: "Invalid entry date."}, status: 400
+  end
+
 	def index
     start_date  = Date.parse(params[:start_date])
     end_date    = Date.parse(params[:end_date])
     @entries = Entry.by_date(startkey: start_date, endkey: end_date)
-    render json: @entries.to_a, status: 200
+    render json: @entries, each_serializer: EntrySerializer, status: 200
 	end
 
 	def create
-		@entry = Entry.new({user_id: current_user.id, catalogs: entry_params["catalogs"]}) # catalogs used here for module inclusion
-    @entry.update_attributes entry_params
-    respond_with :api, :v1, @entry
+    date = Date.parse(entry_params[:date])
+
+    if (@existing = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s})
+      render json: EntrySerializer.new(@existing), status: 200
+    else
+      # catalogs inclusion necessary here for module inclusion, TODO replace hardcoded with current_user catalogs
+      @entry = Entry.create({user_id: current_user.id, date: date, catalogs: ["hbi"] })
+      render json: EntrySerializer.new(@entry, scope: :new), status: 201
+    end
 	end
 
 	def update
     date = Date.parse(params[:id])
     @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
-    # @entry = current_user.entries.select{|e| e.id == params[:id]}.first
+
     if @entry.update_attributes(entry_params)
       @entry.enqueue
       render json: {success: true}, status: 200
     else
-      respond_with :api, :v1, @entry
+      render json: {errors: @entry.errors}, status: 422
     end
 	end
 
@@ -29,7 +41,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
     # if params[:by_date]
       date = Date.parse(params[:id])
       @entry = Entry.by_date(key: date).first
-      @entry ? render(json: @entry) : four_oh_four
+      @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
       # render(json: {id: @entry.try(:id)})
 
     # else
