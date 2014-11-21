@@ -7,7 +7,3 @@ Flaredown API
 [![Build Status](https://snap-ci.com/tMueN8Gre9RNui6uOkJ-RPKaSsZbTDaLZ0S-zWirj2I/build_image)](https://snap-ci.com/FathomLabs/FlaredownAPI/branch/master)
 <!-- [![Dependency Status](https://gemnasium.com/lmerriam/CDAI.png)](https://gemnasium.com/lmerriam/CDAI) -->
 
-
-### API Examples
-
-http://docs.flaredown.apiary.io/
