@@ -38,7 +38,7 @@ describe Api::V1::EntriesController, type: :controller do
   context "entry creation" do
 
     it "authenticated user creates entry" do
-      post :create, entry: {date: "Sep-22-2014"}.to_json
+      post :create, date: "Sep-22-2014"
 
       expect(user.entries.first.date).to eq Date.parse("Sep-22-2014")
       expect(json_response["entry"].keys).to include *%w( id date catalogs catalog_definitions )
@@ -48,7 +48,7 @@ describe Api::V1::EntriesController, type: :controller do
 
     it "entry already exists" do
       entry = create :hbi_entry, user: user, date: Date.parse("Sep-22-2014")
-      post :create, entry: {date: "Sep-22-2014"}.to_json
+      post :create, date: "Sep-22-2014"
 
       expect(json_response["entry"].keys).to_not include "catalog_definitions"
 

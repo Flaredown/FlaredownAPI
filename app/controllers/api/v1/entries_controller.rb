@@ -14,7 +14,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
 	end
 
 	def create
-    date = Date.parse(entry_params[:date])
+    date = Date.parse(params[:date])
 
     if (@existing = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s})
       render json: EntrySerializer.new(@existing), status: 200
@@ -52,7 +52,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
 
   private
   def entry_params
-    json_params = ActionController::Parameters.new( JSON.parse(params.require(:entry)) )
+    json_params = ActionController::Parameters.new( JSON.parse(params[:entry]) )
     json_params.permit(
       :date,
       catalogs: [],
