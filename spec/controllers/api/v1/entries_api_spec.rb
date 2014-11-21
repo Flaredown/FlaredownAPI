@@ -16,18 +16,31 @@ describe Api::V1::EntriesController, type: :controller do
     returns_code 400
   end
 
-  context "find a user's entries" do
+  context "SHOW" do
     it "see it's glory" do
       entry = create :hbi_entry, user: user
       with_resque{entry.save}; entry.reload
 
       get :show, id: entry.date.to_s
 
-      expect(json_response["entry"].keys).to_not include "catalog_definitions"
       expect(response.body).to be_json_eql EntrySerializer.new(entry).to_json
 
       returns_code 200
     end
+
+    it "shows specific keys" do
+      entry = create :hbi_entry, user: user
+      with_resque{entry.save}; entry.reload
+
+      get :show, id: entry.date.to_s
+
+      expect(response.body).to be_json_eql EntrySerializer.new(entry).to_json
+
+      returns_code 200
+
+      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses scores treatments notes triggers).sort
+    end
+
     it "can't be accessed by another user" do
       another_user = create :user
       entry = create :hbi_entry, user: another_user
@@ -38,6 +51,7 @@ describe Api::V1::EntriesController, type: :controller do
 
       returns_code 404
     end
+
     it "it isn't found" do
       get :show, id: 1.year.ago.to_date
 
@@ -47,7 +61,7 @@ describe Api::V1::EntriesController, type: :controller do
     end
   end
 
-  context "entry creation" do
+  context "CREATE" do
 
     it "authenticated user creates entry" do
       post :create, date: "Sep-22-2014"
@@ -78,7 +92,7 @@ describe Api::V1::EntriesController, type: :controller do
     # end
   end
 
-  context "update a entry" do
+  context "UPDATE" do
 
     let(:entry) { create :hbi_entry, user: user, responses: [{name: :stools, value: 2}] }
 

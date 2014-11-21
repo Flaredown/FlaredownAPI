@@ -21,6 +21,9 @@ class Entry < CouchRest::Model::Base
 
   property :responses,  Response,  :array => true
   property :treatments, Treatment, :array => true
+  property :notes,      String
+  property :triggers,   [String]
+
   property :scores,     Score,     :array => true
 
   timestamps!
