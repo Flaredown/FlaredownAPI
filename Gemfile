@@ -38,8 +38,7 @@ group :production do
 end
 
 group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem "sdoc", require: false
+  gem "tomdoc"
 end
 
 group :test, :development do

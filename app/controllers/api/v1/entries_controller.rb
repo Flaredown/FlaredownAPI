@@ -1,18 +1,56 @@
 class Api::V1::EntriesController < Api::V1::BaseController
 
-  rescue_from ArgumentError, with: :invalid_entry_date
-  def invalid_entry_date(e)
-    raise e unless e.to_s == "invalid date"
-    render json: {error: "Invalid entry date."}, status: 400
-  end
+  # def index
+  #     start_date  = Date.parse(params[:start_date])
+  #     end_date    = Date.parse(params[:end_date])
+  #     @entries = Entry.by_date(startkey: start_date, endkey: end_date)
+  #     render json: @entries, each_serializer: EntrySerializer, status: 200
+  # end
 
-	def index
-    start_date  = Date.parse(params[:start_date])
-    end_date    = Date.parse(params[:end_date])
-    @entries = Entry.by_date(startkey: start_date, endkey: end_date)
-    render json: @entries, each_serializer: EntrySerializer, status: 200
-	end
-
+  # Create an Entry
+  #
+  # date  - Date of the entry
+  #
+  # Examples
+  #
+  #   curl "<domain>/api/v1/entries" --data "date=Aug-13-2014&user_email=test@test.com&user_token=abc123"
+  #
+  #   POST entries
+  #   data: {
+  #     date: "Aug-13-2014"
+  #   }
+  #
+  #   {
+  #     "entry": {
+  #       "id": "abc123",
+  #       "date": "Aug-13-2014",
+  #       "catalogs": ["hbi"],
+  #       "catalog_definitions": {
+  #         "hbi": {
+  #           "stools": [
+  #             {
+  #                 "inputs": [
+  #                     {
+  #                         "helper": "stools_daily",
+  #                         "label": null,
+  #                         "meta_label": null,
+  #                         "value": 0
+  #                     }
+  #                 ],
+  #                 "kind": "number",
+  #                 "name": "stools",
+  #                 "section": 2
+  #             }
+  #           ]
+  #           # ... catalog_definition snipped! ...
+  #         }
+  #       }
+  #     }
+  #   }
+  #
+  # Returns 201 if successfully created
+  # Returns 200 if Entry exists for that date along with Entry json
+  # Returns 422 for errors along with errors json
 	def create
     date = Date.parse(params[:date])
 
@@ -25,6 +63,21 @@ class Api::V1::EntriesController < Api::V1::BaseController
     end
 	end
 
+  # Update an Entry
+  #
+  # date  - Date of the entry
+  # entry - json encoded entry payload
+  #
+  # Examples
+  #   PATCH entries/Aug-13-2014
+  #   data: {
+  #     entry: '{\"responses\":[{\"name\":\"ab_pain\",\"value\":3}'
+  #   }
+  #
+  #   curl "<domain>/api/v1/entries/Aug-13-2014" -X PATCH --data "entry={\"responses\":[{\"name\":\"ab_pain\",\"value\":3}]}&user_email=test@test.com&user_token=abc123"
+  #
+  # Returns 200 if successful
+  # Returns 422 for errors along with errors json
 	def update
     date = Date.parse(params[:id])
     @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
@@ -37,18 +90,81 @@ class Api::V1::EntriesController < Api::V1::BaseController
     end
 	end
 
+  # Lookup an Entry
+  #
+  # date - Date of the entry to find
+  #
+  # Examples
+  #
+  #   curl "<domain>/api/v1/entries/Aug-13-2014?user_email=test@test.com&user_token=abc123"
+  #
+  #   GET entries/Aug-13-2014
+  #
+  #   {
+  #       "entry": {
+  #           "id": "abc123",
+  #           "date": "Aug-13-2014",
+  #           "catalogs": [
+  #               "hbi"
+  #           ],
+  #           "responses": [
+  #               {
+  #                   "id": "hbi_general_well_being_abc123",
+  #                   "name": "general_well_being",
+  #                   "value": 2,
+  #                   "catalog": "hbi"
+  #               }
+  #           ],
+  #           "treatments": [
+  #               {
+  #                   "id": "dihydrogen-monoxide_1_liter_abc123",
+  #                   "name": "Dihydrogen monoxide",
+  #                   "quantity": "1",
+  #                   "unit": "liter"
+  #               }
+  #           ],
+  #           "notes": "Holy frijoles! I ate too many #beans... I'm going to try some #JumpingJacks and see what happens.",
+  #           "triggers": [
+  #               {
+  #                   "id": "beans_abc123",
+  #                   "name": "beans"
+  #               },
+  #               {
+  #                   "id": "jumping-jacks_abc123",
+  #                   "name": "jumping jacks"
+  #               }
+  #           ],
+  #           "scores": [
+  #               {
+  #                   "id": "hbi_abc123",
+  #                   "name": "hbi",
+  #                   "value": 10
+  #               }
+  #           ]
+  #       }
+  #   }
+  #
+  # Returns 200 with an Entry
+  # Returns 404 if Entry does not exist for that date and user
 	def show
-    # if params[:by_date]
-      date = Date.parse(params[:id])
-      @entry = Entry.by_date(key: date).first
-      @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
-      # render(json: {id: @entry.try(:id)})
-
-    # else
-    #   @entry = Entry.find(params[:id])
-    #   @entry ? respond_with(:api, :v1, @entry) : four_oh_four
-    # end
+    date = Date.parse(params[:id])
+    @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
+    @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
 	end
+
+  # Rescue any entry of invalid dates and render a json error
+  #
+  # Examples
+  #   GET entry/Aug-1337-2014
+  #
+  #   {error: "Invalid date parameter entered."}
+  #
+  # Returns 400
+  rescue_from ArgumentError, with: :invalid_entry_date
+  def invalid_entry_date(e)
+    raise e unless e.to_s == "invalid date"
+    render json: {error: "Invalid date parameter entered."}, status: 400
+  end
 
   private
   def entry_params

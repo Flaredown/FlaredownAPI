@@ -8,10 +8,19 @@ describe Api::V1::EntriesController, type: :controller do
     @request.env["HTTP_ACCEPT"] = "application/json"
   end
 
+  it "bad date" do
+    get :show, id: "xyz"
+
+    expect(response.body).to be_json_eql({error: "Invalid date parameter entered."}.to_json)
+
+    returns_code 400
+  end
+
   context "find a user's entries" do
     it "see it's glory" do
       entry = create :hbi_entry, user: user
       with_resque{entry.save}; entry.reload
+
       get :show, id: entry.date.to_s
 
       expect(json_response["entry"].keys).to_not include "catalog_definitions"
@@ -19,19 +28,22 @@ describe Api::V1::EntriesController, type: :controller do
 
       returns_code 200
     end
+    it "can't be accessed by another user" do
+      another_user = create :user
+      entry = create :hbi_entry, user: another_user
+      with_resque{entry.save}; entry.reload
+
+      get :show, id: entry.date.to_s
+      expect(response.body).to be_json_eql({error: "Not found."}.to_json)
+
+      returns_code 404
+    end
     it "it isn't found" do
       get :show, id: 1.year.ago.to_date
 
       expect(response.body).to be_json_eql({error: "Not found."}.to_json)
 
       returns_code 404
-    end
-    it "bad date" do
-      get :show, id: "xyz"
-
-      expect(response.body).to be_json_eql({error: "Invalid entry date."}.to_json)
-
-      returns_code 400
     end
   end
 
@@ -41,7 +53,7 @@ describe Api::V1::EntriesController, type: :controller do
       post :create, date: "Sep-22-2014"
 
       expect(user.entries.first.date).to eq Date.parse("Sep-22-2014")
-      expect(json_response["entry"].keys).to include *%w( id date catalogs catalog_definitions )
+      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs catalog_definitions ).sort
 
       returns_code 201
     end
@@ -77,7 +89,6 @@ describe Api::V1::EntriesController, type: :controller do
       attrs[:responses].detect{|q| q[:name] == :stools}[:value] = 3
 
       put :update, id: entry.date.to_s, entry: attrs.to_json
-
 
       expect(entry.reload.stools).to eq 3
       returns_code 200
