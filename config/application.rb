@@ -11,14 +11,14 @@ require "sprockets/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
-module CDAI
+module Flaredown
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
-    
+
     # Adding Webfonts to the Asset Pipeline
     config.assets.precompile << Proc.new { |path|
       if path =~ /\.(eot|svg|ttf|woff)\z/
@@ -35,7 +35,7 @@ module CDAI
     config.i18n.default_locale = :en
     I18n.available_locales = %i( en )
     I18n.enforce_available_locales = true
-    
-    
+
+
   end
 end

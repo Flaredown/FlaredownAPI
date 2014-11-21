@@ -1,4 +1,4 @@
-CDAI::Application.routes.draw do
+Flaredown::Application.routes.draw do
 
   root "application#app"
 

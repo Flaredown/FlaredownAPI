@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-CDAI::Application.load_tasks
+Flaredown::Application.load_tasks
