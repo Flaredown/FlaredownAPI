@@ -1,4 +1,4 @@
-class Api::V1::EntriesController < Api::V1::BaseController
+class V1::EntriesController < V1::BaseController
 
   # def index
   #     start_date  = Date.parse(params[:start_date])
@@ -13,7 +13,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
   #
   # Examples
   #
-  #   curl "<domain>/api/v1/entries" --data "date=Aug-13-2014&user_email=test@test.com&user_token=abc123"
+  #   curl "<domain>/v1/entries" --data "date=Aug-13-2014&user_email=test@test.com&user_token=abc123"
   #
   #   POST entries
   #   data: {
@@ -74,7 +74,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
   #     entry: '{\"responses\":[{\"name\":\"ab_pain\",\"value\":3}'
   #   }
   #
-  #   curl "<domain>/api/v1/entries/Aug-13-2014" -X PATCH --data "entry={\"responses\":[{\"name\":\"ab_pain\",\"value\":3}]}&user_email=test@test.com&user_token=abc123"
+  #   curl "<domain>/v1/entries/Aug-13-2014" -X PATCH --data "entry={\"responses\":[{\"name\":\"ab_pain\",\"value\":3}]}&user_email=test@test.com&user_token=abc123"
   #
   # Returns 200 if successful
   # Returns 422 for errors along with errors json
@@ -96,7 +96,7 @@ class Api::V1::EntriesController < Api::V1::BaseController
   #
   # Examples
   #
-  #   curl "<domain>/api/v1/entries/Aug-13-2014?user_email=test@test.com&user_token=abc123"
+  #   curl "<domain>/v1/entries/Aug-13-2014?user_email=test@test.com&user_token=abc123"
   #
   #   GET entries/Aug-13-2014
   #

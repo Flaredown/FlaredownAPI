@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Api::V1::EntriesController, type: :controller do
+describe V1::EntriesController, type: :controller do
 
   let(:user) { create :user }
   before(:each) do
