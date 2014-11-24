@@ -12,7 +12,7 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
   
-  config.parent_controller = "Api::V1::BaseController"
+  config.parent_controller = "V1::BaseController"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

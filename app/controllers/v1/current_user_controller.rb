@@ -1,4 +1,4 @@
-class Api::V1::CurrentUserController < Api::V1::BaseController
+class V1::CurrentUserController < V1::BaseController
   before_filter :only_current_user, except: [:index]
 
   # for current user lookup

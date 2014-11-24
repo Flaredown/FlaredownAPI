@@ -1,6 +1,6 @@
-class Api::V1::UsersController < Api::V1::BaseController
+class V1::UsersController < V1::BaseController
   before_filter :only_current_user, except: %i( index invitee )
-  skip_before_filter :authenticate_api_v1_user!, :only => [:invitee]
+  skip_before_filter :authenticate_v1_user!, :only => [:invitee]
 
   # for current user lookup
   def index

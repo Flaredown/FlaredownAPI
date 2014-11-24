@@ -1,7 +1,7 @@
 module TokenAuth
   module User
     extend ActiveSupport::Concern
-  
+
     included do
       # You likely have this before callback set up for the token.
       before_save :ensure_authentication_token
@@ -25,7 +25,7 @@ module TokenAuth
 
   module Controller
     extend ActiveSupport::Concern
-  
+
     included do
       # This is our new function that comes before Devise's one
       before_filter :authenticate_user_from_token!
@@ -41,13 +41,13 @@ module TokenAuth
         # timing attacks.
         if user && Devise.secure_compare(user.authentication_token, params[:user_token])
           sign_in user, store: false
-          
+
           # This is Devise's authentication
-          authenticate_api_v1_user!
+          authenticate_v1_user!
         end
       end
 
   end
 
-  
+
 end

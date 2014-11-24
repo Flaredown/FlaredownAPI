@@ -1,4 +1,4 @@
-class Api::V1::Users::InvitationsController < Devise::InvitationsController
+class V1::Users::InvitationsController < Devise::InvitationsController
 
   prepend_before_filter :authenticate_inviter!, :only => [:new, :create]
   prepend_before_filter :has_invitations_left?, :only => [:create]

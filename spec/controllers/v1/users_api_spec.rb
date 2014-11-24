@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Api::V1::UsersController, type: :controller do
+describe V1::UsersController, type: :controller do
 
   context "get current_user" do
     let(:user) { create :user }
