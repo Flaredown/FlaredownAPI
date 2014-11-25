@@ -34,7 +34,10 @@ class Entry < CouchRest::Model::Base
   end
 
   def catalog_definitions
-    self.catalogs.map{|c| "#{c.capitalize}Catalog".constantize.const_get("#{c.upcase}_DEFINITION") }
+    self.catalogs.reduce({}) do |definitions,catalog|
+      definitions[catalog.to_sym] = "#{catalog.capitalize}Catalog".constantize.const_get("#{catalog.upcase}_DEFINITION")
+      definitions
+    end
   end
 
   def questions

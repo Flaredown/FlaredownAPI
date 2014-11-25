@@ -76,7 +76,7 @@ describe V1::EntriesController, type: :controller do
       entry = create :hbi_entry, user: user, date: Date.parse("Sep-22-2014")
       post :create, date: "Sep-22-2014"
 
-      expect(json_response["entry"].keys).to_not include "catalog_definitions"
+      expect(json_response["entry"].keys).to include "catalog_definitions"
 
       expect(json_response["entry"]["responses"].detect{|q| q["name"] == "stools"}["value"]).to eq user.entries.first.stools
       expect(Date.parse("Sep-22-2014")).to eq user.entries.first.date

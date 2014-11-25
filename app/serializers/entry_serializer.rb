@@ -1,14 +1,19 @@
 class EntrySerializer < ActiveModel::Serializer
 
+  has_many :responses, serializer: ResponseSerializer
+  has_many :scores, serializer: ScoreSerializer
+  has_many :treatments, serializer: TreatmentSerializer
+  has_many :triggers, serializer: TriggerSerializer
+
   attributes :id,
     :date,
     :catalog_definitions,
     :catalogs,
-    :responses,
-    :scores,
-    :treatments,
-    :notes,
-    :triggers
+    # :responses,
+    # :scores,
+    # :treatments,
+    :notes
+    # :triggers
 
   # Used for overriding returned keys using #filtered_attributes
   def serializable_hash
@@ -24,8 +29,11 @@ class EntrySerializer < ActiveModel::Serializer
   #
   # Returns array of symbols
   def filtered_attributes(keys,scope)
-    if scope == :new
+    case scope
+    when :new
       %i( id date catalogs catalog_definitions )
+    when :existing
+      keys
     else
       keys - %i( catalog_definitions )
     end
