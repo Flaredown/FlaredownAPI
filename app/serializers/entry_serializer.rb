@@ -15,6 +15,10 @@ class EntrySerializer < ActiveModel::Serializer
     :notes
     # :triggers
 
+  def date
+    object.date.strftime("%b-%d-%Y")
+  end
+
   # Used for overriding returned keys using #filtered_attributes
   def serializable_hash
     all = super
