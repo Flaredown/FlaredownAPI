@@ -46,7 +46,7 @@ describe Rapid3Catalog do
           expect(entry.rapid3_functional_status_score).to eql 3.7
           expect(entry.rapid3_pain_tolerance_score).to eql    2.5
           expect(entry.rapid3_global_estimate_score).to eql   1.0
-          expect(entry.rapid3_score).to eql                   2.3
+          expect(entry.rapid3_score).to eql                   7.2
         end
       end
     end

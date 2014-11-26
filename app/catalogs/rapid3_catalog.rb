@@ -242,9 +242,10 @@ module Rapid3Catalog
 
   # def setup_rapid3_scoring
   # end
-  def finalize_rapid3_scoring(score)
-    RAPID3_SCORING_INDEX[score.round-1]
-  end
+
+  # def finalize_rapid3_scoring(score)
+  #   RAPID3_SCORING_INDEX[score.round-1] # "weight" the final score
+  # end
 
   def rapid3_functional_status_score
     score = RAPID3_FUNCTIONAL_QUESTIONS.reduce(0) do |sum, question_name|
