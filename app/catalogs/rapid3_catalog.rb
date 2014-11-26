@@ -180,6 +180,7 @@ module Rapid3Catalog
       name: :pain_tolerance,
       section: 10,
       kind: :range,
+      step: 0.5,
       inputs: [
         {value: 0.0, label: "no_pain", meta_label: "happy_face", helper: nil},
         {value: 10.0, label: "maximum_pain", meta_label: "sad_face", helper: nil},
@@ -191,6 +192,7 @@ module Rapid3Catalog
       name: :global_estimate,
       section: 11,
       kind: :range,
+      step: 0.5,
       inputs: [
         {value: 0.0, label: "very_well", meta_label: "happy_face", helper: nil},
         {value: 10.0, label: "very_poorly", meta_label: "sad_face", helper: nil},
