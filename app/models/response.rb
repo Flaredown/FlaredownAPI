@@ -4,7 +4,7 @@ class Response
   include ActiveModel::SerializerSupport
 
   property :name, String
-  property :value, Integer
+  property :value, Float
 
   def question
     Question.find_by_name(name)

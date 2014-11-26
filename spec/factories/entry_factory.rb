@@ -3,27 +3,27 @@ def random_boolean
 end
 
 FactoryGirl.define do
-  factory :entry do  
+  factory :entry do
     user
     sequence(:date) {|n| (n-1).days.from_now.to_date}
   end
 end
 
 FactoryGirl.define do
-  factory :hbi_entry, class: Entry do  
+  factory :hbi_entry, class: Entry do
     user
     catalogs ["hbi"]
     sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
-    
+
     before(:create) do |entry|
       # setup_hbi_questions
-      
+
       entry.responses << build(:response, {name: :general_wellbeing, value: [*0..4].sample})
       entry.responses << build(:response, {name: :ab_pain           , value: [*0..3].sample})
       entry.responses << build(:response, {name: :stools            , value: [*0..10].sample})
       entry.responses << build(:response, {name: :ab_mass           , value: [*0..3].sample})
-      
+
       entry.responses << build(:response, {name: :complication_arthralgia       , value: random_boolean})
       entry.responses << build(:response, {name: :complication_uveitis          , value: random_boolean})
       entry.responses << build(:response, {name: :complication_erythema_nodosum , value: random_boolean})
@@ -38,27 +38,60 @@ FactoryGirl.define do
       Entry.perform entry.id
       entry.reload
     end
-    
+
+  end
+end
+
+FactoryGirl.define do
+  factory :rapid3_entry, class: Entry do
+    user
+    catalogs ["rapid3"]
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    responses []
+
+    before(:create) do |entry|
+
+      entry.responses << build(:response, {name: :dress_yourself        , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :get_in_out_of_bed     , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :lift_full_glass       , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :walk_outdoors         , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :wash_and_dry_yourself , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :bend_down             , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :turn_faucet           , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :enter_exit_vehicles   , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :walk_two_miles        , value: [*0..3].sample})
+      entry.responses << build(:response, {name: :play_sports           , value: [*0..3].sample})
+
+      entry.responses << build(:response, {name: :pain_tolerance        , value: (0..10).step(0.5).to_a.sample})
+      entry.responses << build(:response, {name: :global_estimate       , value: (0..10).step(0.5).to_a.sample})
+
+      Entry.class_eval{ include Rapid3Catalog }
+    end
+    after(:create) do |entry|
+      Entry.perform entry.id
+      entry.reload
+    end
+
   end
 end
 
 
 FactoryGirl.define do
-  factory :cdai_entry, class: Entry do  
+  factory :cdai_entry, class: Entry do
     user
     catalogs ["cdai"]
     sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
-    
+
     before(:create) do |entry|
       setup_cdai_questions
-      
+
       entry.responses << build(:response, {name: :stools      , value: [*0..10].sample})
       entry.responses << build(:response, {name: :ab_pain     , value: [*0..3].sample})
       entry.responses << build(:response, {name: :general     , value: [*0..4].sample})
       entry.responses << build(:response, {name: :mass        , value: [0,2,5].sample})
       entry.responses << build(:response, {name: :hematocrit  , value: [*40..50].sample})
-      
+
       entry.responses << build(:response, {name: :complication_arthritis      , value: random_boolean})
       entry.responses << build(:response, {name: :complication_iritis         , value: random_boolean})
       entry.responses << build(:response, {name: :complication_erythema       , value: random_boolean})
@@ -74,11 +107,11 @@ FactoryGirl.define do
     after(:create) do |entry|
       Entry.perform entry.id
     end
-    
+
   end
 end
 FactoryGirl.define do
-  factory :response do  
+  factory :response do
     name ""
     value ""
   end

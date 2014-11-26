@@ -3,7 +3,7 @@ class Score
   include CouchRest::Model::Embeddable
 
   property :name,      String
-  property :value,     Integer
+  property :value,     Float
 
   def id
     "#{name}_#{base_doc.id}"

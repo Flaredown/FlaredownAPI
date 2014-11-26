@@ -1,7 +1,7 @@
 class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
-  AVAILABLE_CATALOGS = %w( hbi )
+  AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
   cattr_accessor(:question_names) {[]}

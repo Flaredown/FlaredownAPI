@@ -3,7 +3,7 @@ class Treatment
   include CouchRest::Model::Embeddable
 
   property :name,      String
-  property :quantity,  Integer
+  property :quantity,  Float
   property :unit,      String
 
   def id
