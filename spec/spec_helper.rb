@@ -17,6 +17,8 @@ Entry.all.each{|e| e.destroy} # destroy CouchDB docs
 require 'rspec/rails'
 require 'rspec/autorun'
 
+require 'factory_girl'
+
 # require 'capybara/rspec'
 # Capybara.javascript_driver  = :webkit
 # Capybara.default_selector   = :css
@@ -38,16 +40,16 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   # config.include Capybara::DSL
-  config.include FactoryGirl::Syntax::Methods  
+  config.include FactoryGirl::Syntax::Methods
   config.include JsonSpec::Helpers
-  
-  
+
+
   # Use color in STDOUT
   config.color_enabled = true
 
   # Use color not only in STDOUT but also in pagers and files
   config.tty = true
-  
+
   # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
@@ -74,7 +76,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
 end
 
 
@@ -87,7 +89,7 @@ RSpec.configure do |config|
     Pusher.stub "trigger"
   end
   config.around(:each) do |example|
-    
+
     ResqueSpec.reset!
     Resque::Scheduler.mute = true
     FactoryGirl.reload
@@ -96,5 +98,5 @@ RSpec.configure do |config|
     REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
     Entry.all.each{|e| e.destroy} # destroy CouchDB docs
-  end  
+  end
 end

@@ -47,6 +47,7 @@ group :test, :development do
   gem "pry-remote"
   gem "i18n-tasks", "~> 0.2.10"
   gem "ruby-prof"
+  gem "factory_girl_rails"#, require: false
 end
 
 group :development do
@@ -55,15 +56,8 @@ end
 group :test do
   gem "resque_spec"
   gem "rspec-rails"
-  # gem "guard-rspec"
-  # gem "capybara"
   gem "pusher-fake"
-  gem "factory_girl"
-  gem "factory_girl_rails"
   gem "database_cleaner"
-  # gem "capybara-webkit"
-  # gem "selenium-webdriver"
-  # gem "launchy"
   gem "timecop"
   gem "simplecov"
   gem "coveralls", require: false
