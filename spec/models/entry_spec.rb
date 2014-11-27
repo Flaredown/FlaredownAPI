@@ -66,4 +66,39 @@ describe Entry do
     end
   end
 
+  describe "Multiple Catalogs" do
+    before(:each) do
+
+      module FooCatalog
+        FOO_DEFINITION = {
+          general_wellbeing: [{
+            name: :general_wellbeing,
+            section: 0,
+            kind: :select
+          }]
+        }
+        included do |base_class|
+          # base_class.question_names = base_class.question_names | FOO_QUESTIONS
+
+          validate :response_ranges
+          def response_ranges
+            ranges = [
+              [:general_wellbeing, [*99..101]]
+            ]
+          end
+        end
+      end
+
+    end
+
+    it "validations should still work even with identical method names" do
+      stub_const("Entry::AVAILABLE_CATALOGS", ["foo", "hbi"])
+      catalog = create :entry, catalogs: ["foo", "hbi"]
+      expect(catalog).to respond_to :foo_general_wellbeing
+    end
+    it "prepends question_names with the catalog they belong to" do
+      pending
+    end
+  end
+
 end

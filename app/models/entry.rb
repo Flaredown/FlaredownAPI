@@ -40,17 +40,8 @@ class Entry < CouchRest::Model::Base
     end
   end
 
-  def questions
-    Question.where(catalog: self.catalogs)
-  end
-
   def enqueue
     Resque.enqueue(Entry, self.id)
-  end
-
-  def chart_data
-    chart = CatalogChart.new(self.user_id, self.catalogs, self.date, self.date)
-    chart.data
   end
 
   def complete?
@@ -80,12 +71,13 @@ class Entry < CouchRest::Model::Base
       loadable_catalogs.each{|catalog| self.class_eval { include "#{catalog}_catalog".classify.constantize }}
     end
   end
+
   def method_missing(name, *args)
-    if self.question_names.include?(name)
+    if match = name.to_s.match(/(\w+)_score\Z/)
+      self.scores.select{|s| s[:name] == match[1] }.first.value
+    elsif self.question_names.include?(name)
       response = responses.select{|r| r.name.to_sym == name}.first
       return response.value if response
-    elsif match = name.to_s.match(/(\w+)_score\Z/)
-      self.scores.select{|s| s[:name] == match[1] }.first.value
     else
       super(name, *args)
     end
