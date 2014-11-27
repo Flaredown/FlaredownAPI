@@ -12,11 +12,6 @@ class V1::BaseController < ActionController::Base
     render json: {error: "Not found."}, status: 404
   end
 
-  rescue_from CanCan::AccessDenied, with: :not_authorized
-  def not_authorized
-    render json: {error: "You are not authorized to access this page."}, status: 401
-  end
-
   def current_user
     current_v1_user
   end
