@@ -71,10 +71,10 @@ class V1::EntriesController < V1::BaseController
   # Examples
   #   PATCH entries/Aug-13-2014
   #   data: {
-  #     entry: '{\"responses\":[{\"name\":\"ab_pain\",\"value\":3}'
+  #     entry: '{\"responses\":[{\"name\":\"ab_pain\",\"value\":3,\"catalog\":\"hbi\"}'
   #   }
   #
-  #   curl "<domain>/v1/entries/Aug-13-2014" -X PATCH --data "entry={\"responses\":[{\"name\":\"ab_pain\",\"value\":3}]}&user_email=test@test.com&user_token=abc123"
+  #   curl "<domain>/v1/entries/Aug-13-2014" -X PATCH --data "entry={\"responses\":[{\"name\":\"ab_pain\",\"value\":3,\"catalog\":\"hbi\"}]}&user_email=test@test.com&user_token=abc123"
   #
   # Returns 200 if successful
   # Returns 422 for errors along with errors json
