@@ -5,12 +5,10 @@ class Response
 
   property :name, String
   property :value, Float
+  property :catalog, String
 
-  def question
-    Question.find_by_name(name)
-  end
   def id
-    "#{name}_#{base_doc.id}"
+    "#{catalog}_#{name}_#{base_doc.id}"
   end
 
 end

@@ -1,7 +1,7 @@
 module HbiCatalog
   extend ActiveSupport::Concern
 
-  HBI_DEFINITION = {
+  DEFINITION = {
 
     ### General Well-Being
     general_wellbeing: [{
@@ -118,15 +118,13 @@ module HbiCatalog
     ]
   }
 
-  HBI_SCORE_COMPONENTS  = HBI_DEFINITION.map{|key,value| key }
-  HBI_QUESTIONS         = HBI_DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
-  HBI_COMPLICATIONS     = HBI_DEFINITION[:complications].map{|question| question[:name] }.flatten
+  SCORE_COMPONENTS  = DEFINITION.map{|key,value| key }
+  QUESTIONS         = DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
+  COMPLICATIONS     = DEFINITION[:complications].map{|question| question[:name] }.flatten
 
   included do |base_class|
-    base_class.question_names = base_class.question_names | HBI_QUESTIONS
-
-    validate :response_ranges
-    def response_ranges
+    validate :hbi_response_ranges
+    def hbi_response_ranges
       ranges = [
         [:general_wellbeing, [*0..4]],
         [:ab_pain, [*0..3]],
@@ -135,9 +133,9 @@ module HbiCatalog
       ]
 
       ranges.each do |range|
-        response = responses.select{|r| r.name.to_sym == range[0]}.first
+        response = hbi_responses.detect{|r| r.name.to_sym == range[0]}
         if response and not range[1].include?(response.value)
-          # self.errors.add "responses.#{range[0]}", "Not within allowed values"
+          # TODO add catalog namespace here
           self.errors.messages[:responses] ||= {}
           self.errors.messages[:responses][range[0]] = "Not within allowed values"
         end
@@ -145,11 +143,13 @@ module HbiCatalog
 
     end
 
-    validate :response_booleans
-    def response_booleans
-      HbiCatalog::HBI_COMPLICATIONS.each do |name|
-        response = responses.select{|r| r.name == name}.first
-        if response and not [0,1].include? response.value
+    validate :hbi_response_booleans
+    def hbi_response_booleans
+      HbiCatalog::COMPLICATIONS.each do |name|
+        response = hbi_responses.detect{|r| r.name.to_sym == name}
+
+        if response and not [0,1].include? response.value.to_i
+          # TODO add catalog namespace here
           self.errors.messages[:responses] ||= {}
           self.errors.messages[:responses][name.to_sym] = "Must be true or false"
         end
@@ -158,12 +158,16 @@ module HbiCatalog
 
   end
 
+  def hbi_responses
+    responses.select{|r| r.catalog == "hbi"}
+  end
+
   # def valid_hbi_entry?
   #   return false unless last_6_entries.count == 6
   #   !last_6_entries.map{|e| e.filled_hbi_entry?}.include?(false)
   # end
   def filled_hbi_entry?
-    (HBI_QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
+    (QUESTIONS - hbi_responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
   end
 
   def complete_hbi_entry?
@@ -174,9 +178,9 @@ module HbiCatalog
   # end
 
   def hbi_complications_score
-    HBI_COMPLICATIONS.reduce(0) do |sum, question_name|
-      sum + (self.send(question_name).zero? ? 1 : 0)
-    end
+    COMPLICATIONS.reduce(0) do |sum, question_name|
+      sum + (self.send("hbi_#{question_name}").to_i)
+    end.to_f
   end
 
 

@@ -1,5 +1,27 @@
 require 'spec_helper'
 
+module FooCatalog
+  extend ActiveSupport::Concern
+
+  DEFINITION = {
+    general_wellbeing: [{
+      name: :general_wellbeing,
+      section: 0,
+      kind: :select
+    }]
+  }
+  QUESTIONS = DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
+  included do |base_class|
+    validate :response_ranges
+    def response_ranges
+      ranges = [
+        [:general_wellbeing, [*99..101]]
+      ]
+    end
+  end
+end
+
+
 describe Entry do
   let(:entry) { create :entry, catalogs: ["cdai"] }
 
@@ -17,20 +39,6 @@ describe Entry do
     end
   end
 
-  # describe "#questions" do
-  #   let!(:question) { create :question, :input, {catalog: "cdai"} }
-  #   it "should load questions by catalog" do
-  #     expect(entry.questions).to have(1).items
-  #   end
-  # end
-  #
-  # describe "#responses" do
-  #   let(:entry) { create :hbi_entry }
-  #   it "should have associated question" do
-  #     expect(entry.responses.first.question).to be_a Question
-  #   end
-  # end
-
   describe "#complete?" do
     let(:entry) { create :hbi_entry }
 
@@ -47,15 +55,12 @@ describe Entry do
       with_resque{ entry.save }; entry.reload
     end
 
-    it "includes a constant for for catalog score components" do
-      expect(Entry::HBI_SCORE_COMPONENTS).to include :stools
-    end
-    it "has a list of applicable questions" do
-      expect(entry.class.question_names).to include :stools
-    end
+    # it "includes a constant for for catalog score components" do
+    #   expect(Entry::SCORE_COMPONENTS).to include :stools
+    # end
     it "responds to missing methods by checking if a Question of that name exists" do
-      expect(entry.methods).to_not include :stools
-      expect(entry.stools).to be_a Float
+      expect(entry.methods).to_not include :hbi_stools
+      expect(entry.hbi_stools).to be_a Float
     end
     it "responds to missing methods by checking scores for a score in the format 'catalog'_score" do
       expect(entry.methods).to_not include :hbi_score
@@ -63,6 +68,21 @@ describe Entry do
     end
     it "an actual missing method supers to method_missing" do
       expect{ entry.nosuchmethod }.to raise_error NoMethodError
+    end
+  end
+
+  describe "Multiple Catalogs" do
+    let(:entry) { create :entry, catalogs: ["foo", "hbi"] }
+    before(:each) do
+      stub_const("Entry::AVAILABLE_CATALOGS", ["foo", "hbi"])
+    end
+    it "validations should still work even with identical method names" do
+      pending
+    end
+    it "prepends question_names with the catalog they belong to" do
+      # respond_to? doesn't work with method_missing. Implementing respond_to? causes problems with CouchRest...
+      expect{entry.foo_general_wellbeing}.not_to raise_error
+      expect{entry.hbi_general_wellbeing}.not_to raise_error
     end
   end
 

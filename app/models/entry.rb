@@ -4,21 +4,22 @@ class Entry < CouchRest::Model::Base
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
-  cattr_accessor(:question_names) {[]}
 
   def initialize(attributes={}, options={})
     super(attributes, options)
     include_catalogs
   end
 
-  before_save :include_catalogs
+  before_create :include_catalogs
+  before_save   :include_catalogs
   after_save :enqueue
 
   belongs_to :user
 
   property :date,       Date
-  property :catalogs,   [String]
+  property :catalogs,   [String], default: []
 
+  # TODO cleanup [Thing] vs array: true format
   property :responses,  Response,  :array => true
   property :treatments, Treatment, :array => true
   property :notes,      String
@@ -35,22 +36,25 @@ class Entry < CouchRest::Model::Base
 
   def catalog_definitions
     self.catalogs.reduce({}) do |definitions,catalog|
-      definitions[catalog.to_sym] = "#{catalog.capitalize}Catalog".constantize.const_get("#{catalog.upcase}_DEFINITION")
+      definitions[catalog.to_sym] = "#{catalog.capitalize}Catalog".constantize.const_get("DEFINITION")
       definitions
     end
   end
 
-  def questions
-    Question.where(catalog: self.catalogs)
+  # Collect all question names from included catalogs
+  #
+  # Returns array of question name symbols
+  def question_names
+    self.catalogs.reduce([]) do |names, catalog|
+      questions = "#{catalog.capitalize}Catalog".constantize.const_get("QUESTIONS")
+      namespaced_questions = questions.map{|question| "#{catalog}_#{question}".to_sym }
+
+      names + namespaced_questions
+    end
   end
 
   def enqueue
     Resque.enqueue(Entry, self.id)
-  end
-
-  def chart_data
-    chart = CatalogChart.new(self.user_id, self.catalogs, self.date, self.date)
-    chart.data
   end
 
   def complete?
@@ -74,22 +78,30 @@ class Entry < CouchRest::Model::Base
   end
 
   private
+
   def include_catalogs
     if catalogs.present?
       loadable_catalogs = catalogs.select{|catalog| AVAILABLE_CATALOGS.include?(catalog)}
       loadable_catalogs.each{|catalog| self.class_eval { include "#{catalog}_catalog".classify.constantize }}
     end
   end
+
   def method_missing(name, *args)
-    if self.question_names.include?(name)
-      response = responses.select{|r| r.name.to_sym == name}.first
+
+    # Lookup Score for any _score methods from included catalogs
+    if match = name.to_s.match(/(\w+)_score\Z/)
+      self.scores.detect{|s| s[:name] == match[1] }.value
+
+    # Lookup Response.value base on {catalog}_{question_name} format
+    elsif question_names.include?(name)
+      catalog, question_name = name.to_s.match(/(\w+?)_(.*)\Z/).to_a[1..2]
+      response = responses.detect{|r| r.catalog == catalog and r.name == question_name}
+
       return response.value if response
-    elsif match = name.to_s.match(/(\w+)_score\Z/)
-      self.scores.select{|s| s[:name] == match[1] }.first.value
     else
       super(name, *args)
     end
-  end
 
+  end
 
 end

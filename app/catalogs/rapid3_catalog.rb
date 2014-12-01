@@ -1,7 +1,7 @@
 module Rapid3Catalog
   extend ActiveSupport::Concern
 
-  RAPID3_DEFINITION = {
+  DEFINITION = {
 
     ### Over the last week were you able to.. ###
     ### Dress yourself, including tying shoelaces and doing buttons?
@@ -200,16 +200,14 @@ module Rapid3Catalog
     }],
   }
 
-  RAPID3_SCORING_INDEX =  [0.3, 0.7, 1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0, 4.3, 4.7, 5.0, 5.3, 5.7, 6.0, 6.3, 6.7, 7.0, 7.3, 7.7, 8.0, 8.3, 8.7, 9.0, 9.3, 9.7, 10]
+  SCORING_INDEX =  [0.3, 0.7, 1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0, 4.3, 4.7, 5.0, 5.3, 5.7, 6.0, 6.3, 6.7, 7.0, 7.3, 7.7, 8.0, 8.3, 8.7, 9.0, 9.3, 9.7, 10]
 
-  RAPID3_SCORE_COMPONENTS     = %i( functional_status pain_tolerance global_estimate )
+  SCORE_COMPONENTS     = %i( functional_status pain_tolerance global_estimate )
 
-  RAPID3_QUESTIONS            = RAPID3_DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
-  RAPID3_FUNCTIONAL_QUESTIONS = (RAPID3_QUESTIONS - [:pain_tolerance, :global_estimate])
+  QUESTIONS            = DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
+  FUNCTIONAL_QUESTIONS = (QUESTIONS - [:pain_tolerance, :global_estimate])
 
   included do |base_class|
-    base_class.question_names = base_class.question_names | RAPID3_QUESTIONS
-
     validate :response_ranges
     def response_ranges
       ranges = [
@@ -217,10 +215,10 @@ module Rapid3Catalog
         [:global_estimate, (0..10).step(0.5).to_a],
       ]
 
-      RAPID3_FUNCTIONAL_QUESTIONS.each{|q| ranges << [q, [*0..3] ]}
+      FUNCTIONAL_QUESTIONS.each{|q| ranges << [q, [*0..3] ]}
 
       ranges.each do |range|
-        response = responses.select{|r| r.name.to_sym == range[0]}.first
+        response = rapid3_responses.select{|r| r.name.to_sym == range[0]}.first
         if response and not range[1].include?(response.value)
           # self.errors.add "responses.#{range[0]}", "Not within allowed values"
           self.errors.messages[:responses] ||= {}
@@ -232,8 +230,12 @@ module Rapid3Catalog
 
   end
 
+  def rapid3_responses
+    responses.select{|r| r.catalog == "rapid3"}
+  end
+
   def filled_rapid3_entry?
-    (RAPID3_QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
+    (QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
   end
 
   def complete_rapid3_entry?
@@ -248,18 +250,18 @@ module Rapid3Catalog
   # end
 
   def rapid3_functional_status_score
-    score = RAPID3_FUNCTIONAL_QUESTIONS.reduce(0) do |sum, question_name|
-      sum + self.send(question_name)
+    score = FUNCTIONAL_QUESTIONS.reduce(0) do |sum, question_name|
+      sum + self.send("rapid3_#{question_name}")
     end
-    RAPID3_SCORING_INDEX[score-1]
+    SCORING_INDEX[score-1]
   end
 
   def rapid3_pain_tolerance_score
-    self.send(:pain_tolerance)
+    self.send(:rapid3_pain_tolerance)
   end
 
   def rapid3_global_estimate_score
-    self.send(:global_estimate)
+    self.send(:rapid3_global_estimate)
   end
 
 

@@ -22,6 +22,7 @@ module CatalogScore
   end
 
   def calculate_score
+    # Do any custom setup of scoring
     try("setup_#{@catalog}_scoring")
 
     if send("complete_#{@catalog}_entry?")
@@ -41,9 +42,13 @@ module CatalogScore
     end
   end
 
+  # Calls each component method based off the SCORE_COMPONENTS constant
+  # First tries "_score" method for any customized calculations, otherwise falls back to simply grabbing the numeric score
+  #
+  # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
-    catalog_module.const_get("#{@catalog.upcase}_SCORE_COMPONENTS").map do |component|
-      score = respond_to?("#{@catalog}_#{component}_score") ? send("#{@catalog}_#{component}_score") : send(component)
+    catalog_module.const_get("SCORE_COMPONENTS").map do |component|
+      score = respond_to?("#{@catalog}_#{component}_score") ? send("#{@catalog}_#{component}_score") : send("#{@catalog}_#{component}")
       {name: component.to_s, score: score}
     end
   end
