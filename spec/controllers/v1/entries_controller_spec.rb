@@ -78,7 +78,7 @@ describe V1::EntriesController, type: :controller do
 
       expect(json_response["entry"].keys).to include "catalog_definitions"
 
-      expect(json_response["entry"]["responses"].detect{|q| q["name"] == "stools"}["value"]).to eq user.entries.first.stools
+      expect(json_response["entry"]["responses"].detect{|q| q["name"] == "stools"}["value"]).to eq user.entries.first.hbi_stools
       expect(Date.parse("Sep-22-2014")).to eq user.entries.first.date
 
       returns_code 200
@@ -94,17 +94,17 @@ describe V1::EntriesController, type: :controller do
 
   context "UPDATE" do
 
-    let(:entry) { create :hbi_entry, user: user, responses: [{name: :stools, value: 2}] }
+    let(:entry) { create :hbi_entry, user: user, responses: [{catalog: "hbi", name: :stools, value: 2}] }
 
     it "successfully updated" do
-      expect(entry.stools).to eq 2
+      expect(entry.hbi_stools).to eq 2
 
       attrs = entry_attributes
       attrs[:responses].detect{|q| q[:name] == :stools}[:value] = 3
 
       put :update, id: entry.date.to_s, entry: attrs.to_json
 
-      expect(entry.reload.stools).to eq 3
+      expect(entry.reload.hbi_stools).to eq 3
       returns_code 200
     end
 
@@ -119,14 +119,14 @@ describe V1::EntriesController, type: :controller do
 
     it "successfully updated with true/false response" do
       entry.responses.detect{|q| q.name == "stools"}.value = 0
-      expect(entry.stools).to eq 0
+      expect(entry.hbi_stools).to eq 0
 
       attrs = entry_attributes
       attrs[:responses].detect{|q| q[:name] == :stools}[:value] = 1
 
 
       patch :update, id: entry.date.to_s, entry: attrs.to_json
-      expect(entry.reload.stools).to eq 1
+      expect(entry.reload.hbi_stools).to eq 1
 
       returns_code 200
     end
@@ -174,6 +174,6 @@ def entry_attributes
   {
     catalogs: ["hbi"],
     date: "Sep-22-2014",
-    responses: response_attributes.map{|r| {name: r.first, value: r.last}}
+    responses: response_attributes.map{|r| {catalog: "hbi", name: r.first, value: r.last}}
   }
 end

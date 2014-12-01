@@ -172,7 +172,7 @@ class V1::EntriesController < V1::BaseController
     json_params.permit(
       :date,
       catalogs: [],
-      responses: [:name, :value],
+      responses: [:name, :value, :catalog],
       treatments: [:name]
     )
   end
