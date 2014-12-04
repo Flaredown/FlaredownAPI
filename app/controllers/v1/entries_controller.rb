@@ -26,8 +26,8 @@ class V1::EntriesController < V1::BaseController
   #       "date": "Aug-13-2014",
   #       "catalogs": ["hbi"],
   #       "catalog_definitions": {
-  #         "hbi": {
-  #           "stools": [
+  #         "hbi": [
+  #           [
   #             {
   #                 "inputs": [
   #                     {
@@ -39,12 +39,11 @@ class V1::EntriesController < V1::BaseController
   #                 ],
   #                 "kind": "number",
   #                 "name": "stools",
-  #                 "section": 2
   #             }
   #           ]
   #           # ... catalog_definition snipped! ...
   #         }
-  #       }
+  #       ]
   #     }
   #   }
   #
