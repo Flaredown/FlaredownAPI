@@ -1,10 +1,10 @@
 module HbiCatalog
   extend ActiveSupport::Concern
 
-  DEFINITION = {
+  DEFINITION = [
 
     ### General Well-Being
-    general_wellbeing: [{
+    [{
       # 0 Very Well
       # 1 Slightly below par
       # 2 Poor
@@ -12,7 +12,6 @@ module HbiCatalog
       # 4 Terrible
 
       name: :general_wellbeing,
-      section: 0,
       kind: :select,
       inputs: [
         {value: 0, label: "very_well", meta_label: "happy_face", helper: nil},
@@ -24,14 +23,13 @@ module HbiCatalog
     }],
 
     ### Abdominal Pain
-    ab_pain: [{
+    [{
       # 0 None
       # 1 Mild
       # 2 Moderate
       # 3 Severe
 
       name: :ab_pain,
-      section: 1,
       kind: :select,
       inputs: [
         {value: 0, label: "none", meta_label: "happy_face", helper: nil},
@@ -42,9 +40,8 @@ module HbiCatalog
     }],
 
     ### Number of Liquid/Soft Stools for the Day
-    stools: [{
+    [{
       name: :stools,
-      section: 2,
       kind: :number,
       inputs: [
         {value: 0, label: nil, meta_label: nil, helper: "stools_daily"}
@@ -52,14 +49,13 @@ module HbiCatalog
     }],
 
     ### Abdominal Mass
-    ab_mass: [{
+    [{
       # 0 None
       # 1 Dubious
       # 2 Definite
       # 3 Definite and Tender
 
       name: :ab_mass,
-      section: 3,
       kind: :select,
       inputs: [
         {value: 0, label: "none", meta_label: "happy_face", helper: nil},
@@ -79,48 +75,41 @@ module HbiCatalog
     # New fistula
     # Abscess
 
-    complications: [
+    [
       {
         name: :complication_arthralgia,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_uveitis,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_erythema_nodosum,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_aphthous_ulcers,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_anal_fissure,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_fistula,
-        section: 4,
         kind: :checkbox
       },
       {
         name: :complication_abscess,
-        section: 4,
         kind: :checkbox
       }
     ]
-  }
+  ]
 
-  SCORE_COMPONENTS  = DEFINITION.map{|key,value| key }
-  QUESTIONS         = DEFINITION.map{|k,v| v}.map{|questions| questions.map{|question| question[:name] }}.flatten
-  COMPLICATIONS     = DEFINITION[:complications].map{|question| question[:name] }.flatten
+  SCORE_COMPONENTS  = %i( general_wellbeing ab_pain stools ab_mass complications )
+  QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
+  COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
 
   included do |base_class|
     validate :hbi_response_ranges
