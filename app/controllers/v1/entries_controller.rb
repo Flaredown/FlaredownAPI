@@ -108,8 +108,8 @@ class V1::EntriesController < V1::BaseController
   #           ],
   #           "responses": [
   #               {
-  #                   "id": "hbi_general_well_being_abc123",
-  #                   "name": "general_well_being",
+  #                   "id": "hbi_general_wellbeing_abc123",
+  #                   "name": "general_wellbeing",
   #                   "value": 2,
   #                   "catalog": "hbi"
   #               }
