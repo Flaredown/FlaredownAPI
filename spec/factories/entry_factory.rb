@@ -76,43 +76,45 @@ FactoryGirl.define do
 end
 
 
-FactoryGirl.define do
-  factory :cdai_entry, class: Entry do
-    user
-    catalogs ["cdai"]
-    sequence(:date) {|n| (n-1).days.from_now.to_date}
-    responses []
+# FactoryGirl.define do
+#   factory :cdai_entry, class: Entry do
+#     user
+#     catalogs ["cdai"]
+#     sequence(:date) {|n| (n-1).days.from_now.to_date}
+#     responses []
+#
+#     before(:create) do |entry|
+#       setup_cdai_questions
+#
+#       entry.responses << build(:response, {catalog: "cdai", name: :stools      , value: [*0..10].sample})
+#       entry.responses << build(:response, {catalog: "cdai", name: :ab_pain     , value: [*0..3].sample})
+#       entry.responses << build(:response, {catalog: "cdai", name: :general     , value: [*0..4].sample})
+#       entry.responses << build(:response, {catalog: "cdai", name: :mass        , value: [0,2,5].sample})
+#       entry.responses << build(:response, {catalog: "cdai", name: :hematocrit  , value: [*40..50].sample})
+#
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_arthritis      , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_iritis         , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_erythema       , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_fistula        , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_fever          , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :complication_other_fistula  , value: random_boolean})
+#       entry.responses << build(:response, {catalog: "cdai", name: :opiates                     , value: random_boolean})
+#
+#       entry.responses << build(:response, {catalog: "cdai", name: :weight_current, value: 140})
+#       entry.responses << build(:response, {catalog: "cdai", name: :weight_typical, value: 150})
+#       Entry.class_eval{ include CdaiCatalog }
+#     end
+#     after(:create) do |entry|
+#       Entry.perform entry.id
+#     end
+#
+#   end
+# end
 
-    before(:create) do |entry|
-      setup_cdai_questions
-
-      entry.responses << build(:response, {catalog: "cdai", name: :stools      , value: [*0..10].sample})
-      entry.responses << build(:response, {catalog: "cdai", name: :ab_pain     , value: [*0..3].sample})
-      entry.responses << build(:response, {catalog: "cdai", name: :general     , value: [*0..4].sample})
-      entry.responses << build(:response, {catalog: "cdai", name: :mass        , value: [0,2,5].sample})
-      entry.responses << build(:response, {catalog: "cdai", name: :hematocrit  , value: [*40..50].sample})
-
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_arthritis      , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_iritis         , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_erythema       , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_fistula        , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_fever          , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :complication_other_fistula  , value: random_boolean})
-      entry.responses << build(:response, {catalog: "cdai", name: :opiates                     , value: random_boolean})
-
-      entry.responses << build(:response, {catalog: "cdai", name: :weight_current, value: 140})
-      entry.responses << build(:response, {catalog: "cdai", name: :weight_typical, value: 150})
-      Entry.class_eval{ include CdaiCatalog }
-    end
-    after(:create) do |entry|
-      Entry.perform entry.id
-    end
-
-  end
-end
 FactoryGirl.define do
   factory :response do
     name ""
     value ""
+    catalog ""
   end
 end

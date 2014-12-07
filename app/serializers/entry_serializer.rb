@@ -9,11 +9,7 @@ class EntrySerializer < ActiveModel::Serializer
     :date,
     :catalog_definitions,
     :catalogs,
-    # :responses,
-    # :scores,
-    # :treatments,
     :notes
-    # :triggers
 
   def date
     object.date.strftime("%b-%d-%Y")

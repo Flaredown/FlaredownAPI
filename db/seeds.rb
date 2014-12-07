@@ -7,6 +7,6 @@ old_user.delete if old_user
 
 u=User.create(email: "test@test.com", password: "testing123", password_confirmation: "testing123", gender: "male", weight: 145)
 
-30.times do |n|
+500.times do |n|
   FactoryGirl.create :hbi_entry, user: u, date: Date.today-n.days
 end

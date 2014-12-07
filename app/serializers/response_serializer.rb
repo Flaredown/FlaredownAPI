@@ -1,6 +1,6 @@
 class ResponseSerializer < ActiveModel::Serializer
   attributes :id,
     :name,
-    :value
-    
+    :value,
+    :catalog
 end
