@@ -1,4 +1,4 @@
-class V1::ChartController < V1::BaseController
+class V1::GraphController < V1::BaseController
 	def show
     start_date  = Date.parse(params[:start_date])
     end_date    = Date.parse(params[:end_date])

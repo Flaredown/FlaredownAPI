@@ -18,7 +18,7 @@ Flaredown::Application.routes.draw do
     get "users/invitee/:token", to: "users#invitee"
 
     get "locales/:locale", to: "locales#show"
-    get "/chart" => "chart#show"
+    get "/graph" => "graph#show"
     get "/users/:id" => "users#show"
 
   end
