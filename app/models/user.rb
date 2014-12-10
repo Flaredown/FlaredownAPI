@@ -16,14 +16,9 @@ class User < ActiveRecord::Base
     Entry.by_user_id.key(self.id.to_s)
   end
 
-  def cdai_score_coordinates
-    chart = CatalogChart.new(self.id, ["cdai"])
-    chart.score_coordinates("cdai")
-  end
-
-  def chart_data
-    chart = CatalogChart.new(self.id, ["cdai"])
-    chart.catalogs_data
+  def graph_data
+    graph = CatalogGraph.new(self.id, self.catalogs)
+    graph.catalogs_data
   end
 
   def upcoming_catalogs
@@ -40,21 +35,6 @@ class User < ActiveRecord::Base
       REDIS.zincrby("#{@user.id}:upcoming_catalogs", -1, catalog[0])
     end
     Resque.enqueue_at(Date.tomorrow.to_time, User, @user.id)
-  end
-
-  def medication_coordinates
-    i,j = 0,0
-    (cdai_score_coordinates.map do |score|
-      {med_id: 1, x: score[:x], label: "Breathing Incense of Eucalyptus", dose: "20 minutes"}
-    end[0..-4] |
-    cdai_score_coordinates.map do |score|
-      i = i+1
-      {med_id: 3, x: score[:x], label: "Transcendental Meditation", dose: "4 hours"} if i > 4
-    end |
-    cdai_score_coordinates.map do |score|
-      j = j+1
-      {med_id: 2, x: score[:x], label: "Homepathic Bee Toenails", dose: "0.00005 mg"} if j < 7
-    end).compact!
   end
 
 end

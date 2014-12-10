@@ -1,5 +1,6 @@
 class V1::Users::SessionsController < Devise::SessionsController
   respond_to :json
+  before_filter :ensure_params_exist
   prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
   prepend_before_filter :allow_params_authentication!, :only => :create
   prepend_before_filter :only => [ :create, :destroy ] { request.env["devise.skip_timeout"] = true }
@@ -11,13 +12,17 @@ class V1::Users::SessionsController < Devise::SessionsController
     respond_with(resource, serialize_options(resource))
   end
 
-  # POST /resource/sign_in
   def create
-    self.resource = warden.authenticate!(auth_options)
-    set_flash_message(:notice, :signed_in) if is_flashing_format?
-    sign_in(resource_name, resource)
-    yield resource if block_given?
-    respond_with resource, :location => after_sign_in_path_for(resource)
+    resource = User.find_for_database_authentication(:email=>params[:v1_user][:email])
+    return invalid_login_attempt unless resource
+
+    if resource.valid_password?(params[:v1_user][:password])
+      sign_in(resource_name, resource)
+      yield resource if block_given?
+      respond_with resource, :location => after_sign_in_path_for(resource)
+    else
+      invalid_login_attempt
+    end
   end
 
   # DELETE /resource/sign_out
@@ -36,6 +41,17 @@ class V1::Users::SessionsController < Devise::SessionsController
   end
 
   protected
+  def ensure_params_exist
+    return unless params[:v1_user][:email].blank?
+    errors = {email: [{type: 'empty', message: 'Email is empty'}]}
+    render :json=>respond_with_error(errors), :status=>401
+  end
+
+  def invalid_login_attempt
+    warden.custom_failure!
+    errors = {email: [{type: 'invalid', message: 'Email is invalid'}], password: [{type: 'invalid', message: 'Password is invalid'}]}
+    render :json=>respond_with_error(errors), :status=>422
+  end
 
   def sign_in_params
     devise_parameter_sanitizer.sanitize(:sign_in)
@@ -50,5 +66,10 @@ class V1::Users::SessionsController < Devise::SessionsController
 
   def auth_options
     { :scope => resource_name, :recall => "#{controller_path}#new" }
+  end
+
+  def respond_with_error(errors)
+    generator = GroovyResponseGenerator.new("inline", errors)
+    return generator.get_errors_response()
   end
 end
