@@ -1,18 +1,18 @@
-class UserSerializer < ActiveModel::Serializer  
+class UserSerializer < ActiveModel::Serializer
   root false
   embed :ids, include: false
-  
+
   attributes :id,
     :email,
     :authentication_token,
     # :weight,
     # :gender,
-    :upcoming_catalogs,
-    :chart_data,
-    :medication_coordinates,
-    :medications
-  
-  def medications
-    [1,2,3]
-  end
+    :upcoming_catalogs
+    # :chart_data,
+    # :medication_coordinates,
+    # :medications
+
+  # def medications
+  #   [1,2,3]
+  # end
 end
