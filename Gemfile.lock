@@ -233,6 +233,7 @@ GEM
     mono_logger (1.1.0)
     multi_json (1.10.1)
     oauth (0.4.7)
+    obscenity (1.0.2)
     orm_adapter (0.5.0)
     pg (0.17.1)
     pry (0.9.12.6)
@@ -351,6 +352,8 @@ GEM
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     terminal-table (1.4.5)
+    textacular (3.2.0)
+      activerecord (>= 3.0, < 4.2)
     thin (1.6.1)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -397,6 +400,7 @@ DEPENDENCIES
   json_spec
   letter_opener
   oauth
+  obscenity
   pg
   pry
   pry-remote
@@ -412,6 +416,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.2)
   simplecov
   slim
+  textacular (~> 3.0)
   timecop
   tomdoc
   uglifier (>= 1.3.0)

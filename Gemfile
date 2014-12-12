@@ -34,6 +34,10 @@ gem "hashie"
 
 gem "letter_opener"
 
+gem 'textacular', '~> 3.0'
+
+gem 'obscenity'
+
 group :production do
 end
 

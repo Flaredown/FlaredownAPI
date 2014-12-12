@@ -12,6 +12,11 @@ class User < ActiveRecord::Base
   # validates_inclusion_of :weight, :in => [*0..800], :message => "not within allowed values"
   # validates_inclusion_of :gender, :in => %w( male female ), :message => "not within allowed values"
 
+  #associations
+
+  has_many :user_symptoms
+  has_many :symptoms, :through => :user_symptoms
+
   def entries
     Entry.by_user_id.key(self.id.to_s)
   end

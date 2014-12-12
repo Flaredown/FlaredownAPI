@@ -12,14 +12,18 @@ Flaredown::Application.routes.draw do
     }
 
     resources :entries
-
+    resources :symtoms
     resources :current_user
     resources :users
+
     get "users/invitee/:token", to: "users#invitee"
 
     get "locales/:locale", to: "locales#show"
     get "/graph" => "graph#show"
     get "/users/:id" => "users#show"
+
+    get "symptoms/search" => "symptoms#search"
+    post "symptoms/create" => "symptoms#create"
 
   end
 
