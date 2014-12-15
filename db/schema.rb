@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140104180544) do
+ActiveRecord::Schema.define(version: 20141212073450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,19 @@ ActiveRecord::Schema.define(version: 20140104180544) do
   end
 
   add_index "questions", ["name"], name: "index_questions_on_name", unique: true, using: :btree
+
+  create_table "symptoms", force: true do |t|
+    t.string "name",             limit: 50
+    t.string "language",         limit: 2
+    t.text   "related_catalogs",            default: [], array: true
+  end
+
+  add_index "symptoms", ["name"], name: "index_symptoms_on_name", unique: true, using: :btree
+
+  create_table "user_symptoms", force: true do |t|
+    t.integer "user_id"
+    t.integer "symptom_id"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -60,6 +73,8 @@ ActiveRecord::Schema.define(version: 20140104180544) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.text     "catalogs",               default: [],              array: true
+    t.integer  "symptoms_count"
+    t.text     "active_symptoms",        default: [],              array: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
