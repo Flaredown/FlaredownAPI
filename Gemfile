@@ -43,6 +43,7 @@ end
 group :development, :staging do
   gem "seedbank"
   gem 'distribution', '~> 0.7.1'
+  # gem "gsl" # supposedly speeds up 'distribution`
 end
 
 group :doc do

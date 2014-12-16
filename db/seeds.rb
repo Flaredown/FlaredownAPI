@@ -1,5 +1,4 @@
 # Clear it out first
-
 REDIS.flushdb
 Entry.all.each{|e| e.destroy}
 old_user=User.find_by_email("test@test.com")
