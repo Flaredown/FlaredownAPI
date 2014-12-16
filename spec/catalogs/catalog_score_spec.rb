@@ -44,8 +44,8 @@ describe CatalogScore do
 
   it "#save_score" do
     entry.save_score("fake")
-    expect(REDIS.get("1:scores:#{entry.date.to_time.to_i}:fake_score")).to eq "35"
-    expect(REDIS.hget("1:scores:#{entry.date.to_time.to_i}:fake", "foo")).to eq "15"
+    expect(REDIS.get("1:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:fake_score")).to eq "35"
+    expect(REDIS.hget("1:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:fake", "foo")).to eq "15"
   end
 
   describe "with HBI catalog" do
@@ -53,8 +53,8 @@ describe CatalogScore do
     let!(:entry) { with_resque{ create :hbi_entry, user: user } }
 
     it "#save_score" do
-      total_score     = REDIS.get("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi_score")
-      component_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.to_i}:hbi", "stools")
+      total_score     = REDIS.get("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:hbi_score")
+      component_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:hbi", "stools")
 
       expect(total_score).to be_present
       expect(component_score).to be_present

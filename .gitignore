@@ -6,6 +6,7 @@ capybara-*.html
 .rvmrc
 .env.development
 .env
+structure.sql
 /.bundle
 /vendor/bundle
 *.log

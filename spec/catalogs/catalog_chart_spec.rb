@@ -7,7 +7,7 @@ describe CatalogGraph do
   it "#date_range" do
     range = chart.date_range(Date.today, Date.today+3.days)
     expect(range).to have(4).items
-    expect(Time.at(range.first).to_date).to eql Date.today
+    expect(Time.at(range.first).utc.beginning_of_day.to_date).to eql Date.today
   end
 
   describe "#score_coordinates" do
@@ -35,7 +35,7 @@ describe CatalogGraph do
         Timecop.freeze do
           oldest_entry = with_resque{ create :hbi_entry, user: user, date: Date.today-6.days }
           expect(chart.score_coordinates("hbi").count).to eq 20
-          expect(Time.at(chart.score_coordinates("hbi").first[:x]).to_date).to eq oldest_entry.date
+          expect(Time.at(chart.score_coordinates("hbi").first[:x]).utc.beginning_of_day.to_date).to eq oldest_entry.date
         end
       end
       it "should return coordinates" do

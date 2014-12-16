@@ -9,7 +9,7 @@ class CatalogGraph
   end
 
   def date_range(start_date, end_date)
-    (start_date..end_date).to_a.map{|day| day.to_time.to_i}
+    (start_date..end_date).to_a.map{|day| day.to_time.utc.beginning_of_day.to_i}
   end
 
   def medication_data
@@ -34,7 +34,7 @@ class CatalogGraph
         value.nil? ? nil : {x: entry_date, order: i+1, points: value.to_i, name: component.to_s}
       end
 
-    end.flatten.compact#.sort_by{|c| c[:x]} # is this sort needed?
+    end.flatten.compact
   end
   def score_component_coordinates(catalog, start_date=start_date, end_date=end_date)
     []

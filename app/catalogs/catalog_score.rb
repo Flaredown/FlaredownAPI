@@ -11,10 +11,12 @@ module CatalogScore
       scores << {name: @catalog, value: score}
     end
 
+    unix_utc = date.to_time.utc.beginning_of_day.to_i
+
     components.each do |component|
-      REDIS.hset("#{user_id}:scores:#{date.to_time.to_i}:#{@catalog}", component[:name], component[:score])
+      REDIS.hset("#{user_id}:scores:#{unix_utc}:#{@catalog}", component[:name], component[:score])
     end
-    REDIS.set("#{user_id}:scores:#{date.to_time.to_i}:#{@catalog}_score", score)
+    REDIS.set("#{user_id}:scores:#{unix_utc}:#{@catalog}_score", score)
   end
 
   def catalog_module
