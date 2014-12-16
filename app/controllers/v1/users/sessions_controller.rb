@@ -49,7 +49,7 @@ class V1::Users::SessionsController < Devise::SessionsController
 
   def invalid_login_attempt
     warden.custom_failure!
-    errors = {email: [{type: 'invalid', message: 'Email is invalid'}], password: [{type: 'invalid', message: 'Password is invalid'}]}
+    errors = {email: ["Email is invalid"], password: ["Password is invalid"]}
     render :json=>respond_with_error(errors), :status=>422
   end
 
