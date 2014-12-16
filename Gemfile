@@ -42,6 +42,7 @@ end
 
 group :development, :staging do
   gem "seedbank"
+  gem 'distribution', '~> 0.7.1'
 end
 
 group :doc do
