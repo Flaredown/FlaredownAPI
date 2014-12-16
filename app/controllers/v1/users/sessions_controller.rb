@@ -12,6 +12,15 @@ class V1::Users::SessionsController < Devise::SessionsController
     respond_with(resource, serialize_options(resource))
   end
 
+  # Create a new session, take note of parameter name (`v1_`)
+  #
+  # Examples
+  #
+  #   curl <domain>/v1/users/sign_in --data "v1_user[email]=test@test.com&v1_user[password]=testing123"
+  #
+  # Returns current_user in JSON format:
+  #
+  #   { "id":1, "email":"test@test.com", "authentication_token":"mLqngeD6roA6i6eUsJUj } # other attributes snipped
   def create
     resource = User.find_for_database_authentication(:email=>params[:v1_user][:email])
     return invalid_login_attempt unless resource
