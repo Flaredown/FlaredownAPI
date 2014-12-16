@@ -352,6 +352,8 @@ GEM
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     terminal-table (1.4.5)
+    textacular (3.2.0)
+      activerecord (>= 3.0, < 4.2)
     thin (1.6.1)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -414,6 +416,7 @@ DEPENDENCIES
   seedbank
   simplecov
   slim
+  textacular (~> 3.0)
   timecop
   tomdoc
   uglifier (>= 1.3.0)

@@ -138,7 +138,6 @@ module HbiCatalog
         response = hbi_responses.detect{|r| r.name.to_sym == name}
 
         if response and not [0,1].include? response.value.to_i
-          # TODO add catalog namespace here
           self.errors.messages[:responses] ||= {}
           self.errors.messages[:responses][name.to_sym] = "Must be true or false"
         end

@@ -12,13 +12,13 @@ describe V1::Users::SessionsController, type: :controller do
       fields = {
           email: [
               {
-                  type: 'invalid',
+                  type: "",
                   message: 'Email is invalid'
               },
           ],
           password: [
               {
-                  type: 'invalid',
+                  type: "",
                   message: 'Password is invalid'
               },
           ]
