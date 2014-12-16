@@ -233,7 +233,6 @@ GEM
     mono_logger (1.1.0)
     multi_json (1.10.1)
     oauth (0.4.7)
-    obscenity (1.0.2)
     orm_adapter (0.5.0)
     pg (0.17.1)
     pry (0.9.12.6)
@@ -400,7 +399,6 @@ DEPENDENCIES
   json_spec
   letter_opener
   oauth
-  obscenity
   pg
   pry
   pry-remote

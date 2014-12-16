@@ -5,7 +5,8 @@ class V1::SymptomsController < V1::BaseController
     if symtom.valid?
       render json: {:message => 'Under Construction'}, status: 201
     else
-      render json: symtom.errors.messages.to_json, status: 400
+      response = respond_with_error(symtom.errors.messages).to_json
+      render json: response, status: 400
     end
 
   end
