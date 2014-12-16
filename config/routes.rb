@@ -15,6 +15,8 @@ Flaredown::Application.routes.draw do
 
     resources :current_user
     resources :users
+
+    get "me",                   to: "users#index"
     get "users/invitee/:token", to: "users#invitee"
 
     get "locales/:locale", to: "locales#show"
