@@ -37,6 +37,10 @@ gem "letter_opener"
 group :production do
 end
 
+group :development, :staging do
+  gem "seedbank"
+end
+
 group :doc do
   gem "tomdoc"
 end
