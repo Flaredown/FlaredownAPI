@@ -50,13 +50,16 @@ group :doc do
   gem "tomdoc"
 end
 
+group :test, :development, :staging do
+  gem "factory_girl_rails"#, require: false
+end
+
 group :test, :development do
   gem "dotenv-rails"
   gem "pry"
   gem "pry-remote"
   gem "i18n-tasks", "~> 0.2.10"
   gem "ruby-prof"
-  gem "factory_girl_rails"#, require: false
 end
 
 group :development do
