@@ -60,7 +60,7 @@ describe CatalogGraph do
     end
 
     it "should return a limit chart for a limited date range" do
-      expect(chart.score_coordinates("hbi", Date.yesterday, Date.today).count).to eq 10
+      expect(chart.score_coordinates("hbi", Date.today-1.day, Date.today).count).to eq 10
     end
 
   end

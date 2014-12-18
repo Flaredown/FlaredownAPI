@@ -170,11 +170,12 @@ class V1::EntriesController < V1::BaseController
     json_params = ActionController::Parameters.new( JSON.parse(params[:entry]) )
     json_params.permit(
       :date,
+      :notes,
+      :triggers,
       catalogs: [],
       responses: [:name, :value, :catalog],
-      treatments: [:name],
-      :notes,
-      :triggers
+      treatments: [:name]
+
     )
   end
 end
