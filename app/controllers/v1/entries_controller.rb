@@ -172,7 +172,9 @@ class V1::EntriesController < V1::BaseController
       :date,
       catalogs: [],
       responses: [:name, :value, :catalog],
-      treatments: [:name]
+      treatments: [:name],
+      :notes,
+      :triggers
     )
   end
 end
