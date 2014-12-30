@@ -14,11 +14,11 @@ describe V1::LocalesController, type: :controller do
     before(:each) do
       sign_in(user)
 
-      allow(File).to receive(:open).with("#{Rails.root}/config/locales/en/en_base.yml").and_return(en_locale)
-      allow(File).to receive(:open).with("#{Rails.root}/config/locales/pirate/pirate_base.yml").and_call_original
+      allow(YAML).to receive(:load_file).with("#{Rails.root}/config/locales/en/en_base.yml").and_return(en_locale)
+      allow(YAML).to receive(:load_file).with("#{Rails.root}/config/locales/pirate/pirate_base.yml").and_call_original
 
-      allow(File).to receive(:open).with("#{Rails.root}/config/locales/en/catalogs/foo.yml").and_return(foo_locale)
-      allow(File).to receive(:open).with("#{Rails.root}/config/locales/en/catalogs/bar.yml").and_call_original
+      allow(YAML).to receive(:load_file).with("#{Rails.root}/config/locales/en/catalogs/foo.yml").and_return(foo_locale)
+      allow(YAML).to receive(:load_file).with("#{Rails.root}/config/locales/en/catalogs/bar.yml").and_call_original
     end
 
     it "it translates properly into json" do
@@ -53,7 +53,7 @@ describe V1::LocalesController, type: :controller do
     end
 
     it "crazy ass filenames are sanitized" do
-      allow(File).to receive(:open).with("#{Rails.root}/config/locales//_base.yml").and_call_original
+      allow(YAML).to receive(:load_file).with("#{Rails.root}/config/locales//_base.yml").and_call_original
 
       get :show, {locale: "!!#$&"}
       expect(response.body).to be_json_eql({error: "Unknown locale or catalog locale."}.to_json)
