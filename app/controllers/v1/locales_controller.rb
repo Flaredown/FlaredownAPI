@@ -27,13 +27,13 @@ class V1::LocalesController < V1::BaseController
   # Returns 200
   def show
     locale_name = sanitize_filename(locale_params["locale"]).to_sym
-    locale = yaml_to_json_style_interpolation!( YAML.load_file("#{Rails.root}/config/locales/#{locale_name}/#{locale_name}_base.yml") )
+    locale = yaml_to_json_style_interpolation!( File.open("#{Rails.root}/config/locales/#{locale_name}/#{locale_name}_base.yml").read )
 
-    if current_user.catalogs.present? # Load each catalog on the current_user into the response
+    if current_user.catalogs.present? and locale[locale_name] # Load each catalog on the current_user into the response
       locale[locale_name][:catalogs] ||= {}
 
       current_user.catalogs.each do |catalog|
-        catalog_locale = yaml_to_json_style_interpolation!( YAML.load_file("#{Rails.root}/config/locales/#{locale_name}/catalogs/#{catalog}.yml") )
+        catalog_locale = yaml_to_json_style_interpolation!( File.open("#{Rails.root}/config/locales/#{locale_name}/catalogs/#{catalog}.yml").read )
         locale[locale_name][:catalogs][catalog] = catalog_locale
       end
     end
