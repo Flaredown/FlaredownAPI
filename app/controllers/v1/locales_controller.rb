@@ -11,7 +11,6 @@ class V1::LocalesController < V1::BaseController
   #
   #   data:
   #     local: "en"
-  #     catalogs: ["foo"]
   #
   #   {
   #     "en": {
@@ -26,7 +25,7 @@ class V1::LocalesController < V1::BaseController
   #
   # Returns 200
   def show
-    locale_name = sanitize_filename(locale_params["locale"]).to_sym
+    locale_name = sanitize_filename(locale_params["locale"])
     locale = yaml_to_json_style_interpolation!( File.open("#{Rails.root}/config/locales/#{locale_name}/#{locale_name}_base.yml").read )
 
     if current_user.catalogs.present? # Load each catalog on the current_user into the response

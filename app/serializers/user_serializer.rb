@@ -5,6 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   attributes :id,
     :email,
     :authentication_token,
+    :locale,
     # :weight,
     # :gender,
     :upcoming_catalogs
