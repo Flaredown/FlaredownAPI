@@ -7,10 +7,7 @@ class V1::LocalesController < V1::BaseController
   #
   #   curl "<domain>/v1/locales/en?user_email=test@test.com&user_token=abc123"
   #
-  #   POST locales/en
-  #
-  #   data:
-  #     local: "en"
+  #   GET locales/en
   #
   #   {
   #     "en": {
