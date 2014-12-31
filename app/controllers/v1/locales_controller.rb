@@ -25,7 +25,7 @@ class V1::LocalesController < V1::BaseController
   #
   # Returns 200
   def show
-    locale_name = sanitize_filename(locale_params["locale"])
+    locale_name = sanitize_locale_name(locale_params["locale"].to_s)
     locale = yaml_to_json_style_interpolation!( File.open("#{Rails.root}/config/locales/#{locale_name}/#{locale_name}_base.yml").read )
 
     if current_user.catalogs.present? # Load each catalog on the current_user into the response
@@ -55,7 +55,7 @@ class V1::LocalesController < V1::BaseController
   end
 
   private
-  def sanitize_filename(filename)
+  def sanitize_locale_name(filename)
     filename.gsub(/[^0-9A-z.\-]/, '')
   end
 
