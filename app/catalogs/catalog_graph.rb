@@ -6,6 +6,8 @@ class CatalogGraph
 
     @start_date = start_date  || 2.week.ago.to_date
     @end_date   = end_date    || Date.today
+
+    @all_symptom_names = User.find(@user_id).symptoms.map(&:name)
   end
 
   def date_range(start_date, end_date)
@@ -29,7 +31,9 @@ class CatalogGraph
   def score_coordinates(catalog, start_date=start_date, end_date=end_date)
     date_range(start_date, end_date).map do |entry_date|
 
-      "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").each_with_index.map do |component, i|
+      components = ((catalog == "symptoms") ? @all_symptom_names : "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS"))
+      Rails.logger.debug catalog
+      components.each_with_index.map do |component, i|
         value = REDIS.hget("#{user_id}:scores:#{entry_date}:#{catalog}", component.to_s)
         value.nil? ? nil : {x: entry_date, order: i+1, points: value.to_i, name: component.to_s}
       end

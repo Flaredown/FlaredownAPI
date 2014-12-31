@@ -75,6 +75,64 @@ FactoryGirl.define do
   end
 end
 
+FactoryGirl.define do
+  factory :symptom_entry, class: Entry do
+    user
+    catalogs []
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    responses []
+
+    before(:create) do |entry|
+      entry.responses << build(:response, {catalog: "symptoms", name: "fat toes"       , value: [*0..4].sample})
+      entry.responses << build(:response, {catalog: "symptoms", name: "droopy lips"    , value: [*0..4].sample})
+      entry.responses << build(:response, {catalog: "symptoms", name: "slippery tongue", value: [*0..4].sample})
+    end
+    after(:create) do |entry|
+      Entry.perform entry.id
+      entry.reload
+    end
+
+  end
+end
+
+FactoryGirl.define do
+  factory :hbi_and_symptoms_entry, class: Entry do
+    user
+    catalogs ["hbi"]
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    responses []
+
+    before(:create) do |entry|
+      # setup_hbi_questions
+
+      entry.responses << build(:response, {catalog: "hbi", name: :general_wellbeing , value: [*0..4].sample})
+      entry.responses << build(:response, {catalog: "hbi", name: :ab_pain           , value: [*0..3].sample})
+      entry.responses << build(:response, {catalog: "hbi", name: :stools            , value: [*0..10].sample})
+      entry.responses << build(:response, {catalog: "hbi", name: :ab_mass           , value: [*0..3].sample})
+
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_arthralgia       , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_uveitis          , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_erythema_nodosum , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_aphthous_ulcers  , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_anal_fissure     , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_fistula          , value: random_boolean})
+      entry.responses << build(:response, {catalog: "hbi", name: :complication_abscess          , value: random_boolean})
+
+      # Some symptoms
+      entry.responses << build(:response, {catalog: "symptoms", name: "fat toes"       , value: [*0..4].sample})
+      entry.responses << build(:response, {catalog: "symptoms", name: "droopy lips"    , value: [*0..4].sample})
+      entry.responses << build(:response, {catalog: "symptoms", name: "slippery tongue", value: [*0..4].sample})
+
+      Entry.class_eval{ include HbiCatalog }
+    end
+    after(:create) do |entry|
+      Entry.perform entry.id
+      entry.reload
+    end
+
+  end
+end
+
 
 # FactoryGirl.define do
 #   factory :cdai_entry, class: Entry do

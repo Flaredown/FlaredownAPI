@@ -1,6 +1,7 @@
 class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
+  include SymptomsCatalog
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
@@ -65,7 +66,7 @@ class Entry < CouchRest::Model::Base
   def self.perform(entry_id)
     entry = Entry.find(entry_id)
 
-    entry.catalogs.each do |catalog|
+    (entry.catalogs | ["symptoms"]).each do |catalog|
       # entry.update_upcoming_catalog(catalog)
       entry.send("save_score", catalog)
       Entry.skip_callback(:save, :after, :enqueue)

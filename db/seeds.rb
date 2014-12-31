@@ -8,6 +8,12 @@ ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
 u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123", gender: "male", weight: 145, catalogs: ["hbi"])
 
+# Add symptom names from :hbi_and_symptoms_entry
+["droopy lips", "fat toes", "slippery tongue"].each do |name|
+  s = u.symptoms.create name: name, language: "en"
+  u.active_symptoms << s.id
+end
+
 500.times do |n|
-  FactoryGirl.create :hbi_entry, user: u, date: Date.today-n.days
+  FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days
 end

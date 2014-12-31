@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     Entry.by_user_id.key(self.id.to_s)
   end
 
+  def current_symptoms
+    Symptom.where(id: self.active_symptoms.map(&:to_i))
+  end
+
   def graph_data
     graph = CatalogGraph.new(self.id, self.catalogs)
     graph.catalogs_data

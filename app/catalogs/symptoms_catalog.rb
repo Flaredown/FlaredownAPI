@@ -22,7 +22,8 @@ module SymptomsCatalog
   end
 
   def filled_symptoms_entry?
-    # TODO should reflect that all "active" for user have responses
+    # TODO this could become false on changing current_symptoms... loosen criteria? Only applicable to unscored entries?
+    User.find(user_id).current_symptoms.map(&:name) - responses.select{|r| r.catalog == "symptoms"}.map(&:name) == []
   end
 
   def complete_symptoms_entry?

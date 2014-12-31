@@ -49,9 +49,15 @@ module CatalogScore
   #
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
-    catalog_module.const_get("SCORE_COMPONENTS").map do |component|
-      score = respond_to?("#{@catalog}_#{component}_score") ? send("#{@catalog}_#{component}_score") : send("#{@catalog}_#{component}")
-      {name: component.to_s, score: score}
+    if @catalog == "symptoms"
+      responses.select{|r| r.catalog == @catalog}.map do |response|
+        {name: response.name, score: response.value }
+      end
+    else
+      catalog_module.const_get("SCORE_COMPONENTS").map do |component|
+        score = respond_to?("#{@catalog}_#{component}_score") ? send("#{@catalog}_#{component}_score") : send("#{@catalog}_#{component}")
+        {name: component.to_s, score: score}
+      end
     end
   end
 

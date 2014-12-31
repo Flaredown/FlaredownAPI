@@ -63,7 +63,45 @@ describe CatalogScore do
       expect(component_score.to_i).to be_an Integer
     end
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(1).item
+      expect(entry.reload.scores).to have(2).items # hbi + symptoms
+    end
+  end
+
+  describe "with symptoms catalog" do
+    let!(:user) do
+      u=create :user
+      ["droopy lips", "fat toes", "slippery tongue"].each do |name|
+        s = u.symptoms.create name: name, language: "en"
+        u.active_symptoms << s.id
+      end
+      u
+    end
+    let!(:entry) { with_resque{ create :symptom_entry, user: user } }
+
+    it "#save_score" do
+      total_score     = REDIS.get("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms_score")
+      component_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms", "droopy lips")
+
+      expect(total_score).to be_present
+      expect(component_score).to be_present
+
+      expect(total_score.to_i).to be_an Integer
+      expect(component_score.to_i).to be_an Integer
+    end
+
+    it "saves the score on the entry document" do
+      expect(entry.reload.scores).to have(1).item # just symptoms
+    end
+
+    it "calculates scores for any responses in the 'symptoms' catalog" do
+      entry.responses << {catalog: "symptoms", name: "unibrow" , value: 2}
+      s = user.symptoms.create name: "unibrow", language: "en"
+      user.active_symptoms << s.id
+
+      with_resque{ entry.save; Entry.perform(entry.id) }
+
+      unibrow_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms", "unibrow")
+      expect(unibrow_score).to eql "2.0"
     end
   end
 
