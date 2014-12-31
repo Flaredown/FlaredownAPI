@@ -1,6 +1,6 @@
 # Clear it out first
 REDIS.flushdb
-Entry.all.each{|e| e.destroy}
+Entry.all.each{|e| e.destroy if e.user_id == "1"} # wipe out test@test.com entries
 User.all.each{|u| u.destroy}
 ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
