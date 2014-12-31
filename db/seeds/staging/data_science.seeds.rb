@@ -13,3 +13,6 @@ end
 
 # Some distribution stuff I don't know how to use...
 Distribution::T.cdf 1,1
+
+# Add static user colin
+colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123", catalogs= ["symptoms"])
