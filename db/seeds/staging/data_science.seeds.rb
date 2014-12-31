@@ -1,5 +1,5 @@
 # Some user
-u=User.create(email: "dataguy@test.com", password: "testing123", password_confirmation: "testing123", catalogs: ["hbi"])
+u=User.create(id: 100, email: "dataguy@test.com", password: "testing123", password_confirmation: "testing123", catalogs: ["hbi"])
 
 # Add some random entries for them, based off of spec/factories/entry_factory.rb
 10.times do |n|
