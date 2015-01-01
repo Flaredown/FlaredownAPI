@@ -1,2 +1,20 @@
 en:
   hello: "Hello world"
+
+
+  labels:
+    very_well: "Very well"
+    slightly_below_par: "Slightly below par"
+    poor: "Poor"
+    very_poor: "Very poor"
+    terrible: "Terrible"
+
+    none: "None"
+    mild: "Mild"
+    moderate: "Moderate"
+    severe: "Severe"
+    extreme: "Extreme"
+
+    dubious: "Dubious"
+    definite: "Definite"
+    definite_and_tender: "Definite and tender"

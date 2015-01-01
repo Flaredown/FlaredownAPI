@@ -9,10 +9,10 @@ module Rapid3Catalog
       name: :dress_yourself,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -21,10 +21,10 @@ module Rapid3Catalog
       name: :get_in_out_of_bed,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -33,10 +33,10 @@ module Rapid3Catalog
       name: :lift_full_glass,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -45,10 +45,10 @@ module Rapid3Catalog
       name: :walk_outdoors,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -57,10 +57,10 @@ module Rapid3Catalog
       name: :wash_and_dry_yourself,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -69,10 +69,10 @@ module Rapid3Catalog
       name: :bend_down,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -81,10 +81,10 @@ module Rapid3Catalog
       name: :turn_faucet,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -93,10 +93,10 @@ module Rapid3Catalog
       name: :enter_exit_vehicles,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -105,10 +105,10 @@ module Rapid3Catalog
       name: :walk_two_miles,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -117,10 +117,10 @@ module Rapid3Catalog
       name: :play_sports,
       kind: :select,
       inputs: [
-        {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+        {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+        {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+        {value: 3, label: "unable", meta_label: "", helper: nil},
       ]
     }],
 
@@ -132,10 +132,10 @@ module Rapid3Catalog
     #   section: 10,
     #   kind: :select,
     #   inputs: [
-    #     {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-    #     {value: 1.1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-    #     {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-    #     {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+    #     {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+    #     {value: 1.1, label: "some_difficulty", meta_label: "", helper: nil},
+    #     {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+    #     {value: 3, label: "unable", meta_label: "", helper: nil},
     #   ]
     # }],
     #
@@ -145,10 +145,10 @@ module Rapid3Catalog
     #   section: 11,
     #   kind: :select,
     #   inputs: [
-    #     {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-    #     {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-    #     {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-    #     {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+    #     {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+    #     {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+    #     {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+    #     {value: 3, label: "unable", meta_label: "", helper: nil},
     #   ]
     # }],
     #
@@ -158,10 +158,10 @@ module Rapid3Catalog
     #   section: 12,
     #   kind: :select,
     #   inputs: [
-    #     {value: 0, label: "no_difficulty", meta_label: "happy_face", helper: nil},
-    #     {value: 1, label: "some_difficulty", meta_label: "neutral_face", helper: nil},
-    #     {value: 2, label: "much_difficulty", meta_label: "frowny_face", helper: nil},
-    #     {value: 3, label: "unable", meta_label: "sad_face", helper: nil},
+    #     {value: 0, label: "no_difficulty", meta_label: "", helper: nil},
+    #     {value: 1, label: "some_difficulty", meta_label: "", helper: nil},
+    #     {value: 2, label: "much_difficulty", meta_label: "", helper: nil},
+    #     {value: 3, label: "unable", meta_label: "", helper: nil},
     #   ]
     # }],
 
@@ -171,8 +171,8 @@ module Rapid3Catalog
       kind: :range,
       step: 0.5,
       inputs: [
-        {value: 0.0, label: "no_pain", meta_label: "happy_face", helper: nil},
-        {value: 10.0, label: "maximum_pain", meta_label: "sad_face", helper: nil},
+        {value: 0.0, label: "no_pain", meta_label: "", helper: nil},
+        {value: 10.0, label: "maximum_pain", meta_label: "", helper: nil},
       ]
     }],
 
@@ -182,8 +182,8 @@ module Rapid3Catalog
       kind: :range,
       step: 0.5,
       inputs: [
-        {value: 0.0, label: "very_well", meta_label: "happy_face", helper: nil},
-        {value: 10.0, label: "very_poorly", meta_label: "sad_face", helper: nil},
+        {value: 0.0, label: "very_well", meta_label: "", helper: nil},
+        {value: 10.0, label: "very_poorly", meta_label: "", helper: nil},
       ]
     }],
   ]

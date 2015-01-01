@@ -14,11 +14,11 @@ module HbiCatalog
       name: :general_wellbeing,
       kind: :select,
       inputs: [
-        {value: 0, label: "very_well", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "slightly_below_par", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "poor", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "very_poor", meta_label: "sad_face", helper: nil},
-        {value: 4, label: "terrible", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "very_well", meta_label: "", helper: nil},
+        {value: 1, label: "slightly_below_par", meta_label: "", helper: nil},
+        {value: 2, label: "poor", meta_label: "", helper: nil},
+        {value: 3, label: "very_poor", meta_label: "", helper: nil},
+        {value: 4, label: "terrible", meta_label: "", helper: nil},
       ]
     }],
 
@@ -32,10 +32,10 @@ module HbiCatalog
       name: :ab_pain,
       kind: :select,
       inputs: [
-        {value: 0, label: "none", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "mild", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "moderate", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "severe", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "none", meta_label: "", helper: nil},
+        {value: 1, label: "mild", meta_label: "", helper: nil},
+        {value: 2, label: "moderate", meta_label: "", helper: nil},
+        {value: 3, label: "severe", meta_label: "", helper: nil},
       ]
     }],
 
@@ -58,10 +58,10 @@ module HbiCatalog
       name: :ab_mass,
       kind: :select,
       inputs: [
-        {value: 0, label: "none", meta_label: "happy_face", helper: nil},
-        {value: 1, label: "dubious", meta_label: "neutral_face", helper: nil},
-        {value: 2, label: "definite", meta_label: "frowny_face", helper: nil},
-        {value: 3, label: "definite_and_tender", meta_label: "sad_face", helper: nil},
+        {value: 0, label: "none", meta_label: "", helper: nil},
+        {value: 1, label: "dubious", meta_label: "", helper: nil},
+        {value: 2, label: "definite", meta_label: "", helper: nil},
+        {value: 3, label: "definite_and_tender", meta_label: "", helper: nil},
       ]
     }],
 
