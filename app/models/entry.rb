@@ -36,8 +36,9 @@ class Entry < CouchRest::Model::Base
   end
 
   def catalog_definitions
-    self.catalogs.reduce({}) do |definitions,catalog|
-      definitions[catalog.to_sym] = "#{catalog.capitalize}Catalog".constantize.const_get("DEFINITION")
+    (self.catalogs | ["symptoms"]).reduce({}) do |definitions,catalog|
+      _module = "#{catalog.capitalize}Catalog".constantize
+      definitions[catalog.to_sym] = (catalog == "symptoms") ? symptoms_definition : _module.const_get("DEFINITION")
       definitions
     end
   end

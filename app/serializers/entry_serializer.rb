@@ -11,6 +11,10 @@ class EntrySerializer < ActiveModel::Serializer
     :catalogs,
     :notes
 
+  def catalogs
+    object.catalogs | ["symptoms"]
+  end
+
   def date
     object.date.strftime("%b-%d-%Y")
   end

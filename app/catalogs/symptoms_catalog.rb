@@ -17,6 +17,22 @@ module SymptomsCatalog
 
   end
 
+  def symptoms_definition
+    User.find(user_id).current_symptoms.map do |symptom|
+      [{
+        name: symptom.name,
+        kind: :select,
+        inputs: [
+          {value: 0, label: "", meta_label: "", helper: nil},
+          {value: 1, label: "", meta_label: "", helper: nil},
+          {value: 2, label: "", meta_label: "", helper: nil},
+          {value: 3, label: "", meta_label: "", helper: nil},
+          {value: 4, label: "", meta_label: "", helper: nil},
+        ]
+      }]
+    end
+  end
+
   def symptoms_responses
     responses.select{|r| r.catalog == "symptoms"}
   end

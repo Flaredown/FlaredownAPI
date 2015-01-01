@@ -32,7 +32,7 @@ class CatalogGraph
     date_range(start_date, end_date).map do |entry_date|
 
       components = ((catalog == "symptoms") ? @all_symptom_names : "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS"))
-      Rails.logger.debug catalog
+
       components.each_with_index.map do |component, i|
         value = REDIS.hget("#{user_id}:scores:#{entry_date}:#{catalog}", component.to_s)
         value.nil? ? nil : {x: entry_date, order: i+1, points: value.to_i, name: component.to_s}
