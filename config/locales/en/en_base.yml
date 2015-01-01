@@ -1,7 +1,7 @@
 en:
   hello: "Hello world"
 
-
+  symptom_question_prompt: "How active is the symptom: %{name}?"
   labels:
     very_well: "Very well"
     slightly_below_par: "Slightly below par"
