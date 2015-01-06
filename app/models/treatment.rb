@@ -7,6 +7,6 @@ class Treatment
   property :unit,      String
 
   def id
-    "#{name}_#{base_doc.id}"
+    "#{name}_#{quantity}_#{unit}_#{base_doc.id}"
   end
 end

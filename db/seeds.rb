@@ -18,7 +18,7 @@ u.update_attribute(:active_symptoms, active_symptoms)
 
 # Add entries for test user
 200.times do |n|
-  FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days
+  FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days, treatments: [FactoryGirl.build(:treatment), FactoryGirl.build(:treatment, {name: "Laughing Gas", quantity: "10.5", unit: "cc"})]
 end
 
 # Add Colin and his symptoms (entries sold separately)

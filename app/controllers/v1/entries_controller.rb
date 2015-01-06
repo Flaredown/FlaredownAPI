@@ -174,7 +174,7 @@ class V1::EntriesController < V1::BaseController
       :triggers,
       catalogs: [],
       responses: [:name, :value, :catalog],
-      treatments: [:name]
+      treatments: [:name, :quantity, :unit]
 
     )
   end
