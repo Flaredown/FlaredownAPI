@@ -61,7 +61,7 @@ describe HbiCatalog do
         entry.responses << build(:response, {catalog: "hbi", name: :complication_abscess          , value: 1})
 
         entry.save
-        Entry.perform entry.id
+        Entry.perform entry.id, false
         entry.reload
 
         expect(entry.hbi_complications_score).to eql 2.0

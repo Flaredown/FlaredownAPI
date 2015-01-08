@@ -2,6 +2,10 @@ en:
   hello: "Hello world"
 
   symptom_question_prompt: "How active is the symptom: %{name}?"
+
+  are_you_sure: "Are you sure?"
+  confirm_treatment_remove: "Are you sure you want to remove the treatment \"%{treatment}\" for this Checkin?"
+
   labels:
     very_well: "Very well"
     slightly_below_par: "Slightly below par"

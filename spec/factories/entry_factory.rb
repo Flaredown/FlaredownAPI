@@ -35,7 +35,8 @@ FactoryGirl.define do
       Entry.class_eval{ include HbiCatalog }
     end
     after(:create) do |entry|
-      Entry.perform entry.id
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
       entry.reload
     end
 
@@ -68,7 +69,8 @@ FactoryGirl.define do
       Entry.class_eval{ include Rapid3Catalog }
     end
     after(:create) do |entry|
-      Entry.perform entry.id
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
       entry.reload
     end
 
@@ -88,7 +90,8 @@ FactoryGirl.define do
       entry.responses << build(:response, {catalog: "symptoms", name: "slippery tongue", value: [*0..4].sample})
     end
     after(:create) do |entry|
-      Entry.perform entry.id
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
       entry.reload
     end
 
@@ -126,7 +129,8 @@ FactoryGirl.define do
       Entry.class_eval{ include HbiCatalog }
     end
     after(:create) do |entry|
-      Entry.perform entry.id
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
       entry.reload
     end
 
@@ -163,7 +167,7 @@ end
 #       Entry.class_eval{ include CdaiCatalog }
 #     end
 #     after(:create) do |entry|
-#       Entry.perform entry.id
+#       Entry.perform entry.id, false
 #     end
 #
 #   end

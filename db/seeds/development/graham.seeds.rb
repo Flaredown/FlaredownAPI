@@ -4,7 +4,7 @@ u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", pas
 
 # Add symptom names from :hbi_and_symptoms_entry
 active_symptoms = []
-["sneezing", "runny nose", "congestion"].each do |name|
+["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
   s = Symptom.create_with(language: "en").find_or_create_by(name: name)
   u.symptoms << s
   active_symptoms << s.id
@@ -39,11 +39,21 @@ entry.notes = "Did chest/neck #stretches first thing."
 entry.save
 
 entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-06-2015")
-entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
-entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
-entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.notes = "Did chest/neck #stretches first thing."
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 2.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 3.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 2.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 1.0})
+entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 20.0, unit: "mg"})
+entry.notes = "Did chest/neck #stretches first thing. Took more loratadine, not seeming to help much. Descended into sniffles hell during the evening."
 entry.save
 
-Entry.all.each{|e| Entry.perform(e.id) if e.user_id == "12"} # process all graham@flaredown.com entries
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-06-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 4.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 4.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 3.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 1.0})
+entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
+entry.notes = "Full blown attack, could actually be sinus infection. Have a phlegmy cought too."
+entry.save
+
+Entry.all.each{|e| Entry.perform(e.id,false) if e.user_id == "12"} # process all graham@flaredown.com entries

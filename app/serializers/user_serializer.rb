@@ -3,6 +3,7 @@ class UserSerializer < ActiveModel::Serializer
   embed :ids, include: false
 
   attributes :id,
+    :obfuscated_id,
     :email,
     :authentication_token,
     :locale,

@@ -64,7 +64,7 @@ class Entry < CouchRest::Model::Base
     true
   end
 
-  def self.perform(entry_id)
+  def self.perform(entry_id, notify=true)
     entry = Entry.find(entry_id)
 
     (entry.catalogs | ["symptoms"]).each do |catalog|
@@ -72,10 +72,10 @@ class Entry < CouchRest::Model::Base
       entry.send("save_score", catalog)
       Entry.skip_callback(:save, :after, :enqueue)
       entry.save
-      # Pusher.trigger("entries_for_#{entry.user_id}", "updates", {entry_date: entry.date, data: entry.chart_data}) if entry.complete?
       Entry.set_callback(:save, :after, :enqueue)
     end
 
+    User.find(entry.user_id).notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
   end
 

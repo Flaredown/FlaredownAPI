@@ -38,6 +38,13 @@ class User < ActiveRecord::Base
     Resque.enqueue_at(Date.tomorrow.to_time, User, self.id)
   end
 
+  def obfuscated_id
+    "#{self.id}-#{Digest::SHA1.hexdigest(self.authentication_token).strip}"
+  end
+  def notify!(event, data)
+    Pusher.trigger "notifications_#{obfuscated_id}", event, data
+  end
+
   def self.perform(user_id)
     @user = User.find(user_id)
     @user.upcoming_catalogs.each do |catalog|

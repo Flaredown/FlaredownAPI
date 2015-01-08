@@ -30,3 +30,5 @@ colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", 
     active_symptoms << s.id
 end
 colin.update_attribute(:active_symptoms, active_symptoms)
+
+Resque.queues.each{|q| Resque.redis.del "queue:#{q}" }
