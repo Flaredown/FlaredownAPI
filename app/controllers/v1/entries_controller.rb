@@ -82,7 +82,6 @@ class V1::EntriesController < V1::BaseController
     @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
 
     if @entry.update_attributes(entry_params)
-      @entry.enqueue
       render json: {success: true}, status: 200
     else
       render json: {errors: @entry.errors}, status: 422
