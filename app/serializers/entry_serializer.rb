@@ -9,15 +9,12 @@ class EntrySerializer < ActiveModel::Serializer
     :date,
     :catalog_definitions,
     :catalogs,
-    :notes
+    :notes,
+    :complete
 
-  def catalogs
-    object.catalogs | ["symptoms"]
-  end
-
-  def date
-    object.date.strftime("%b-%d-%Y")
-  end
+  def catalogs; object.catalogs | ["symptoms"]; end
+  def date;     object.date.strftime("%b-%d-%Y"); end
+  def complete; object.complete?; end
 
   # Used for overriding returned keys using #filtered_attributes
   def serializable_hash
