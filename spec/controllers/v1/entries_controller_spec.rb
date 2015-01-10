@@ -38,7 +38,7 @@ describe V1::EntriesController, type: :controller do
 
       returns_code 200
 
-      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses scores treatments notes triggers).sort
+      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses scores treatments notes triggers complete).sort
     end
 
     it "can't be accessed by another user" do
