@@ -27,7 +27,6 @@ module Colorable
       .sort_by{|c| c[:date]}
       .map.with_index do |colorable, index|
         index = index - palette_size while index > palette_size-1 # loop around to beginning
-        puts index
         [
           colorable[:name],
           palette[index]
