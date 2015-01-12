@@ -63,7 +63,7 @@ describe Colorable do
     end
 
     it "raises error on undefined palette" do
-      pending
+      expect(lambda{object.colors_for(colorables, :star_trek)}).to raise "Color palette not found"
     end
 
   end

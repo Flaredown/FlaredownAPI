@@ -19,6 +19,7 @@ module Colorable
   #
   # Returns an array of active colorable names with hex colors
   def colors_for(colorables, palette: :pastel)
+    raise "Color palette not found" unless PALETTES.keys.include?(palette)
     palette       = PALETTES[palette]
     palette_size  = palette.length
 
