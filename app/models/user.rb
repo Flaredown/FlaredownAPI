@@ -5,6 +5,13 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
+  has_many :user_conditions
+  has_many :conditions, :through => :user_conditions do
+    def <<(new_item) # disable duplicate addition
+      super( Array(new_item) - proxy_association.owner.conditions )
+    end
+  end
+
   has_many :user_symptoms
   has_many :symptoms, :through => :user_symptoms do
     def <<(new_item) # disable duplicate addition

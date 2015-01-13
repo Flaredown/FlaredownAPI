@@ -76,9 +76,6 @@ describe Entry do
     before(:each) do
       stub_const("Entry::AVAILABLE_CATALOGS", ["foo", "hbi"])
     end
-    it "validations should still work even with identical method names" do
-      pending
-    end
     it "prepends question_names with the catalog they belong to" do
       # respond_to? doesn't work with method_missing. Implementing respond_to? causes problems with CouchRest...
       expect{entry.foo_general_wellbeing}.not_to raise_error
