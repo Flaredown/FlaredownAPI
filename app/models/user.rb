@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   require "resque_scheduler"
   include TokenAuth::User
+
+  has_paper_trail :only => [:catalogs, :symptoms, :active_symptoms, :symptoms_count]
+
   @queue = :user
 
   after_create :setup_user_queue

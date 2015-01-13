@@ -36,6 +36,7 @@ gem "letter_opener"
 
 gem "textacular", "~> 3.0"
 
+gem 'paper_trail', '~> 3.0.6'
 
 group :production do
 end
