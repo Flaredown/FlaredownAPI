@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe V1::SymptomsController, type: :controller do
 
-  let(:user) { create :user, active_symptoms: [] }
+  let(:user) { create :user }
 
   before(:each) do
     sign_in(user)

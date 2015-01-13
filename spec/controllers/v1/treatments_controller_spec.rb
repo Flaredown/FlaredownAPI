@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe V1::TreatmentsController, type: :controller do
 
-  let(:user) { create :user, active_treatments: [] }
+  let(:user) { create :user }
 
   before(:each) do
     sign_in(user)

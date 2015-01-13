@@ -1,16 +1,5 @@
 class V1::SymptomsController < V1::BaseController
 
-  # def create
-  #   symptom = Symptom.create(name: symptom_params[:name], locale: current_user.locale)
-  #   if symptom.valid?
-  #     render json: {:message => 'Under Construction'}, status: 201
-  #   else
-  #     response = respond_with_error(symptom.errors.messages).to_json
-  #     render json: response, status: 400
-  #   end
-  #
-  # end
-
   def create
     symptom = Symptom.create_with(quantity: symptom_params[:quantity], unit: symptom_params[:unit], locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
 

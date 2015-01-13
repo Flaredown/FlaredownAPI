@@ -1,4 +1,7 @@
 class Treatment < ActiveRecord::Base
+  def serializable_id
+    "#{name}_#{quantity}_#{unit}_#{base_doc.id}"
+  end
 
   has_many :user_treatments
   has_many :users, :through => :user_treatments
@@ -29,18 +32,3 @@ class Treatment < ActiveRecord::Base
   end
 
 end
-
-# OLD COUCHREST STUFF
-
-# class Treatment
-#   include ActiveModel::SerializerSupport
-#   include CouchRest::Model::Embeddable
-#
-#   property :name,      String
-#   property :quantity,  Float
-#   property :unit,      String
-#
-#   def id
-#     "#{name}_#{quantity}_#{unit}_#{base_doc.id}"
-#   end
-# end
