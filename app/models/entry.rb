@@ -22,7 +22,7 @@ class Entry < CouchRest::Model::Base
 
   # TODO cleanup [Thing] vs array: true format
   property :responses,  Response,  :array => true
-  property :treatments, Treatment, :array => true
+  property :treatments, EntryTreatment, :array => true
   property :notes,      String
   property :triggers,   [String]
 

@@ -1,8 +1,4 @@
 class Treatment < ActiveRecord::Base
-  def serializable_id
-    "#{name}_#{quantity}_#{unit}_#{base_doc.id}"
-  end
-
   has_many :user_treatments
   has_many :users, :through => :user_treatments
 
