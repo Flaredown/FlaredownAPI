@@ -12,13 +12,33 @@ class User < ActiveRecord::Base
   # validates_inclusion_of :weight, :in => [*0..800], :message => "not within allowed values"
   # validates_inclusion_of :gender, :in => %w( male female ), :message => "not within allowed values"
 
-  #associations
-
   has_many :user_symptoms
-  has_many :symptoms, :through => :user_symptoms
+  has_many :symptoms, :through => :user_symptoms do
+    def <<(new_item) # disable duplicate addition
+      super( Array(new_item) - proxy_association.owner.symptoms )
+    end
+  end
+  def activate_symptom(symptom)
+    self.symptoms << symptom
+    self.update_attribute(:active_symptoms, (self.active_symptoms | [symptom.id.to_s]))
+  end
+  def deactivate_symptom(symptom)
+    self.update_attribute(:active_symptoms, (self.active_symptoms - [symptom.id.to_s]))
+  end
 
   has_many :user_treatments
-  has_many :treatments, :through => :user_treatments
+  has_many :treatments, :through => :user_treatments do
+    def <<(new_item) # disable duplicate addition
+      super( Array(new_item) - proxy_association.owner.treatments )
+    end
+  end
+  def activate_treatment(treatment)
+    self.treatments << treatment
+    self.update_attribute(:active_treatments, (self.active_treatments | [treatment.id.to_s]))
+  end
+  def deactive_treatment(treatment)
+    self.update_attribute(:active_treatments, (self.active_treatments - [treatment.id.to_s]))
+  end
 
   # Some more associations
   def entries; Entry.by_user_id.key(self.id.to_s); end

@@ -1,9 +1,22 @@
 class V1::SymptomsController < V1::BaseController
 
+  # def create
+  #   symptom = Symptom.create(name: symptom_params[:name], locale: current_user.locale)
+  #   if symptom.valid?
+  #     render json: {:message => 'Under Construction'}, status: 201
+  #   else
+  #     response = respond_with_error(symptom.errors.messages).to_json
+  #     render json: response, status: 400
+  #   end
+  #
+  # end
+
   def create
-    symptom = Symptom.create(name: params[:name], locale: "en")
+    symptom = Symptom.create_with(quantity: symptom_params[:quantity], unit: symptom_params[:unit], locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
+
     if symptom.valid?
-      render json: {:message => 'Under Construction'}, status: 201
+      current_user.activate_symptom(symptom)
+      render json: {active_symptoms: current_user.active_symptoms.map(&:to_i)}, status: 201
     else
       response = respond_with_error(symptom.errors.messages).to_json
       render json: response, status: 400
@@ -47,6 +60,22 @@ class V1::SymptomsController < V1::BaseController
       end
     end
     render json: results.to_json, status: 201
+  end
+
+  def destroy
+    symptom = Symptom.find_by(id: params[:id])
+    if symptom
+      current_user.deactivate_symptom(symptom)
+      render json: {success: true}, status: 204
+    else
+      render json: {success: false}, status: 404
+    end
+  end
+
+
+  private
+  def symptom_params
+    params.permit(:name)
   end
 
 end

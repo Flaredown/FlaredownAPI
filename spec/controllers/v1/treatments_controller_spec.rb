@@ -2,8 +2,7 @@ require "spec_helper"
 
 describe V1::TreatmentsController, type: :controller do
 
-  let(:user) { create :user }
-  let(:treatment) { create :treatment }
+  let(:user) { create :user, active_treatments: [] }
 
   before(:each) do
     sign_in(user)
@@ -12,49 +11,84 @@ describe V1::TreatmentsController, type: :controller do
 
   context "CREATE" do
 
-    # it "does not allow name duplicate names" do
-    #   symptom = create :symptom, name: "duplicate"
-    #   post :create, {name: 'duplicate'}
-    #   error_message = json_response["errors"]["fields"]["name"][0]["message"]
-    #   Rails.logger.debug error_message
-    #   expect(error_message).to eq "Name already exists"
-    #   returns_code 400
-    # end
-    #
-    # it "does not allow name exceeding fifty charachters" do
-    #   post :create, {name: "longer then ever symptom name that could ever be imagine on this very earth"}
-    #   error_message = json_response["errors"]["fields"]["name"][0]["message"]
-    #   expect(error_message).to eq "Name cannot be longer then 50 charachters"
-    #   returns_code 400
-    # end
-    #
-    # it "only allows alphanumeric and spaces in name" do
-    #   post :create, name: "hi()$%^&"
-    #   error_message = json_response["errors"]["fields"]["name"][0]["message"]
-    #   expect(error_message).to eq "Name can only include alphanumeric characters, hyphens and spaces"
-    #   returns_code 400
-    # end
-    #
-    # it "does not allow names with obscene words" do
-    #   post :create, name: "fuck this shit"
-    #   error_message = json_response["errors"]["fields"]["name"][0]["message"]
-    #   expect(error_message).to eq "Please do not use obscene words"
-    #   returns_code 400
-    # end
+    it "creates a treatment if it doesn't already exist" do
+      expect(Treatment.count).to eql 0
+      post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
+      expect(Treatment.count).to eql 1
+    end
+
+    it "adds the treatment to the user, adds to treatment_count" do
+      post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
+
+      expect(user.reload.treatments_count).to eql 1
+      expect(user.treatments.first.name).to eql "prednisone"
+    end
+
+    it "returns array of active_treatments" do
+      treatments = [
+        {name: "happy gas", quantity: "10.0", unit: "cc"},
+        {name: "yoga", quantity: "1.0", unit: "session"}
+      ]
+
+      treatments.each do |treatment_attrs|
+        treatment = create :treatment, treatment_attrs
+        user.activate_treatment treatment
+      end
+
+      post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
+
+      expect(response.body).to be_json_eql({active_treatments: [1,2,3]}.to_json)
+    end
+
+    it "doesn't add existing treatment to user twice" do
+      treatment = create :treatment, {name: "prednisone", quantity: "20.0", unit: "mg"}
+      user.activate_treatment treatment
+      expect(user.reload.active_treatments.length).to eql 1
+
+      post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
+
+      expect(user.reload.treatments.length).to eql 1
+      expect(user.active_treatments.length).to eql 1
+    end
+
+    it "doesn't create treatment if it already exists" do
+      create :treatment, {name: "prednisone", quantity: "1.0", unit: "mg"}
+      expect(Treatment.first.name).to eql "prednisone"
+      expect(Treatment.count).to eql 1
+
+      post :create, name: "prednisone", quantity: "20.0", unit: "mg"
+      expect(Treatment.count).to eql 1
+    end
+
+    it "does not allow names with obscene words" do
+      post :create, name: "fuck this shit", quanity: "1.0", unit: "mg"
+      error_message = json_response["errors"]["fields"]["name"][0]["message"]
+      expect(error_message).to eq "Please do not use obscene words"
+      returns_code 400
+    end
 
   end
 
-  context "SEARCH" do
+  context "DESTROY" do
+    it "removes the treatment from actives, but keeps it in user.treatments" do
+      treatment = create :treatment, {name: "prednisone", quantity: "20.0", unit: "mg"}
+      user.activate_treatment treatment
 
+      delete :destroy, {id: treatment.id}
+
+      expect(response.body).to be_json_eql({success: true}.to_json)
+      returns_code 204
+
+      expect(user.reload.active_symptoms).to eql []
+      expect(user.treatments.first.name).to eql "prednisone"
+    end
+
+    it "returns 404 if not found" do
+      delete :destroy, {id: 999}
+
+      expect(response.body).to be_json_eql({success: false}.to_json)
+      returns_code 404
+    end
   end
 
-  context "ADD" do
-    ###
-    #it "does not allow more than eight active symptoms for user" do
-    #  user = create :user, active_symptoms: [1, 2, 3, 4, 5, 6, 7, 8]
-    #  post :create, name: "valid name"
-    #  expect(json_response["errors"]["fields"]["name"][0]["message"]).to eq "You cannot have more than eight symptoms"
-    #end
-    ###
-  end
 end
