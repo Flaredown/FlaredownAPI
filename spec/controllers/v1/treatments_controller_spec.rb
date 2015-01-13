@@ -37,7 +37,7 @@ describe V1::TreatmentsController, type: :controller do
 
       post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
 
-      expect(response.body).to be_json_eql({active_treatments: [1,2,3]}.to_json)
+      expect(response.body).to be_json_eql({active_treatments: %w( happy\ gas yoga prednisone )}.to_json)
     end
 
     it "doesn't add existing treatment to user twice" do

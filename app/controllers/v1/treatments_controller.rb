@@ -5,7 +5,7 @@ class V1::TreatmentsController < V1::BaseController
 
     if treatment.valid?
       current_user.activate_treatment(treatment)
-      return render json: {active_treatments: current_user.active_treatments.map(&:to_i)}, status: 201
+      return render json: {active_treatments: current_user.current_treatments.map(&:name)}, status: 201
     else
       response = respond_with_error(treatment.errors.messages).to_json
       render json: response, status: 400

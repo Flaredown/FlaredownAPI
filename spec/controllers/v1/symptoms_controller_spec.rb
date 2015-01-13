@@ -37,7 +37,7 @@ describe V1::SymptomsController, type: :controller do
 
       post :create, {name: "droopy lips"}
 
-      expect(response.body).to be_json_eql({active_symptoms: [1,2,3]}.to_json)
+      expect(response.body).to be_json_eql({active_symptoms: %w( fat\ toes slippery\ tongue droopy\ lips)}.to_json)
     end
 
     it "doesn't add existing symptom to user twice" do
