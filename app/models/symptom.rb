@@ -3,8 +3,12 @@ class Symptom < ActiveRecord::Base
   has_many :user_symptoms
   has_many :users, :through => :user_symptoms
 
-  #validations
-
+  # TODO I18n for messages ...
+  # en:
+  #   activerecord:
+  #     errors:
+  #       models:
+  #         symptom:
   validates_presence_of :name
   validates_uniqueness_of :name, message: "Name already exists"
   validates_length_of :name, maximum: 50, message: "Name cannot be longer then 50 charachters"

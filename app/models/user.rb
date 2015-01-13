@@ -17,13 +17,13 @@ class User < ActiveRecord::Base
   has_many :user_symptoms
   has_many :symptoms, :through => :user_symptoms
 
-  def entries
-    Entry.by_user_id.key(self.id.to_s)
-  end
+  has_many :user_treatments
+  has_many :treatments, :through => :user_treatments
 
-  def current_symptoms
-    Symptom.where(id: self.active_symptoms.map(&:to_i))
-  end
+  # Some more associations
+  def entries; Entry.by_user_id.key(self.id.to_s); end
+  def current_symptoms; Symptom.where(id: self.active_symptoms.map(&:to_i)); end
+  def current_treatments; Treatment.where(id: self.active_treatments.map(&:to_i)); end
 
   def graph_data
     graph = CatalogGraph.new(self.id, self.catalogs)
@@ -41,6 +41,7 @@ class User < ActiveRecord::Base
   def obfuscated_id
     "#{self.id}-#{Digest::SHA1.hexdigest(self.authentication_token).strip}"
   end
+
   def notify!(event, data)
     Pusher.trigger "notifications_#{obfuscated_id}", event, data
   end

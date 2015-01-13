@@ -5,7 +5,7 @@ u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", pas
 # Add symptom names from :hbi_and_symptoms_entry
 active_symptoms = []
 ["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
-  s = Symptom.create_with(language: "en").find_or_create_by(name: name)
+  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
   u.symptoms << s
   active_symptoms << s.id
 end

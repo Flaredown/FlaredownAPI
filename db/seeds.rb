@@ -10,7 +10,7 @@ u=User.create(id: 1, email: "test@test.com", password: "testing123", password_co
 # Add symptom names from :hbi_and_symptoms_entry
 active_symptoms = []
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
-  s = Symptom.create_with(language: "en").find_or_create_by(name: name)
+  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
   u.symptoms << s
   active_symptoms << s.id
 end
@@ -25,7 +25,7 @@ end
 active_symptoms = []
 colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123", gender: "male", weight: 135, catalogs: ["symptoms"])
 ["pain", "fatigue", "digestive", "lightheadedness", "anxiety"].each do |name|
-    s = Symptom.create_with(language: "en").find_or_create_by(name: name)
+    s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
     u.symptoms << s
     active_symptoms << s.id
 end

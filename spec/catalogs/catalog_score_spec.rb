@@ -71,7 +71,7 @@ describe CatalogScore do
     let!(:user) do
       u=create :user
       ["droopy lips", "fat toes", "slippery tongue"].each do |name|
-        s = u.symptoms.create name: name, language: "en"
+        s = u.symptoms.create name: name, locale: "en"
         u.active_symptoms << s.id
       end
       u
@@ -95,7 +95,7 @@ describe CatalogScore do
 
     it "calculates scores for any responses in the 'symptoms' catalog" do
       entry.responses << {catalog: "symptoms", name: "unibrow" , value: 2}
-      s = user.symptoms.create name: "unibrow", language: "en"
+      s = user.symptoms.create name: "unibrow", locale: "en"
       user.active_symptoms << s.id
 
       with_resque{ entry.save; Entry.perform(entry.id) }

@@ -4,6 +4,7 @@ describe V1::SymptomsController, type: :controller do
 
   let(:user) { create :user }
   let(:symptom) { create :symptom }
+
   before(:each) do
     sign_in(user)
     @request.env["HTTP_ACCEPT"] = "application/json"

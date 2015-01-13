@@ -1,11 +1,11 @@
 class V1::SymptomsController < V1::BaseController
 
   def create
-    symtom = Symptom.create(name: params[:name], language: "en")
-    if symtom.valid?
+    symptom = Symptom.create(name: params[:name], locale: "en")
+    if symptom.valid?
       render json: {:message => 'Under Construction'}, status: 201
     else
-      response = respond_with_error(symtom.errors.messages).to_json
+      response = respond_with_error(symptom.errors.messages).to_json
       render json: response, status: 400
     end
 
@@ -14,11 +14,11 @@ class V1::SymptomsController < V1::BaseController
   def search
 
     symptoms = Symptom.fuzzy_search(name: 'anesthesia')
-    symtom_ids = []
+    symptom_ids = []
     for symptom in symptoms
-      symtom_ids.push symptom.id
+      symptom_ids.push symptom.id
     end
-    ids = symtom_ids.map(&:inspect).join(', ')
+    ids = symptom_ids.map(&:inspect).join(', ')
     catalogs = current_user.catalogs
     catalogs_string = ""
     catalogs.each_with_index do |catalog, index|
