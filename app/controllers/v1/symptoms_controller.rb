@@ -1,11 +1,13 @@
 class V1::SymptomsController < V1::BaseController
 
   def create
-    symtom = Symptom.create(name: params[:name], language: "en")
-    if symtom.valid?
-      render json: {:message => 'Under Construction'}, status: 201
+    symptom = Symptom.create_with(locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
+
+    if symptom.valid?
+      current_user.activate_symptom(symptom)
+      render json: {active_symptoms: current_user.current_symptoms.map(&:name)}, status: 201
     else
-      response = respond_with_error(symtom.errors.messages).to_json
+      response = respond_with_error(symptom.errors.messages).to_json
       render json: response, status: 400
     end
 
@@ -14,11 +16,11 @@ class V1::SymptomsController < V1::BaseController
   def search
 
     symptoms = Symptom.fuzzy_search(name: 'anesthesia')
-    symtom_ids = []
+    symptom_ids = []
     for symptom in symptoms
-      symtom_ids.push symptom.id
+      symptom_ids.push symptom.id
     end
-    ids = symtom_ids.map(&:inspect).join(', ')
+    ids = symptom_ids.map(&:inspect).join(', ')
     catalogs = current_user.catalogs
     catalogs_string = ""
     catalogs.each_with_index do |catalog, index|
@@ -49,5 +51,20 @@ class V1::SymptomsController < V1::BaseController
     render json: results.to_json, status: 201
   end
 
-end
+  def destroy
+    symptom = Symptom.find_by(id: params[:id])
+    if symptom
+      current_user.deactivate_symptom(symptom)
+      render json: {success: true}, status: 204
+    else
+      render json: {success: false}, status: 404
+    end
+  end
 
+
+  private
+  def symptom_params
+    params.permit(:name)
+  end
+
+end

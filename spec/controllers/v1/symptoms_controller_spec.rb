@@ -3,23 +3,64 @@ require "spec_helper"
 describe V1::SymptomsController, type: :controller do
 
   let(:user) { create :user }
-  let(:symptom) { create :symptom }
+
   before(:each) do
     sign_in(user)
     @request.env["HTTP_ACCEPT"] = "application/json"
   end
 
   context "CREATE" do
-    it "does not allow name duplicate names" do
-      symptom = create :symptom, name: "duplicate"
-      post :create, {name: 'duplicate'}
-      error_message = json_response["errors"]["fields"]["name"][0]["message"]
-      Rails.logger.debug error_message
-      expect(error_message).to eq "Name already exists"
-      returns_code 400
+
+    it "creates a symptom if it doesn't already exist" do
+      expect(Symptom.count).to eql 0
+      post :create, {name: "droopy lips"}
+      expect(Symptom.count).to eql 1
     end
 
-    it "does not allow name exceeding fifty charachters" do
+    it "adds the symptom to the user, adds to symptom_count" do
+      post :create, {name: "droopy lips"}
+
+      expect(user.reload.symptoms_count).to eql 1
+      expect(user.symptoms.first.name).to eql "droopy lips"
+    end
+
+    it "returns array of active_symptoms" do
+      symptoms = [
+        {name: "fat toes"},
+        {name: "slippery tongue"}
+      ]
+
+      symptoms.each do |symptom_attrs|
+        symptom = create :symptom, symptom_attrs
+        user.activate_symptom symptom
+      end
+
+      post :create, {name: "droopy lips"}
+
+      expect(response.body).to be_json_eql({active_symptoms: %w( fat\ toes slippery\ tongue droopy\ lips)}.to_json)
+    end
+
+    it "doesn't add existing symptom to user twice" do
+      symptom = create :symptom, {name: "droopy lips"}
+      user.activate_symptom symptom
+      expect(user.reload.active_symptoms.length).to eql 1
+
+      post :create, {name: "droopy lips"}
+
+      expect(user.reload.symptoms.length).to eql 1
+      expect(user.active_symptoms.length).to eql 1
+    end
+
+    it "doesn't create symptom if it already exists" do
+      create :symptom, {name: "droopy lips"}
+      expect(Symptom.first.name).to eql "droopy lips"
+      expect(Symptom.count).to eql 1
+
+      post :create, name: "droopy lips"
+      expect(Symptom.count).to eql 1
+    end
+
+    it "does not allow name exceeding fifty characters" do
       post :create, {name: "longer then ever symptom name that could ever be imagine on this very earth"}
       error_message = json_response["errors"]["fields"]["name"][0]["message"]
       expect(error_message).to eq "Name cannot be longer then 50 charachters"
@@ -46,13 +87,25 @@ describe V1::SymptomsController, type: :controller do
 
   end
 
-  context "ADD" do
-    ###
-    #it "does not allow more than eight active symptoms for user" do
-    #  user = create :user, active_symptoms: [1, 2, 3, 4, 5, 6, 7, 8]
-    #  post :create, name: "valid name"
-    #  expect(json_response["errors"]["fields"]["name"][0]["message"]).to eq "You cannot have more than eight symptoms"
-    #end
-    ###
+  context "DESTROY" do
+    it "removes the symptom from actives, but keeps it in user.symptoms" do
+      symptom = create :symptom, {name: "droopy lips"}
+      user.activate_symptom symptom
+
+      delete :destroy, {id: symptom.id}
+
+      expect(response.body).to be_json_eql({success: true}.to_json)
+      returns_code 204
+
+      expect(user.reload.active_symptoms).to eql []
+      expect(user.symptoms.first.name).to eql "droopy lips"
+    end
+
+    it "returns 404 if not found" do
+      delete :destroy, {id: 999}
+
+      expect(response.body).to be_json_eql({success: false}.to_json)
+      returns_code 404
+    end
   end
 end
