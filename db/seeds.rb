@@ -11,7 +11,7 @@ PaperTrail.enabled = false
 PaperTrail::Version.all.each{|v| v.destroy}
 
 u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123")
-u.activate_condition FactoryGirl.create(:condition, name: "Crohn's Disease")
+u.activate_condition Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
