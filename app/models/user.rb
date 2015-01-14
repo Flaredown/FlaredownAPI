@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
+  include Colorable
 
   has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
 
@@ -38,6 +39,13 @@ class User < ActiveRecord::Base
   def deactivate_symptom(symptom)
     self.update_attribute(:active_symptoms, (self.active_symptoms - [symptom.id.to_s]))
   end
+  def symptom_colors
+    colorables = user_symptoms.map do |assoc|
+      symptom = assoc.symptom
+      {name: "symptom_#{symptom.name}", date: assoc.created_at, active: active_symptoms.include?(symptom.id.to_s)}
+    end
+    colors_for(colorables, palette: :light)
+  end
 
   has_many :user_treatments
   has_many :treatments, :through => :user_treatments do
@@ -51,8 +59,15 @@ class User < ActiveRecord::Base
       self.update_attribute(:active_treatments, (self.active_treatments | [treatment.id.to_s]))
     end
   end
-  def deactive_treatment(treatment)
+  def deactivate_treatment(treatment)
     self.update_attribute(:active_treatments, (self.active_treatments - [treatment.id.to_s]))
+  end
+  def treatment_colors
+    colorables = user_treatments.map do |assoc|
+      treatment = assoc.treatment
+      {name: "treatment_#{treatment.name}", date: assoc.created_at, active: active_treatments.include?(treatment.id.to_s)}
+    end
+    colors_for(colorables, palette: :pastel)
   end
 
   # Some more associations

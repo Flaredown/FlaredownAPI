@@ -6,15 +6,8 @@ class UserSerializer < ActiveModel::Serializer
     :obfuscated_id,
     :email,
     :authentication_token,
-    :locale
-    # :weight,
-    # :gender,
-    # :upcoming_catalogs
-    # :chart_data,
-    # :medication_coordinates,
-    # :medications
+    :locale,
+    :symptom_colors,
+    :treatment_colors
 
-  # def medications
-  #   [1,2,3]
-  # end
 end

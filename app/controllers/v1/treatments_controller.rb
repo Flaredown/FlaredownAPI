@@ -16,7 +16,7 @@ class V1::TreatmentsController < V1::BaseController
   def destroy
     treatment = Treatment.find_by(id: params[:id])
     if treatment
-      current_user.deactive_treatment(treatment)
+      current_user.deactivate_treatment(treatment)
       render json: {success: true}, status: 204
     else
       render json: {success: false}, status: 404
