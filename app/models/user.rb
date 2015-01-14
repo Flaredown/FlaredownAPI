@@ -1,15 +1,26 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
 
+  has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable#, :invitable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
   has_many :user_conditions
   has_many :conditions, :through => :user_conditions do
     def <<(new_item) # disable duplicate addition
       super( Array(new_item) - proxy_association.owner.conditions )
     end
+  end
+  def activate_condition(condition)
+    ActiveRecord::Base.transaction do
+      self.conditions << condition
+      self.update_attribute(:active_conditions, (self.active_conditions | [condition.id.to_s]))
+    end
+  end
+  def deactivate_condition(condition)
+    self.update_attribute(:active_conditions, (self.active_conditions - [condition.id.to_s]))
   end
 
   has_many :user_symptoms
@@ -19,8 +30,10 @@ class User < ActiveRecord::Base
     end
   end
   def activate_symptom(symptom)
-    self.symptoms << symptom
-    self.update_attribute(:active_symptoms, (self.active_symptoms | [symptom.id.to_s]))
+    ActiveRecord::Base.transaction do
+      self.symptoms << symptom
+      self.update_attribute(:active_symptoms, (self.active_symptoms | [symptom.id.to_s]))
+    end
   end
   def deactivate_symptom(symptom)
     self.update_attribute(:active_symptoms, (self.active_symptoms - [symptom.id.to_s]))
@@ -33,17 +46,18 @@ class User < ActiveRecord::Base
     end
   end
   def activate_treatment(treatment)
-    self.treatments << treatment
-    self.update_attribute(:active_treatments, (self.active_treatments | [treatment.id.to_s]))
+    ActiveRecord::Base.transaction do
+      self.treatments << treatment
+      self.update_attribute(:active_treatments, (self.active_treatments | [treatment.id.to_s]))
+    end
   end
   def deactive_treatment(treatment)
     self.update_attribute(:active_treatments, (self.active_treatments - [treatment.id.to_s]))
   end
 
-  has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions conditions_count )
-
   # Some more associations
   def entries; Entry.by_user_id.key(self.id.to_s); end
+  def current_conditions; Condition.where(id: self.active_conditions.map(&:to_i)); end
   def current_symptoms; Symptom.where(id: self.active_symptoms.map(&:to_i)); end
   def current_treatments; Treatment.where(id: self.active_treatments.map(&:to_i)); end
 

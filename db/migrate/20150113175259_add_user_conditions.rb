@@ -11,6 +11,7 @@ class AddUserConditions < ActiveRecord::Migration
     end
 
     add_column :users, :conditions_count, :integer
+    add_column :users, :active_conditions, :text, array: true, default: []
 
     add_index :conditions, :name, :unique => true
     execute("create index on treatments using gin(to_tsvector('english', name))")

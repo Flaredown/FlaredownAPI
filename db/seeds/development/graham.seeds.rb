@@ -12,9 +12,9 @@ entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-03-2015")
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 3.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "ocean sinus rinse", quantity: 1.0, unit: "session"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "nasal spray", quantity: 1.0, unit: "session"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "ocean sinus rinse", quantity: 1.0, unit: "session"}
+entry.treatments << {name: "nasal spray", quantity: 1.0, unit: "session"}
 entry.notes = "Ocean rinse was tough being stuffed up, felt a bit better about an hour later."
 entry.save
 
@@ -22,8 +22,8 @@ entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-04-2015")
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 2.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "ocean sinus rinse", quantity: 1.0, unit: "session"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "ocean sinus rinse", quantity: 1.0, unit: "session"}
 entry.notes = "Did chest/neck #stretches first thing, good but not great. Much more vigorous/disgusting ocean rinse but found immediate relief."
 entry.save
 
@@ -31,7 +31,7 @@ entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-05-2015")
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "Did chest/neck #stretches first thing."
 entry.save
 
@@ -40,7 +40,7 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 3.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 1.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 20.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 20.0, unit: "mg"}
 entry.notes = "Did chest/neck #stretches first thing. Took more loratadine, not seeming to help much. Descended into sniffles hell during the evening."
 entry.save
 
@@ -49,7 +49,7 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 4.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 3.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 1.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "Full blown attack, could actually be sinus infection. Have a phlegmy cought too."
 entry.save
 
@@ -58,7 +58,7 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 2.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "#sick today, pretty sure it's an infection moved to the lungs, got a fever but allergies are not so bad."
 entry.save
 
@@ -67,7 +67,7 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 3.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "#sick some more. Still alergies not bad, mostly just feel like crap."
 entry.save
 
@@ -76,8 +76,8 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "prednisone", quantity: 40.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "prednisone", quantity: 40.0, unit: "mg"}
 entry.notes = "Recovering from sickness, took some meds, #lungs feel much better and it seems to improve my congestion. #thanksPrednisone"
 entry.save
 
@@ -86,8 +86,8 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "prednisone", quantity: 80.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "prednisone", quantity: 80.0, unit: "mg"}
 entry.notes = "Still recovering from sickness, allergies minimal #thanksPrednisone"
 entry.save
 
@@ -96,8 +96,8 @@ entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sne
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
-entry.treatments << FactoryGirl.build(:treatment, {name: "loratadine", quantity: 10.0, unit: "mg"})
-entry.treatments << FactoryGirl.build(:treatment, {name: "prednisone", quantity: 60.0, unit: "mg"})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "prednisone", quantity: 60.0, unit: "mg"}
 entry.notes = "Allergies minimal #thanksPrednisone"
 entry.save
 

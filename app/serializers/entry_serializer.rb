@@ -1,7 +1,7 @@
 class EntrySerializer < ActiveModel::Serializer
 
   has_many :responses, serializer: ResponseSerializer
-  has_many :scores, serializer: ScoreSerializer
+  # has_many :scores, serializer: ScoreSerializer
   has_many :treatments, serializer: TreatmentSerializer
   has_many :triggers, serializer: TriggerSerializer
 
@@ -32,7 +32,7 @@ class EntrySerializer < ActiveModel::Serializer
   def filtered_attributes(keys,scope)
     case scope
     when :new
-      %i( id date catalogs catalog_definitions )
+      %i( id date catalogs catalog_definitions treatments complete )
     when :existing
       keys
     else
