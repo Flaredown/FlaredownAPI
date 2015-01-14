@@ -53,12 +53,11 @@ class V1::EntriesController < V1::BaseController
 	def create
     date = Date.parse(params[:date])
 
-    if (@existing = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s})
-      render json: EntrySerializer.new(@existing, scope: :existing), status: 200
+    if (existing = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s})
+      render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
-      # catalogs inclusion necessary here for module inclusion, TODO replace hardcoded with current_user catalogs
-      @entry = Entry.create({user_id: current_user.id, date: date, catalogs: ["hbi"] })
-      render json: EntrySerializer.new(@entry, scope: :new), status: 201
+      entry = Entry.new({user_id: current_user.id, date: date }).set_user_audit_version!
+      render json: EntrySerializer.new(entry, scope: :new), status: 201
     end
 	end
 

@@ -1,10 +1,9 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
-	has_paper_trail :only => [:catalogs, :symptoms, :active_symptoms, :symptoms_count]
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable#, :invitable
 
   has_many :user_conditions
   has_many :conditions, :through => :user_conditions do
@@ -40,6 +39,8 @@ class User < ActiveRecord::Base
   def deactive_treatment(treatment)
     self.update_attribute(:active_treatments, (self.active_treatments - [treatment.id.to_s]))
   end
+
+  has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions conditions_count )
 
   # Some more associations
   def entries; Entry.by_user_id.key(self.id.to_s); end

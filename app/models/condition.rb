@@ -1,5 +1,7 @@
 class Condition < ActiveRecord::Base
 
+  has_paper_trail
+
   has_many :user_conditions
   has_many :users, :through => :user_conditions
 

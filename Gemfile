@@ -36,7 +36,7 @@ gem "letter_opener"
 
 gem "textacular", "~> 3.0"
 
-gem 'paper_trail', '~> 3.0.6'
+gem 'paper_trail', github: "airblade/paper_trail"
 
 group :production do
 end
