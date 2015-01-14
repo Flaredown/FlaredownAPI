@@ -3,5 +3,5 @@ Flaredown API
 
 ### Status
 
-[![Build Status](https://snap-ci.com/tMueN8Gre9RNui6uOkJ-RPKaSsZbTDaLZ0S-zWirj2I/build_image)](https://snap-ci.com/FathomLabs/FlaredownAPI/branch/master)
+[![Build Status](https://snap-ci.com/uLII-VcUznYo1fxb2TiKVptCXAa-jVif-n2IoaAjT6E/build_image)](https://snap-ci.com/FathomDigital/FlaredownAPI/branch/master)
 
