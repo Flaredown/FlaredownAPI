@@ -1,7 +1,7 @@
 # Clear it out first
 
 REDIS.flushdb
-Entry.all.each{|e| e.destroy if e.user_id == "1"} # wipe out test@test.com entries
+Entry.all.each{|e| e.destroy if e and e.user_id == "1"} # wipe out test@test.com entries
 User.all.each{|u| u.destroy}
 UserSymptom.all.each{|us| us.destroy}
 UserTreatment.all.each{|ut| ut.destroy}
