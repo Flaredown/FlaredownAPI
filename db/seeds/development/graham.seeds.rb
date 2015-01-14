@@ -1,6 +1,7 @@
 Entry.all.each{|e| e.destroy if e.user_id == "12"} # wipe out graham@flaredown.com entries
 
 u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123", catalogs: [])
+u.activate_condition Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
 
 # Add symptom names from :hbi_and_symptoms_entry
 ["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
@@ -100,5 +101,25 @@ entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.treatments << {name: "prednisone", quantity: 60.0, unit: "mg"}
 entry.notes = "Allergies minimal #thanksPrednisone"
 entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-13-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "prednisone", quantity: 20.0, unit: "mg"}
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "Allergies minimal, still coughing from earlier sickness"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-14-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "Allergies minimal, still coughing from earlier sickness"
+entry.save
+
 
 Entry.all.each{|e| Entry.perform(e.id,false) if e.user_id == "12"} # process all graham@flaredown.com entries
