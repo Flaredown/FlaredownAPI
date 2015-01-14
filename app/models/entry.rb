@@ -2,6 +2,7 @@ class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
   include SymptomsCatalog
+  include EntryAudits
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
@@ -19,20 +20,28 @@ class Entry < CouchRest::Model::Base
 
   property :date,       Date
   property :catalogs,   [String], default: []
+  property :conditions, [String], default: []
 
   # TODO cleanup [Thing] vs array: true format
   property :responses,  Response,  :array => true
-  property :treatments, Treatment, :array => true
+  property :treatments, EntryTreatment, :array => true
   property :notes,      String
   property :triggers,   [String]
 
   property :scores,     Score,     :array => true
+
+  attr_accessor :user_audit_version
 
   timestamps!
 
   design do
     view :by_date
     view :by_user_id
+  end
+
+  def user
+    user = User.find_by(id: user_id)
+    self.user_audit_version ? user.versions[self.user_audit_version].reify(has_many: true) : user
   end
 
   def catalog_definitions
@@ -68,15 +77,18 @@ class Entry < CouchRest::Model::Base
     entry = Entry.find(entry_id)
 
     (entry.catalogs | ["symptoms"]).each do |catalog|
-      # entry.update_upcoming_catalog(catalog)
       entry.send("save_score", catalog)
-      Entry.skip_callback(:save, :after, :enqueue)
-      entry.save
-      Entry.set_callback(:save, :after, :enqueue)
+      entry.save_without_processing
     end
 
-    User.find(entry.user_id).notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
+    entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
+  end
+
+  def save_without_processing
+    Entry.skip_callback(:save, :after, :enqueue)
+    save
+    Entry.set_callback(:save, :after, :enqueue)
   end
 
   private

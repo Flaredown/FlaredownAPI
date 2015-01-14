@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/airblade/paper_trail.git
+  revision: e6fad35c958476ab5f3eae02a3436c78369f0188
+  specs:
+    paper_trail (4.0.0.beta2)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -208,7 +216,7 @@ GEM
     hike (1.2.3)
     http_parser.rb (0.5.3)
     httpclient (2.3.4.1)
-    i18n (0.6.11)
+    i18n (0.7.0)
     i18n-tasks (0.2.19)
       activesupport
       easy_translate (>= 0.4.0)
@@ -217,7 +225,7 @@ GEM
       rake
       term-ansicolor
       terminal-table
-    json (1.8.1)
+    json (1.8.2)
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -230,7 +238,7 @@ GEM
       mime-types (>= 1.16, < 3)
     method_source (0.8.2)
     mime-types (1.25.1)
-    minitest (5.4.2)
+    minitest (5.5.1)
     mono_logger (1.1.0)
     multi_json (1.10.1)
     oauth (0.4.7)
@@ -402,6 +410,7 @@ DEPENDENCIES
   json_spec
   letter_opener
   oauth
+  paper_trail!
   pg
   pry
   pry-remote

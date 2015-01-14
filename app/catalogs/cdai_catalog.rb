@@ -100,7 +100,7 @@ module CdaiCatalog
 #
 #   def cdai_weight_deviation_score
 #     # TODO add height/weight options for male/female? See here: http://www.ibdsupport.org.au/cdai-calculator
-#     factor = ((weight_current - User.find(user_id).weight) / weight_current) * 100
+#     factor = ((weight_current - user.weight) / weight_current) * 100
 #     [factor, -10].max
 #   end
 #

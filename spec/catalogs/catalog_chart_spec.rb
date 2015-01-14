@@ -44,15 +44,6 @@ describe CatalogGraph do
         expect(coordinates.first).to have_key(:order)
       end
 
-      it "strips entries without scores from coordinates" do
-        pending "This shouldn't be possible due to incomplete catalogs going to -1"
-        entry = Entry.by_date(key: Time.at(coordinates.first[:x]).to_date).first
-        entry.responses.delete entry.responses.first
-        entry.scores.first.write_attribute "value", nil
-        with_resque{ entry.save }; entry.reload
-        expect(CatalogGraph.new(user.id, "hbi").score_coordinates("hbi").count).to eq 10
-      end
-
       it "should return unix time for x and an order" do
         expect(DateTime.strptime(coordinates.first[:x].to_s, "%s")).to be_a DateTime
         expect(coordinates.first[:order]).to be_an Integer
