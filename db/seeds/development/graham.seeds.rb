@@ -1,6 +1,6 @@
 Entry.all.each{|e| e.destroy if e.user_id == "12"} # wipe out graham@flaredown.com entries
 
-u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123", catalogs: [])
+u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123")
 u.activate_condition Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
 
 # Add symptom names from :hbi_and_symptoms_entry

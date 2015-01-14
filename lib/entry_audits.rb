@@ -20,7 +20,7 @@ module EntryAudits
     audit = applicable_audit
     self.user_audit_version = audit.index if audit
 
-    user.catalogs.each do |catalog|
+    user.current_catalogs.each do |catalog|
       self.catalogs << catalog
     end
 

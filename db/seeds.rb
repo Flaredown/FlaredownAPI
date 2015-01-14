@@ -10,7 +10,8 @@ ActiveRecord::Base.connection.reset_pk_sequence!("users")
 PaperTrail.enabled = false
 PaperTrail::Version.all.each{|v| v.destroy}
 
-u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123", catalogs: ["hbi"])
+u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123")
+u.activate_condition FactoryGirl.create(:condition, name: "Crohn's Disease")
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|

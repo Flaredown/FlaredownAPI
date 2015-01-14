@@ -40,11 +40,21 @@ class User < ActiveRecord::Base
     self.update_attribute(:active_symptoms, (self.active_symptoms - [symptom.id.to_s]))
   end
   def symptom_colors
-    colorables = user_symptoms.map do |assoc|
+    symptom_colorables = user_symptoms.map do |assoc|
       symptom = assoc.symptom
-      {name: "symptom_#{symptom.name}", date: assoc.created_at, active: active_symptoms.include?(symptom.id.to_s)}
+      {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: active_symptoms.include?(symptom.id.to_s)}
     end
-    colors_for(colorables, palette: :light)
+
+    catalog_colorables = user_conditions.reduce([]) do |accum,assoc|
+      condition = assoc.condition
+      catalog   = CATALOG_CONDITIONS[condition.name]
+      "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
+        accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: active_conditions.include?(condition.id.to_s)}
+      end
+      accum
+    end
+
+    colors_for((symptom_colorables|catalog_colorables), palette: :light)
   end
 
   has_many :user_treatments
@@ -68,6 +78,13 @@ class User < ActiveRecord::Base
       {name: "treatment_#{treatment.name}", date: assoc.created_at, active: active_treatments.include?(treatment.id.to_s)}
     end
     colors_for(colorables, palette: :pastel)
+  end
+
+  def catalogs
+    self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
+  end
+  def current_catalogs
+    self.current_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
   end
 
   # Some more associations
