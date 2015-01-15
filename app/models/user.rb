@@ -42,14 +42,14 @@ class User < ActiveRecord::Base
   def symptom_colors
     symptom_colorables = user_symptoms.map do |assoc|
       symptom = assoc.symptom
-      {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: active_symptoms.include?(symptom.id.to_s)}
+      {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: true } # active_symptoms.include?(symptom.id.to_s)
     end
 
     catalog_colorables = user_conditions.reduce([]) do |accum,assoc|
       condition = assoc.condition
       catalog   = CATALOG_CONDITIONS[condition.name]
       "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
-        accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: active_conditions.include?(condition.id.to_s)}
+        accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
       end
       accum
     end
@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
   def treatment_colors
     colorables = user_treatments.map do |assoc|
       treatment = assoc.treatment
-      {name: "treatment_#{treatment.name}", date: assoc.created_at, active: active_treatments.include?(treatment.id.to_s)}
+      {name: "treatment_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
     end
     colors_for(colorables, palette: :pastel)
   end

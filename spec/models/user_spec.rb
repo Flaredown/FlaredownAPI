@@ -38,8 +38,10 @@ describe User do
       expect(first_result).to have(2).items
 
       user.deactivate_treatment Treatment.first
-      expect(user.treatment_colors).to have(1).item
-      expect(user.treatment_colors).to eql first_result[-1..-1]
+      expect(user.treatment_colors).to have(2).items
+      expect(user.treatment_colors).to eql first_result
+      # expect(user.treatment_colors).to have(1).item
+      # expect(user.treatment_colors).to eql first_result[-1..-1]
     end
 
     it "#symptom_colors" do
@@ -54,8 +56,10 @@ describe User do
       expect(first_result).to have(3).items
 
       user.deactivate_symptom Symptom.first
-      expect(user.symptom_colors).to have(2).items
-      expect(user.symptom_colors).to eql first_result[-2..-1]
+      expect(user.symptom_colors).to have(3).items
+      expect(user.symptom_colors).to eql first_result
+      # expect(user.symptom_colors).to have(2).items
+      # expect(user.symptom_colors).to eql first_result[-2..-1]
     end
     it "#symptom_colors also contains catalog symptoms" do
       user.activate_condition create(:condition, name: "Crohn's Disease")
