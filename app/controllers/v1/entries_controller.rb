@@ -53,7 +53,7 @@ class V1::EntriesController < V1::BaseController
 	def create
     date = Date.parse(params[:date])
 
-    if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first})
+    if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
       entry = Entry.new({user_id: current_user.id, date: date }).set_user_audit_version!
