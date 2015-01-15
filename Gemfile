@@ -49,6 +49,7 @@ end
 
 group :test, :development, :staging do
   gem "factory_girl_rails"#, require: false
+  gem "codeclimate-test-reporter", require: nil
 end
 
 group :test, :development do
