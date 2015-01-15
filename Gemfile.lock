@@ -241,6 +241,7 @@ GEM
     minitest (5.5.1)
     mono_logger (1.1.0)
     multi_json (1.10.1)
+    newrelic_rpm (3.9.9.275)
     oauth (0.4.7)
     orm_adapter (0.5.0)
     pg (0.17.1)
@@ -409,6 +410,7 @@ DEPENDENCIES
   i18n-tasks (~> 0.2.10)
   json_spec
   letter_opener
+  newrelic_rpm
   oauth
   paper_trail!
   pg

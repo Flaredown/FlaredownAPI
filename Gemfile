@@ -27,16 +27,12 @@ gem "resque-scheduler", require: "resque_scheduler"
 gem "redis"
 
 gem 'cancan'
-
 gem "pusher"
-
 gem "hashie"
-
 gem "letter_opener"
-
 gem "textacular", "~> 3.0"
-
 gem 'paper_trail', github: "airblade/paper_trail"
+gem 'newrelic_rpm'
 
 group :production do
 end
