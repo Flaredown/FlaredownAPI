@@ -1,12 +1,13 @@
-ENV["RAILS_ENV"] ||= 'test'
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 
-require 'coveralls'
-Coveralls.wear!
+ENV["RAILS_ENV"] ||= 'test'
 
-require "simplecov"
-SimpleCov.start "rails"
+# require 'coveralls'
+# Coveralls.wear!
+
+# require "simplecov"
+# SimpleCov.start "rails"
 
 require "couchrest"
 

@@ -33,6 +33,7 @@ gem "letter_opener"
 gem "textacular", "~> 3.0"
 gem 'paper_trail', github: "airblade/paper_trail"
 gem 'newrelic_rpm'
+gem "codeclimate-test-reporter", group: :test, require: nil
 
 group :production do
 end
@@ -49,7 +50,6 @@ end
 
 group :test, :development, :staging do
   gem "factory_girl_rails"#, require: false
-  gem "codeclimate-test-reporter", require: nil
 end
 
 group :test, :development do

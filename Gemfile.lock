@@ -42,6 +42,8 @@ GEM
     bcrypt (3.1.7)
     builder (3.2.2)
     cancan (1.6.10)
+    codeclimate-test-reporter (0.4.5)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     colored (1.2)
     cookiejar (0.3.0)
@@ -397,6 +399,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   cancan
+  codeclimate-test-reporter
   couchrest_model
   coveralls
   database_cleaner
