@@ -78,7 +78,7 @@ class V1::EntriesController < V1::BaseController
   # Returns 422 for errors along with errors json
 	def update
     date = Date.parse(params[:id])
-    @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
+    @entry = Entry.by_user_id.key(current_user.id.to_s).detect{|e| e.date == date}
 
     if @entry.update_attributes(entry_params)
       render json: {success: true}, status: 200

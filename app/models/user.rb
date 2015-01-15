@@ -93,6 +93,10 @@ class User < ActiveRecord::Base
   def current_symptoms; Symptom.where(id: self.active_symptoms.map(&:to_i)); end
   def current_treatments; Treatment.where(id: self.active_treatments.map(&:to_i)); end
 
+  def checked_in_today
+    Entry.by_user_id.key(self.id.to_s).detect{|e| e.date == Date.today}.present?
+  end
+
   def graph_data
     graph = CatalogGraph.new(self.id, self.catalogs)
     graph.catalogs_data

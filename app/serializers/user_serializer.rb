@@ -8,6 +8,7 @@ class UserSerializer < ActiveModel::Serializer
     :authentication_token,
     :locale,
     :symptom_colors,
-    :treatment_colors
+    :treatment_colors,
+    :checked_in_today
 
 end
