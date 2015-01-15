@@ -15,8 +15,15 @@ describe Colorable do
     end
     let(:palette) { Colorable::PALETTES[:pastel] }
 
+    before(:each) do
+      stub_const("Colorable::PALETTES", {
+        pastel: %w( #F7977A #F9AD81 #FDC68A #FFF79A #C4DF9B),
+        light: %w( #F26C4F #F68E55 #FBAF5C #FFF467 )
+      })
+    end
+
     it "orders color assignments by date" do
-      results = object.colors_for(colorables)
+      results = object.colors_for(colorables, palette: :pastel)
       expect(results).to be_an Array
 
       first = results[0]
@@ -33,7 +40,7 @@ describe Colorable do
     end
 
     it "reserves colors for inactive colorables, but doesn't output them" do
-      results = object.colors_for(colorables)
+      results = object.colors_for(colorables, palette: :pastel)
 
       expect(results.length).to eql 3             # only 3 results (out of 4 colorables)
       expect(results.last.last).to eql palette[3] # but 4 color spaces in, due to 1 inactive
@@ -53,7 +60,7 @@ describe Colorable do
     it "loops back around when it runs out of palette colors" do
        stub_const("Colorable::PALETTES", { pastel: %w( #F7977A #F9AD81 ) })
 
-       results = object.colors_for(colorables)
+       results = object.colors_for(colorables, palette: :pastel)
 
        expect(results).to eql [
          [colorables[2][:name], palette[1]],

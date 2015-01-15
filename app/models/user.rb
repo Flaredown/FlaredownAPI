@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
       accum
     end
 
-    colors_for((symptom_colorables|catalog_colorables), palette: :light)
+    colors_for((symptom_colorables|catalog_colorables), palette: :symptoms)
   end
 
   has_many :user_treatments
@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
       treatment = assoc.treatment
       {name: "treatment_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
     end
-    colors_for(colorables, palette: :pastel)
+    colors_for(colorables, palette: :treatments)
   end
 
   def catalogs
