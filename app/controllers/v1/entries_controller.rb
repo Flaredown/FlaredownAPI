@@ -53,7 +53,7 @@ class V1::EntriesController < V1::BaseController
 	def create
     date = Date.parse(params[:date])
 
-    if (existing = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s})
+    if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first})
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
       entry = Entry.new({user_id: current_user.id, date: date }).set_user_audit_version!
@@ -78,7 +78,7 @@ class V1::EntriesController < V1::BaseController
   # Returns 422 for errors along with errors json
 	def update
     date = Date.parse(params[:id])
-    @entry = Entry.by_user_id.key(current_user.id.to_s).detect{|e| e.date == date}
+    @entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
     if @entry.update_attributes(entry_params)
       render json: {success: true}, status: 200

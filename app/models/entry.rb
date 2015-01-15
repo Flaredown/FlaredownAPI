@@ -37,6 +37,7 @@ class Entry < CouchRest::Model::Base
   design do
     view :by_date
     view :by_user_id
+    view :by_date_and_user_id
   end
 
   def user
