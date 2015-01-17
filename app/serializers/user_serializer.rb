@@ -1,6 +1,9 @@
 class UserSerializer < ActiveModel::Serializer
   root false
-  embed :ids, include: false
+  embed :ids, embed: true, include: false
+
+  has_many :treatments, include: true
+  has_many :symptoms, include: true
 
   attributes :id,
     :obfuscated_id,
