@@ -4,9 +4,10 @@ module UserTrackables
   included do |base|
 
     %w( treatments conditions symptoms ).each do |trackable|
+
       base.class_eval do
         has_many "user_#{trackable}".to_sym
-        has_many "#{trackable}".to_sym, :through => "user_#{trackable}".to_sym do
+        has_many trackable.to_sym, :through => "user_#{trackable}".to_sym do
 
           # disable duplicate addition
           def <<(new_item)
