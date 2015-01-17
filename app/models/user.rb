@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
-  include UserColors
   include UserTrackables
+  include UserColors
 
   has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
 
