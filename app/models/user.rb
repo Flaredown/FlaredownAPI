@@ -1,84 +1,13 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
-  include Colorable
+  include UserColors
+  include UserTrackables
 
   has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
-
-  has_many :user_conditions
-  has_many :conditions, :through => :user_conditions do
-    def <<(new_item) # disable duplicate addition
-      super( Array(new_item) - proxy_association.owner.conditions )
-    end
-  end
-  def activate_condition(condition)
-    ActiveRecord::Base.transaction do
-      self.conditions << condition
-      self.update_attribute(:active_conditions, (self.active_conditions | [condition.id.to_s]))
-    end
-  end
-  def deactivate_condition(condition)
-    self.update_attribute(:active_conditions, (self.active_conditions - [condition.id.to_s]))
-  end
-
-  has_many :user_symptoms
-  has_many :symptoms, :through => :user_symptoms do
-    def <<(new_item) # disable duplicate addition
-      super( Array(new_item) - proxy_association.owner.symptoms )
-    end
-  end
-  def activate_symptom(symptom)
-    ActiveRecord::Base.transaction do
-      self.symptoms << symptom
-      self.update_attribute(:active_symptoms, (self.active_symptoms | [symptom.id.to_s]))
-    end
-  end
-  def deactivate_symptom(symptom)
-    self.update_attribute(:active_symptoms, (self.active_symptoms - [symptom.id.to_s]))
-  end
-  def symptom_colors
-    symptom_colorables = user_symptoms.map do |assoc|
-      symptom = assoc.symptom
-      {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: true } # active_symptoms.include?(symptom.id.to_s)
-    end
-
-    catalog_colorables = user_conditions.reduce([]) do |accum,assoc|
-      condition = assoc.condition
-      catalog   = CATALOG_CONDITIONS[condition.name]
-      "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
-        accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
-      end
-      accum
-    end
-
-    colors_for((symptom_colorables|catalog_colorables), palette: :symptoms)
-  end
-
-  has_many :user_treatments
-  has_many :treatments, :through => :user_treatments do
-    def <<(new_item) # disable duplicate addition
-      super( Array(new_item) - proxy_association.owner.treatments )
-    end
-  end
-  def activate_treatment(treatment)
-    ActiveRecord::Base.transaction do
-      self.treatments << treatment
-      self.update_attribute(:active_treatments, (self.active_treatments | [treatment.id.to_s]))
-    end
-  end
-  def deactivate_treatment(treatment)
-    self.update_attribute(:active_treatments, (self.active_treatments - [treatment.id.to_s]))
-  end
-  def treatment_colors
-    colorables = user_treatments.map do |assoc|
-      treatment = assoc.treatment
-      {name: "treatment_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
-    end
-    colors_for(colorables, palette: :treatments)
-  end
 
   def catalogs
     self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
@@ -87,11 +16,7 @@ class User < ActiveRecord::Base
     self.current_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
   end
 
-  # Some more associations
   def entries; Entry.by_user_id.key(self.id.to_s); end
-  def current_conditions; Condition.where(id: self.active_conditions.map(&:to_i)); end
-  def current_symptoms; Symptom.where(id: self.active_symptoms.map(&:to_i)); end
-  def current_treatments; Treatment.where(id: self.active_treatments.map(&:to_i)); end
 
   def checked_in_today
     Entry.by_date_and_user_id.key([Date.today,self.id.to_s]).first.present?
