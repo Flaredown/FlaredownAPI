@@ -10,11 +10,14 @@ class EntrySerializer < ActiveModel::Serializer
     :catalog_definitions,
     :catalogs,
     :notes,
-    :complete
+    :complete,
+    :just_created
 
-  def catalogs; object.catalogs | ["symptoms"]; end
-  def date;     object.date.strftime("%b-%d-%Y"); end
-  def complete; object.complete?; end
+
+  def just_created; scope == :new ? true : false  end
+  def catalogs;     object.catalogs | ["symptoms"]; end
+  def date;         object.date.strftime("%b-%d-%Y"); end
+  def complete;     object.complete?; end
 
   # Used for overriding returned keys using #filtered_attributes
   def serializable_hash
@@ -32,7 +35,7 @@ class EntrySerializer < ActiveModel::Serializer
   def filtered_attributes(keys,scope)
     case scope
     when :new
-      %i( id date catalogs catalog_definitions treatments complete )
+      %i( id date catalogs catalog_definitions treatments complete just_created )
     when :existing
       keys
     else
