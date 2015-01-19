@@ -30,7 +30,8 @@ end
 
 # Add entries for test user
 200.times do |n|
-  FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days-5
+  e=FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days-5
+  e.set_user_audit_version!
 end
 
 # Clear Resque because these are already processed
