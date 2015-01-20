@@ -18,7 +18,7 @@ module SymptomsCatalog
   end
 
   def symptoms_definition
-    user.current_symptoms.map do |symptom|
+    user.active_symptoms.map do |symptom|
       [{
         name: symptom.name,
         kind: :select,
@@ -38,8 +38,8 @@ module SymptomsCatalog
   end
 
   def filled_symptoms_entry?
-    # TODO this could become false on changing current_symptoms... loosen criteria? Only applicable to unscored entries?
-    user.current_symptoms.map(&:name) - responses.select{|r| r.catalog == "symptoms"}.map(&:name) == []
+    # TODO this could become false on changing active_symptoms... loosen criteria? Only applicable to unscored entries?
+    user.active_symptoms.map(&:name) - responses.select{|r| r.catalog == "symptoms"}.map(&:name) == []
   end
 
   def complete_symptoms_entry?

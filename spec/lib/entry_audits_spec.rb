@@ -55,8 +55,8 @@ describe EntryAudits do
 
       audit = entry.applicable_audit # Get version closest (looking pastwards) to the target entry
 
-      expect(audit.reify(has_many: true).current_conditions.map(&:name)).to include("back pain")
-      expect(audit.reify(has_many: true).current_treatments.map(&:name)).to_not include("advil") # only in most recent
+      expect(audit.reify(has_many: true).active_conditions.map(&:name)).to include("back pain")
+      expect(audit.reify(has_many: true).active_treatments.map(&:name)).to_not include("advil") # only in most recent
     end
 
     it "gets current version of user when no future version exists", versioning: true do

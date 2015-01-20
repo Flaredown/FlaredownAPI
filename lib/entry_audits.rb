@@ -24,11 +24,11 @@ module EntryAudits
       self.catalogs << catalog
     end
 
-    user.current_treatments.each do |treatment|
+    user.active_treatments.each do |treatment|
       self.treatments << treatment.attributes.extract!(*%w( name quantity unit ))
     end
 
-    user.current_conditions.each do |condition|
+    user.active_conditions.each do |condition|
       self.conditions << condition.name
     end
 

@@ -5,7 +5,7 @@ class V1::SymptomsController < V1::BaseController
 
     if symptom.valid?
       current_user.user_symptoms.activate(symptom)
-      render json: {active_symptoms: current_user.current_symptoms.map(&:name)}, status: 201
+      render json: {active_symptoms: current_user.active_symptoms.map(&:name)}, status: 201
     else
       response = respond_with_error(symptom.errors.messages).to_json
       render json: response, status: 400

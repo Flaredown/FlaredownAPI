@@ -12,7 +12,7 @@ describe User do
       expect(user.catalogs).to eql ["hbi"]
     end
 
-    it "#current_catalogs gives only ones for user.current_conditions" do
+    it "#current_catalogs gives only ones for user.active_conditions" do
       user.user_conditions.activate create(:condition, name: "Crohn's Disease")
       user.user_conditions.activate create(:condition, name: "Rheumatoid Arthritis")
       expect(user.current_catalogs).to eql ["hbi", "rapid3"]

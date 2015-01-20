@@ -79,7 +79,7 @@ describe V1::TreatmentsController, type: :controller do
       expect(response.body).to be_json_eql({success: true}.to_json)
       returns_code 204
 
-      expect(user.reload.active_symptoms).to eql []
+      expect(user.reload.active_symptoms).to be_empty
       expect(user.treatments.first.name).to eql "prednisone"
     end
 
