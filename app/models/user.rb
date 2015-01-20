@@ -9,12 +9,12 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
-  def catalogs
-    self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
-  end
-  def current_catalogs
-    self.current_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
-  end
+  has_many :user_conditions, ->{extending TrackableAssociation}
+  has_many :conditions, through: :user_conditions
+  has_many :active_conditions, -> { where user_conditions: { active: true } }, through: :user_conditions, class_name: "Condition", source: :condition
+
+  def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
+  def current_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 
   def entries; Entry.by_user_id.key(self.id.to_s); end
 
