@@ -13,6 +13,14 @@ class User < ActiveRecord::Base
   has_many :conditions, through: :user_conditions
   has_many :active_conditions, -> { where user_conditions: { active: true } }, through: :user_conditions, class_name: "Condition", source: :condition
 
+  has_many :user_treatments, ->{extending TrackableAssociation}
+  has_many :treatments, through: :user_treatments
+  has_many :active_treatments, -> { where user_treatments: { active: true } }, through: :user_treatments, class_name: "Treatment", source: :treatment
+
+  has_many :user_symptoms, ->{extending TrackableAssociation}
+  has_many :symptoms, through: :user_symptoms
+  has_many :active_symptoms, -> { where user_symptoms: { active: true } }, through: :user_symptoms, class_name: "Symptom", source: :symptom
+
   def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
   def current_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 

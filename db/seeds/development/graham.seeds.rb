@@ -1,12 +1,12 @@
 Entry.all.each{|e| e.destroy if e.user_id == "12"} # wipe out graham@flaredown.com entries
 
 u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123")
-u.activate_condition Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
+u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
 
 # Add symptom names from :hbi_and_symptoms_entry
 ["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
   s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-  u.activate_symptom s
+  u.user_symptoms.activate s
 end
 
 entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-03-2015")

@@ -4,7 +4,7 @@ class V1::SymptomsController < V1::BaseController
     symptom = Symptom.create_with(locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
 
     if symptom.valid?
-      current_user.activate_symptom(symptom)
+      current_user.user_symptoms.activate(symptom)
       render json: {active_symptoms: current_user.current_symptoms.map(&:name)}, status: 201
     else
       response = respond_with_error(symptom.errors.messages).to_json
@@ -54,7 +54,7 @@ class V1::SymptomsController < V1::BaseController
   def destroy
     symptom = Symptom.find_by(id: params[:id])
     if symptom
-      current_user.deactivate_symptom(symptom)
+      current_user.user_symptoms.deactivate(symptom)
       render json: {success: true}, status: 204
     else
       render json: {success: false}, status: 404

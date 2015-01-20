@@ -16,22 +16,22 @@ describe EntryAudits do
     # === #
     ActiveRecord::Base.transaction do
       user.catalogs             << "hbi"
-      user.activate_condition   create(:condition, name: "allergies")
-      user.activate_symptom     create(:symptom, name: "runny nose")
-      user.activate_symptom     create(:symptom, name: "itchy throat")
+      user.user_conditions.activate   create(:condition, name: "allergies")
+      user.user_symptoms.activate     create(:symptom, name: "runny nose")
+      user.user_symptoms.activate     create(:symptom, name: "itchy throat")
     end
 
     Timecop.travel(date+1.days)   # now Aug 4
     # === #
     ActiveRecord::Base.transaction do
-      user.activate_treatment   create(:treatment, name: "loratadine", quantity: 10.0, unit: "mg")
+      user.user_treatments.activate   create(:treatment, name: "loratadine", quantity: 10.0, unit: "mg")
     end
 
     Timecop.travel(date+9.days)   # now Aug 12
     # === #
     ActiveRecord::Base.transaction do
-      user.activate_condition   create(:condition,name: "back pain")
-      user.activate_treatment   create(:treatment, name: "sinus rinse", quantity: 1.0, unit: "session")
+      user.user_conditions.activate   create(:condition,name: "back pain")
+      user.user_treatments.activate   create(:treatment, name: "sinus rinse", quantity: 1.0, unit: "session")
     end
 
     # --- Target Date for Entry --- #
@@ -40,10 +40,10 @@ describe EntryAudits do
     # === #
     ActiveRecord::Base.transaction do
       user.catalogs             << "rapid3"
-      user.activate_condition   create(:condition,name: "ticklishness")
-      user.deactivate_condition Condition.find_by(name: "back pain")
-      user.activate_treatment   create(:treatment, name: "advil", quantity: 2.0, unit: "pill")
-      user.deactivate_symptom   Symptom.find_by(name: "itchy throat")
+      user.user_conditions.activate   create(:condition,name: "ticklishness")
+      user.user_conditions.deactivate Condition.find_by(name: "back pain")
+      user.user_treatments.activate   create(:treatment, name: "advil", quantity: 2.0, unit: "pill")
+      user.user_symptoms.deactivate   Symptom.find_by(name: "itchy throat")
     end
 
     Timecop.return
