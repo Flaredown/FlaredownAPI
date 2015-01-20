@@ -32,7 +32,7 @@ describe V1::SymptomsController, type: :controller do
 
       symptoms.each do |symptom_attrs|
         symptom = create :symptom, symptom_attrs
-        user.activate_symptom symptom
+        user.user_symptoms.activate symptom
       end
 
       post :create, {name: "droopy lips"}
@@ -42,7 +42,7 @@ describe V1::SymptomsController, type: :controller do
 
     it "doesn't add existing symptom to user twice" do
       symptom = create :symptom, {name: "droopy lips"}
-      user.activate_symptom symptom
+      user.user_symptoms.activate symptom
       expect(user.reload.active_symptoms.length).to eql 1
 
       post :create, {name: "droopy lips"}
@@ -90,14 +90,14 @@ describe V1::SymptomsController, type: :controller do
   context "DESTROY" do
     it "removes the symptom from actives, but keeps it in user.symptoms" do
       symptom = create :symptom, {name: "droopy lips"}
-      user.activate_symptom symptom
+      user.user_symptoms.activate symptom
 
       delete :destroy, {id: symptom.id}
 
       expect(response.body).to be_json_eql({success: true}.to_json)
       returns_code 204
 
-      expect(user.reload.active_symptoms).to eql []
+      expect(user.reload.active_symptoms).to be_empty
       expect(user.symptoms.first.name).to eql "droopy lips"
     end
 

@@ -1,20 +1,29 @@
 class User < ActiveRecord::Base
   include TokenAuth::User
-  include UserTrackables
   include UserColors
 
-  has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
+  has_paper_trail :on => [:update], :only => []#%i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
-  def catalogs
-    self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
-  end
-  def current_catalogs
-    self.current_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact
-  end
+  has_many :user_conditions, ->{extending TrackableAssociation}
+  has_many :conditions, through: :user_conditions
+  has_many :active_conditions, -> { where user_conditions: { active: true } }, through: :user_conditions, class_name: "Condition", source: :condition
+
+  has_many :user_treatments, ->{extending TrackableAssociation}
+  has_many :treatments, through: :user_treatments
+  has_many :active_treatments, -> { where user_treatments: { active: true } }, through: :user_treatments, class_name: "Treatment", source: :treatment
+
+  has_many :user_symptoms, ->{extending TrackableAssociation}
+  has_many :symptoms, through: :user_symptoms
+  has_many :active_symptoms, -> { where user_symptoms: { active: true } }, through: :user_symptoms, class_name: "Symptom", source: :symptom
+
+  after_create :touch_with_version
+
+  def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
+  def active_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 
   def entries; Entry.by_user_id.key(self.id.to_s); end
 

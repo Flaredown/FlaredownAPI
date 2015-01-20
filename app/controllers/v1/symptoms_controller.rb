@@ -4,8 +4,8 @@ class V1::SymptomsController < V1::BaseController
     symptom = Symptom.create_with(locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
 
     if symptom.valid?
-      current_user.activate_symptom(symptom)
-      render json: {active_symptoms: current_user.current_symptoms.map(&:name)}, status: 201
+      current_user.user_symptoms.activate(symptom)
+      render json: {active_symptoms: current_user.active_symptoms.map(&:name)}, status: 201
     else
       response = respond_with_error(symptom.errors.messages).to_json
       render json: response, status: 400
@@ -21,7 +21,7 @@ class V1::SymptomsController < V1::BaseController
       symptom_ids.push symptom.id
     end
     ids = symptom_ids.map(&:inspect).join(', ')
-    catalogs = current_user.current_catalogs
+    catalogs = current_user.active_catalogs
     catalogs_string = ""
     catalogs.each_with_index do |catalog, index|
       if index == (catalogs.length-1) then
@@ -54,7 +54,7 @@ class V1::SymptomsController < V1::BaseController
   def destroy
     symptom = Symptom.find_by(id: params[:id])
     if symptom
-      current_user.deactivate_symptom(symptom)
+      current_user.user_symptoms.deactivate(symptom)
       render json: {success: true}, status: 204
     else
       render json: {success: false}, status: 404

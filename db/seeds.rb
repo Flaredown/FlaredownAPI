@@ -11,12 +11,12 @@ PaperTrail.enabled = false
 PaperTrail::Version.all.each{|v| v.destroy}
 
 u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123")
-u.activate_condition Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
+u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
   s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-  u.activate_symptom s
+  u.user_symptoms.activate s
 end
 
 ### TREATMENTS
@@ -25,13 +25,25 @@ end
   {name: "Laughing Gas", quantity: "10.5", unit: "cc"}
 ].each do |treatment|
   t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
-  u.activate_treatment t
+  u.user_treatments.activate t
 end
+
+# inactives
+[
+  {name: "Funny Bone Banging", quantity: "15.0", unit: "repetition"},
+  {name: "Toe Stubbing", quantity: "1.0", unit: "time"}
+].each do |treatment|
+  t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
+  u.user_treatments.activate t
+  u.user_treatments.deactivate t
+end
+
+u.touch_with_version
 
 # Add entries for test user
 200.times do |n|
   e=FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days-5
-  e.set_user_audit_version!
+  e.setup_with_audit!
 end
 
 # Clear Resque because these are already processed
@@ -41,6 +53,7 @@ Resque.queues.each{|q| Resque.redis.del "queue:#{q}" }
 colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123")
 ["pain", "fatigue", "digestive", "lightheadedness", "anxiety"].each do |name|
     s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-    colin.activate_symptom s
+    colin.user_symptoms.activate s
 end
 
+colin.touch_with_version

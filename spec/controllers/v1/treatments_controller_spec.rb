@@ -32,7 +32,7 @@ describe V1::TreatmentsController, type: :controller do
 
       treatments.each do |treatment_attrs|
         treatment = create :treatment, treatment_attrs
-        user.activate_treatment treatment
+        user.user_treatments.activate treatment
       end
 
       post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
@@ -42,7 +42,7 @@ describe V1::TreatmentsController, type: :controller do
 
     it "doesn't add existing treatment to user twice" do
       treatment = create :treatment, {name: "prednisone", quantity: "20.0", unit: "mg"}
-      user.activate_treatment treatment
+      user.user_treatments.activate treatment
       expect(user.reload.active_treatments.length).to eql 1
 
       post :create, {name: "prednisone", quantity: "20.0", unit: "mg"}
@@ -72,14 +72,14 @@ describe V1::TreatmentsController, type: :controller do
   context "DESTROY" do
     it "removes the treatment from actives, but keeps it in user.treatments" do
       treatment = create :treatment, {name: "prednisone", quantity: "20.0", unit: "mg"}
-      user.activate_treatment treatment
+      user.user_treatments.activate treatment
 
       delete :destroy, {id: treatment.id}
 
       expect(response.body).to be_json_eql({success: true}.to_json)
       returns_code 204
 
-      expect(user.reload.active_symptoms).to eql []
+      expect(user.reload.active_symptoms).to be_empty
       expect(user.treatments.first.name).to eql "prednisone"
     end
 

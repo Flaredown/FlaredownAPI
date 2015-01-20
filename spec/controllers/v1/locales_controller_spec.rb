@@ -48,7 +48,7 @@ describe V1::LocalesController, type: :controller do
       allow(File).to receive(:open).and_call_original
       allow(File).to receive(:open).with("#{Rails.root}/config/locales/en/catalogs/en_base.yml").and_return(Tempfile.new("temp"))
       allow_any_instance_of(File).to receive(:read).and_return(en_locale)
-      allow_any_instance_of(User).to receive(:current_catalogs).and_return(["bar"])
+      allow_any_instance_of(User).to receive(:active_catalogs).and_return(["bar"])
 
       get :show, {locale: "en"}
       expect(response.body).to be_json_eql({error: "Unknown locale or catalog locale."}.to_json)

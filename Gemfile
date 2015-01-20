@@ -31,7 +31,7 @@ gem "pusher"
 gem "hashie"
 gem "letter_opener"
 gem "textacular", "~> 3.0"
-gem 'paper_trail', github: "airblade/paper_trail"
+gem 'paper_trail', github: "airblade/paper_trail", tag: "v4.0.0.beta2"
 gem 'newrelic_rpm'
 gem "codeclimate-test-reporter", group: :test, require: nil
 

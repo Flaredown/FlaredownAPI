@@ -8,17 +8,23 @@ describe User do
 
   describe "catalogs" do
     it "#catalogs returns all catalogs based on all user.conditions" do
-      user.activate_condition create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
       expect(user.catalogs).to eql ["hbi"]
     end
 
-    it "#current_catalogs gives only ones for user.current_conditions" do
-      user.activate_condition create(:condition, name: "Crohn's Disease")
-      user.activate_condition create(:condition, name: "Rheumatoid Arthritis")
-      expect(user.current_catalogs).to eql ["hbi", "rapid3"]
+    it "#active_catalogs gives only ones for user.active_conditions" do
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Rheumatoid Arthritis")
+      expect(user.active_catalogs).to eql ["hbi", "rapid3"]
 
-      user.deactivate_condition Condition.find_by(name: "Crohn's Disease")
-      expect(user.current_catalogs).to eql ["rapid3"]
+      user.user_conditions.deactivate Condition.find_by(name: "Crohn's Disease")
+      expect(user.reload.active_catalogs).to eql ["rapid3"]
+    end
+
+    it "cannot add duplicate conditions" do
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate Condition.find_by(name: "Crohn's Disease")
+      expect(user.user_conditions.count).to eql 1
     end
   end
 
@@ -29,7 +35,7 @@ describe User do
         {name: "Laughing Gas", quantity: "10.5", unit: "cc"}
       ].each do |treatment|
         t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
-        user.activate_treatment t
+        user.user_treatments.activate t
       end
 
       first_result = user.treatment_colors
@@ -37,7 +43,7 @@ describe User do
       expect(first_result.first).to be_an Array
       expect(first_result).to have(2).items
 
-      user.deactivate_treatment Treatment.first
+      user.user_treatments.deactivate Treatment.first
       expect(user.treatment_colors).to have(2).items
       expect(user.treatment_colors).to eql first_result
       # expect(user.treatment_colors).to have(1).item
@@ -47,7 +53,7 @@ describe User do
     it "#symptom_colors" do
       ["droopy lips", "fat toes", "slippery tongue"].each do |name|
         s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-        user.activate_symptom s
+        user.user_symptoms.activate s
       end
 
       first_result = user.symptom_colors
@@ -55,14 +61,14 @@ describe User do
       expect(first_result.first).to be_an Array
       expect(first_result).to have(3).items
 
-      user.deactivate_symptom Symptom.first
+      user.user_symptoms.deactivate Symptom.first
       expect(user.symptom_colors).to have(3).items
       expect(user.symptom_colors).to eql first_result
       # expect(user.symptom_colors).to have(2).items
       # expect(user.symptom_colors).to eql first_result[-2..-1]
     end
     it "#symptom_colors also contains catalog symptoms" do
-      user.activate_condition create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
 
       expect(user.symptom_colors).to have(5).items
       expect(user.symptom_colors[0][0]).to eql "hbi_general_wellbeing"

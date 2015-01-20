@@ -31,7 +31,7 @@ describe V1::ConditionsController, type: :controller do
       ]
 
       conditions.each do |condition_attrs|
-        user.conditions << create(:condition, condition_attrs)
+        user.user_conditions.activate create(:condition, condition_attrs)
       end
 
       post :create, {name: "allergies"}
@@ -41,7 +41,7 @@ describe V1::ConditionsController, type: :controller do
 
     it "doesn't add existing condition to user twice" do
       condition = create :condition, {name: "allergies"}
-      user.conditions << condition
+      user.user_conditions.activate condition
 
       post :create, {name: "allergies"}
 
@@ -83,7 +83,7 @@ describe V1::ConditionsController, type: :controller do
   context "DESTROY" do
     it "removes the condition from actives, but keeps it in user.conditions" do
       condition = create :condition, {name: "allergies"}
-      user.conditions << condition
+      user.user_conditions.activate condition
 
       delete :destroy, {id: condition.id}
 
