@@ -38,6 +38,8 @@ end
   u.user_treatments.deactivate t
 end
 
+u.touch_with_version
+
 # Add entries for test user
 200.times do |n|
   e=FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days-5
@@ -54,3 +56,4 @@ colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", 
     colin.user_symptoms.activate s
 end
 
+colin.touch_with_version
