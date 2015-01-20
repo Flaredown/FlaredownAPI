@@ -1,7 +1,5 @@
 class Symptom < ActiveRecord::Base
 
-  has_paper_trail
-
   has_many :user_symptoms
   has_many :users, :through => :user_symptoms
 

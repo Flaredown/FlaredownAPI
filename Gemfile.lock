@@ -1,6 +1,7 @@
 GIT
   remote: git://github.com/airblade/paper_trail.git
-  revision: e6fad35c958476ab5f3eae02a3436c78369f0188
+  revision: fbd08dbbceda1a7357b5a7f45bb2ca8d09acc600
+  tag: v4.0.0.beta2
   specs:
     paper_trail (4.0.0.beta2)
       activerecord (>= 3.0, < 6.0)

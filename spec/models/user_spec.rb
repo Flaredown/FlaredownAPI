@@ -12,13 +12,13 @@ describe User do
       expect(user.catalogs).to eql ["hbi"]
     end
 
-    it "#current_catalogs gives only ones for user.active_conditions" do
+    it "#active_catalogs gives only ones for user.active_conditions" do
       user.user_conditions.activate create(:condition, name: "Crohn's Disease")
       user.user_conditions.activate create(:condition, name: "Rheumatoid Arthritis")
-      expect(user.current_catalogs).to eql ["hbi", "rapid3"]
+      expect(user.active_catalogs).to eql ["hbi", "rapid3"]
 
       user.user_conditions.deactivate Condition.find_by(name: "Crohn's Disease")
-      expect(user.reload.current_catalogs).to eql ["rapid3"]
+      expect(user.reload.active_catalogs).to eql ["rapid3"]
     end
 
     it "cannot add duplicate conditions" do

@@ -21,7 +21,7 @@ class V1::SymptomsController < V1::BaseController
       symptom_ids.push symptom.id
     end
     ids = symptom_ids.map(&:inspect).join(', ')
-    catalogs = current_user.current_catalogs
+    catalogs = current_user.active_catalogs
     catalogs_string = ""
     catalogs.each_with_index do |catalog, index|
       if index == (catalogs.length-1) then

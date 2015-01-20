@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   include TokenAuth::User
   include UserColors
 
-  has_paper_trail :only => %i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
+  has_paper_trail :on => [:update], :only => []#%i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -20,8 +20,10 @@ class User < ActiveRecord::Base
   has_many :symptoms, through: :user_symptoms
   has_many :active_symptoms, -> { where user_symptoms: { active: true } }, through: :user_symptoms, class_name: "Symptom", source: :symptom
 
+  after_create :touch_with_version
+
   def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
-  def current_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
+  def active_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 
   def entries; Entry.by_user_id.key(self.id.to_s); end
 

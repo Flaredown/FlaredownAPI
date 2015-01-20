@@ -12,65 +12,91 @@ describe EntryAudits do
     date = target_date - 10.days
 
     # Do some version stuffs, setup a history
-    Timecop.travel(date)          # now Aug 3
+    Timecop.travel(date)            # now Aug 3
     # === #
-    ActiveRecord::Base.transaction do
-      user.catalogs             << "hbi"
-      user.user_conditions.activate   create(:condition, name: "allergies")
-      user.user_symptoms.activate     create(:symptom, name: "runny nose")
-      user.user_symptoms.activate     create(:symptom, name: "itchy throat")
-    end
+    user.touch_with_version         # v1
 
-    Timecop.travel(date+1.days)   # now Aug 4
-    # === #
-    ActiveRecord::Base.transaction do
-      user.user_treatments.activate   create(:treatment, name: "loratadine", quantity: 10.0, unit: "mg")
-    end
+    user.user_conditions.activate   create(:condition, name: "allergies")
+    user.user_symptoms.activate     create(:symptom, name: "runny nose")
+    user.user_symptoms.activate     create(:symptom, name: "itchy throat")
+    user.touch_with_version         # v2
 
-    Timecop.travel(date+9.days)   # now Aug 12
+    Timecop.travel(date+1.days)     # now Aug 4
     # === #
-    ActiveRecord::Base.transaction do
-      user.user_conditions.activate   create(:condition,name: "back pain")
-      user.user_treatments.activate   create(:treatment, name: "sinus rinse", quantity: 1.0, unit: "session")
-    end
+    user.user_treatments.activate   create(:treatment, name: "loratadine", quantity: 10.0, unit: "mg")
+    user.touch_with_version         # v3
+
+    Timecop.travel(date+9.days)     # now Aug 12
+    # === #
+    user.user_conditions.activate   create(:condition,name: "back pain")
+    user.user_treatments.activate   create(:treatment, name: "sinus rinse", quantity: 1.0, unit: "session")
+    user.touch_with_version         # v4
 
     # --- Target Date for Entry --- #
 
-    Timecop.travel(date+11.days)  # now Aug 14
+    Timecop.travel(date+11.days)    # now Aug 14
     # === #
-    ActiveRecord::Base.transaction do
-      user.catalogs             << "rapid3"
-      user.user_conditions.activate   create(:condition,name: "ticklishness")
-      user.user_conditions.deactivate Condition.find_by(name: "back pain")
-      user.user_treatments.activate   create(:treatment, name: "advil", quantity: 2.0, unit: "pill")
-      user.user_symptoms.deactivate   Symptom.find_by(name: "itchy throat")
-    end
+    user.user_conditions.activate   create(:condition,name: "ticklishness")
+    user.user_conditions.deactivate Condition.find_by(name: "back pain")
+    user.user_treatments.activate   create(:treatment, name: "advil", quantity: 2.0, unit: "pill")
+    user.user_symptoms.deactivate   Symptom.find_by(name: "itchy throat")
+    user.touch_with_version         # v5
 
     Timecop.return
   end
 
+  it "has 5 audit versions", versioning: true do
+    expect(PaperTrail).to be_enabled
+    expect(user.versions.count).to eql 5+1 # updates + v0 event
+  end
+
+  it "has various conditions/treatments/symptoms at different versions", versioning: true do
+
+    entry = Entry.new(user_id: user.id, date: Date.parse("Aug-02-2014").to_datetime.end_of_day).setup_with_audit!
+    expect(entry.conditions).to                                               be_empty
+    expect(entry.treatments.map(&:name)).to                                   be_empty
+    expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to be_empty
+
+    entry = Entry.new(user_id: user.id, date: Date.parse("Aug-03-2014").to_datetime.end_of_day).setup_with_audit!
+    expect(entry.conditions).to                                               eql %w( allergies )
+    expect(entry.treatments.map(&:name)).to                                   be_empty
+    expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose itchy\ throat )
+
+    entry = Entry.new(user_id: user.id, date: Date.parse("Aug-04-2014").to_datetime.end_of_day).setup_with_audit!
+    expect(entry.conditions).to                                               eql %w( allergies )
+    expect(entry.treatments.map(&:name)).to                                   eql %w( loratadine )
+    expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose itchy\ throat )
+
+    entry = Entry.new(user_id: user.id, date: Date.parse("Aug-12-2014").to_datetime.end_of_day).setup_with_audit!
+    expect(entry.conditions).to                                               eql %w( allergies back\ pain )
+    expect(entry.treatments.map(&:name)).to                                   eql %w( loratadine sinus\ rinse )
+    expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose itchy\ throat )
+
+    entry = Entry.new(user_id: user.id, date: Date.parse("Aug-14-2014").to_datetime.end_of_day).setup_with_audit!
+    expect(entry.conditions).to                                               eql %w( allergies ticklishness )
+    expect(entry.treatments.map(&:name)).to                                   eql %w( loratadine sinus\ rinse advil )
+    expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose )
+  end
+
   describe "#applicable_audit" do
     it "gets the applicable audit version", versioning: true do
-      expect(PaperTrail).to be_enabled
-
       audit = entry.applicable_audit # Get version closest (looking pastwards) to the target entry
 
-      expect(audit.reify(has_many: true).active_conditions.map(&:name)).to include("back pain")
-      expect(audit.reify(has_many: true).active_treatments.map(&:name)).to_not include("advil") # only in most recent
+      expect(audit.created_at.strftime("%b-%d-%Y")).to eql (target_date-1.day).strftime("%b-%d-%Y")
     end
 
-    it "gets current version of user when no future version exists", versioning: true do
-      entry.date = Date.today
-      audit = entry.applicable_audit
-
-      expect(audit).to eql false
-    end
+    # it "gets current version of user when no future version exists", versioning: true do
+    #   entry.date = Date.today
+    #   audit = entry.applicable_audit
+    #
+    #   expect(audit).to eql false
+    # end
 
   end
 
-  describe "#set_user_audit_version!" do
+  describe "#setup_with_audit!" do
     it "adds to the entry based on audit contents", versioning: true do
-      entry.set_user_audit_version!
+      entry.setup_with_audit!
 
       expect(entry).to be_an Entry
       expect(entry.conditions).to eql %w( allergies back\ pain )
@@ -78,9 +104,11 @@ describe EntryAudits do
       expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose itchy\ throat )
     end
 
-    it "matches live version when no version is set", versioning: true do
+    it "matches latest version correctly", versioning: true do
       entry.date = Date.today
-      entry.set_user_audit_version!
+      entry.setup_with_audit!
+
+      expect(entry.applicable_audit.created_at.strftime("%b-%d-%Y")).to eql (target_date+1.day).strftime("%b-%d-%Y")
 
       expect(entry.conditions).to eql %w( allergies ticklishness )
       expect(entry.treatments.map(&:name)).to eql %w( loratadine sinus\ rinse advil )

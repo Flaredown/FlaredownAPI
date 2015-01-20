@@ -42,7 +42,7 @@ class Entry < CouchRest::Model::Base
 
   def user
     user = User.find_by(id: user_id)
-    self.user_audit_version ? user.versions[self.user_audit_version].reify(has_many: true) : user
+    # self.user_audit_version ? user.versions[self.user_audit_version].reify(has_many: true) : user
   end
 
   def catalog_definitions

@@ -1,7 +1,5 @@
 class Treatment < ActiveRecord::Base
 
-  has_paper_trail
-
   has_many :user_treatments
   has_many :users, :through => :user_treatments
 
