@@ -23,13 +23,13 @@ describe EntryAuditing do
 
     Timecop.travel(date+1.days)     # now Aug 4
     # === #
-    user.user_treatments.activate   create(:treatment, name: "loratadine", quantity: 10.0, unit: "mg")
+    user.user_treatments.activate   create(:treatment, name: "loratadine")
     user.create_audit               # v3
 
     Timecop.travel(date+9.days)     # now Aug 12
     # === #
     user.user_conditions.activate   create(:condition,name: "back pain")
-    user.user_treatments.activate   create(:treatment, name: "sinus rinse", quantity: 1.0, unit: "session")
+    user.user_treatments.activate   create(:treatment, name: "sinus rinse")
     user.create_audit               # v4
 
     # --- Target Date for Entry --- #
@@ -38,7 +38,7 @@ describe EntryAuditing do
     # === #
     user.user_conditions.activate   create(:condition,name: "ticklishness")
     user.user_conditions.deactivate Condition.find_by(name: "back pain")
-    user.user_treatments.activate   create(:treatment, name: "advil", quantity: 2.0, unit: "pill")
+    user.user_treatments.activate   create(:treatment, name: "advil")
     user.user_symptoms.deactivate   Symptom.find_by(name: "itchy throat")
     user.create_audit               # v5
 

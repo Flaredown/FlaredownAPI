@@ -61,7 +61,12 @@ module EntryAuditing
   def sync_trackables(kind)
     klass     = kind.singularize.capitalize.constantize
     existing  = user.send("active_#{kind}").map(&:name)
-    incoming  = self.send(kind)
+
+    if kind == "treatments"
+      incoming  = self.send(kind).map(&:name)
+    else
+      incoming  = self.send(kind)
+    end
 
     adds      = incoming - existing
     removes   = existing - incoming

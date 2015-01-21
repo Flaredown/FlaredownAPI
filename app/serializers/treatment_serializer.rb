@@ -1,6 +1,6 @@
 class TreatmentSerializer < ActiveModel::Serializer
   attributes :id,
-    :name,
-    :quantity,
-    :unit
+    :name
+    # :quantity,
+    # :unit
 end

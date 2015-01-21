@@ -192,6 +192,12 @@ describe V1::EntriesController, type: :controller do
       user.reload
       expect(user.versions.count).to eql 2
       expect(user.active_catalogs).to be_empty
+
+      put :update, id: entry.date.to_s, entry: {treatments:[name: "Snake Oil", quantity: 10, unit: "cc"]}.to_json
+
+      user.reload
+      expect(user.versions.count).to eql 3
+      expect(user.active_treatments.map(&:name)).to eql ["Snake Oil"]
     end
 
   end
