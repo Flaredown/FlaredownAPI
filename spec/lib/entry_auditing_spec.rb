@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe EntryAudits do
+describe EntryAuditing do
 
   # TODO Fix conditions being added on with versioning properly
 

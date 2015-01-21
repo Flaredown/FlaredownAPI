@@ -2,7 +2,7 @@ class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
   include SymptomsCatalog
-  include EntryAudits
+  include EntryAuditing
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries

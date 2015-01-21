@@ -1,4 +1,4 @@
-module EntryAudits
+module EntryAuditing
 
   # Get's the latest version of the User.paper_trail based on Entry day
   #
@@ -51,8 +51,10 @@ module EntryAudits
 
   # Actives at the time of the audit for kind
   def reified_actives_for(kind)
-    actives = audit_user.send("user_#{kind}").select(&:active)
-    audit_user.send(kind).where(id: actives.map(&"#{kind.singularize}_id".to_sym))
+    actives     = audit_user.send("user_#{kind}").select(&:active)
+    active_ids  = actives.map(&"#{kind.singularize}_id".to_sym)
+
+    audit_user.send(kind).where(id: active_ids)
   end
 
 
