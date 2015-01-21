@@ -99,13 +99,11 @@ RSpec.configure do |config|
     Resque::Scheduler.mute = true
     FactoryGirl.reload
     # Capybara.current_driver = :webkit
-    # PaperTrail.enabled = true
 
     example.run
 
     REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
-    # PaperTrail.enabled = false
     Entry.all.each{|e| e.destroy} # destroy CouchDB docs
   end
 end

@@ -2,7 +2,7 @@
 u=User.create(id: 100, email: "dataguy@test.com", password: "testing123", password_confirmation: "testing123")
 u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
 
-u.touch_with_version
+u.create_audit
 
 # Add some random entries for them, based off of spec/factories/entry_factory.rb
 10.times do |n|

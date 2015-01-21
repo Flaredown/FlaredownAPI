@@ -38,7 +38,7 @@ end
   u.user_treatments.deactivate t
 end
 
-u.touch_with_version
+u.create_audit
 
 # Add entries for test user
 200.times do |n|
@@ -56,4 +56,4 @@ colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", 
     colin.user_symptoms.activate s
 end
 
-colin.touch_with_version
+colin.create_audit

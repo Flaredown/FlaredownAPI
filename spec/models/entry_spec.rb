@@ -23,7 +23,7 @@ end
 
 
 describe Entry do
-  let(:entry) { create :entry, catalogs: ["cdai"] }
+  let(:entry) { create :entry, conditions: ["Crohn's Disease"] }
 
   describe "AVAILABLE_CATALOGS" do
     before(:each) do
@@ -72,15 +72,69 @@ describe Entry do
   end
 
   describe "Multiple Catalogs" do
-    let(:entry) { create :entry, catalogs: ["foo", "hbi"] }
+    let(:entry) { create :entry }
     before(:each) do
       stub_const("Entry::AVAILABLE_CATALOGS", ["foo", "hbi"])
     end
     it "prepends question_names with the catalog they belong to" do
+      entry.catalogs = ["foo", "hbi"]
       # respond_to? doesn't work with method_missing. Implementing respond_to? causes problems with CouchRest...
       expect{entry.foo_general_wellbeing}.not_to raise_error
       expect{entry.hbi_general_wellbeing}.not_to raise_error
     end
+  end
+
+  describe "Response processing" do
+    let(:responses_for_hbi) { [
+        { catalog: "hbi", name: "general_wellbeing", value: 4 }
+    ] }
+    let(:responses_for_hbi_and_symptoms) { [
+        { catalog: "hbi", name: "general_wellbeing", value: 4 },
+        { catalog: "symptoms", name: "droopy lips", value: 3 },
+        { catalog: "symptoms", name: "fat toes", value: 2 }
+    ] }
+
+    let(:entry) { create :entry }
+    it "sets catalogs based on the responses" do
+      expect(entry.catalogs).to eql []
+
+      entry.responses = responses_for_hbi
+      entry.process_responses
+      expect(entry.catalogs).to eql ["hbi"]
+
+      entry.responses = responses_for_hbi_and_symptoms
+      entry.process_responses
+      expect(entry.catalogs).to eql ["hbi", "symptoms"]
+
+      entry.responses = []
+      entry.process_responses
+      expect(entry.catalogs).to eql []
+    end
+
+    it "sets conditions based on responses" do
+      expect(entry.conditions).to eql []
+
+      entry.responses = responses_for_hbi_and_symptoms
+      entry.process_responses
+      expect(entry.conditions).to eql ["Crohn's Disease"]
+
+      entry.responses = []
+      entry.process_responses
+      expect(entry.conditions).to eql []
+    end
+
+    it "sets symptoms based on responses" do
+      expect(entry.symptoms).to eql []
+
+      entry.responses = responses_for_hbi_and_symptoms
+      entry.process_responses
+      expect(entry.symptoms).to eql ["droopy lips", "fat toes"]
+
+      entry.responses = []
+      entry.process_responses
+      expect(entry.symptoms).to eql []
+    end
+
   end
 
 end

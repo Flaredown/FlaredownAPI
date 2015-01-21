@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe V1::EntriesController, type: :controller do
 
-  let(:user) { create :user }
+  let(:user) { create :user, created_at: 10.days.ago }
   before(:each) do
     sign_in(user)
     @request.env["HTTP_ACCEPT"] = "application/json"
@@ -38,7 +38,7 @@ describe V1::EntriesController, type: :controller do
 
       returns_code 200
 
-      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses treatments notes triggers complete just_created ).sort
+      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses treatments notes tags complete just_created ).sort
     end
 
     it "can't be accessed by another user" do
@@ -153,6 +153,48 @@ describe V1::EntriesController, type: :controller do
     end
 
   end
+  context "Auditing on UPDATE" do
+
+    it "adds a new version if it's the latest", versioning: true do
+      entry = create :hbi_entry, date: Date.today, user: user
+
+      expect(user.versions.count).to eql 1
+      expect(entry.using_latest_audit?).to be_true
+
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+
+      expect(user.versions.count).to eql 2
+    end
+
+    it "doesn't add a new audit when updating old entries", versioning: true do
+      entry = create :hbi_entry, date: Date.yesterday, user: user
+
+      expect(user.versions.count).to eql 1 # for user creation, 10 days ago
+      user.create_audit                    # creates audit for today
+
+      expect(user.versions.count).to eql 2
+      expect(entry.using_latest_audit?).to be_false
+
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+
+      expect(user.versions.count).to eql 2
+    end
+
+    it "updates User actives based on the Entry content", versioning: true do
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      entry = create :hbi_entry, date: Date.today, user: user
+
+      expect(user.versions.count).to eql 1
+      expect(user.active_catalogs).to include("hbi")
+
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+
+      user.reload
+      expect(user.versions.count).to eql 2
+      expect(user.active_catalogs).to be_empty
+    end
+
+  end
 end
 
 def response_attributes
@@ -172,7 +214,6 @@ def response_attributes
 end
 def entry_attributes
   {
-    catalogs: ["hbi"],
     date: "Sep-22-2014",
     responses: response_attributes.map{|r| {catalog: "hbi", name: r.first, value: r.last}}
   }

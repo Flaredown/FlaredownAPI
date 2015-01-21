@@ -3,7 +3,7 @@ class EntrySerializer < ActiveModel::Serializer
   has_many :responses, serializer: ResponseSerializer
   # has_many :scores, serializer: ScoreSerializer
   has_many :treatments, serializer: TreatmentSerializer
-  has_many :triggers, serializer: TriggerSerializer
+  has_many :tags, serializer: TagSerializer
 
   attributes :id,
     :date,

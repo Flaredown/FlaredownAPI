@@ -9,7 +9,7 @@ u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by
   u.user_symptoms.activate s
 end
 
-u.touch_with_version
+u.create_audit
 
 entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-03-2015")
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 2.0})

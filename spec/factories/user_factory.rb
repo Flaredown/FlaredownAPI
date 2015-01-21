@@ -8,11 +8,11 @@ FactoryGirl.define do
     locale "en"
 
     before(:create) do
-      User.skip_callback(:create, :after, :touch_with_version)
+      User.skip_callback(:create, :after, :create_audit)
     end
     after(:create) do |user|
       Timecop.travel(user.created_at)
-      user.touch_with_version
+      user.create_audit
       Timecop.return
     end
   end

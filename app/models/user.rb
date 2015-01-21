@@ -2,8 +2,6 @@ class User < ActiveRecord::Base
   include TokenAuth::User
   include UserColors
 
-  has_paper_trail :on => [:update], :only => []#%i( locale catalogs symptoms active_symptoms symptoms_count treatments active_treatments treatments_count conditions active_conditions conditions_count )
-
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
@@ -20,7 +18,16 @@ class User < ActiveRecord::Base
   has_many :symptoms, through: :user_symptoms
   has_many :active_symptoms, -> { where user_symptoms: { active: true } }, through: :user_symptoms, class_name: "Symptom", source: :symptom
 
-  after_create :touch_with_version
+  ### AUDITING ###
+  has_paper_trail :on => [:update], if: Proc.new { |u| u.auditable == true }
+  after_create :create_audit
+  attr_accessor :auditable
+  def create_audit
+    @auditable = true
+    touch_with_version
+    @auditable = false
+  end
+
 
   def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
   def active_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end

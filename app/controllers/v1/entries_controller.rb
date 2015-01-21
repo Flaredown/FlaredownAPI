@@ -81,6 +81,7 @@ class V1::EntriesController < V1::BaseController
     @entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
     if @entry.update_attributes(entry_params)
+      @entry.update_audit
       render json: {success: true}, status: 200
     else
       render json: {errors: @entry.errors}, status: 422

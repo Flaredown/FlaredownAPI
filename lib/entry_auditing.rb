@@ -1,16 +1,13 @@
 module EntryAuditing
 
   # Get's the latest version of the User.paper_trail based on Entry day
-  #
-  # Examples
-  #
-  #   applicable_audit
-  #
-  #   => PaperTrail::Version
-  #
-  # Returns a User instance
   def applicable_audit
     user.versions.where("created_at <= ?", date.end_of_day).reorder(created_at: :desc).limit(1).first
+  end
+
+  def using_latest_audit?
+    return true if applicable_audit.nil?
+    user.versions.sort_by(&:created_at).index(applicable_audit) == user.versions.count-1
   end
 
   # Reified user for the applicable audit
@@ -24,10 +21,22 @@ module EntryAuditing
       self.treatments << treatment.attributes.extract!(*%w( name quantity unit ))
     end
     self.conditions = reified_actives_for("conditions").map(&:name)
-    self.catalogs   = reified_actives_for("conditions").map { |c| CATALOG_CONDITIONS[c.name] }.compact
+    self.catalogs   = self.conditions.map { |c| CATALOG_CONDITIONS[c] }.compact
 
     save_without_processing
     self
+  end
+
+  # Update the user based on Entry contents and create a version if necessary
+  def update_audit
+    if using_latest_audit?
+      self.reload
+      %w( conditions treatments symptoms ).each do |trackable|
+        sync_trackables(trackable)
+      end
+
+      user.create_audit
+    end
   end
 
   # Defines the symptoms catalog based on active_symptoms from the audit
@@ -48,6 +57,26 @@ module EntryAuditing
   end
 
   private
+
+  def sync_trackables(kind)
+    klass     = kind.singularize.capitalize.constantize
+    existing  = user.send("active_#{kind}").map(&:name)
+    incoming  = self.send(kind)
+
+    adds      = incoming - existing
+    removes   = existing - incoming
+
+    adds.each do |trackable|
+      trackable = klass.find_or_create_by(name: trackable)
+      user.send("user_#{kind}").activate(trackable)
+    end
+
+    removes.each do |trackable|
+      trackable = klass.find_by(name: trackable)
+      user.send("user_#{kind}").deactivate(trackable)
+    end
+
+  end
 
   # Actives at the time of the audit for kind
   def reified_actives_for(kind)
