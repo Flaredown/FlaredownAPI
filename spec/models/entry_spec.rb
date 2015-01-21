@@ -104,7 +104,7 @@ describe Entry do
 
       entry.responses = responses_for_hbi_and_symptoms
       entry.process_responses
-      expect(entry.catalogs).to eql ["hbi", "symptoms"]
+      expect(entry.catalogs).to eql ["hbi"]
 
       entry.responses = []
       entry.process_responses
