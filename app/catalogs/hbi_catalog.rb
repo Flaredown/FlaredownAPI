@@ -115,10 +115,10 @@ module HbiCatalog
     validate :hbi_response_ranges
     def hbi_response_ranges
       ranges = [
-        [:general_wellbeing, [*0..4]],
-        [:ab_pain, [*0..3]],
-        [:stools, [*0..50]],
-        [:ab_mass, [*0..3]],
+        [:general_wellbeing, [nil,*0..4]],
+        [:ab_pain, [nil,*0..3]],
+        [:stools, [nil,*0..50]],
+        [:ab_mass, [nil,*0..3]],
       ]
 
       ranges.each do |range|
@@ -155,7 +155,11 @@ module HbiCatalog
   #   !last_6_entries.map{|e| e.filled_hbi_entry?}.include?(false)
   # end
   def filled_hbi_entry?
-    (QUESTIONS - hbi_responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
+    valid_responses = hbi_responses.reduce([]) do |accu, response|
+      accu << response.name.to_sym if response.name and response.value.present?
+      accu
+    end
+    (QUESTIONS-valid_responses) == []
   end
 
   def complete_hbi_entry?

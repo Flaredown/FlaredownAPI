@@ -50,7 +50,7 @@ module CatalogScore
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
     if @catalog == "symptoms"
-      responses.select{|r| r.catalog == @catalog}.map do |response|
+      responses.select{|r| r.catalog == @catalog and r.value.present? }.map do |response|
         {name: response.name, score: response.value }
       end
     else

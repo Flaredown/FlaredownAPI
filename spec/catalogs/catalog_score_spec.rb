@@ -101,6 +101,19 @@ describe CatalogScore do
       unibrow_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms", "unibrow")
       expect(unibrow_score).to eql "2.0"
     end
+
+    it "ignores nil scores" do
+      entry.responses << {catalog: "symptoms", name: "unibrow" , value: 2}
+      entry.responses << {catalog: "symptoms", name: "buckteeth" , value: nil}
+      user.user_symptoms.activate user.symptoms.create name: "unibrow", locale: "en"
+      user.user_symptoms.activate user.symptoms.create name: "buckteeth", locale: "en"
+
+      with_resque{ entry.save; Entry.perform(entry.id) }
+
+      buckteeth_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms", "buckteeth")
+      expect(buckteeth_score).to eql nil
+    end
+
   end
 
 end

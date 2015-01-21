@@ -131,14 +131,6 @@ describe V1::EntriesController, type: :controller do
       returns_code 200
     end
 
-    it "response with bad value" do
-      attrs = entry_attributes
-      attrs[:responses].detect{|q| q[:name] == :stools}[:value] = "valuenogood"
-
-      patch :update, id: entry.date.to_s, entry: attrs.to_json
-      returns_code 422
-    end
-
     it "returns nested errors for bad response values" do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == :stools}.first[:value] = 999999

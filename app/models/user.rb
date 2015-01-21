@@ -28,7 +28,6 @@ class User < ActiveRecord::Base
     @auditable = false
   end
 
-
   def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
   def active_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 

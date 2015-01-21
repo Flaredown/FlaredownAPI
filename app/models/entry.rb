@@ -73,7 +73,7 @@ class Entry < CouchRest::Model::Base
 
   ### RESPONSES PROCESSING ###
   def response_catalogs
-    self.responses.map{|r| r[:catalog] }.uniq-["symptoms"]
+    self.responses.map{|r| r[:catalog] }.uniq - ["symptoms"]
   end
 
   def response_conditions
