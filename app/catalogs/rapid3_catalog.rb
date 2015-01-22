@@ -198,12 +198,14 @@ module Rapid3Catalog
   included do |base_class|
     validate :response_ranges
     def response_ranges
+      ten_range = (0..10).step(0.5).to_a
+      ten_range << nil
       ranges = [
-        [:pain_tolerance, (0..10).step(0.5).to_a],
-        [:global_estimate, (0..10).step(0.5).to_a],
+        [:pain_tolerance, ten_range],
+        [:global_estimate, ten_range],
       ]
 
-      FUNCTIONAL_QUESTIONS.each{|q| ranges << [q, [*0..3] ]}
+      FUNCTIONAL_QUESTIONS.each{|q| ranges << [q, [nil,*0..3] ]}
 
       ranges.each do |range|
         response = rapid3_responses.select{|r| r.name.to_sym == range[0]}.first
@@ -223,7 +225,11 @@ module Rapid3Catalog
   end
 
   def filled_rapid3_entry?
-    (QUESTIONS - responses.reduce([]) {|accu, response| (accu << response.name.to_sym) if response.name}) == []
+    valid_responses = rapid3_responses.reduce([]) do |accu, response|
+      accu << response.name.to_sym if response.name and response.value.present?
+      accu
+    end
+    (QUESTIONS-valid_responses) == []
   end
 
   def complete_rapid3_entry?

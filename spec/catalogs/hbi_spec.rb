@@ -19,6 +19,10 @@ describe HbiCatalog do
         range_response.value = 1
         expect(entry).to be_valid
 
+        # Nils
+        range_response.value = nil
+        expect(entry).to be_valid
+
         # Boolean
         boolean_response = entry.responses.detect{|q| q.name == "complication_abscess"}
         boolean_response.value = 2
@@ -27,6 +31,11 @@ describe HbiCatalog do
         expect(entry).to be_valid
       end
 
+      it "isn't complete if nils responses are present" do
+        response = entry.responses.detect{|q| q.name == "stools"}
+        response.value = nil
+        expect(entry.complete_hbi_entry?).to be_false
+      end
     end
 
     describe "Scoring" do
@@ -35,6 +44,7 @@ describe HbiCatalog do
         expect(entry.responses.count).to eq HbiCatalog::QUESTIONS.count
         expect(entry.hbi_score).to be > 0
       end
+
       it "reverts to -1 (incomplete) if any responses are removed" do
         entry.responses.delete entry.responses.first
         with_resque{ entry.save }; entry.reload

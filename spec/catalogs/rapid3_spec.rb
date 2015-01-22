@@ -11,10 +11,20 @@ describe Rapid3Catalog do
 
       it "should validate responses" do
         range_response = entry.responses.detect{|q| q.name == "dress_yourself"}
+        range_response.value = nil
+        expect(entry).to be_valid
+
         range_response.value = 999
         expect(entry).to be_invalid
+
         range_response.value = 1
         expect(entry).to be_valid
+      end
+
+      it "isn't complete if nils responses are present" do
+        response = entry.responses.detect{|q| q.name == "dress_yourself"}
+        response.value = nil
+        expect(entry.complete_rapid3_entry?).to be_false
       end
 
     end

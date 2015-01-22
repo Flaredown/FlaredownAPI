@@ -2,7 +2,7 @@ class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
   include SymptomsCatalog
-  include EntryAudits
+  include EntryAuditing
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
@@ -14,6 +14,7 @@ class Entry < CouchRest::Model::Base
 
   before_create :include_catalogs
   before_save   :include_catalogs
+  after_save :process_responses
   after_save :enqueue
 
   belongs_to :user
@@ -21,14 +22,15 @@ class Entry < CouchRest::Model::Base
   property :date,       Date
   property :catalogs,   [String], default: []
   property :conditions, [String], default: []
+  property :symptoms,   [String], default: []
+  property :treatments, [EntryTreatment], default: []
 
-  # TODO cleanup [Thing] vs array: true format
-  property :responses,  Response,  :array => true
-  property :treatments, EntryTreatment, :array => true
+  property :responses,  [Response], default: []
   property :notes,      String
-  property :triggers,   [String]
+  property :tags,       [String], default: []
 
-  property :scores,     Score,     :array => true
+  property :scores,     [Score], default: []
+
 
   attr_accessor :user_audit_version
 
@@ -64,13 +66,35 @@ class Entry < CouchRest::Model::Base
     end
   end
 
-  def enqueue
-    Resque.enqueue(Entry, self.id)
-  end
-
   def complete?
     catalogs.each{|catalog| return false unless self.send("complete_#{catalog}_entry?")}
     true
+  end
+
+  ### RESPONSES PROCESSING ###
+  def response_catalogs
+    self.responses.map{|r| r[:catalog] }.uniq - ["symptoms"]
+  end
+
+  def response_conditions
+    self.response_catalogs.map{ |c| CATALOG_CONDITIONS.invert[c] }.compact
+  end
+
+  def response_symptoms
+    symptom_responses = responses.map{|r| r[:name] if r[:catalog] == "symptoms"}.compact
+  end
+
+  def process_responses
+    self.attributes = {
+      catalogs: response_catalogs,
+      conditions: response_conditions,
+      symptoms: response_symptoms
+    }
+    save_without_processing
+  end
+
+  def enqueue
+    Resque.enqueue(Entry, self.id)
   end
 
   def self.perform(entry_id, notify=true)
@@ -87,8 +111,10 @@ class Entry < CouchRest::Model::Base
 
   def save_without_processing
     Entry.skip_callback(:save, :after, :enqueue)
+    Entry.skip_callback(:save, :after, :process_responses)
     save
     Entry.set_callback(:save, :after, :enqueue)
+    Entry.set_callback(:save, :after, :process_responses)
   end
 
   private
