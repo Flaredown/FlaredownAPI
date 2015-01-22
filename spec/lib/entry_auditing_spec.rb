@@ -86,6 +86,17 @@ describe EntryAuditing do
     end
   end
 
+  describe "#symptoms_definition" do
+    it "uses existing symptoms on Entry, not reified ones", versioning: true do
+      entry = create :symptom_entry, date: Date.today, user: user
+      expect(entry.symptoms_definition.length).to eql 3
+
+      user.user_symptoms.activate create(:symptom, name: "buckteeth")
+
+      expect(entry.symptoms_definition.length).to eql 3
+    end
+  end
+
   describe "#using_latest_audit?" do
     it "returns true if there are no future audits ahead of it", versioning: true do
       entry.date = Date.parse("Aug-15-2014").to_datetime.end_of_day
