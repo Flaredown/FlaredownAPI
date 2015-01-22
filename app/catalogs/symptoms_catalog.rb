@@ -7,7 +7,7 @@ module SymptomsCatalog
       responses = [] # TODO grab all responses
 
       responses.each do |response|
-        unless [*0..4].include?(response.value)
+        unless [nil,*0..4].include?(response.value)
           self.errors.messages[:responses] ||= {}
           self.errors.messages[:responses][response.name] = "Not within allowed values"
         end

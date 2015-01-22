@@ -32,7 +32,8 @@ module CatalogScore
 
       # Combine components
       score = components.reduce(0) do |result, component|
-        result + component[:score]
+        value = component[:score].nil? ? 0 : component[:score]
+        result + value
       end
 
       # Do any custom finalization of score
@@ -50,7 +51,7 @@ module CatalogScore
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
     if @catalog == "symptoms"
-      responses.select{|r| r.catalog == @catalog and r.value.present? }.map do |response|
+      responses.select{|r| r.catalog == @catalog }.map do |response|
         {name: response.name, score: response.value }
       end
     else

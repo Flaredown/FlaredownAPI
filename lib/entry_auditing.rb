@@ -1,5 +1,7 @@
 module EntryAuditing
 
+  attr_accessor :audit_enabled
+
   # Get's the latest version of the User.paper_trail based on Entry day
   def applicable_audit
     user.versions.where("created_at <= ?", date.end_of_day).reorder(created_at: :desc).limit(1).first
@@ -14,11 +16,12 @@ module EntryAuditing
 
   # Reified user for the applicable audit
   def audit_user
-    applicable_audit ? applicable_audit.reify(has_many: true) : user
+    (applicable_audit and audit_enabled) ? applicable_audit.reify(has_many: true) : user
   end
 
   # Add relevant associations to Entry based on applicable_audit
   def setup_with_audit!
+    audit_enabled = true
     reified_actives_for("treatments").each do |treatment|
       self.treatments << treatment.attributes.extract!(*%w( name quantity unit ))
     end
@@ -43,9 +46,10 @@ module EntryAuditing
 
   # Defines the symptoms catalog based on active_symptoms from the audit
   def symptoms_definition
-    reified_actives_for("symptoms").map do |symptom|
+    current_symptoms =  audit_enabled ? reified_actives_for("symptoms").map(&:name) : symptoms
+    symptoms.map do |symptom|
       [{
-        name: symptom.name,
+        name: symptom,
         kind: :select,
         inputs: [
           {value: 0, label: "", meta_label: "", helper: nil},

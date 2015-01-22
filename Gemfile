@@ -50,6 +50,7 @@ end
 
 group :test, :development, :staging do
   gem "factory_girl_rails"#, require: false
+  gem "timecop"
 end
 
 group :test, :development do
@@ -68,7 +69,6 @@ group :test do
   gem "rspec-rails"
   gem "pusher-fake"
   gem "database_cleaner"
-  gem "timecop"
   gem "simplecov"
   gem "coveralls", require: false
   gem "json_spec"

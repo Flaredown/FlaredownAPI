@@ -7,16 +7,20 @@ UserSymptom.all.each{|us| us.destroy}
 UserTreatment.all.each{|ut| ut.destroy}
 ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
-PaperTrail.enabled = false
 PaperTrail::Version.all.each{|v| v.destroy}
 
-u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123")
+u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123", created_at: 1.year.ago)
 u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
   s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
   u.user_symptoms.activate s
+end
+["buck-toothedness"].each do |name|
+  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  u.user_symptoms.activate s
+  u.user_symptoms.deactivate s
 end
 
 ### TREATMENTS
@@ -27,10 +31,8 @@ end
   t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
   u.user_treatments.activate t
 end
-
-# inactives
 [
-  {name: "Funny Bone Banging", quantity: "15.0", unit: "repetition"},
+  {name: "Funny Bone Electroshock", quantity: "15.0", unit: "repetition"},
   {name: "Toe Stubbing", quantity: "1.0", unit: "time"}
 ].each do |treatment|
   t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
@@ -38,7 +40,7 @@ end
   u.user_treatments.deactivate t
 end
 
-u.create_audit
+Timecop.travel(1.year.ago) {u.create_audit}
 
 # Add entries for test user
 200.times do |n|
@@ -50,10 +52,10 @@ end
 Resque.queues.each{|q| Resque.redis.del "queue:#{q}" }
 
 # Add Colin and his symptoms (entries sold separately)
-colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123")
+colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123", created_at: 1.year.ago)
 ["pain", "fatigue", "digestive", "lightheadedness", "anxiety"].each do |name|
     s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
     colin.user_symptoms.activate s
 end
 
-colin.create_audit
+Timecop.travel(1.year.ago) {colin.create_audit}
