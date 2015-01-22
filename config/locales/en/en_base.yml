@@ -6,7 +6,7 @@ en:
   are_you_sure: "Are you sure?"
   confirm_treatment_remove: "Are you sure you want to remove the treatment \"%{treatment}\" for this Checkin?"
   confirm_symptom_remove: "Are you sure you want to remove the symptom \"%{symptom}\" for this Checkin?"
-  confirm_condition_remove: "Are you sure you want to remove the condition \"%{condition}\" for this Checkin?"
+  confirm_condition_remove: "Are you sure you want to remove the conditions \"%{condition}\" for this Checkin?"
 
   labels:
     very_well: "Very well"
