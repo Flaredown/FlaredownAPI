@@ -7,7 +7,9 @@ module EntryAuditing
 
   def using_latest_audit?
     return true if applicable_audit.nil?
-    user.versions.sort_by(&:created_at).index(applicable_audit) == user.versions.count-1
+
+    sorted_versions = user.versions.sort_by(&:created_at)
+    sorted_versions.index(applicable_audit) == sorted_versions.count-1
   end
 
   # Reified user for the applicable audit
@@ -59,36 +61,44 @@ module EntryAuditing
   private
 
   def sync_trackables(kind)
-    klass     = kind.singularize.capitalize.constantize
     existing  = user.send("active_#{kind}").map(&:name)
 
     if kind == "treatments"
-      incoming  = self.send(kind).map(&:name)
+      incoming = self.send(kind).map(&:name)
     else
-      incoming  = self.send(kind)
+      incoming = self.send(kind)
     end
 
     adds      = incoming - existing
     removes   = existing - incoming
 
-    adds.each do |trackable|
-      trackable = klass.find_or_create_by(name: trackable)
-      user.send("user_#{kind}").activate(trackable)
-    end
+    toggle_trackable(kind, adds, :activate)
+    toggle_trackable(kind, removes, :deactivate)
+  end
 
-    removes.each do |trackable|
-      trackable = klass.find_by(name: trackable)
-      user.send("user_#{kind}").deactivate(trackable)
-    end
+  def toggle_trackable(kind,names,action)
+    klass = kind.singularize.capitalize.constantize
+    assoc = user.send("user_#{kind}")
 
+    names.each do |name|
+      trackable = klass.find_or_create_by(name: name)
+
+      if action == :activate
+        assoc.activate(trackable)
+      else
+        assoc.deactivate(trackable)
+      end
+
+    end
   end
 
   # Actives at the time of the audit for kind
   def reified_actives_for(kind)
     actives     = audit_user.send("user_#{kind}").select(&:active)
     active_ids  = actives.map(&"#{kind.singularize}_id".to_sym)
+    assoc       = audit_user.send(kind)
 
-    audit_user.send(kind).where(id: active_ids)
+    assoc.where(id: active_ids)
   end
 
 
