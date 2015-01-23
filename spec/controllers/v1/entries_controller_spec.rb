@@ -148,17 +148,19 @@ describe V1::EntriesController, type: :controller do
   context "Auditing on UPDATE" do
 
     it "adds a new version if it's the latest", versioning: true do
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
       entry = create :hbi_entry, date: Date.today, user: user
 
       expect(user.versions.count).to eql 1
       expect(entry.using_latest_audit?).to be_true
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json # no more Crohn's Disease
 
-      expect(user.versions.count).to eql 2
+      expect(user.reload.versions.count).to eql 2
     end
 
     it "doesn't add a new audit when updating old entries", versioning: true do
+      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
       entry = create :hbi_entry, date: Date.yesterday, user: user
 
       expect(user.versions.count).to eql 1 # for user creation, 10 days ago
@@ -167,25 +169,28 @@ describe V1::EntriesController, type: :controller do
       expect(user.versions.count).to eql 2
       expect(entry.using_latest_audit?).to be_false
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json  # no more Crohn's Disease
 
       expect(user.versions.count).to eql 2
     end
 
     it "updates User actives based on the Entry content", versioning: true do
       user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      create :treatment, name: "Snake Oil"
       entry = create :hbi_entry, date: Date.today, user: user
 
       expect(user.versions.count).to eql 1
-      expect(user.active_catalogs).to include("hbi")
+      # expect(user.active_catalogs).to include("hbi")
 
       put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
 
       user.reload
+      expect(user.active_catalogs).to_not include("hbi")
       expect(user.versions.count).to eql 2
       expect(user.active_catalogs).to be_empty
 
-      put :update, id: entry.date.to_s, entry: {treatments:[name: "Snake Oil", quantity: 10, unit: "cc"]}.to_json
+
+      put :update, id: entry.date.to_s, entry: {treatments:[{name: "Snake Oil", quantity: 10, unit: "cc"}]}.to_json
 
       user.reload
       expect(user.versions.count).to eql 3

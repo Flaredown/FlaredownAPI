@@ -1,10 +1,13 @@
 module EntryAuditing
 
+  TRACKABLES = %w( conditions treatments symptoms )
+
   # Get's the latest version of the User.paper_trail based on Entry day
   def applicable_audit
     user.versions.where("created_at <= ?", date.end_of_day).reorder(created_at: :desc).limit(1).first
   end
 
+  # Determines if the audit being used is last available one
   def using_latest_audit?
     return true if applicable_audit.nil?
 
@@ -31,14 +34,14 @@ module EntryAuditing
 
   # Update the user based on Entry contents and create a version if necessary
   def update_audit
-    if using_latest_audit?
-      self.reload
-      %w( conditions treatments symptoms ).each do |trackable|
-        sync_trackables(trackable)
-      end
+    self.reload
 
+    if trackables_present? and date.today?
+      sync_trackables
+      self.reload
       user.create_audit
     end
+
   end
 
   # Defines the symptoms catalog based on active_symptoms from the audit
@@ -61,35 +64,51 @@ module EntryAuditing
 
   private
 
-  def sync_trackables(kind)
-    existing  = user.send("active_#{kind}").map(&:name)
+  def trackables_present?
+    trackables_to_sync.each do |group|
+      return true if group.values.flatten.present?
+    end
+    false
+  end
+  def trackables_to_sync
+    adds,removes = {},{}
 
-    if kind == "treatments"
-      incoming = self.send(kind).map(&:name)
-    else
-      incoming = self.send(kind)
+    TRACKABLES.each do |kind|
+      existing = user.send("active_#{kind}").map(&:name)
+
+      if kind == "treatments"
+        incoming = self.send(kind).map(&:name)
+      else
+        incoming = self.send(kind)
+      end
+
+      adds[kind]      = incoming - existing
+      removes[kind]   = existing - incoming
+
     end
 
-    adds      = incoming - existing
-    removes   = existing - incoming
-
-    toggle_trackable(kind, adds, :activate)
-    toggle_trackable(kind, removes, :deactivate)
+    [adds,removes]
   end
 
+  # Adds/removes trackables based on difference between audit and live user version
+  def sync_trackables
+    action = :activate
+    trackables_to_sync.each do |group|
+      group.each do |kind,names|
+        toggle_trackable(kind, names, action) if names.present?
+      end
+      action = :deactivate
+    end
+  end
+
+  # Toggles the state active of a trackable
   def toggle_trackable(kind,names,action)
     klass = kind.singularize.capitalize.constantize
     assoc = user.send("user_#{kind}")
 
     names.each do |name|
       trackable = klass.find_or_create_by(name: name)
-
-      if action == :activate
-        assoc.activate(trackable)
-      else
-        assoc.deactivate(trackable)
-      end
-
+      assoc.send(action,trackable)
     end
   end
 

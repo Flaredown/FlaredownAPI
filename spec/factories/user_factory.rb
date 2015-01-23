@@ -11,9 +11,9 @@ FactoryGirl.define do
       User.skip_callback(:create, :after, :create_audit)
     end
     after(:create) do |user|
-      Timecop.travel(user.created_at)
-      user.create_audit
-      Timecop.return
+      Timecop.travel(user.created_at) do
+        user.create_audit
+      end
     end
   end
 end

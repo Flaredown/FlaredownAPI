@@ -137,5 +137,29 @@ describe EntryAuditing do
     end
   end
 
+  describe "#update_audit" do
+    let(:blank_user) { create :user, created_at: 10.years.ago }
+    let(:entry) { create :entry, user_id: blank_user.id.to_s, date: Date.today }
+
+    it "creates a new audit when it differs from applicable_audit", versioning: true do
+      versions_count = blank_user.versions.length
+
+      entry.update_audit
+      expect(blank_user.reload.versions.length).to eql versions_count
+
+      entry.update_attributes({responses: [{name: "buckteeth", value: nil, catalog: "symptoms"}]})
+      entry.update_audit
+      expect(blank_user.reload.versions.length).to eql versions_count + 1
+    end
+
+    it "only creates a new audit if it is today", versioning: true do
+      versions_count = blank_user.versions.length
+      entry.update_attributes({responses: [{name: "buckteeth", value: nil, catalog: "symptoms"}]})
+
+      entry.update_attributes({date: Date.yesterday})
+      entry.update_audit
+      expect(blank_user.reload.versions.length).to eql versions_count
+    end
+  end
 
 end

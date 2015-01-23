@@ -1,15 +1,4 @@
-Entry.all.each{|e| e.destroy if e.user_id == "12"} # wipe out graham@flaredown.com entries
-
-u=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123")
-u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
-
-# Add symptom names from :hbi_and_symptoms_entry
-["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
-  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-  u.user_symptoms.activate s
-end
-
-u.create_audit
+u = User.find_by(email: "graham@flaredown.com")
 
 entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-03-2015")
 entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 2.0})
@@ -178,3 +167,6 @@ entry.notes = "Had some sniffles for a bit, shorted lived though"
 entry.save
 
 Entry.all.each{|e| Entry.perform(e.id,false) if e.user_id == "12"} # process all graham@flaredown.com entries
+
+# Clear Resque because Entries are already processed
+Resque.queues.each{|q| Resque.redis.del "queue:#{q}" }
