@@ -166,6 +166,44 @@ entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "Had some sniffles for a bit, shorted lived though"
 entry.save
 
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-21-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "A spot of congestion, but not serious"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-22-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "More congestion, got a bit worse"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-23-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.treatments << {name: "prednisone", quantity: 20.0, unit: "mg"}
+entry.treatments << {name: "exercise", quantity: 1.0, unit: "session"}
+entry.notes = "Congestion cleared up"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Jan-24-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "All good"
+entry.save
+
 Entry.all.each{|e| Entry.perform(e.id,false) if e.user_id == "12"} # process all graham@flaredown.com entries
 
 # Clear Resque because Entries are already processed

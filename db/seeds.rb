@@ -1,7 +1,8 @@
 # Clear it out first
 
 REDIS.flushdb
-Entry.all.each{|e| e.destroy if %w( 1 12 ).include?(e.user_id) } # wipe out test@test.com and graham@flaredown.com entries
+# Entry.all.each{|e| e.destroy if %w( 1 2 3 4 11 12 ).include?(e.user_id) } # wipe out test*@flaredown.com and graham@flaredown.com entries
+Entry.all.each{|e| e.destroy } # wipe out test*@flaredown.com and graham@flaredown.com entries
 User.all.each{|u| u.destroy}
 UserSymptom.all.each{|us| us.destroy}
 UserTreatment.all.each{|ut| ut.destroy}
@@ -14,20 +15,35 @@ Timecop.freeze(1.year.ago)
 
 ### SETUP USERS WITH THEIR TRACKABLES ###
 
-### TEST@TEST.COM ###
+### TEST@FLAREDOWN.COM ###
 #####################
-u=User.create(id: 1, email: "test@test.com", password: "testing123", password_confirmation: "testing123")
-u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
+
+### Symptoms, condition and treatments and entries
+t1=User.create(id: 1, email: "test@flaredown.com",  password: "testing123", password_confirmation: "testing123")
+### Symptoms, condition and treatments and *no* entries
+t2=User.create(id: 2, email: "test2@flaredown.com", password: "testing123", password_confirmation: "testing123")
+### Blank
+t3=User.create(id: 3, email: "test3@flaredown.com", password: "testing123", password_confirmation: "testing123")
+### Blank
+t4=User.create(id: 4, email: "test4@flaredown.com", password: "testing123", password_confirmation: "testing123")
+
+[t1,t2].each do |user|
+  user.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
+end
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
   s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-  u.user_symptoms.activate s
+  [t1,t2].each do |user|
+    user.user_symptoms.activate s
+  end
 end
 ["buck-toothedness"].each do |name|
   s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
-  u.user_symptoms.activate s
-  u.user_symptoms.deactivate s
+  [t1,t2].each do |user|
+    user.user_symptoms.activate s
+    user.user_symptoms.deactivate s
+  end
 end
 
 ### TREATMENTS
@@ -36,15 +52,19 @@ end
   {name: "Laughing Gas", quantity: "10.5", unit: "cc"}
 ].each do |treatment|
   t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
-  u.user_treatments.activate t
+  [t1,t2].each do |user|
+    user.user_treatments.activate t
+  end
 end
 [
   {name: "Funny Bone Electroshock", quantity: "15.0", unit: "repetition"},
   {name: "Toe Stubbing", quantity: "1.0", unit: "time"}
 ].each do |treatment|
   t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
-  u.user_treatments.activate t
-  u.user_treatments.deactivate t
+  [t1,t2].each do |user|
+    user.user_treatments.activate t
+    user.user_treatments.deactivate t
+  end
 end
 
 ### GRAHAM@FLAREDOWN.COM ###
@@ -69,7 +89,7 @@ colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", 
 end
 
 ### Create a new audit for each user after they've added their trackables ###
-[u, graham, colin].each do |user|
+[t1, t2, graham, colin].each do |user|
   at = Date.today+1.day # 1 year ago + 1 day
   Timecop.freeze(at){user.create_audit}
 end
