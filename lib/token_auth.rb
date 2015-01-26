@@ -40,7 +40,7 @@ module TokenAuth
         # in the database with the token given in the params, mitigating
         # timing attacks.
         if user && Devise.secure_compare(user.authentication_token, params[:user_token])
-          sign_in user, store: false
+          sign_in user, store: true
 
           # This is Devise's authentication
           authenticate_v1_user!
