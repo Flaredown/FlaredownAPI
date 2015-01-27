@@ -15,7 +15,7 @@ class CatalogGraph
   end
 
   def medication_data
-    medication_coordinates(catalog)
+    medication_coordinates#(catalog)
   end
   def catalogs_data
     data = {}
@@ -25,6 +25,7 @@ class CatalogGraph
         # scores:score_coordinates(catalog)
         # components:   score_component_coordinates(catalog)
     end
+    data["treatments"] = treatment_coordinates
     data
   end
 
@@ -49,8 +50,23 @@ class CatalogGraph
     #
     # end.compact.sort_by{|c| c[:x]}
   end
-  def medication_coordinates(catalog)
-    []
+  # def medication_coordinates(catalog)
+  #   []
+  # end
+
+  def treatment_coordinates
+    i,j = 0,0
+    (score_coordinates("hbi").map do |score|
+      {order: 1, x: score[:x], name: "Tickles", quantity: "20 minutes"}
+    end[0..-4] |
+    score_coordinates("hbi").map do |score|
+      i = i+1
+      {order: 2, x: score[:x], name: "Laughing Gas", quantity: "4 hours"} if i > 4
+    end |
+    score_coordinates("hbi").map do |score|
+      j = j+1
+      {order: 3,x: score[:x], name: "Toe Stubbing", quantity: "0.00005 mg"} if j < 7
+    end).compact!
   end
 
 end
