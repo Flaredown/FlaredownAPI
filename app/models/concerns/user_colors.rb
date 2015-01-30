@@ -23,7 +23,7 @@ module UserColors
   def treatment_colors
     colorables = user_treatments.map do |assoc|
       treatment = assoc.treatment
-      {name: "treatment_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
+      {name: "treatments_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
     end
     colors_for(colorables, palette: :treatments)
   end
