@@ -316,6 +316,33 @@ entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
 entry.notes = "Doing pretty good"
 entry.save
 
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Feb-6-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "Doing pretty good"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Feb-7-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "Doing pretty good"
+entry.save
+
+entry = FactoryGirl.build :entry, user: u, date: Date.parse("Feb-8-2015")
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "sneezing"  , value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "runny nose", value: 0.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "congestion", value: 1.0})
+entry.responses << FactoryGirl.build(:response, {catalog: "symptoms", name: "itchy throat", value: 0.0})
+entry.treatments << {name: "loratadine", quantity: 10.0, unit: "mg"}
+entry.notes = "Immediate morning sniffles"
+entry.save
+
 
 Entry.all.each{|e| Entry.perform(e.id,false) if e.user_id == "12"} # process all graham@flaredown.com entries
 

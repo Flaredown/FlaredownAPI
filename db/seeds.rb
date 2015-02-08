@@ -26,6 +26,8 @@ t2=User.create(id: 2, email: "test2@flaredown.com", password: "testing123", pass
 t3=User.create(id: 3, email: "test3@flaredown.com", password: "testing123", password_confirmation: "testing123")
 ### Blank
 t4=User.create(id: 4, email: "test4@flaredown.com", password: "testing123", password_confirmation: "testing123")
+### VIDEO user
+t5=User.create(id: 5, email: "video@flaredown.com", password: "testing123", password_confirmation: "testing123")
 
 [t1,t2].each do |user|
   user.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
@@ -43,6 +45,12 @@ end
   [t1,t2].each do |user|
     user.user_symptoms.activate s
     user.user_symptoms.deactivate s
+  end
+end
+["joint pain", "fatigue", "brain fog", "anxiety"].each do |name|
+  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  [t5].each do |user|
+    user.user_symptoms.activate s
   end
 end
 
@@ -66,6 +74,16 @@ end
     user.user_treatments.deactivate t
   end
 end
+[
+  {name: "methotrexate", quantity: "60.0", unit: "mg"},
+  {name: "B12", quantity: "1.0", unit: "tab"}
+].each do |treatment|
+  t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
+  [t5].each do |user|
+    user.user_treatments.activate t
+  end
+end
+
 
 ### GRAHAM@FLAREDOWN.COM ###
 ############################
@@ -89,7 +107,7 @@ colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", 
 end
 
 ### Create a new audit for each user after they've added their trackables ###
-[t1, t2, graham, colin].each do |user|
+[t1, t2, t3, t4, t5, graham, colin].each do |user|
   at = Date.today+1.day # 1 year ago + 1 day
   Timecop.freeze(at){user.create_audit}
 end
