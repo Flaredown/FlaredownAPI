@@ -55,15 +55,16 @@ class CatalogGraph
   # end
 
   def treatment_coordinates
+    return []
     i,j = 0,0
-    (score_coordinates("hbi").map do |score|
+    (score_coordinates("symptoms").map do |score|
       {order: 1, x: score[:x], name: "Tickles", quantity: "20 minutes"}
     end[0..-4] |
-    score_coordinates("hbi").map do |score|
+    score_coordinates("symptoms").map do |score|
       i = i+1
       {order: 2, x: score[:x], name: "Laughing Gas", quantity: "4 hours"} if i > 4
     end |
-    score_coordinates("hbi").map do |score|
+    score_coordinates("symptoms").map do |score|
       j = j+1
       {order: 3,x: score[:x], name: "Toe Stubbing", quantity: "0.00005 mg"} if j < 7
     end).compact!
