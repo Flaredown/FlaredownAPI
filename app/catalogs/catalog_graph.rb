@@ -55,18 +55,13 @@ class CatalogGraph
   # end
 
   def treatment_coordinates
-    return []
-    i,j = 0,0
-    (score_coordinates("symptoms").map do |score|
-      {order: 1, x: score[:x], name: "Tickles", quantity: "20 minutes"}
-    end[0..-4] |
-    score_coordinates("symptoms").map do |score|
-      i = i+1
-      {order: 2, x: score[:x], name: "Laughing Gas", quantity: "4 hours"} if i > 4
+    # return []
+    coords = score_coordinates("symptoms").map{|c| c[:x]}.uniq
+    (coords.map do |day|
+      {order: 1, x: day, name: "B12", quantity: "1.0", unit: "tab"}
     end |
-    score_coordinates("symptoms").map do |score|
-      j = j+1
-      {order: 3,x: score[:x], name: "Toe Stubbing", quantity: "0.00005 mg"} if j < 7
+    coords.map.with_index do |day, index|
+      {order: 2, x: day, name: "methotrexate", quantity: "20", unit: "mg"} if index % 7 == 0
     end).compact!
   end
 
