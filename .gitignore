@@ -21,6 +21,7 @@ rerun.txt
 pickle-email-*.html
 .project
 dump.rdb
+database.yml
 
 .DS_Store
 .powrc
