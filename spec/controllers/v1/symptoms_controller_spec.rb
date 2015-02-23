@@ -84,7 +84,25 @@ describe V1::SymptomsController, type: :controller do
   end
 
   context "SEARCH" do
+    let(:other_user) { create :user }
 
+    before(:each) do
+      user.user_symptoms.activate create(:symptom, name: "droopy lips")
+      other_user.user_symptoms.activate Symptom.find_by(name: "droopy lips")
+      other_user.user_symptoms.activate create(:symptom, name: "droopiness")
+    end
+
+    it "returns an array of results" do
+      get :search, name: "droop"
+      expect(json_response).to be_an Array
+      expect(json_response.first).to be_a Hash
+      expect(json_response.first["name"]).to eql "droopiness"
+    end
+
+    it "has multiple results" do
+      get :search, name: "droop"
+      expect(json_response.length).to eql 2
+    end
   end
 
   context "DESTROY" do
