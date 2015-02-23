@@ -4,8 +4,16 @@ REDIS.flushdb
 # Entry.all.each{|e| e.destroy if %w( 1 2 3 4 11 12 ).include?(e.user_id) } # wipe out test*@flaredown.com and graham@flaredown.com entries
 Entry.all.each{|e| e.destroy } # wipe out test*@flaredown.com and graham@flaredown.com entries
 User.all.each{|u| u.destroy}
+
 UserSymptom.all.each{|us| us.destroy}
+Symptom.all.each{|s| s.destroy}
+
 UserTreatment.all.each{|ut| ut.destroy}
+Treatment.all.each{|t| t.destroy}
+
+UserCondition.all.each{|uc| uc.destroy}
+Condition.all.each{|c| c.destroy}
+
 ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
 PaperTrail::Version.all.each{|v| v.destroy}
