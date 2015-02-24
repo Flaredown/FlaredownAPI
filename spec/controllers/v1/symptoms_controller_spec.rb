@@ -88,15 +88,18 @@ describe V1::SymptomsController, type: :controller do
 
     before(:each) do
       user.user_symptoms.activate create(:symptom, name: "droopy lips")
+      user.user_symptoms.activate create(:symptom, name: "droopiness")
       other_user.user_symptoms.activate Symptom.find_by(name: "droopy lips")
-      other_user.user_symptoms.activate create(:symptom, name: "droopiness")
+      other_user.user_symptoms.activate Symptom.find_by(name: "droopiness")
     end
 
     it "returns an array of results" do
       get :search, name: "droop"
       expect(json_response).to be_an Array
       expect(json_response.first).to be_a Hash
+      expect(json_response.count).to eql 2
       expect(json_response.first["name"]).to eql "droopiness"
+      expect(json_response.first["count"]).to eql 2
     end
 
     it "has multiple results" do

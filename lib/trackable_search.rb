@@ -1,9 +1,16 @@
 module TrackableSearch
   def search_trackable(name)
 
-    controller_name.classify.constantize.fuzzy_search(name: name)
+    klass       = controller_name.classify.constantize
+    trackables  = klass.fuzzy_search(name: name)
 
-
+    # TODO will this be performant down the road?
+    trackables.map do |trackable|
+      {
+        name: trackable[:name],
+        count: "User#{klass}".constantize.where("#{klass.to_s.downcase}_id = ?", trackable[:id]).count
+      }
+    end
 
     # symptom_ids = []
     # for symptom in symptoms
