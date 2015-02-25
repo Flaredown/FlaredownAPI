@@ -1,4 +1,5 @@
 class V1::TreatmentsController < V1::BaseController
+  include TrackableSearch
 
   def create
     treatment = Treatment.create_with(quantity: treatment_params[:quantity], unit: treatment_params[:unit], locale: current_user.locale).find_or_create_by(name: treatment_params[:name])
@@ -11,6 +12,11 @@ class V1::TreatmentsController < V1::BaseController
       render json: response, status: 400
     end
 
+  end
+
+  def search
+    results = search_trackable(treatment_params[:name])
+    render json: results.to_json, status: 200
   end
 
   def destroy
@@ -28,4 +34,5 @@ class V1::TreatmentsController < V1::BaseController
     params.permit(:name, :quantity, :unit)
   end
 end
+
 

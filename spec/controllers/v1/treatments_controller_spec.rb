@@ -69,6 +69,28 @@ describe V1::TreatmentsController, type: :controller do
 
   end
 
+  context "SEARCH" do
+    let(:other_user) { create :user }
+
+    before(:each) do
+      user.user_treatments.activate create(:treatment, name: "predator")
+      user.user_treatments.activate create(:treatment, name: "prednisone")
+      other_user.user_treatments.activate Treatment.find_by(name: "predator")
+      other_user.user_treatments.activate Treatment.find_by(name: "prednisone")
+    end
+
+    it "returns an array of results" do
+      get :search, name: "pred"
+      expect(json_response).to be_an Array
+      expect(json_response.first).to be_a Hash
+      expect(json_response.count).to eql 2
+      expect(json_response.first["name"]).to eql "predator"
+      expect(json_response.first["count"]).to eql 2
+    end
+
+  end
+
+
   context "DESTROY" do
     it "removes the treatment from actives, but keeps it in user.treatments" do
       treatment = create :treatment, {name: "prednisone"}

@@ -2,7 +2,7 @@ module TrackableSearch
   def search_trackable(name)
 
     klass       = controller_name.classify.constantize
-    trackables  = klass.fuzzy_search(name: name)
+    trackables  = klass.fuzzy_search(name: name).limit(10)
 
     # TODO will this be performant down the road?
     trackables.map do |trackable|

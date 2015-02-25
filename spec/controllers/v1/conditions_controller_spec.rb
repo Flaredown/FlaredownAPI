@@ -80,6 +80,27 @@ describe V1::ConditionsController, type: :controller do
 
   end
 
+  context "SEARCH" do
+    let(:other_user) { create :user }
+
+    before(:each) do
+      user.user_conditions.activate create(:condition, name: "allergies")
+      user.user_conditions.activate create(:condition, name: "bad allergies")
+      other_user.user_conditions.activate Condition.find_by(name: "allergies")
+      other_user.user_conditions.activate Condition.find_by(name: "bad allergies")
+    end
+
+    it "returns an array of results" do
+      get :search, name: "allerg"
+      expect(json_response).to be_an Array
+      expect(json_response.first).to be_a Hash
+      expect(json_response.count).to eql 2
+      expect(json_response.first["name"]).to eql "allergies"
+      expect(json_response.first["count"]).to eql 2
+    end
+
+  end
+
   context "DESTROY" do
     it "removes the condition from actives, but keeps it in user.conditions" do
       condition = create :condition, {name: "allergies"}

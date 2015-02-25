@@ -102,10 +102,6 @@ describe V1::SymptomsController, type: :controller do
       expect(json_response.first["count"]).to eql 2
     end
 
-    it "has multiple results" do
-      get :search, name: "droop"
-      expect(json_response.length).to eql 2
-    end
   end
 
   context "DESTROY" do
