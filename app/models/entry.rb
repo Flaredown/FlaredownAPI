@@ -31,7 +31,6 @@ class Entry < CouchRest::Model::Base
 
   property :scores,     [Score], default: []
 
-
   attr_accessor :user_audit_version
 
   timestamps!
@@ -47,12 +46,11 @@ class Entry < CouchRest::Model::Base
   end
 
   def catalog_definitions
-    (self.catalogs | ["symptoms"]).reduce({}) do |definitions,catalog|
-      _module = "#{catalog.capitalize}Catalog".constantize
-      definitions[catalog.to_sym] = (catalog == "symptoms") ? symptoms_definition : _module.const_get("DEFINITION")
-      definitions
-    end
-  end
+    definition = base_definition
+    definition[:symptoms]   = symptoms_definition
+    definition[:conditions] = conditions_definition
+    definition
+end
 
   # Collect all question names from included catalogs
   #
@@ -118,6 +116,33 @@ class Entry < CouchRest::Model::Base
   end
 
   private
+
+  def base_definition
+    self.catalogs.reduce({}) do |definitions,catalog|
+      _module = "#{catalog.capitalize}Catalog".constantize
+      definitions[catalog.to_sym] = _module.const_get("DEFINITION")
+      definitions
+    end
+  end
+
+  def conditions_definition
+    self.conditions.reduce([]) do |questions,condition|
+      questions << [{
+        name: condition,
+        kind: :select,
+        inputs: [
+          {value: 0, label: "very_well", meta_label: "", helper: nil},
+          {value: 1, label: "slightly_below_par", meta_label: "", helper: nil},
+          {value: 2, label: "poor", meta_label: "", helper: nil},
+          {value: 3, label: "very_poor", meta_label: "", helper: nil},
+          {value: 4, label: "terrible", meta_label: "", helper: nil},
+        ]
+      }]
+
+      questions
+    end
+
+  end
 
   def include_catalogs
     if catalogs.present?

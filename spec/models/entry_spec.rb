@@ -84,6 +84,27 @@ describe Entry do
     end
   end
 
+  describe "Condition (Illness) Severity Questions" do
+    let!(:entry) { create :entry}
+
+    it "has a generic question for each condition in the catalog definition" do
+      entry.conditions = ["Crohn's Disease"]
+
+      conditions = entry.catalog_definitions[:conditions]
+      expect(conditions).to be_an Array
+      expect(conditions.first).to be_an Array
+      expect(conditions.first.first[:name]).to eql "Crohn's Disease"
+    end
+
+    it "it works with multiple, they go into the same section" do
+      entry.conditions = ["Allergies", "Crohn's Disease"]
+
+      conditions = entry.catalog_definitions[:conditions]
+      expect(conditions.first.first[:name]).to eql "Allergies"
+      expect(conditions.first.last[:name]).to eql "Allergies"
+    end
+  end
+
   describe "Response processing" do
     let(:responses_for_hbi) { [
         { catalog: "hbi", name: "general_wellbeing", value: 4 }
