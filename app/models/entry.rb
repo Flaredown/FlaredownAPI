@@ -130,13 +130,7 @@ end
       questions << [{
         name: condition,
         kind: :select,
-        inputs: [
-          {value: 0, label: "very_well", meta_label: "", helper: nil},
-          {value: 1, label: "slightly_below_par", meta_label: "", helper: nil},
-          {value: 2, label: "poor", meta_label: "", helper: nil},
-          {value: 3, label: "very_poor", meta_label: "", helper: nil},
-          {value: 4, label: "terrible", meta_label: "", helper: nil},
-        ]
+        inputs: [{value: 0},{value: 1},{value: 2},{value: 3},{value: 4}]
       }]
 
       questions
