@@ -71,15 +71,17 @@ end
 
   ### RESPONSES PROCESSING ###
   def response_catalogs
-    self.responses.map{|r| r[:catalog] }.uniq - ["symptoms"]
+    self.responses.map{|r| r[:catalog] }.uniq - ["symptoms", "conditions"]
   end
 
   def response_conditions
-    self.response_catalogs.map{ |c| CATALOG_CONDITIONS.invert[c] }.compact
+    # Don't use catalogs, not all conditions have them
+    # self.response_catalogs.map{ |c| CATALOG_CONDITIONS.invert[c] }.compact
+    responses.map{|r| r[:name] if r[:catalog] == "conditions"}.compact
   end
 
   def response_symptoms
-    symptom_responses = responses.map{|r| r[:name] if r[:catalog] == "symptoms"}.compact
+    responses.map{|r| r[:name] if r[:catalog] == "symptoms"}.compact
   end
 
   def process_responses

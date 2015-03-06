@@ -11,8 +11,11 @@ module UserColors
     catalog_colorables = user_conditions.reduce([]) do |accum,assoc|
       condition = assoc.condition
       catalog   = CATALOG_CONDITIONS[condition.name]
-      "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
-        accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
+
+      if catalog
+        "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
+          accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
+        end
       end
       accum
     end

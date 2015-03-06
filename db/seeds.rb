@@ -92,6 +92,20 @@ end
   end
 end
 
+### CONDITIONS
+[ {name: "The Giggles"} ].each do |condition|
+  c = Condition.create_with(locale: "en").find_or_create_by(name: condition[:name])
+  [t1,t2].each do |user|
+    user.user_conditions.activate c
+  end
+end
+
+[ {name: "Crohn's Disease"} ].each do |condition|
+  c = Condition.create_with(locale: "en").find_or_create_by(name: condition[:name])
+  [t5].each do |user|
+    user.user_conditions.activate c
+  end
+end
 
 ### GRAHAM@FLAREDOWN.COM ###
 ############################
