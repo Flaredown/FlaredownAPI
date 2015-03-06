@@ -16,13 +16,13 @@ Flaredown::Application.routes.draw do
     resources :users
 
     resources :conditions
-    get "conditions/search" => "conditions#search"
+    get "conditions/search/:name" => "conditions#search"
 
     resources :symptoms
     get "symptoms/search/:name" => "symptoms#search"
 
     resources :treatments
-    get "treatments/search" => "treatments#search"
+    get "treatments/search/:name" => "treatments#search"
 
     get "me",                   to: "users#index"
     get "users/invitee/:token", to: "users#invitee"
