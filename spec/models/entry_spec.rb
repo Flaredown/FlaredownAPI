@@ -112,7 +112,8 @@ describe Entry do
     let(:responses_for_hbi_and_symptoms) { [
         { catalog: "hbi", name: "general_wellbeing", value: 4 },
         { catalog: "symptoms", name: "droopy lips", value: 3 },
-        { catalog: "symptoms", name: "fat toes", value: 2 }
+        { catalog: "symptoms", name: "fat toes", value: 2 },
+        { catalog: "conditions", name: "Crohn's Disease", value: 2 }
     ] }
 
     let(:entry) { create :entry }
