@@ -1,6 +1,6 @@
 class V1::Users::SessionsController < Devise::SessionsController
   respond_to :json
-  before_filter :ensure_params_exist
+  before_filter :ensure_params_exist, :except => [:destroy]
   prepend_before_filter :require_no_authentication, :only => [ :new, :create ]
   prepend_before_filter :allow_params_authentication!, :only => :create
   prepend_before_filter :only => [ :create, :destroy ] { request.env["devise.skip_timeout"] = true }
@@ -36,17 +36,21 @@ class V1::Users::SessionsController < Devise::SessionsController
 
   # DELETE /resource/sign_out
   def destroy
-    redirect_path = after_sign_out_path_for(resource_name)
-    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
-    set_flash_message :notice, :signed_out if signed_out && is_flashing_format?
-    yield resource if block_given?
+    sign_out(resource_name)
 
-    # We actually need to hardcode this as Rails default responder doesn't
-    # support returning empty response on GET request
-    respond_to do |format|
-      format.all { head :no_content }
-      format.any(*navigational_formats) { redirect_to redirect_path }
-    end
+    # redirect_path = after_sign_out_path_for(resource_name)
+    # signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+    # set_flash_message :notice, :signed_out if signed_out && is_flashing_format?
+    # yield resource if block_given?
+    #
+    # # We actually need to hardcode this as Rails default responder doesn't
+    # # support returning empty response on GET request
+
+    # respond_to do |format|
+    #   format.all { head :no_content }
+    #   format.any(*navigational_formats) { redirect_to redirect_path }
+    # end
+    render json: {}, status: 200
   end
 
   protected
