@@ -3,6 +3,7 @@ en:
 
   symptom_question_prompt: "How active is the symptom: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
+  add_trackable_prompt: "Add new %{kind}"
 
   are_you_sure: "Are you sure?"
   confirm_treatment_remove: "Are you sure you want to remove the treatment \"%{treatment}\" for this Checkin?"

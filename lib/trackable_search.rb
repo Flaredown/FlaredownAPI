@@ -1,5 +1,6 @@
 module TrackableSearch
   def search_trackable(name)
+    ActiveRecord::Base.connection.execute("SELECT set_limit(0.05);")
 
     klass       = controller_name.classify.constantize
     trackables  = klass.fuzzy_search(name: name).limit(10)
