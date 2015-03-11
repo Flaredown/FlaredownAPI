@@ -23,7 +23,7 @@ end
 
 
 describe Entry do
-  let(:entry) { create :entry, conditions: ["Crohn's Disease"] }
+  let(:entry) { create :entry, conditions: ["Crohn's disease"] }
 
   describe "AVAILABLE_CATALOGS" do
     before(:each) do
@@ -88,16 +88,16 @@ describe Entry do
     let!(:entry) { create :entry}
 
     it "has a generic question for each condition in the catalog definition" do
-      entry.conditions = ["Crohn's Disease"]
+      entry.conditions = ["Crohn's disease"]
 
       conditions = entry.catalog_definitions[:conditions]
       expect(conditions).to be_an Array
       expect(conditions.first).to be_an Array
-      expect(conditions.first.first[:name]).to eql "Crohn's Disease"
+      expect(conditions.first.first[:name]).to eql "Crohn's disease"
     end
 
     it "it works with multiple, they go into the same section" do
-      entry.conditions = ["Allergies", "Crohn's Disease"]
+      entry.conditions = ["Allergies", "Crohn's disease"]
 
       conditions = entry.catalog_definitions[:conditions]
       expect(conditions.first.first[:name]).to eql "Allergies"
@@ -113,7 +113,7 @@ describe Entry do
         { catalog: "hbi", name: "general_wellbeing", value: 4 },
         { catalog: "symptoms", name: "droopy lips", value: 3 },
         { catalog: "symptoms", name: "fat toes", value: 2 },
-        { catalog: "conditions", name: "Crohn's Disease", value: 2 }
+        { catalog: "conditions", name: "Crohn's disease", value: 2 }
     ] }
 
     let(:entry) { create :entry }
@@ -138,7 +138,7 @@ describe Entry do
 
       entry.responses = responses_for_hbi_and_symptoms
       entry.process_responses
-      expect(entry.conditions).to eql ["Crohn's Disease"]
+      expect(entry.conditions).to eql ["Crohn's disease"]
 
       entry.responses = []
       entry.process_responses

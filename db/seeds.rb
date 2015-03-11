@@ -38,7 +38,7 @@ t4=User.create(id: 4, email: "test4@flaredown.com", password: "testing123", pass
 t5=User.create(id: 5, email: "video@flaredown.com", password: "testing123", password_confirmation: "testing123")
 
 [t1,t2].each do |user|
-  user.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
+  user.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's disease")
 end
 
 ### SYMPTOMS
@@ -100,7 +100,7 @@ end
   end
 end
 
-[ {name: "Crohn's Disease"} ].each do |condition|
+[ {name: "Crohn's disease"} ].each do |condition|
   c = Condition.create_with(locale: "en").find_or_create_by(name: condition[:name])
   [t5].each do |user|
     user.user_conditions.activate c

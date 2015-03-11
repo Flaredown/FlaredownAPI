@@ -1,6 +1,6 @@
 # Some user
 u=User.create(id: 100, email: "dataguy@test.com", password: "testing123", password_confirmation: "testing123")
-u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's Disease")
+u.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's disease")
 
 u.create_audit
 

@@ -148,19 +148,19 @@ describe V1::EntriesController, type: :controller do
   context "Auditing on UPDATE" do
 
     it "adds a new version if it's the latest", versioning: true do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
       entry = create :hbi_entry, date: Date.today, user: user
 
       expect(user.versions.count).to eql 1
       expect(entry.using_latest_audit?).to be_true
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json # no more Crohn's Disease
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json # no more Crohn's disease
 
       expect(user.reload.versions.count).to eql 2
     end
 
     it "doesn't add a new audit when updating old entries", versioning: true do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
       entry = create :hbi_entry, date: Date.yesterday, user: user
 
       expect(user.versions.count).to eql 1 # for user creation, 10 days ago
@@ -169,13 +169,13 @@ describe V1::EntriesController, type: :controller do
       expect(user.versions.count).to eql 2
       expect(entry.using_latest_audit?).to be_false
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json  # no more Crohn's Disease
+      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json  # no more Crohn's disease
 
       expect(user.versions.count).to eql 2
     end
 
     it "updates User actives based on the Entry content", versioning: true do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
       create :treatment, name: "Snake Oil"
       entry = create :hbi_entry, date: Date.today, user: user
 

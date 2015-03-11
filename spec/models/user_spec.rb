@@ -8,22 +8,22 @@ describe User do
 
   describe "catalogs" do
     it "#catalogs returns all catalogs based on all user.conditions" do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
       expect(user.catalogs).to eql ["hbi"]
     end
 
     it "#active_catalogs gives only ones for user.active_conditions" do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
       user.user_conditions.activate create(:condition, name: "Rheumatoid Arthritis")
       expect(user.active_catalogs).to eql ["hbi", "rapid3"]
 
-      user.user_conditions.deactivate Condition.find_by(name: "Crohn's Disease")
+      user.user_conditions.deactivate Condition.find_by(name: "Crohn's disease")
       expect(user.reload.active_catalogs).to eql ["rapid3"]
     end
 
     it "cannot add duplicate conditions" do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
-      user.user_conditions.activate Condition.find_by(name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
+      user.user_conditions.activate Condition.find_by(name: "Crohn's disease")
       expect(user.user_conditions.count).to eql 1
     end
   end
@@ -68,7 +68,7 @@ describe User do
       # expect(user.symptom_colors).to eql first_result[-2..-1]
     end
     it "#symptom_colors also contains catalog symptoms" do
-      user.user_conditions.activate create(:condition, name: "Crohn's Disease")
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
 
       expect(user.symptom_colors).to have(5).items
       expect(user.symptom_colors[0][0]).to eql "hbi_general_wellbeing"

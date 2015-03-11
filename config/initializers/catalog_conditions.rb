@@ -1,4 +1,4 @@
 CATALOG_CONDITIONS = {
-  "Crohn's Disease" => "hbi",
+  "Crohn's disease" => "hbi",
   "Rheumatoid Arthritis" => "rapid3"
 }
