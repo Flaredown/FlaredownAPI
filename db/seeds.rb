@@ -1,4 +1,5 @@
 # Clear it out first
+require "#{Rails.root}/db/seeds/conditions.rb"
 
 REDIS.flushdb
 # Entry.all.each{|e| e.destroy if %w( 1 2 3 4 11 12 ).include?(e.user_id) } # wipe out test*@flaredown.com and graham@flaredown.com entries
@@ -13,6 +14,10 @@ Treatment.all.each{|t| t.destroy}
 
 UserCondition.all.each{|uc| uc.destroy}
 Condition.all.each{|c| c.destroy}
+SEED_CONDITIONS.each do |condition|
+  Condition.create_with(locale: "en").find_or_create_by(name: condition)
+end
+
 
 ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
