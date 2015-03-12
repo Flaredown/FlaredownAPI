@@ -130,7 +130,7 @@ end
 
   def conditions_definition
     self.conditions.reduce([]) do |questions,condition|
-      questions << basic_question(condition, user.locale)
+      questions << basic_question(condition)
 
       questions
     end

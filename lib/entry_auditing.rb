@@ -48,7 +48,7 @@ module EntryAuditing
   def symptoms_definition
     names = symptoms.present? ? symptoms : reified_actives_for("symptoms").map(&:name)
     names.map do |symptom|
-      basic_question(symptom, user.locale)
+      basic_question(symptom)
     end
   end
 
