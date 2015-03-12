@@ -1,5 +1,6 @@
 # Clear it out first
 require "#{Rails.root}/db/seeds/conditions.rb"
+require "#{Rails.root}/db/seeds/symptoms.rb"
 
 REDIS.flushdb
 # Entry.all.each{|e| e.destroy if %w( 1 2 3 4 11 12 ).include?(e.user_id) } # wipe out test*@flaredown.com and graham@flaredown.com entries
@@ -8,6 +9,9 @@ User.all.each{|u| u.destroy}
 
 UserSymptom.all.each{|us| us.destroy}
 Symptom.all.each{|s| s.destroy}
+SEED_SYMPTOMS.each do |symptom_name|
+  Symptom.create_with(locale: "en").find_or_create_by(name: symptom_name)
+end
 
 UserTreatment.all.each{|ut| ut.destroy}
 Treatment.all.each{|t| t.destroy}
