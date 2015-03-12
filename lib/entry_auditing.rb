@@ -48,17 +48,7 @@ module EntryAuditing
   def symptoms_definition
     names = symptoms.present? ? symptoms : reified_actives_for("symptoms").map(&:name)
     names.map do |symptom|
-      [{
-        name: symptom,
-        kind: :select,
-        inputs: [
-          {value: 0, label: "", meta_label: "", helper: nil},
-          {value: 1, label: "", meta_label: "", helper: nil},
-          {value: 2, label: "", meta_label: "", helper: nil},
-          {value: 3, label: "", meta_label: "", helper: nil},
-          {value: 4, label: "", meta_label: "", helper: nil},
-        ]
-      }]
+      basic_question(symptom, user.locale)
     end
   end
 

@@ -3,6 +3,7 @@ class Entry < CouchRest::Model::Base
   include CatalogScore
   include SymptomsCatalog
   include EntryAuditing
+  include BasicQuestionTemplate
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
@@ -129,11 +130,7 @@ end
 
   def conditions_definition
     self.conditions.reduce([]) do |questions,condition|
-      questions << [{
-        name: condition,
-        kind: :select,
-        inputs: [{value: 0},{value: 1},{value: 2},{value: 3},{value: 4}]
-      }]
+      questions << basic_question(condition, user.locale)
 
       questions
     end

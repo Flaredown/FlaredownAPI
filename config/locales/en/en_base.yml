@@ -26,3 +26,9 @@ en:
     dubious: "Dubious"
     definite: "Definite"
     definite_and_tender: "Definite and tender"
+
+    basic_0: "Not active"
+    basic_1: "Not very active"
+    basic_2: "Fairly active"
+    basic_3: "Very active"
+    basic_4: "Extremely active"
