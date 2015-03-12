@@ -2,7 +2,7 @@ class V1::TreatmentsController < V1::BaseController
   include TrackableSearch
 
   def create
-    treatment = Treatment.create_with(quantity: treatment_params[:quantity], unit: treatment_params[:unit], locale: current_user.locale).find_or_create_by(name: treatment_params[:name])
+    treatment = Treatment.where('lower(name) = ?', treatment_params[:name].downcase).first_or_create(name: treatment_params[:name], locale: current_user.locale)
 
     if treatment.valid?
       current_user.user_treatments.activate(treatment)

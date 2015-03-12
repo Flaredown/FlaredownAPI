@@ -2,7 +2,7 @@ class V1::SymptomsController < V1::BaseController
   include TrackableSearch
 
   def create
-    symptom = Symptom.create_with(locale: current_user.locale).find_or_create_by(name: symptom_params[:name])
+    symptom = Symptom.where('lower(name) = ?', symptom_params[:name].downcase).first_or_create(name: symptom_params[:name], locale: current_user.locale)
 
     if symptom.valid?
       current_user.user_symptoms.activate(symptom)

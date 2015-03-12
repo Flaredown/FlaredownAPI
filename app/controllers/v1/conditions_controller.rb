@@ -2,7 +2,7 @@ class V1::ConditionsController < V1::BaseController
   include TrackableSearch
 
   def create
-    condition = Condition.create_with(locale: current_user.locale).find_or_create_by(name: condition_params[:name])
+    condition = Condition.where('lower(name) = ?', condition_params[:name].downcase).first_or_create(name: condition_params[:name], locale: current_user.locale)
 
     if condition.valid?
       current_user.user_conditions.activate condition

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :condition do
-    name "allergies"
+    name "Allergies"
     locale "en"
   end
 end

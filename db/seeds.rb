@@ -14,10 +14,9 @@ Treatment.all.each{|t| t.destroy}
 
 UserCondition.all.each{|uc| uc.destroy}
 Condition.all.each{|c| c.destroy}
-SEED_CONDITIONS.each do |condition|
-  Condition.create_with(locale: "en").find_or_create_by(name: condition)
+SEED_CONDITIONS.each do |condition_name|
+  Condition.create_with(locale: "en").find_or_create_by(name: condition_name)
 end
-
 
 ActiveRecord::Base.connection.reset_pk_sequence!("users")
 
@@ -33,35 +32,39 @@ Timecop.freeze(1.year.ago)
 
 ### Symptoms, condition and treatments and entries
 t1=User.create(id: 1, email: "test@flaredown.com",  password: "testing123", password_confirmation: "testing123")
+
 ### Symptoms, condition and treatments and *no* entries
 t2=User.create(id: 2, email: "test2@flaredown.com", password: "testing123", password_confirmation: "testing123")
+
 ### Blank
 t3=User.create(id: 3, email: "test3@flaredown.com", password: "testing123", password_confirmation: "testing123")
+
 ### Blank
 t4=User.create(id: 4, email: "test4@flaredown.com", password: "testing123", password_confirmation: "testing123")
+
 ### VIDEO user
 t5=User.create(id: 5, email: "video@flaredown.com", password: "testing123", password_confirmation: "testing123")
 
 [t1,t2].each do |user|
-  user.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "Crohn's disease")
+  user.user_conditions.activate Condition.where('lower(name) = ?', "Crohn's Disease".downcase).first
 end
 
 ### SYMPTOMS
 ["droopy lips", "fat toes", "slippery tongue"].each do |name|
-  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  s = Symptom.where('lower(name) = ?', name.downcase).first_or_create(name: name, locale: "en")
   [t1,t2].each do |user|
     user.user_symptoms.activate s
   end
 end
 ["buck-toothedness"].each do |name|
-  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  s = Symptom.where('lower(name) = ?', name.downcase).first_or_create(name: name, locale: "en")
   [t1,t2].each do |user|
     user.user_symptoms.activate s
     user.user_symptoms.deactivate s
   end
 end
 ["joint pain", "fatigue", "brain fog", "anxiety"].each do |name|
-  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  s = Symptom.where('lower(name) = ?', name.downcase).first_or_create(name: name, locale: "en")
   [t5].each do |user|
     user.user_symptoms.activate s
   end
@@ -72,7 +75,8 @@ end
   {name: "Tickles", quantity: "1.0", unit: "session"},
   {name: "Laughing Gas", quantity: "10.5", unit: "cc"}
 ].each do |treatment|
-  t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
+  t = Treatment.where('lower(name) = ?', treatment[:name].downcase).first_or_create(name: treatment[:name], locale: "en")
+  # t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
   [t1,t2].each do |user|
     user.user_treatments.activate t
   end
@@ -81,7 +85,7 @@ end
   {name: "Funny Bone Electroshock", quantity: "15.0", unit: "repetition"},
   {name: "Toe Stubbing", quantity: "1.0", unit: "time"}
 ].each do |treatment|
-  t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
+  t = Treatment.where('lower(name) = ?', treatment[:name].downcase).first_or_create(name: treatment[:name], locale: "en")
   [t1,t2].each do |user|
     user.user_treatments.activate t
     user.user_treatments.deactivate t
@@ -91,7 +95,7 @@ end
   {name: "methotrexate", quantity: "60.0", unit: "mg"},
   {name: "B12", quantity: "1.0", unit: "tab"}
 ].each do |treatment|
-  t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
+  t = Treatment.where('lower(name) = ?', treatment[:name].downcase).first_or_create(name: treatment[:name])
   [t5].each do |user|
     user.user_treatments.activate t
   end
@@ -99,14 +103,14 @@ end
 
 ### CONDITIONS
 [ {name: "The Giggles"} ].each do |condition|
-  c = Condition.create_with(locale: "en").find_or_create_by(name: condition[:name])
+  c = Condition.where('lower(name) = ?', condition[:name]).first_or_create(name: condition[:name], locale: "en")
   [t1,t2].each do |user|
     user.user_conditions.activate c
   end
 end
 
 [ {name: "Crohn's disease"} ].each do |condition|
-  c = Condition.create_with(locale: "en").find_or_create_by(name: condition[:name])
+  c = Condition.where('lower(name) = ?', condition[:name]).first_or_create(name: condition[:name], locale: "en")
   [t5].each do |user|
     user.user_conditions.activate c
   end
@@ -116,11 +120,12 @@ end
 ############################
 
 graham=User.create(id: 12, email: "graham@flaredown.com", password: "testing123", password_confirmation: "testing123")
-graham.user_conditions.activate Condition.create_with(locale: "en").find_or_create_by(name: "allergies")
+
+graham.user_conditions.activate Condition.where('lower(name) = ?', "Allergies".downcase).first
 
 # Add symptom names from :hbi_and_symptoms_entry
 ["sneezing", "runny nose", "congestion", "itchy throat"].each do |name|
-  s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+  s = Symptom.where('lower(name) = ?', name.downcase).first_or_create(name: name, locale: "en")
   graham.user_symptoms.activate s
 end
 
@@ -129,7 +134,7 @@ end
 ###########################
 colin=User.create(id: 11, email: "colin@flaredown.com", password: "testing123", password_confirmation: "testing123", created_at: 1.year.ago.to_time)
 ["pain", "fatigue", "digestive", "lightheadedness", "anxiety"].each do |name|
-    s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+    s = Symptom.where('lower(name) = ?', name.downcase).first_or_create(name: name, locale: "en")
     colin.user_symptoms.activate s
 end
 
