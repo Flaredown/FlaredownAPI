@@ -27,6 +27,7 @@ en:
     definite: "Definite"
     definite_and_tender: "Definite and tender"
 
+  helpers:
     basic_0: "Not active"
     basic_1: "Not very active"
     basic_2: "Fairly active"
