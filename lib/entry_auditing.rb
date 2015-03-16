@@ -22,8 +22,12 @@ module EntryAuditing
 
   # Add relevant associations to Entry based on applicable_audit
   def setup_with_audit!
-    reified_actives_for("treatments").each do |treatment|
-      self.treatments << treatment.attributes.extract!(*%w( name quantity unit ))
+    self.settings   = audit_user.settings
+    self.treatments = reified_actives_for("treatments").map do |t|
+      uniq_name      = "treatment_#{t["name"]}"
+      quantity, unit = settings["#{uniq_name}_quantity"], settings["#{uniq_name}_unit"]
+
+      {name: t["name"], quantity: quantity, unit: unit}
     end
     self.conditions = reified_actives_for("conditions").map(&:name)
     self.catalogs   = self.conditions.map { |c| CATALOG_CONDITIONS[c] }.compact
@@ -36,8 +40,11 @@ module EntryAuditing
   def update_audit
     self.reload
 
-    if trackables_present? and date.today?
+    if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
+      user.update_attribute("settings", self.settings)
+
       sync_trackables
+
       self.reload
       user.create_audit
     end

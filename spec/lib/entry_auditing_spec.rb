@@ -24,12 +24,20 @@ describe EntryAuditing do
     Timecop.travel(date+1.days)     # now Aug 4
     # === #
     user.user_treatments.activate   create(:treatment, name: "loratadine")
+    user.settings = user.settings.merge({
+      :"treatment_loratadine_quantity" => 10.0,
+      :"treatment_loratadine_unit" => "mg"
+    })
     user.create_audit               # v3
 
     Timecop.travel(date+9.days)     # now Aug 12
     # === #
     user.user_conditions.activate   create(:condition,name: "back pain")
     user.user_treatments.activate   create(:treatment, name: "sinus rinse")
+    user.settings = user.settings.merge({
+      :"treatment_sinus rinse_quantity" => 1.0,
+      :"treatment_sinus rinse_unit" => "bottle"
+    })
     user.create_audit               # v4
 
     # --- Target Date for Entry --- #
@@ -40,6 +48,12 @@ describe EntryAuditing do
     user.user_conditions.deactivate Condition.find_by(name: "back pain")
     user.user_treatments.activate   create(:treatment, name: "advil")
     user.user_symptoms.deactivate   Symptom.find_by(name: "itchy throat")
+    user.settings = user.settings.merge({
+      :"treatment_advil_quantity" => 400.0,
+      :"treatment_advil_unit" => "mg",
+      :"treatment_sinus rinse_quantity" => 2.0,
+      :"treatment_sinus rinse_unit" => "bottle"
+    })
     user.create_audit               # v5
 
     Timecop.return
@@ -125,6 +139,14 @@ describe EntryAuditing do
       expect(entry.catalog_definitions[:symptoms].flatten.map{|s| s[:name]}).to eql %w( runny\ nose itchy\ throat )
     end
 
+    it "pulls from User.settings to setup treatments" do
+      entry.setup_with_audit!
+      loratadine = entry.treatments.detect{|t| t["name"] == "loratadine"}
+
+      expect(loratadine["quantity"]).to eql 10.0
+      expect(loratadine["unit"]).to eql "mg"
+    end
+
     it "matches latest version correctly", versioning: true do
       entry.date = Date.today
       entry.setup_with_audit!
@@ -142,6 +164,17 @@ describe EntryAuditing do
     let(:entry) { create :entry, user_id: blank_user.id.to_s, date: Date.today }
 
     it "creates a new audit when it differs from applicable_audit", versioning: true do
+      versions_count = blank_user.versions.length
+
+      entry.update_audit
+      expect(blank_user.reload.versions.length).to eql versions_count
+
+      entry.update_attributes({responses: [{name: "buckteeth", value: nil, catalog: "symptoms"}]})
+      entry.update_audit
+      expect(blank_user.reload.versions.length).to eql versions_count + 1
+    end
+
+    it "updates user settings based on incoming treatments", versioning: true do
       versions_count = blank_user.versions.length
 
       entry.update_audit

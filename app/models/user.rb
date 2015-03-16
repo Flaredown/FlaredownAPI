@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
+  # Hstore "settings"
+
   has_many :user_conditions, ->{extending TrackableAssociation}
   has_many :conditions, through: :user_conditions
   has_many :active_conditions, -> { where user_conditions: { active: true } }, through: :user_conditions, class_name: "Condition", source: :condition

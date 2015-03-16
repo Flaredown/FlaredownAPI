@@ -83,6 +83,13 @@ end
   # t = Treatment.create_with(locale: "en", quantity: treatment[:quantity], unit: treatment[:unit]).find_or_create_by(name: treatment[:name])
   [t1,t2].each do |user|
     user.user_treatments.activate t
+
+    settings = {
+      :"treatment_#{treatment[:name]}_quantity" => treatment[:quantity],
+      :"treatment_#{treatment[:name]}_unit" => treatment[:unit]
+    }
+
+    user.update_attribute("settings", user.settings.merge!(settings))
   end
 end
 [
@@ -93,6 +100,13 @@ end
   [t1,t2].each do |user|
     user.user_treatments.activate t
     user.user_treatments.deactivate t
+
+    settings = {
+      :"treatment_#{treatment[:name]}_quantity" => treatment[:quantity],
+      :"treatment_#{treatment[:name]}_unit" => treatment[:unit]
+    }
+
+    user.update_attribute("settings", user.settings.merge!(settings))
   end
 end
 [
@@ -102,6 +116,13 @@ end
   t = Treatment.where('lower(name) = ?', treatment[:name].downcase).first_or_create(name: treatment[:name])
   [t5].each do |user|
     user.user_treatments.activate t
+
+    settings = {
+      :"treatment_#{treatment[:name]}_quantity" => treatment[:quantity],
+      :"treatment_#{treatment[:name]}_unit" => treatment[:unit]
+    }
+
+    user.update_attribute("settings", user.settings.merge!(settings))
   end
 end
 

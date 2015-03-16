@@ -5,6 +5,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :symptoms, include: true
 
   attributes :id,
+    :settings,
     :obfuscated_id,
     :email,
     :authentication_token,

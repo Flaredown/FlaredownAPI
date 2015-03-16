@@ -21,6 +21,7 @@ class Entry < CouchRest::Model::Base
   belongs_to :user
 
   property :date,       Date
+  property :settings,   Hash,     default: {}
   property :catalogs,   [String], default: []
   property :conditions, [String], default: []
   property :symptoms,   [String], default: []
@@ -51,7 +52,7 @@ class Entry < CouchRest::Model::Base
     definition[:symptoms]   = symptoms_definition
     definition[:conditions] = conditions_definition
     definition
-end
+  end
 
   # Collect all question names from included catalogs
   #
@@ -78,19 +79,28 @@ end
   def response_conditions
     # Don't use catalogs, not all conditions have them
     # self.response_catalogs.map{ |c| CATALOG_CONDITIONS.invert[c] }.compact
-    responses.map{|r| r[:name] if r[:catalog] == "conditions"}.compact
+    responses.select{|r| r[:catalog] == "conditions"}.map(&:name).compact
   end
 
   def response_symptoms
-    responses.map{|r| r[:name] if r[:catalog] == "symptoms"}.compact
+    responses.select{|r| r[:catalog] == "symptoms"}.map(&:name).compact
   end
+
 
   def process_responses
     self.attributes = {
-      catalogs: response_catalogs,
+      catalogs:   response_catalogs,
       conditions: response_conditions,
-      symptoms: response_symptoms
+      symptoms:   response_symptoms,
     }
+
+    treatment_settings = self.treatments.reduce({}) do |accum,t|
+      accum["treatment_#{t.name}_quantity"]  = t.quantity
+      accum["treatment_#{t.name}_unit"]      = t.unit
+      accum
+    end
+
+    self.settings = settings.merge!(treatment_settings)
     save_without_processing
   end
 
