@@ -1,6 +1,4 @@
 en:
-  hello: "Hello world"
-
   symptom_question_prompt: "How active is the symptom: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
   add_trackable_prompt: "Add new %{kind}"
@@ -33,3 +31,48 @@ en:
     basic_2: "Fairly active"
     basic_3: "Very active"
     basic_4: "Extremely active"
+
+  treatment_units:
+    - ml
+    - l
+    - mcg
+    - mg
+    - g
+    - IU
+    - tsp
+    - tbsp
+    - cup
+    - fl oz
+    - oz
+    - bag
+    - bar
+    - bottle
+    - box
+    - can
+    - capsule
+    - carton
+    - cartridge
+    - case
+    - drop
+    - injection
+    - jar
+    - kit
+    - packet
+    - patch
+    - piece
+    - pill
+    - pouch
+    - puff
+    - ring
+    - scoopful
+    - serving
+    - spoonful
+    - stick
+    - strip
+    - suppository
+    - tablet
+    - tampon
+    - tube
+    - unit
+    - vial
+    - wafer
