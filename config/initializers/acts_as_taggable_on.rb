@@ -1,0 +1,1 @@
+ActsAsTaggableOn.default_parser = HashtagParser

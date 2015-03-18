@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   include TokenAuth::User
   include UserColors
 
+  acts_as_taggable_on :tags
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable

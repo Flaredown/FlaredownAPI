@@ -4,6 +4,7 @@ class Entry < CouchRest::Model::Base
   include SymptomsCatalog
   include EntryAuditing
   include BasicQuestionTemplate
+
   AVAILABLE_CATALOGS = %w( hbi rapid3 )
 
   @queue = :entries
@@ -28,7 +29,7 @@ class Entry < CouchRest::Model::Base
   property :treatments, [EntryTreatment], default: []
 
   property :responses,  [Response], default: []
-  property :notes,      String
+  property :notes,      String, default: ""
   property :tags,       [String], default: []
 
   property :scores,     [Score], default: []
@@ -44,7 +45,7 @@ class Entry < CouchRest::Model::Base
   end
 
   def user
-    User.find_by(id: user_id)
+    @user ||= User.find(user_id)
   end
 
   def catalog_definitions
@@ -94,6 +95,8 @@ class Entry < CouchRest::Model::Base
       symptoms:   response_symptoms,
     }
 
+    process_notes
+
     treatment_settings = self.treatments.reduce({}) do |accum,t|
       accum["treatment_#{t.name}_quantity"]  = t.quantity
       accum["treatment_#{t.name}_unit"]      = t.unit
@@ -129,6 +132,11 @@ class Entry < CouchRest::Model::Base
   end
 
   private
+  def process_notes
+    self.tags = HashtagParser.new(self.notes).parse
+    self.user.tag_list.add(self.tags)
+    self.user.save
+  end
 
   def base_definition
     self.catalogs.reduce({}) do |definitions,catalog|
