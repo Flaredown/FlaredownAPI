@@ -15,6 +15,7 @@ Flaredown::Application.routes.draw do
     resources :current_user
     resources :users
 
+    ### Trackables ###
     resources :conditions
     get "conditions/search/:name" => "conditions#search"
 
@@ -23,6 +24,9 @@ Flaredown::Application.routes.draw do
 
     resources :treatments
     get "treatments/search/:name" => "treatments#search"
+    ##################
+
+    get "tags/search/:name" => "tags#search"
 
     get "me",                   to: "users#index"
     get "users/invitee/:token", to: "users#invitee"

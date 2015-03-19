@@ -157,6 +157,19 @@ describe Entry do
       expect(entry.symptoms).to eql []
     end
 
+    it "sets tags from notes on Entry and User" do
+      expect(entry.tags).to eql []
+
+      entry.notes = "Some #crazy tagging stuff with#lamepants tags in the #middle"
+      entry.process_responses
+      expect(entry.tags).to eql ["crazy", "middle"]
+      expect(entry.user.tag_list).to eql ["crazy", "middle"]
+
+      entry.notes = []
+      entry.process_responses
+      expect(entry.tags).to eql []
+    end
+
   end
 
 end

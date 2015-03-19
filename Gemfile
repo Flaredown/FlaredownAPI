@@ -34,6 +34,7 @@ gem "textacular", "~> 3.0"
 gem 'paper_trail', github: "airblade/paper_trail", tag: "v4.0.0.beta2"
 gem 'newrelic_rpm'
 gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'acts-as-taggable-on', '~> 3.4'
 
 group :production do
 end

@@ -11,7 +11,7 @@ module EntryAuditing
   def using_latest_audit?
     return true if applicable_audit.nil?
 
-    sorted_versions = user.versions.sort_by(&:created_at)
+    sorted_versions = user.reload.versions.sort_by(&:created_at)
     sorted_versions.index(applicable_audit) == sorted_versions.count-1
   end
 
