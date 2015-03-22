@@ -23,6 +23,9 @@ en:
 
   #onboarding
   #----------
+  # - catalogs
+  explain_catalogs_title: "Explain Catalogs Here:"
+
   # - checkin-finished
   first_checkin_completed: "Awesome, you finished your first check-in"
 
