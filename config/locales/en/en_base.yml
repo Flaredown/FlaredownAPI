@@ -1,4 +1,125 @@
 en:
+
+  unathenticated:
+    #login
+    you_are_already_logged_in: "You are already logged in!"
+    login_email: "Login Email"
+    your_email_placeholder: "your email"
+    login_password: "Password"
+    your_password_placeholder: "your password"
+    login_register_now: "Register Now"
+    login_button: "Login"
+
+    #register
+    desired_password: "Desires password"
+    confirm_password: "Confirm password"
+    back_to_login: "Back to Login"
+    enable_early_access: "Enable Early Access / Choose Your Own Adventure Bonanza!"
+    register: "Register"
+    register_email: "Email"
+    register_passord: "Password"
+    register_weight: "Weight"
+
+
+  #onboarding
+  #----------
+  # - catalogs
+  explain_catalogs_title: "Explain Catalogs Here:"
+
+  # - checkin-finished
+  first_checkin_completed: "Awesome, you finished your first check-in"
+
+  # - conditions
+  what_conditions_will_you_track: "Which conditions will you track?"
+  add_condition: "Add Condition"
+
+  # - symptoms
+  your_first_check_in: "It's your first check-in"
+  choose_up_to_8_symptoms: "Choose up to 8 symptoms to track"
+  add_a_symptom_title: "Add a Symptom"
+  add_symptom_button: "Add Symptom"
+
+  #questioner 
+  #----------
+  # - conditions
+  how_active_were_your_conditions: "How active were your conditions today?"
+  oops_no_conditions_being_tracked: "Bwa! No conditions being tracked!"
+
+  # - finish
+  checkin_complete: "Checkin complete!"
+  close_me: "Close me"
+  x_of_y_sections_completed: "%{x} of %{y} sections completed"
+
+  #notes
+  what_else_happened_today: "What else happened today?"
+
+  # - start
+  you_havent_checked_in_yet: "You haven't checked in yet today"
+  tap_next_to_start: "Tap <b>next</b> to get started!"
+
+  # - symptoms
+  how_active_were_your_symptoms: "How active were your symptoms today?"
+  oops_no_symptoms_being_tracked: "Bwa! No symptoms being tracked!"
+
+  # - treatments
+  which_treatments_taken_today: "Which treatments did you take today?"
+  oops_no_treatments_being_tracked: "Bwa! No treatments being tracked!"
+
+  #menu
+  menu_item_graph: "GRAPH"
+  menu_item_stats: "STATS"
+  menu_item_investigations: "INVESTIGATIONS"
+  menu_item_account: "Account"
+  menu_item_print: "Print"
+  menu_item_print_report: "Print report"
+  menu_item_edit_checkin: "Edit check-in"
+  menu_item_logout: "Logout"
+
+  #edit-checkin
+  now_editing_checkin_date: "Now editing checkin for %{date}"
+  back_to_checkin: "Back to Checkin"
+  edit_checkin_treatments: "Treatments"
+  edit_checkin_conditions: "Conditions"
+  edit_checkin_symptoms: "Symptoms"
+
+  #form error
+  form_error_name: "Name"
+  form_error_email: "Email"
+  form_error_phone: "Phone"
+  form_error_save_button: "Save"
+
+  #graph
+  #------
+  # - index
+  graph_remission: "Remission"
+  graph_for_x_days: "for %{days} days"
+  graph_total_days_tracked: "total days tracked"
+  graph_all_time_average_score: "all-time average score"
+  percentage_of_time_in_remission: "percentage of time in remission"
+  percentage_of_time_with_active_disease: "percentage of time with active"
+  percentage_of_time_with_severe_disease: "percentage of time with severe disease"
+
+  no_scores_in_date_range: "No scores in date range"
+  graph_date_range_label: "Date range"
+  showing_symptoms_and_treatments_over_days: "Showing <b>3 of 4 symptoms</b> and <b>all treatments</b> over <b>%{noOfDays}</b> days"
+
+  #insights
+  insights_title: "Insights here"
+
+  #invite-register
+  invite_registration_title: "This is the invite registration page"
+  here_is_registration_form: "here is the registration form"
+
+  #register
+  your_registration_information: "Your Registration Information"
+
+  #reports
+  reports_title: "Reports here"
+
+  #questioner
+  back_caps: "BACK"
+  next_caps: "NEXT"
+  thanks_for_contributing: "note: you're a champ for contributing to research!"
   symptom_question_prompt: "How active is the symptom: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
   add_trackable_prompt: "Add new %{kind}"
