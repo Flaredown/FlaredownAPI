@@ -18,28 +18,85 @@ en:
     register: "Register"
     register_email: "Email"
     register_passord: "Password"
-    register_weight: "Weight"
+    # register_weight: "Weight"
 
 
   #onboarding
   #----------
   # - catalogs
-  explain_catalogs_title: "Explain Catalogs Here:"
+  onboarding:
+    continue: "Continue"
+    checkin: "Check-in"
 
-  # - checkin-finished
-  first_checkin_completed: "Awesome, you finished your first check-in"
+    # account
+    get_started: "Create an account to get started"
+    location: "Location (Country)"
+    bday: "Birthday"
+    sex: "Sex (genetic)"
+    gender: "Gender"
 
-  # - conditions
-  what_conditions_will_you_track: "Which conditions will you track?"
-  add_condition: "Add Condition"
+    # research data
+    optional_research: "Optional data for research:"
 
-  # - symptoms
-  your_first_check_in: "It's your first check-in"
-  choose_up_to_8_symptoms: "Choose up to 8 symptoms to track"
-  add_a_symptom_title: "Add a Symptom"
-  add_symptom_button: "Add Symptom"
+    ethnic_origin: Ethnic origin (select all that apply)
+    ethnic_origin_options:
+     - "Latino or Hispanic"
+     - "European or White"
+     - "East Asian"
+     - "South Asian"
+     - "African American or Black"
+     - "Pacific Islander or Oceanian"
+     - "Middle Eastern or North African"
+     - "Native American or Alaska Native"
+     - "Sub-Saharan African"
+     - "Other"
+     - "I'm not sure"
 
-  #questioner 
+    occupation: Occupation
+    occupation_options:
+     - "professional and technical support"
+     - "managerial"
+     - "clerical and administrative support"
+     - "sales"
+     - "mechanical, construction, and precision production"
+     - "service (includes private household services, protective services, food preparation, health service, and personal service)"
+     - "operators, fabricators, and laborers"
+     - "farming, forestry, and fishing"
+
+    highest_education: Highest level of education completed
+    highest_education_options:
+     - "less than high school"
+     - "high school diploma"
+     - "some college or associate's degree"
+     - "bachelor's degree"
+     - "advanced degree"
+
+    # Trackables (conditions/symptoms/treatments)
+    activity_level: Activity level (avg. hours per week)
+
+    conditions_to_track: "What conditions will you track?"
+    research_questions_for_conditions: "Here are some questions we’ll ask based on your conditions:"
+
+    symptoms_to_track: "What symptoms will you track?"
+    treatments_to_track: "What treatments will you track?"
+
+    # complete
+    setup_complete: "Set up complete!"
+    ready_for_checkin: "You’re ready for your first check-in:"
+
+
+
+    # - conditions
+    add_condition: "Add Condition"
+
+    # - symptoms
+    your_first_check_in: "It's your first check-in"
+    choose_up_to_8_symptoms: "Choose up to 8 symptoms to track"
+    add_a_symptom_title: "Add a Symptom"
+    add_symptom_button: "Add Symptom"
+
+
+  #questioner
   #----------
   # - conditions
   how_active_were_your_conditions: "How active were your conditions today?"
