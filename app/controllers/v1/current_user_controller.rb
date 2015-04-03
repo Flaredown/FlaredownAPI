@@ -1,6 +1,8 @@
 class V1::CurrentUserController < V1::BaseController
   before_filter :only_current_user, except: [:index]
 
+  # TODO inheret from UserController?
+
   # for current user lookup
   def index
     render json: current_user, serializer: CurrentUserSerializer

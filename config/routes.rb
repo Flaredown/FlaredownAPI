@@ -29,6 +29,7 @@ Flaredown::Application.routes.draw do
     get "tags/search/:name" => "tags#search"
 
     get "me",                   to: "users#index"
+    post "me",                  to: "users#update"
     get "users/invitee/:token", to: "users#invitee"
 
     get "locales/:locale", to: "locales#show"

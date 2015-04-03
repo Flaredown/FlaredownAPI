@@ -12,6 +12,7 @@ class UserSerializer < ActiveModel::Serializer
     :locale,
     :symptom_colors,
     :treatment_colors,
-    :checked_in_today
+    :checked_in_today,
+    :settings
 
 end

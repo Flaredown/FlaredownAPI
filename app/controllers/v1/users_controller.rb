@@ -11,6 +11,11 @@ class V1::UsersController < V1::BaseController
     render json: CurrentUserSerializer.new(current_user).to_json, status: 200
   end
 
+  def update
+    current_user.update_attributes(user_params)
+    render json: {success: true}, status: 200
+  end
+
   def invitee
     user = User.find_by_invitation_token(params[:token], true)
     return four_oh_four unless user
@@ -18,7 +23,11 @@ class V1::UsersController < V1::BaseController
   end
 
   private
+  def user_params
+    params.permit(settings: [:location, :dobDay, :dobMonth, :dobYear, :sex, :gender])
+  end
+
   def only_current_user
-    four_oh_four unless params[:id].to_i == current_user.id
+    four_oh_four if params[:id] and params[:id].to_i != current_user.id
   end
 end
