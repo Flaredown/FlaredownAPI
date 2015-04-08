@@ -24,7 +24,7 @@ describe V1::TreatmentsController, type: :controller do
       expect(user.treatments.first.name).to eql "prednisone"
     end
 
-    it "returns array of active_treatments" do
+    it "returns activated treatment" do
       treatments = [
         {name: "happy gas"},
         {name: "yoga"}
@@ -37,7 +37,7 @@ describe V1::TreatmentsController, type: :controller do
 
       post :create, {name: "prednisone"}
 
-      expect(response.body).to be_json_eql({active_treatments: %w( happy\ gas yoga prednisone )}.to_json)
+      expect(response.body).to be_json_eql({treatment: {id: 1, name: "prednisone"}}.to_json)
     end
 
     it "doesn't add existing treatment to user twice" do

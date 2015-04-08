@@ -24,7 +24,7 @@ describe V1::SymptomsController, type: :controller do
       expect(user.symptoms.first.name).to eql "droopy lips"
     end
 
-    it "returns array of active_symptoms" do
+    it "returns activated symptom" do
       symptoms = [
         {name: "fat toes"},
         {name: "slippery tongue"}
@@ -37,7 +37,7 @@ describe V1::SymptomsController, type: :controller do
 
       post :create, {name: "droopy lips"}
 
-      expect(response.body).to be_json_eql({active_symptoms: %w( fat\ toes slippery\ tongue droopy\ lips)}.to_json)
+      expect(response.body).to be_json_eql({symptom: {id: 1, name: "droopy lips"}}.to_json)
     end
 
     it "doesn't add existing symptom to user twice" do

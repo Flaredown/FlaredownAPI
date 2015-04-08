@@ -6,7 +6,7 @@ class V1::ConditionsController < V1::BaseController
 
     if condition.valid?
       current_user.user_conditions.activate condition
-      render json: {conditions: current_user.conditions.map(&:name)}, status: 201
+      render json: {condition: {id: condition.id, name: condition.name}}, status: 201
     else
       response = respond_with_error(condition.errors.messages).to_json
       render json: response, status: 400

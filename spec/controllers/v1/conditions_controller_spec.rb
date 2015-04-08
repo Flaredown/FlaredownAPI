@@ -24,7 +24,7 @@ describe V1::ConditionsController, type: :controller do
       expect(user.conditions.first.name).to eql "allergies"
     end
 
-    it "returns array of condition names" do
+    it "returns activated condition" do
       conditions = [
         {name: "crohns"},
         {name: "back pain"}
@@ -36,7 +36,7 @@ describe V1::ConditionsController, type: :controller do
 
       post :create, {name: "allergies"}
 
-      expect(response.body).to be_json_eql({conditions: %w( crohns back\ pain allergies)}.to_json)
+      expect(response.body).to be_json_eql({condition: {id: 1, name: "allergies"}}.to_json)
     end
 
     it "doesn't add existing condition to user twice" do

@@ -47,19 +47,20 @@ en:
     # research data
     optional_research: "Optional data for research:"
 
-    ethnic_origin: Ethnic origin (select all that apply)
+    ethnic_origin: Ethnic Origin
+    ethnic_origin_placeholder: Ethnic Origin (select all that apply)
     ethnic_origin_options:
-     - "Latino or Hispanic"
-     - "European or White"
-     - "East Asian"
-     - "South Asian"
-     - "African American or Black"
-     - "Pacific Islander or Oceanian"
-     - "Middle Eastern or North African"
-     - "Native American or Alaska Native"
-     - "Sub-Saharan African"
-     - "Other"
-     - "I'm not sure"
+     latino: "Latino or Hispanic"
+     white: "European or White"
+     east_asian: "East Asian"
+     south_asian: "South Asian"
+     black: "African American or Black"
+     oceanian: "Pacific Islander or Oceanian"
+     middle_eastern: "Middle Eastern or North African"
+     native_american: "Native American or Alaska Native"
+     african: "Sub-Saharan African"
+     other: "Other"
+     not_sure: "I'm not sure"
 
     occupation: Occupation
     occupation_options:
@@ -79,8 +80,6 @@ en:
      - "some college or associate's degree"
      - "bachelor's degree"
      - "advanced degree"
-
-    locationOptions:
 
     # Trackables (conditions/symptoms/treatments)
     activity_level: Activity level (avg. hours per week)

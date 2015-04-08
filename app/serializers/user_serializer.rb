@@ -3,6 +3,7 @@ class UserSerializer < ActiveModel::Serializer
 
   has_many :treatments, include: true
   has_many :symptoms, include: true
+  has_many :conditions, include: true
 
   attributes :id,
     :settings,
