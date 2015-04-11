@@ -42,7 +42,7 @@ en:
       male: male
       female: female
 
-    gender: "Gender"
+    gender: "Gender, if different"
 
     # research data
     optional_research: "Optional data for research:"
