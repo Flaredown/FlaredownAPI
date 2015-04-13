@@ -55,15 +55,16 @@ class V1::Users::SessionsController < Devise::SessionsController
 
   protected
   def ensure_params_exist
-    return unless params[:v1_user][:email].blank?
+    return if params[:v1_user] and not params[:v1_user][:email].blank?
     errors = {email: [{type: 'empty', message: 'Email is empty'}]}
-    render :json=>respond_with_error(errors), :status=>401
+    render_error("inline", errors, 401)
   end
 
   def invalid_login_attempt
     warden.custom_failure!
-    errors = {email: ["Email is invalid"], password: ["Password is invalid"]}
-    render :json=>respond_with_error(errors), :status=>422
+    # errors = {email: [{type: "invalid",message: "Email is invalid"}], password: [{type: "invalid",message: "Password is invalid"}]}
+    errors = {title: "bad_credentials", description: "bad_credentials_description"}
+    render_error("general", errors, 422)
   end
 
   def sign_in_params
@@ -81,8 +82,4 @@ class V1::Users::SessionsController < Devise::SessionsController
     { :scope => resource_name, :recall => "#{controller_path}#new" }
   end
 
-  def respond_with_error(errors)
-    generator = GroovyResponseGenerator.new("inline", errors)
-    return generator.get_errors_response()
-  end
 end

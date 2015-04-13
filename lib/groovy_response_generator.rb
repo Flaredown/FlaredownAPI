@@ -1,43 +1,105 @@
-class GroovyResponseGenerator
-  def initialize(type, errors)
-    @type = type
-    @errors = errors
-  end
+module GroovyResponseGenerator
+  GENERIC_RESPONSES = {
+    "406" => ["generic", {title: 406, description: "nice_errors.406"}, 406],
+    "407" => ["generic", {title: 407, description: "nice_errors.407"}, 407],
+    "408" => ["generic", {title: 408, description: "nice_errors.408"}, 408],
+    "409" => ["generic", {title: 409, description: "nice_errors.409"}, 409],
+    "410" => ["generic", {title: 410, description: "nice_errors.410"}, 410],
+    "411" => ["generic", {title: 411, description: "nice_errors.411"}, 411],
+    "412" => ["generic", {title: 412, description: "nice_errors.412"}, 412],
+    "413" => ["generic", {title: 413, description: "nice_errors.413"}, 413],
+    "414" => ["generic", {title: 414, description: "nice_errors.414"}, 414],
+    "415" => ["generic", {title: 415, description: "nice_errors.415"}, 415],
+    "416" => ["generic", {title: 416, description: "nice_errors.416"}, 416],
+    "417" => ["generic", {title: 417, description: "nice_errors.417"}, 417],
+    "418" => ["generic", {title: 418, description: "nice_errors.418"}, 418],
+    "420" => ["generic", {title: 420, description: "nice_errors.420"}, 420],
+    "422" => ["generic", {title: 422, description: "nice_errors.422"}, 422],
+    "423" => ["generic", {title: 423, description: "nice_errors.423"}, 423],
+    "424" => ["generic", {title: 424, description: "nice_errors.424"}, 424],
+    "426" => ["generic", {title: 426, description: "nice_errors.426"}, 426],
+    "428" => ["generic", {title: 428, description: "nice_errors.428"}, 428],
+    "429" => ["generic", {title: 429, description: "nice_errors.429"}, 429],
+    "431" => ["generic", {title: 431, description: "nice_errors.431"}, 431],
+    "444" => ["generic", {title: 444, description: "nice_errors.444"}, 444],
+    "449" => ["generic", {title: 449, description: "nice_errors.449"}, 449],
+    "450" => ["generic", {title: 450, description: "nice_errors.450"}, 450],
+    "451" => ["generic", {title: 451, description: "nice_errors.451"}, 451],
+    "499" => ["generic", {title: 499, description: "nice_errors.499"}, 499],
+    "500" => ["generic", {title: 500, description: "nice_errors.500"}, 500],
+    "501" => ["generic", {title: 501, description: "nice_errors.501"}, 501],
+    "502" => ["generic", {title: 502, description: "nice_errors.502"}, 502],
+    "503" => ["generic", {title: 503, description: "nice_errors.503"}, 503],
+    "504" => ["generic", {title: 504, description: "nice_errors.504"}, 504],
+    "505" => ["generic", {title: 505, description: "nice_errors.505"}, 505],
+    "506" => ["generic", {title: 506, description: "nice_errors.506"}, 506],
+    "507" => ["generic", {title: 507, description: "nice_errors.507"}, 507],
+    "508" => ["generic", {title: 508, description: "nice_errors.508"}, 508],
+    "509" => ["generic", {title: 509, description: "nice_errors.509"}, 509],
+    "510" => ["generic", {title: 510, description: "nice_errors.510"}, 510],
+    "511" => ["generic", {title: 511, description: "nice_errors.511"}, 511],
+    "598" => ["generic", {title: 598, description: "nice_errors.598"}, 598],
+    "599" => ["generic", {title: 599, description: "nice_errors.599"}, 599],
+  }
 
-  def get_errors_response
-    case @type
-      when "inline"
-        return getInlineErrorResponse()
+  def render_error(kind, errors={}, code=400)
+    case kind
+    when "inline"
+      inlineErrorResponse(kind, errors, code)
+    when "general"
+      generalErrorResponse(kind, errors, code)
+    else
+      key = kind.to_s
+      if GENERIC_RESPONSES.has_key?(key)
+        generalErrorResponse(*GENERIC_RESPONSES[key])
+      else
+        generalErrorResponse(*GENERIC_RESPONSES["500"])
+      end
     end
   end
 
   protected
 
-  def getInlineErrorResponse
-    fields_errors = steralizeFieldsError()
+  def inlineErrorResponse(kind, errors, code)
+    fields_errors = sterilizeFieldsError(errors)
     response = {
         errors: {
-            error_group: @type,
+            kind: kind,
             fields: fields_errors,
             machine_name: "validation_error"
         }
     }
 
-    return response
+    return render :json => response, :status => code
   end
 
-  def steralizeFieldsError
-    errorsHash = {}
-    @errors. each do |key, value|
-      errors = []
-      Rails.logger.debug key
-      value.each do |message|
-        errorHash = {:type => '', :message => message}
-        errors.push errorHash
-      end
-      errorsHash[key] = errors
+  def generalErrorResponse(kind, error, code)
+    response = {
+        errors: {
+            kind: kind,
+            title: error[:title],
+            description: error[:description],
+            machine_name: "general_error"
+        }
+    }
+
+    return render :json => response, :status => code
+  end
+
+
+  private
+  def sterilizeFieldsError(errors)
+    errors.reduce({}) do |hash,(key,value)|
+      hash[key] =
+        value.each do |error|
+          if error.is_a?(Array)
+            errors[key] = error
+          else # must be a string message, untyped
+            errors[key] = [{:type => '', :message => error}]
+          end
+        end
+      hash
     end
-    return errorsHash
   end
 
 end

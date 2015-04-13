@@ -3,22 +3,19 @@ en:
   unauthenticated:
     #login
     you_are_already_logged_in: "You are already logged in!"
-    login_email: "Login Email"
-    your_email_placeholder: "your email"
-    login_password: "Password"
-    your_password_placeholder: "your password"
+    email: "Login Email"
+    email_placeholder: "your email"
+    password: "Password"
+    password_placeholder: "your password"
+
     login_register_now: "Register Now"
     login_button: "Login"
 
     #register
-    desired_password: "Desires password"
-    confirm_password: "Confirm password"
+    confirm_password_placeholder: "Confirm password"
     back_to_login: "Back to Login"
     enable_early_access: "Enable Early Access / Choose Your Own Adventure Bonanza!"
     register: "Register"
-    register_email: "Email"
-    register_passord: "Password"
-    # register_weight: "Weight"
 
 
   #onboarding
@@ -34,8 +31,11 @@ en:
     location_placeholder: "Select a country"
     dob: "Birth Date"
     dob_month: "Month"
+    dob_month_placeholder: "08"
     dob_day: "Day"
+    dob_day_placeholder: "13"
     dob_year: "Year"
+    dob_year_placeholder: "1986"
 
     sex: "Sex (genetic)"
     sex_options:
@@ -218,6 +218,50 @@ en:
     basic_2: "Fairly active"
     basic_3: "Very active"
     basic_4: "Extremely active"
+
+  nice_errors:
+    bad_credentials: "Invalid Login Credentials"
+    bad_credentials_description: "Either the email or password you submitted was incorrect"
+
+    406: content not acceptable according to the Accept headers
+    407: client must first authenticate itself with the proxy
+    408: server timed out waiting for the request
+    409: request could not be processed because of conflict
+    410: resource is no longer available and will not be available again
+    411: request did not specify the length of its content
+    412: server does not meet request preconditions
+    413: request is larger than the server is willing or able to process
+    414: URI provided was too long for the server to process
+    415: server does not support media type
+    416: client has asked for unprovidable portion of the file
+    417: server cannot meet requirements of Expect request-header field
+    422: request unable to be followed due to semantic errors
+    423: resource that is being accessed is locked
+    424: request failed due to failure of a previous request
+    426: client should switch to a different protocol
+    428: origin server requires the request to be conditional
+    429: user has sent too many requests in a given amount of time
+    431: server is unwilling to process the request
+    444: server returns no information and closes the connection
+    449: request should be retried after performing action
+    450: Windows Parental Controls blocking access to webpage
+    451: The server cannot reach the client's mailbox.
+    499: connection closed by client while HTTP server is processing
+
+    500: "Something went wrong, perhaps try again"
+    501: server does not recognize method or lacks ability to fulfill
+    502: server received an invalid response from upstream server
+    503: server is currently unavailable
+    504: gateway did not receive response from upstream server
+    505: server does not support the HTTP protocol version
+    506: content negotiation for the request results in a circular reference
+    507: server is unable to store the representation
+    508: server detected an infinite loop while processing the request
+    509: bandwidth limit exceeded
+    510: further extensions to the request are required
+    511: client needs to authenticate to gain network access
+    598: network read timeout behind the proxy
+    599: network connect timeout behind the proxy
 
 
   location_options:

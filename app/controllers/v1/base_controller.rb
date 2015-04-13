@@ -1,4 +1,5 @@
 class V1::BaseController < ActionController::Base
+  include GroovyResponseGenerator
 
   include TokenAuth::Controller
   before_filter :authenticate_v1_user!
@@ -8,9 +9,7 @@ class V1::BaseController < ActionController::Base
   respond_to :json
 
   rescue_from ActiveRecord::RecordNotFound, with: :four_oh_four
-  def four_oh_four
-    render json: {error: "Not found."}, status: 404
-  end
+  def four_oh_four; render_error(404); end
 
   def current_user
     current_v1_user
@@ -21,9 +20,9 @@ class V1::BaseController < ActionController::Base
     request.format = "json"
   end
 
-  def respond_with_error(errors)
-    generator = GroovyResponseGenerator.new("inline", errors)
-    return generator.get_errors_response()
-  end
+  # def respond_with_error(errors)
+  #   generator =
+  #   return generator.get_errors_response()
+  # end
 
 end
