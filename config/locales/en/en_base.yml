@@ -30,9 +30,9 @@ en:
 
     # account
     get_started: "Create an account to get started"
-    location: "Location (Country)"
+    location: "Country"
     location_placeholder: "Select a country"
-    dob: "Birthday"
+    dob: "Birth Date"
     dob_month: "Month"
     dob_day: "Day"
     dob_year: "Year"
@@ -111,11 +111,10 @@ en:
   #----------
   # - conditions
   how_active_were_your_conditions: "How active were your conditions today?"
-  oops_no_conditions_being_tracked: "Bwa! No conditions being tracked!"
+  oops_no_conditions_being_tracked: "You aren't tracking any conditions."
 
   # - finish
   checkin_complete: "Checkin complete!"
-  close_me: "Close me"
   x_of_y_sections_completed: "%{x} of %{y} sections completed"
 
   #notes
@@ -127,11 +126,11 @@ en:
 
   # - symptoms
   how_active_were_your_symptoms: "How active were your symptoms today?"
-  oops_no_symptoms_being_tracked: "Bwa! No symptoms being tracked!"
+  oops_no_symptoms_being_tracked: "You aren't tracking any symptoms."
 
   # - treatments
   which_treatments_taken_today: "Which treatments did you take today?"
-  oops_no_treatments_being_tracked: "Bwa! No treatments being tracked!"
+  oops_no_treatments_being_tracked: "You aren't tracking any treatments."
 
   #menu
   menu_item_graph: "GRAPH"
@@ -185,9 +184,9 @@ en:
   reports_title: "Reports here"
 
   #questioner
+  done_caps: "DONE"
   back_caps: "BACK"
   next_caps: "NEXT"
-  thanks_for_contributing: "note: you're a champ for contributing to research!"
   symptom_question_prompt: "How active is the symptom: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
   add_trackable_prompt: "Add new %{kind}"
