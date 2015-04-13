@@ -19,10 +19,4 @@ class V1::BaseController < ActionController::Base
   def set_format
     request.format = "json"
   end
-
-  # def respond_with_error(errors)
-  #   generator =
-  #   return generator.get_errors_response()
-  # end
-
 end

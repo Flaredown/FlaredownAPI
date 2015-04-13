@@ -66,6 +66,7 @@ module GroovyResponseGenerator
         errors: {
             kind: kind,
             fields: fields_errors,
+            success: false,
             machine_name: "validation_error"
         }
     }
@@ -79,6 +80,7 @@ module GroovyResponseGenerator
             kind: kind,
             title: error[:title],
             description: error[:description],
+            success: false,
             machine_name: "general_error"
         }
     }

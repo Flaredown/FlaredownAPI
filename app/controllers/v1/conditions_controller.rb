@@ -8,8 +8,8 @@ class V1::ConditionsController < V1::BaseController
       current_user.user_conditions.activate condition
       render json: {condition: {id: condition.id, name: condition.name}}, status: 201
     else
-      response = respond_with_error(condition.errors.messages).to_json
-      render json: response, status: 400
+      error = {title: "Invalid Request", description: condition.errors.messages[:name].join(",")}
+      render_error("general", error, 400)
     end
 
   end
@@ -25,7 +25,7 @@ class V1::ConditionsController < V1::BaseController
       current_user.conditions.delete(condition)
       render json: {success: true}, status: 204
     else
-      render json: {success: false}, status: 404
+      render_error(404)
     end
   end
 
