@@ -29,6 +29,7 @@ Flaredown::Application.routes.draw do
     get "tags/search/:name" => "tags#search"
 
     get "me",                   to: "users#index"
+    get "me/catalogs",          to: "users#catalog_definition"
     post "me",                  to: "users#update"
     get "users/invitee/:token", to: "users#invitee"
 

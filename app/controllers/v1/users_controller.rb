@@ -16,6 +16,16 @@ class V1::UsersController < V1::BaseController
     render json: {success: true}, status: 200
   end
 
+  def catalog_definition
+    catalogs = current_user.active_catalogs.reduce({}) do |definitions,catalog|
+      _module = "#{catalog.capitalize}Catalog".constantize
+      definitions[catalog.to_sym] = _module.const_get("DEFINITION")
+      definitions
+    end
+
+    render json: catalogs, status: 200
+  end
+
   def invitee
     user = User.find_by_invitation_token(params[:token], true)
     return four_oh_four unless user

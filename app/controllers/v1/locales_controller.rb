@@ -1,5 +1,5 @@
 class V1::LocalesController < V1::BaseController
-
+  skip_before_filter :authenticate_v1_user!
 
   # Get base localization information plus any catalogs
   #
@@ -25,7 +25,7 @@ class V1::LocalesController < V1::BaseController
     locale_name = sanitize_locale_name(locale_params["locale"].to_s)
     locale = yaml_to_json_style_interpolation!( File.open("#{Rails.root}/config/locales/#{locale_name}/#{locale_name}_base.yml").read )
 
-    if current_user.catalogs.present? # Load each catalog on the current_user into the response
+    if current_user and current_user.catalogs.present? # Load each catalog on the current_user into the response
       locale[locale_name][:catalogs] ||= {}
 
       current_user.catalogs.each do |catalog|

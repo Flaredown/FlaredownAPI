@@ -1,6 +1,6 @@
 en:
 
-  unathenticated:
+  unauthenticated:
     #login
     you_are_already_logged_in: "You are already logged in!"
     login_email: "Login Email"

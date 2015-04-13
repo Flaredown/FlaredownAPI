@@ -6,6 +6,7 @@ class UserSerializer < ActiveModel::Serializer
   has_many :conditions, include: true
 
   attributes :id,
+    :catalogs,
     :settings,
     :obfuscated_id,
     :email,
@@ -15,5 +16,9 @@ class UserSerializer < ActiveModel::Serializer
     :treatment_colors,
     :checked_in_today,
     :settings
+
+    def catalogs
+      object.catalogs
+    end
 
 end
