@@ -8,7 +8,7 @@ class V1::SymptomsController < V1::BaseController
       current_user.user_symptoms.activate(symptom)
       render json: {symptom: {id: symptom.id, name: symptom.name}}, status: 201
     else
-      render_error("inline", symptom.errors, 400)
+      render_error("inline", symptom.errors)
     end
 
   end

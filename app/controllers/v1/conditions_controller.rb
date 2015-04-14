@@ -8,7 +8,7 @@ class V1::ConditionsController < V1::BaseController
       current_user.user_conditions.activate condition
       render json: {condition: {id: condition.id, name: condition.name}}, status: 201
     else
-      render_error("inline", condition.errors, 400, "condition")
+      render_error("inline", condition.errors)
     end
 
   end

@@ -8,7 +8,7 @@ class V1::TreatmentsController < V1::BaseController
       current_user.user_treatments.activate(treatment)
       return render json: {treatment: {id: treatment.id, name: treatment.name} }, status: 201
     else
-      render_error("inline", treatment.errors, 400)
+      render_error("inline", treatment.errors)
     end
 
   end
