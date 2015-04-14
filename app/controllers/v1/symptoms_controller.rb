@@ -8,8 +8,7 @@ class V1::SymptomsController < V1::BaseController
       current_user.user_symptoms.activate(symptom)
       render json: {symptom: {id: symptom.id, name: symptom.name}}, status: 201
     else
-      response = respond_with_error(symptom.errors.messages).to_json
-      render json: response, status: 400
+      render_error("inline", symptom.errors, 400)
     end
 
   end
@@ -25,7 +24,7 @@ class V1::SymptomsController < V1::BaseController
       current_user.user_symptoms.deactivate(symptom)
       render json: {success: true}, status: 204
     else
-      render json: {success: false}, status: 404
+      render_error(404)
     end
   end
 
