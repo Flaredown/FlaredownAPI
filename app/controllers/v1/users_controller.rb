@@ -28,7 +28,7 @@ class V1::UsersController < V1::BaseController
 
   def invitee
     user = User.find_by_invitation_token(params[:token], true)
-    return four_oh_four unless user
+    return general_error_for("invite_not_found", 404) if user.nil?
     render json: BasicUserSerializer.new(user), status: 200
   end
 

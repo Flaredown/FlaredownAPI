@@ -4,6 +4,7 @@ class V1::Users::InvitationsController < Devise::InvitationsController
   prepend_before_filter :has_invitations_left?, :only => [:create]
   prepend_before_filter :require_no_authentication, :only => [:edit, :update, :destroy]
   prepend_before_filter :resource_from_invitation_token, :only => [:edit, :destroy]
+
   helper_method :after_sign_in_path_for
 
   respond_to :json
@@ -28,12 +29,9 @@ class V1::Users::InvitationsController < Devise::InvitationsController
     if resource.errors.empty?
       sign_in(resource_name, resource)
 
-      render json: resource, status:200
-      # redirect_to "/app"
-      # respond_with resource, :location => after_accept_path_for(resource)
+      render json: {success: true}, status:200
     else
-      render json: {:success => false, :errors => resource.errors}, status: 400
-      # respond_with_navigational(resource){ render :edit }
+      render_error("inline", resource.errors)
     end
   end
 
@@ -78,7 +76,7 @@ class V1::Users::InvitationsController < Devise::InvitationsController
   end
 
   def update_resource_params
-    devise_parameter_sanitizer.sanitize(:accept_invitation)
+    params.permit(%i(email password password_confirmation invitation_token))
   end
 
 end

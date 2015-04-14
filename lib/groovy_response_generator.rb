@@ -1,5 +1,6 @@
 module GroovyResponseGenerator
   GENERIC_RESPONSES = {
+    "404" => ["generic", {title: 404, description: "nice_errors.404"}, 404],
     "406" => ["generic", {title: 406, description: "nice_errors.406"}, 406],
     "407" => ["generic", {title: 407, description: "nice_errors.407"}, 407],
     "408" => ["generic", {title: 408, description: "nice_errors.408"}, 408],
@@ -58,6 +59,10 @@ module GroovyResponseGenerator
     end
   end
 
+  def general_error_for(name, code=400)
+    render_error("general", {title: "#{name}", description: "#{name}_description"}, code)
+  end
+
   protected
 
   def inlineErrorResponse(kind, errors, code, model)
@@ -102,7 +107,7 @@ module GroovyResponseGenerator
     # {field: [{type: "sometype", message: "the messsage"}]}
 
     if errors.is_a?(ActiveModel::Errors)
-      model ||= errors.instance_variable_get(:@base).to_s.downcase
+      model ||= errors.instance_variable_get(:@base).class.to_s.downcase
       errors = errors.messages
     end
 

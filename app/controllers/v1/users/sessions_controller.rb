@@ -62,9 +62,7 @@ class V1::Users::SessionsController < Devise::SessionsController
 
   def invalid_login_attempt
     warden.custom_failure!
-    # errors = {email: [{type: "invalid",message: "Email is invalid"}], password: [{type: "invalid",message: "Password is invalid"}]}
-    errors = {title: "bad_credentials", description: "bad_credentials_description"}
-    render_error("general", errors, 422)
+    general_error_for("bad_credentials", 422)
   end
 
   def sign_in_params
