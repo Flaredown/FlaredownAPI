@@ -8,8 +8,7 @@ class V1::ConditionsController < V1::BaseController
       current_user.user_conditions.activate condition
       render json: {condition: {id: condition.id, name: condition.name}}, status: 201
     else
-      error = {title: "Invalid Request", description: condition.errors.messages[:name].join(",")}
-      render_error("general", error, 400)
+      render_error("inline", condition.errors, 400, "condition")
     end
 
   end

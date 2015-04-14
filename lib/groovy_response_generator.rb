@@ -42,10 +42,10 @@ module GroovyResponseGenerator
     "599" => ["generic", {title: 599, description: "nice_errors.599"}, 599],
   }
 
-  def render_error(kind, errors={}, code=400)
+  def render_error(kind, errors={}, code=400, model=nil)
     case kind
     when "inline"
-      inlineErrorResponse(kind, errors, code)
+      inlineErrorResponse(kind, errors, code, model)
     when "general"
       generalErrorResponse(kind, errors, code)
     else
@@ -60,13 +60,13 @@ module GroovyResponseGenerator
 
   protected
 
-  def inlineErrorResponse(kind, errors, code)
-    fields_errors = sterilizeFieldsError(errors)
+  def inlineErrorResponse(kind, errors, code, model)
     response = {
         errors: {
             kind: kind,
-            fields: fields_errors,
+            fields: normalizeFieldErrors(errors, model),
             success: false,
+            model: model,
             machine_name: "validation_error"
         }
     }
@@ -90,18 +90,38 @@ module GroovyResponseGenerator
 
 
   private
-  def sterilizeFieldsError(errors)
-    errors.reduce({}) do |hash,(key,value)|
-      hash[key] =
-        value.each do |error|
-          if error.is_a?(Array)
-            errors[key] = error
-          else # must be a string message, untyped
-            errors[key] = [{:type => '', :message => error}]
-          end
+  def normalizeFieldErrors(errors, model=nil)
+
+    # EXAMPLES INPUTS:
+    # ActiveModel::Errors
+    # {email: [{type: 'empty', message: 'Email is empty'}]}
+    # {name: "Name cannot be longer then 100 characters"}
+    # {name: ["Name cannot be longer then 100 characters", "No special characters!"]}
+
+    # OUTPUT
+    # {field: [{type: "sometype", message: "the messsage"}]}
+
+    if errors.is_a?(ActiveModel::Errors)
+      model ||= errors.instance_variable_get(:@base).to_s.downcase
+      errors = errors.messages
+    end
+
+    normalized = errors.reduce({}) do |hash,(key,value)|
+      hash[key] = [] # Each key should always give back an Array, start with that
+
+      value.each do |error|
+        case error.class.to_s
+        when "Hash"
+          hash[key].push error # just push it, assume it's type/message format
+        when "String"
+          hash[key] = [{type: "", message: error}]
         end
+      end
+
       hash
     end
+
+    if model then {"#{model}" => normalized} else normalized end
   end
 
 end
