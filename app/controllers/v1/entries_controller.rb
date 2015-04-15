@@ -78,13 +78,15 @@ class V1::EntriesController < V1::BaseController
   # Returns 422 for errors along with errors json
 	def update
     date = Date.parse(params[:id])
-    @entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
+    entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
-    if @entry.update_attributes(entry_params)
-      @entry.update_audit
-      render json: {success: true}, status: 200
+    if entry.update_attributes(entry_params)
+      entry.update_audit
+
+      render_success
     else
-      render json: {errors: @entry.errors}, status: 422
+      render_error("inline", entry.errors, 422)
+      # render json: {errors: entry.errors}, status: 422
     end
 	end
 

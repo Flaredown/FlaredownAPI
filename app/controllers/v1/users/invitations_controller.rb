@@ -29,7 +29,7 @@ class V1::Users::InvitationsController < Devise::InvitationsController
     if resource.errors.empty?
       sign_in(resource_name, resource)
 
-      render json: {success: true}, status:200
+      render_success
     else
       render_error("inline", resource.errors)
     end

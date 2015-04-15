@@ -13,7 +13,7 @@ class V1::UsersController < V1::BaseController
 
   def update
     current_user.update_attributes(user_params)
-    render json: {success: true}, status: 200
+    render_success
   end
 
   def catalog_definition

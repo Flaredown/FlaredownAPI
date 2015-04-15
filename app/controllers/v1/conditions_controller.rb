@@ -22,7 +22,7 @@ class V1::ConditionsController < V1::BaseController
     condition = Condition.find_by(id: params[:id])
     if condition
       current_user.conditions.delete(condition)
-      render json: {success: true}, status: 204
+      render_success(204)
     else
       render_error(404)
     end

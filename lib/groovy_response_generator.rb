@@ -44,9 +44,14 @@ module GroovyResponseGenerator
   }
 
   def render_error(kind, errors={}, code=400, model=nil)
+    if errors.is_a?(ActiveModel::Errors)
+      model_name ||= errors.instance_variable_get(:@base).class.to_s.underscore
+      errors = errors.messages
+    end
+
     case kind
     when "inline"
-      inlineErrorResponse(kind, errors, code, model)
+      inlineErrorResponse(kind, errors, code, model_name)
     when "general"
       generalErrorResponse(kind, errors, code)
     else
@@ -59,19 +64,23 @@ module GroovyResponseGenerator
     end
   end
 
-  def general_error_for(name, code=400)
+  def render_success(code=200)
+    render json: {success: true}, status: code
+  end
+
+  def general_error_for(name="general_error", code=400)
     render_error("general", {title: "#{name}", description: "#{name}_description"}, code)
   end
 
   protected
 
-  def inlineErrorResponse(kind, errors, code, model)
+  def inlineErrorResponse(kind, errors, code, model_name)
     response = {
         errors: {
             kind: kind,
-            fields: normalizeFieldErrors(errors, model),
+            fields: normalizeFieldErrors(errors, model_name),
             success: false,
-            model: model,
+            model: model_name,
             machine_name: "validation_error"
         }
     }
@@ -95,7 +104,7 @@ module GroovyResponseGenerator
 
 
   private
-  def normalizeFieldErrors(errors, model=nil)
+  def normalizeFieldErrors(errors, model_name=nil)
 
     # EXAMPLES INPUTS:
     # ActiveModel::Errors
@@ -105,11 +114,6 @@ module GroovyResponseGenerator
 
     # OUTPUT
     # {field: [{type: "sometype", message: "the messsage"}]}
-
-    if errors.is_a?(ActiveModel::Errors)
-      model ||= errors.instance_variable_get(:@base).class.to_s.downcase
-      errors = errors.messages
-    end
 
     normalized = errors.reduce({}) do |hash,(key,value)|
       hash[key] = [] # Each key should always give back an Array, start with that
@@ -126,7 +130,7 @@ module GroovyResponseGenerator
       hash
     end
 
-    if model then {"#{model}" => normalized} else normalized end
+    if model_name then {"#{model_name}" => normalized} else normalized end
   end
 
 end

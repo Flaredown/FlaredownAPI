@@ -22,7 +22,7 @@ class V1::SymptomsController < V1::BaseController
     symptom = Symptom.find_by(id: params[:id])
     if symptom
       current_user.user_symptoms.deactivate(symptom)
-      render json: {success: true}, status: 204
+      render_success(204)
     else
       render_error(404)
     end

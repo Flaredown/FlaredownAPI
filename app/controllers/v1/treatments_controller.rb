@@ -22,7 +22,7 @@ class V1::TreatmentsController < V1::BaseController
     treatment = Treatment.find_by(id: params[:id])
     if treatment
       current_user.user_treatments.deactivate(treatment)
-      render json: {success: true}, status: 204
+      render_success(204)
     else
       render_error(404)
     end
