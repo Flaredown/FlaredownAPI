@@ -5,16 +5,16 @@ en:
     login: "Log in"
     you_are_already_logged_in: "You are already logged in!"
     email: "Email"
-    email_placeholder: "your email"
+    email_placeholder: "name@domain.com"
     password: "Password"
-    password_placeholder: "your password"
+    password_placeholder: ""
 
     login_register_now: "Register Now"
     login_button: "Login"
 
     #register
     password_confirmation: "Confirm your password"
-    password_confirmation_placeholder: "confirm password"
+    password_confirmation_placeholder: ""
     back_to_login: "Back to Login"
     enable_early_access: "Enable Early Access / Choose Your Own Adventure Bonanza!"
     register: "Register"
