@@ -2,8 +2,9 @@ en:
 
   unauthenticated:
     #login
+    login: "Log in"
     you_are_already_logged_in: "You are already logged in!"
-    email: "Login Email"
+    email: "Email"
     email_placeholder: "your email"
     password: "Password"
     password_placeholder: "your password"
@@ -178,7 +179,7 @@ en:
   here_is_registration_form: "here is the registration form"
 
   #register
-  your_registration_information: "Your Registration Information"
+  your_registration_information: "Create your account"
 
   #reports
   reports_title: "Reports here"
