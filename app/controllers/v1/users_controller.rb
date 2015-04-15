@@ -12,8 +12,12 @@ class V1::UsersController < V1::BaseController
   end
 
   def update
-    current_user.update_attributes(user_params)
-    render_success
+    settings = current_user.settings.merge(user_params[:settings])
+    if current_user.update_attributes(settings: settings)
+      render_success
+    else
+      render_general_error
+    end
   end
 
   def catalog_definition

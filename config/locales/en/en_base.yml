@@ -22,6 +22,7 @@ en:
   forms:
     save: "Save"
     saving: "Saving..."
+    keep_typing: "Keep typing..."
 
   #onboarding
   #----------
@@ -69,14 +70,23 @@ en:
 
     occupation: Occupation
     occupation_options:
-     - "professional and technical support"
-     - "managerial"
-     - "clerical and administrative support"
-     - "sales"
-     - "mechanical, construction, and precision production"
-     - "service (includes private household services, protective services, food preparation, health service, and personal service)"
-     - "operators, fabricators, and laborers"
-     - "farming, forestry, and fishing"
+      - managerial
+      - administrative
+      - sales
+      - trades
+      - service
+      - operator/laborer
+      - natural resources
+
+    occupation_options_descriptions:
+      - "e.g. architect, lawyer, pharmacist, physician, programmer, scientist, teacher"
+      - "e.g. bank manager, department supervisor hospital administrator"
+      - "e.g. administrative assistant, bank teller, data entry clerk, receptionist"
+      - "e.g. cashier, salesperson"
+      - "e.g. carpenter, electrician, mechanic"
+      - "e.g. cook, custodian, hairstylist, housekeeper, restaurant server"
+      - "e.g. garbage collector, machine operator, truck driver"
+      - "e.g. farm worker, forestry worker, fishery worker"
 
     highest_education: Highest level of education completed
     highest_education_options:
@@ -87,7 +97,7 @@ en:
      - "advanced degree"
 
     # Trackables (conditions/symptoms/treatments)
-    activity_level: Activity level (avg. hours per week)
+    activity_level: "How many hours a day do you spend walking or exercising, on average?"
 
     conditions_to_track: "What conditions will you track?"
     research_questions_for_conditions: "Here are some questions we’ll ask based on your conditions:"

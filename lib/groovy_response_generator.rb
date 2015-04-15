@@ -72,6 +72,10 @@ module GroovyResponseGenerator
     render_error("general", {title: "#{name}", description: "#{name}_description"}, code)
   end
 
+  def render_general_error(code=500)
+    general_error_for("general_error", code)
+  end
+
   protected
 
   def inlineErrorResponse(kind, errors, code, model_name)
