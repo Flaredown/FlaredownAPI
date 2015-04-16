@@ -41,7 +41,7 @@ module EntryAuditing
     self.reload
 
     if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
-      user.update_attribute("settings", self.settings)
+      user.update_settings(self.settings)
 
       sync_trackables
 
