@@ -12,8 +12,7 @@ class V1::UsersController < V1::BaseController
   end
 
   def update
-    settings = current_user.settings.merge(user_params[:settings])
-    if current_user.update_attributes(settings: settings)
+    if current_user.update_settings(user_params[:settings])
       render_success
     else
       render_general_error

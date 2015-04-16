@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :invitable
 
   # Hstore "settings"
+  def update_settings(update)
+    self.update_attributes(settings: self.settings.merge(update))
+  end
 
   has_many :user_conditions, ->{extending TrackableAssociation}
   has_many :conditions, through: :user_conditions
