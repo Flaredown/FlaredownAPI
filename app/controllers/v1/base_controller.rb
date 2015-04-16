@@ -8,6 +8,9 @@ class V1::BaseController < ActionController::Base
 
   respond_to :json
 
+  rescue_from StandardError, with: :five_hundred
+  def five_hundred; render_general_error; end
+
   rescue_from ActiveRecord::RecordNotFound, with: :four_oh_four
   def four_oh_four; render_error(404); end
 
