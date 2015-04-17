@@ -163,8 +163,10 @@ en:
   menu_item_account: "Account"
   menu_item_print: "Print"
   menu_item_print_report: "Print report"
-  menu_item_edit_checkin: "Edit check-in"
   menu_item_logout: "Logout"
+
+  # account
+  edit_account: "Edit account"
 
   #edit-checkin
   # now_editing_checkin_date: "Now editing checkin for %{date}"
@@ -172,12 +174,6 @@ en:
   # edit_checkin_treatments: "Treatments"
   # edit_checkin_conditions: "Conditions"
   # edit_checkin_symptoms: "Symptoms"
-
-  #form error
-  form_error_name: "Name"
-  form_error_email: "Email"
-  form_error_phone: "Phone"
-  form_error_save_button: "Save"
 
   #graph
   #------
@@ -242,13 +238,16 @@ en:
     basic_4: "Extremely active"
 
   nice_errors:
+    field_required: "The field \"%{field}\" is required"
+    field_valid: "The field \"%{field}\" is invalid"
+
     general_error: "Oops!"
     general_error_description: "Something went wrong here, please check all the usually suspects and try again."
     bad_credentials: "Invalid Login Credentials"
     bad_credentials_description: "Either the email or password you submitted was incorrect."
     unknown_locale: "Unknown Locale"
     unknown_locale_description: "You asked for an unknown/non-existent language file."
-    unknown_locale: "Invalid Date
+    unknown_locale: "Invalid Date"
     unknown_locale_description: "The date you specified was not valid."
     invite_not_found: "Invite Not Found"
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
