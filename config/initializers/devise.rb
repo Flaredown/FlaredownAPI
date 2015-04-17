@@ -1,3 +1,4 @@
+require "#{Rails.root}/lib/devise_failure"
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -16,6 +17,10 @@ Devise.setup do |config|
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
   config.parent_controller = "V1::BaseController"
+
+  config.warden do |manager|
+    manager.failure_app = CustomFailureApp
+  end
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

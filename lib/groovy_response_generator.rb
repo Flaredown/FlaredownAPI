@@ -49,7 +49,7 @@ module GroovyResponseGenerator
       errors = errors.messages
     end
 
-    case kind
+    response = case kind
     when "inline"
       inlineErrorResponse(kind, errors, code, model_name)
     when "general"
@@ -62,6 +62,8 @@ module GroovyResponseGenerator
         generalErrorResponse(*GENERIC_RESPONSES["500"])
       end
     end
+
+    return render :json => response, :status => code
   end
 
   def render_success(code=200)
@@ -79,31 +81,29 @@ module GroovyResponseGenerator
   protected
 
   def inlineErrorResponse(kind, errors, code, model_name)
-    response = {
+    {
         errors: {
             kind: kind,
             fields: normalizeFieldErrors(errors, model_name),
             success: false,
             model: model_name,
-            machine_name: "validation_error"
+            machine_name: "validation_error",
+            code: code
         }
     }
-
-    return render :json => response, :status => code
   end
 
   def generalErrorResponse(kind, error, code)
-    response = {
+    {
         errors: {
             kind: kind,
             title: error[:title],
             description: error[:description],
             success: false,
-            machine_name: "general_error"
+            machine_name: "general_error",
+            code: code
         }
     }
-
-    return render :json => response, :status => code
   end
 
 
