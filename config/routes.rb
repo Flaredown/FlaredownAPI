@@ -8,7 +8,8 @@ Flaredown::Application.routes.draw do
       registrations: "v1/users/registrations",
       sessions: "v1/users/sessions",
       confirmations: "v1/users/confirmations",
-      invitations: "v1/users/invitations"
+      invitations: "v1/users/invitations",
+      passwords: "v1/users/passwords"
     }
 
     resources :entries

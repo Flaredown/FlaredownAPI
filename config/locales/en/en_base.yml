@@ -18,6 +18,9 @@ en:
     back_to_login: "Back to Login"
     enable_early_access: "Enable Early Access / Choose Your Own Adventure Bonanza!"
     register: "Register"
+    request_password_reset: "Request password reset"
+    password_reset: "Reset your password"
+    reset_instructions_sent: "Reset request received, please check your email."
 
   nav:
     done: "Done"
@@ -239,7 +242,7 @@ en:
 
   nice_errors:
     field_required: "The field \"%{field}\" is required"
-    field_valid: "The field \"%{field}\" is invalid"
+    field_invalid: "The field \"%{field}\" is invalid"
 
     general_error: "Oops!"
     general_error_description: "Something went wrong here, please check all the usually suspects and try again."
