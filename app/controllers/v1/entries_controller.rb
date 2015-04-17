@@ -86,7 +86,6 @@ class V1::EntriesController < V1::BaseController
       render_success
     else
       render_error("inline", entry.errors, 422)
-      # render json: {errors: entry.errors}, status: 422
     end
 	end
 
@@ -151,20 +150,6 @@ class V1::EntriesController < V1::BaseController
     @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
     @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
 	end
-
-  # Rescue any entry of invalid dates and render a json error
-  #
-  # Examples
-  #   GET entry/Aug-1337-2014
-  #
-  #   {error: "Invalid date parameter entered."}
-  #
-  # Returns 400
-  rescue_from ArgumentError, with: :invalid_entry_date
-  def invalid_entry_date(e)
-    raise e unless e.to_s == "invalid date"
-    render json: {error: "Invalid date parameter entered."}, status: 400
-  end
 
   private
   def entry_params

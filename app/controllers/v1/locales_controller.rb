@@ -48,7 +48,7 @@ class V1::LocalesController < V1::BaseController
   rescue_from Errno::ENOENT, with: :unknown_locale_or_catalog
   def unknown_locale_or_catalog(e)
     raise e unless e.to_s.match(/No such file or directory/)
-    render json: {error: "Unknown locale or catalog locale."}, status: 404
+    general_error_for("unknown_locale", 404)
   end
 
   private

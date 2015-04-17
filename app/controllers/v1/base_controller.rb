@@ -14,6 +14,13 @@ class V1::BaseController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :four_oh_four
   def four_oh_four; render_error(404); end
 
+  # Rescue any entry of invalid dates (via Date.parse) and render a json error
+  rescue_from ArgumentError, with: :invalid_entry_date
+  def invalid_entry_date(e)
+    raise e unless e.to_s == "invalid date"
+    general_error_for("invalid_date", 400)
+  end
+
   def current_user
     current_v1_user
   end

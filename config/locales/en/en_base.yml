@@ -154,6 +154,7 @@ en:
   # - treatments
   which_treatments_taken_today: "Which treatments did you take today?"
   oops_no_treatments_being_tracked: "You aren't tracking any treatments."
+  treatment_unit_prompt: "pills"
 
   #menu
   menu_item_graph: "GRAPH"
@@ -166,11 +167,11 @@ en:
   menu_item_logout: "Logout"
 
   #edit-checkin
-  now_editing_checkin_date: "Now editing checkin for %{date}"
-  back_to_checkin: "Back to Checkin"
-  edit_checkin_treatments: "Treatments"
-  edit_checkin_conditions: "Conditions"
-  edit_checkin_symptoms: "Symptoms"
+  # now_editing_checkin_date: "Now editing checkin for %{date}"
+  # back_to_checkin: "Back to Checkin"
+  # edit_checkin_treatments: "Treatments"
+  # edit_checkin_conditions: "Conditions"
+  # edit_checkin_symptoms: "Symptoms"
 
   #form error
   form_error_name: "Name"
@@ -244,7 +245,11 @@ en:
     general_error: "Oops!"
     general_error_description: "Something went wrong here, please check all the usually suspects and try again."
     bad_credentials: "Invalid Login Credentials"
-    bad_credentials_description: "Either the email or password you submitted was incorrect"
+    bad_credentials_description: "Either the email or password you submitted was incorrect."
+    unknown_locale: "Unknown Locale"
+    unknown_locale_description: "You asked for an unknown/non-existent language file."
+    unknown_locale: "Invalid Date
+    unknown_locale_description: "The date you specified was not valid."
     invite_not_found: "Invite Not Found"
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
 
@@ -556,47 +561,48 @@ en:
     ZW: Zimbabwe
     AX: 'Åland Islands'
 
+  unit_placeholder: "pill"
   treatment_units:
-    - ml
-    - l
-    - mcg
-    - mg
-    - g
-    - IU
-    - tsp
-    - tbsp
-    - cup
-    - fl oz
-    - oz
-    - bag
-    - bar
-    - bottle
-    - box
-    - can
-    - capsule
-    - carton
-    - cartridge
-    - case
-    - drop
-    - injection
-    - jar
-    - kit
-    - packet
-    - patch
-    - piece
-    - pill
-    - pouch
-    - puff
-    - ring
-    - scoopful
-    - serving
-    - spoonful
-    - stick
-    - strip
-    - suppository
-    - tablet
-    - tampon
-    - tube
-    - unit
-    - vial
-    - wafer
+    ml:          "ml"
+    l:           "l"
+    mcg:         "mcg"
+    mg:          "mg"
+    g:           "g"
+    IU:          "IU"
+    tsp:         "tsp"
+    tbsp:        "tbsp"
+    cup:         "cup"
+    fl_oz:       "fl oz"
+    oz:          "oz"
+    bag:         "bag"
+    bar:         "bar"
+    bottle:      "bottle"
+    box:         "box"
+    can:         "can"
+    capsule:     "capsule"
+    carton:      "carton"
+    cartridge:   "cartridge"
+    case:        "case"
+    drop:        "drop"
+    injection:   "injection"
+    jar:         "jar"
+    kit:         "kit"
+    packet:      "packet"
+    patch:       "patch"
+    piece:       "piece"
+    pill:        "pill"
+    pouch:       "pouch"
+    puff:        "puff"
+    ring:        "ring"
+    scoopful:    "scoopful"
+    serving:     "serving"
+    spoonful:    "spoonful"
+    stick:       "stick"
+    strip:       "strip"
+    suppository: "suppository"
+    tablet:      "tablet"
+    tampon:      "tampon"
+    tube:        "tube"
+    unit:        "unit"
+    vial:        "vial"
+    wafer:       "wafer"
