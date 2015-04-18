@@ -17,6 +17,7 @@ gem "uglifier", ">= 1.3.0"
 gem "slim"
 
 gem "skylight"
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
 
 gem "devise"
 gem 'devise_invitable'
@@ -28,6 +29,7 @@ gem "resque"
 gem "resque-scheduler", require: "resque_scheduler"
 gem "redis"
 
+gem 'eventmachine', "~> 1.0.4"
 gem 'cancan'
 gem "pusher"
 gem "hashie"
