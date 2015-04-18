@@ -29,7 +29,9 @@ class CatalogGraph
     data
   end
 
-  def score_coordinates(catalog, start_date=start_date, end_date=end_date)
+  def score_coordinates(catalog, start_date=nil, end_date=nil)
+    start_date  ||= @start_date
+    end_date    ||= @end_date
     date_range(start_date, end_date).map do |entry_date|
 
       components = ((catalog == "symptoms") ? @all_symptom_names : "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS"))
@@ -41,7 +43,7 @@ class CatalogGraph
 
     end.flatten.compact
   end
-  def score_component_coordinates(catalog, start_date=start_date, end_date=end_date)
+  def score_component_coordinates(catalog, start_date=nil, end_date=nil)
     []
     # date_range(start_date, end_date).map do |entry_date|
     #
