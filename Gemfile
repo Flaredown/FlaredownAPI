@@ -16,6 +16,8 @@ gem "uglifier", ">= 1.3.0"
 # gem "emblem-rails"
 gem "slim"
 
+gem "skylight"
+
 gem "devise"
 gem 'devise_invitable'
 
