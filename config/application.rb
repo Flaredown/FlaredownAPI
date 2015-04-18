@@ -23,6 +23,7 @@ module Flaredown
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*_base.{rb,yml}').to_s]
 
     config.skylight.environments += ['staging']
+    config.skylight.probes = %w(net_http redis)
 
     # for Raven/Sentry
     # config.action_dispatch.show_exceptions = false
