@@ -11,6 +11,7 @@ class V1::BaseController < ActionController::Base
   def five_hundred(exception)
     Rails.logger.error exception.message
     exception.backtrace.each { |line| Rails.logger.error line }
+    Raven.capture_exception(exception)
     render_general_error
   end
 
