@@ -29,6 +29,12 @@ en:
     back_caps: "BACK"
     next: "Next"
     next_caps: "NEXT"
+    cancel: "Cancel"
+    cancel_caps: "CANCEL"
+    ok: "Ok"
+    ok_caps: "OK"
+    edit: "Edit"
+    edit_caps: "EDIT"
 
 
   forms:
@@ -125,12 +131,18 @@ en:
 
     # - conditions
     add_condition: "Add Condition"
+    add_new_condition: "Add new condition"
+    edit_conditions: "Edit Conditions"
+    edit_conditions_caps: "EDIT CONDITIONS"
 
     # - symptoms
     your_first_check_in: "It's your first check-in"
     choose_up_to_8_symptoms: "Choose up to 8 symptoms to track"
     add_a_symptom_title: "Add a Symptom"
     add_symptom_button: "Add Symptom"
+    add_new_symptom: "Add new symptom"
+    edit_symptoms: "Edit Symptoms"
+    edit_symptoms_caps: "EDIT SYMPTOMS"
 
 
   #questioner
@@ -145,10 +157,14 @@ en:
 
   #notes
   what_else_happened_today: "What else happened today?"
+  leave_a_note: "Leave  a note"
 
   # - start
   you_havent_checked_in_yet: "You haven't checked in yet today"
   tap_next_to_start: "Tap <b>next</b> to get started!"
+  
+  # - end
+  all_done: "All done!"
 
   # - symptoms
   how_active_were_your_symptoms: "How active were your symptoms today?"
@@ -158,6 +174,13 @@ en:
   which_treatments_taken_today: "Which treatments did you take today?"
   oops_no_treatments_being_tracked: "You aren't tracking any treatments."
   treatment_unit_prompt: "pills"
+  add_treatment: "Add Treatment"
+  add_new_treatment: "Add new treatment"
+  edit_treatments: "Edit Treatments"
+  edit_treatments_caps: "EDIT TREATMENTS"
+  edit_treatment_name_placeholder: "Name of treatment"
+  edit_treatment_dose_placeholder: "Daily dose (i.e. ’30’)"
+  edit_treatment_unit_placeholder: "Units (i.e. ‘Milligrams’)"
 
   #menu
   menu_item_graph: "GRAPH"
@@ -167,6 +190,11 @@ en:
   menu_item_print: "Print"
   menu_item_print_report: "Print report"
   menu_item_logout: "Logout"
+  
+  #alarm
+  alarm_reminder_title: "Reminder"
+  alarm_reminder_text: "Don’t forget to check into Flaredown today!"
+  alarm_off_caps: "OFF"
 
   # account
   edit_account: "Edit account"
@@ -205,11 +233,20 @@ en:
 
   #reports
   reports_title: "Reports here"
+  
+  #graph link
+  see_your_graph: "See your graph at"
 
   #questioner
-  symptom_question_prompt: "How active is the symptom: %{name}?"
+  symptom_question_prompt: "How active is the symptom: %{name}?"  
+  condition_question_prompt: "How active is the condition: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
+  catalog_question_prompt: "What is your current level of ${name}?"
+  number_question_prompt: "How many ${name} today?"
+  complications_question_prompt: "Check any complications"
   add_trackable_prompt: "Add new %{kind}"
+  add_trackable_users: "users"
+  research_questions_caps: "RESEARCH QUESTIONS"
 
   are_you_sure: "Are you sure?"
   confirm_treatment_remove: "Are you sure you want to remove the treatment \"%{treatment}\" for this Checkin?"
@@ -254,6 +291,15 @@ en:
     unknown_locale_description: "The date you specified was not valid."
     invite_not_found: "Invite Not Found"
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
+    
+    search_error: "Error retrieving results"
+    search_error_details: "We couldn’t get your search results, please try again."
+    search_add_symptom_error: "Error creating symptom"
+    search_add_symptom_error_description: "Looks like there was an issue creating the new symptom; please check the symptom name and try again."
+    search_add_treatment_error: "Error creating treatment"
+    search_add_treatment_error_description: "Looks like there was an issue creating the new treatment; please check the treatment name and try again."
+    search_add_condition_error: "Error creating condition"
+    search_add_condition_error_description: "Looks like there was an issue creating the new condition; please check the condition name and try again."
 
     404: "The content or page you were looking for couldn't be found"
     406: content not acceptable according to the Accept headers
