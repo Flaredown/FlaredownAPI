@@ -30,10 +30,12 @@ Flaredown::Application.routes.draw do
     get "tags/search/:name" => "tags#search"
 
     get "me",                   to: "users#index"
+
     get "me/catalogs",          to: "users#catalog_definition"
     post "me",                  to: "users#update"
     get "users/invitee/:token", to: "users#invitee"
 
+    get "/talk_sso",            to: "discourse#sso"
     get "locales/:locale", to: "locales#show"
     get "/graph" => "graph#show"
     get "/users/:id" => "users#show"
