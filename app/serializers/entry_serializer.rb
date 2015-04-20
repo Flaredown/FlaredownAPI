@@ -3,7 +3,7 @@ class EntrySerializer < ActiveModel::Serializer
   has_many :responses, serializer: ResponseSerializer
   # has_many :scores, serializer: ScoreSerializer
   has_many :treatments, serializer: EntryTreatmentSerializer
-  has_many :tags, serializer: TagSerializer
+  # has_many :tags, serializer: TagSerializer
 
   attributes :id,
     :date,
@@ -11,6 +11,7 @@ class EntrySerializer < ActiveModel::Serializer
     :catalogs,
     :notes,
     :complete,
+    :tags,
     :just_created
 
   def just_created; scope == :new ? true : false  end
