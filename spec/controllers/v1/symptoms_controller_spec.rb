@@ -61,24 +61,18 @@ describe V1::SymptomsController, type: :controller do
     end
 
     it "does not allow name exceeding fifty characters" do
-      post :create, {name: "longer then ever symptom name that could ever be imagine on this very earth"}
-      error_message = json_response["errors"]["fields"]["name"][0]["message"]
-      expect(error_message).to eq "Name cannot be longer then 50 charachters"
-      returns_code 400
+      post :create, {name: "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis"}
+      returns_groovy_error(model_name: "symptom", fields: [["name", "100_char_max_length"]], code: 400)
     end
 
     it "only allows alphanumeric and spaces in name" do
       post :create, name: "hi()$%^&"
-      error_message = json_response["errors"]["fields"]["name"][0]["message"]
-      expect(error_message).to eq "Name can only include alphanumeric characters, hyphens and spaces"
-      returns_code 400
+      returns_groovy_error(model_name: "symptom", fields: [["name", "only_alphanumeric_hyphens_and_spaces"]], code: 400)
     end
 
     it "does not allow names with obscene words" do
       post :create, name: "fuck this shit"
-      error_message = json_response["errors"]["fields"]["name"][0]["message"]
-      expect(error_message).to eq "Please do not use obscene words"
-      returns_code 400
+      returns_groovy_error(model_name: "symptom", fields: [["name", "no_obscenities"]], code: 400)
     end
 
   end
@@ -111,8 +105,7 @@ describe V1::SymptomsController, type: :controller do
 
       delete :destroy, {id: symptom.id}
 
-      expect(response.body).to be_json_eql({success: true}.to_json)
-      returns_code 204
+      returns_success(204)
 
       expect(user.reload.active_symptoms).to be_empty
       expect(user.symptoms.first.name).to eql "droopy lips"
@@ -121,8 +114,7 @@ describe V1::SymptomsController, type: :controller do
     it "returns 404 if not found" do
       delete :destroy, {id: 999}
 
-      expect(response.body).to be_json_eql({success: false}.to_json)
-      returns_code 404
+      returns_groovy_error(name: "404")
     end
   end
 end

@@ -62,9 +62,55 @@ end
 def expect_json_is_empty(body)
   expect(body).to be_json_eql ""
 end
+
 def returns_code(code)
   expect(response.status).to eq code
 end
+def returns_success(code=false)
+  expect(json_response["success"]).to eql true
+
+  if code
+    expect(response.status).to eq code
+    returns_code(code)
+  else
+    expect(response.status).to match /2\d\d/
+  end
+end
+
+def returns_groovy_error(name: false, code: false, fields: [], model_name: false)
+  error = Hashie::Mash.new(json_response["errors"])
+  if name
+    if error.kind == "generic"
+      expect(error.description).to eq "nice_errors.#{name}"
+    else
+      expect(error.title).to eq name
+      expect(error.description).to eq "#{name}_description"
+    end
+  end
+
+  fields.each do |field|
+    if model_name
+      expect(error.fields[model_name][field[0]].first.message).to eql field[1]
+    else
+      expect(error.fields[field[0]].first.message).to eql field[1]
+    end
+  end
+
+  if fields.present?
+    expect(error.kind).to eql "inline"
+  else
+    expect(error.kind).to match /general|generic/
+  end
+
+  expect(error.success).to eq false
+  if code
+    expect(error.code).to eql code
+    returns_code(code)
+  else
+    expect(error.code.to_s).to match /[45]\d\d/
+  end
+end
+
 def json_response
   parse_json(response.body)
 end

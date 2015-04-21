@@ -5,7 +5,7 @@ if defined?(::RSpec)
 end
 
 module Obscenity extend self
-  
+
   attr_accessor :config
 
   def configure(&block)
@@ -15,15 +15,15 @@ module Obscenity extend self
   def config
     @config ||= Config.new
   end
-  
+
   def profane?(word)
     Obscenity::Base.profane?(word)
   end
-  
+
   def sanitize(text)
     Obscenity::Base.sanitize(text)
   end
-  
+
   def replacement(chars)
     Obscenity::Base.replacement(chars)
   end
@@ -31,7 +31,7 @@ module Obscenity extend self
   def offensive(text)
     Obscenity::Base.offensive(text)
   end
-  
-  
+
+
 end
-  
+

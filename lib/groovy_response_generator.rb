@@ -57,6 +57,7 @@ module GroovyResponseGenerator
     else
       key = kind.to_s
       if GENERIC_RESPONSES.has_key?(key)
+        code = GENERIC_RESPONSES[key][2]
         generalErrorResponse(*GENERIC_RESPONSES[key])
       else
         generalErrorResponse(*GENERIC_RESPONSES["500"])
