@@ -1,7 +1,7 @@
 u = User.find_by(email: "test@flaredown.com")
 
 # Add entries for test user
-100.times do |n|
+20.times do |n|
   e=FactoryGirl.create :hbi_and_symptoms_entry, user: u, date: Date.today-n.days-5
   e.setup_with_audit!
 end
