@@ -35,6 +35,7 @@ en:
     ok_caps: "OK"
     edit: "Edit"
     edit_caps: "EDIT"
+    edit_lowercase": "edit"
 
 
   forms:
@@ -241,8 +242,8 @@ en:
   symptom_question_prompt: "How active is the symptom: %{name}?"  
   condition_question_prompt: "How active is the condition: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
-  catalog_question_prompt: "What is your current level of ${name}?"
-  number_question_prompt: "How many ${name} today?"
+  catalog_question_prompt: "What is your current level of %{name}"
+  number_question_prompt: "How many %{name} today?"
   complications_question_prompt: "Check any complications"
   add_trackable_prompt: "Add new %{kind}"
   add_trackable_users: "users"
