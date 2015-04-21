@@ -35,6 +35,7 @@ en:
     ok_caps: "OK"
     edit: "Edit"
     edit_caps: "EDIT"
+    edit_lowercase": "edit"
 
 
   forms:
