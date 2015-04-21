@@ -29,6 +29,8 @@ Flaredown::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  config.force_ssl = false
+
   config.action_mailer.asset_host = "http://#{ENV["HOSTNAME"]}"
   config.action_mailer.default_url_options = { :host => "http://#{ENV["HOSTNAME"]}"}
   # ActionMailer::Base.smtp_settings = {
