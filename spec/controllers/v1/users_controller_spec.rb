@@ -20,8 +20,8 @@ describe V1::UsersController, type: :controller do
     end
     it "from show action with bad ID" do
       get :show, id: 999
-      expect(response.body).to be_json_eql({error: "Not found."}.to_json)
-      returns_code 404
+
+      returns_groovy_error(name: "404")
     end
 
   end
@@ -37,8 +37,7 @@ describe V1::UsersController, type: :controller do
     end
     it 'receives 404 if token not found' do
       get "invitee", token: "abc123"
-      expect(response.body).to be_json_eql({error: "Not found."}.to_json)
-      returns_code 404
+      returns_groovy_error(name: "invite_not_found")
     end
 
   end

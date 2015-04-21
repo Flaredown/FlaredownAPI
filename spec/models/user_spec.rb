@@ -14,7 +14,7 @@ describe User do
 
     it "#active_catalogs gives only ones for user.active_conditions" do
       user.user_conditions.activate create(:condition, name: "Crohn's disease")
-      user.user_conditions.activate create(:condition, name: "Rheumatoid Arthritis")
+      user.user_conditions.activate create(:condition, name: "Rheumatoid arthritis")
       expect(user.active_catalogs).to eql ["hbi", "rapid3"]
 
       user.user_conditions.deactivate Condition.find_by(name: "Crohn's disease")

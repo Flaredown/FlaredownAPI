@@ -27,8 +27,7 @@ describe V1::LocalesController, type: :controller do
 
     it "it returns 404 for unknown locale" do
       get :show, {locale: "pirate"}
-      expect(response.body).to be_json_eql({error: "Unknown locale or catalog locale."}.to_json)
-      returns_code 404
+      returns_groovy_error(name: "unknown_locale", code: 404)
     end
 
     # it "it grabs a catalog and appends it to the output" do
@@ -50,10 +49,9 @@ describe V1::LocalesController, type: :controller do
       allow_any_instance_of(File).to receive(:read).and_return(en_locale)
       allow_any_instance_of(User).to receive(:catalogs).and_return(["bar"])
 
-      get :show, {locale: "en"}
-      expect(response.body).to be_json_eql({error: "Unknown locale or catalog locale."}.to_json)
 
-      returns_code 404
+      get :show, {locale: "en"}
+      returns_groovy_error(name: "unknown_locale", code: 404)
     end
 
     it "crazy ass filenames are sanitized" do
@@ -61,9 +59,7 @@ describe V1::LocalesController, type: :controller do
       allow(File).to receive(:open).with("#{Rails.root}/config/locales//_base.yml").and_call_original
 
       get :show, {locale: "!!#$&"}
-      expect(response.body).to be_json_eql({error: "Unknown locale or catalog locale."}.to_json)
-      returns_code 404
-
+      returns_groovy_error(name: "unknown_locale", code: 404)
     end
 
   end

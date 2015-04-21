@@ -125,8 +125,9 @@ module HbiCatalog
         response = hbi_responses.detect{|r| r.name.to_sym == range[0]}
         if response and not range[1].include?(response.value)
           # TODO add catalog namespace here
-          self.errors.messages[:responses] ||= {}
-          self.errors.messages[:responses][range[0]] = "Not within allowed values"
+          # self.errors.messages ||= {}
+          # self.errors.messages[range[0]] = "no_within_allowed_values"
+          self.errors.add range[0], "not_within_allowed_values"
         end
       end
 
@@ -138,8 +139,9 @@ module HbiCatalog
         response = hbi_responses.detect{|r| r.name.to_sym == name}
 
         if response and not [0,1].include? response.value.to_i
-          self.errors.messages[:responses] ||= {}
-          self.errors.messages[:responses][name.to_sym] = "Must be true or false"
+          # self.errors.messages ||= {}
+          # self.errors.messages[name.to_sym] = "must_be_boolean"
+          self.errors.add name.to_sym, "must_be_boolean"
         end
       end
     end

@@ -211,8 +211,9 @@ module Rapid3Catalog
         response = rapid3_responses.select{|r| r.name.to_sym == range[0]}.first
         if response and not range[1].include?(response.value)
           # self.errors.add "responses.#{range[0]}", "Not within allowed values"
-          self.errors.messages[:responses] ||= {}
-          self.errors.messages[:responses][range[0]] = "Not within allowed values"
+          # self.errors.messages[:responses] ||= {}
+          # self.errors.messages[:responses][range[0]] = "Not within allowed values"
+          self.errors.add range[0], "not_within_allowed_values"
         end
       end
 

@@ -11,9 +11,7 @@ describe V1::EntriesController, type: :controller do
   it "bad date" do
     get :show, id: "xyz"
 
-    expect(response.body).to be_json_eql({error: "Invalid date parameter entered."}.to_json)
-
-    returns_code 400
+    returns_groovy_error(name: "invalid_date", code: 400)
   end
 
   context "SHOW" do
@@ -47,17 +45,13 @@ describe V1::EntriesController, type: :controller do
       with_resque{entry.save}; entry.reload
 
       get :show, id: entry.date.to_s
-      expect(response.body).to be_json_eql({error: "Not found."}.to_json)
-
-      returns_code 404
+      returns_groovy_error(name: "404")
     end
 
     it "it isn't found" do
       get :show, id: 1.year.ago.to_date
 
-      expect(response.body).to be_json_eql({error: "Not found."}.to_json)
-
-      returns_code 404
+      returns_groovy_error(name: "404")
     end
   end
 
@@ -137,11 +131,7 @@ describe V1::EntriesController, type: :controller do
 
       patch :update, id: entry.date.to_s, entry: attrs.to_json
 
-      expect(json_response["errors"]).to be_present
-      expect(json_response["errors"]["responses"]).to be_present
-      expect(json_response["errors"]["responses"]["stools"]).to eq "Not within allowed values"
-
-      returns_code 422
+      returns_groovy_error(model_name: "entry", fields: [["stools", "not_within_allowed_values"]])
     end
 
   end

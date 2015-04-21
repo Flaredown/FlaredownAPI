@@ -293,12 +293,17 @@ en:
     unknown_locale_description: "The date you specified was not valid."
     invite_not_found: "Invite Not Found"
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
+    invalid_date: "Invalid Date"
+    invalid_date_description: "We couldn't make sense of that date, please double check it."
+
 
     # Some Rails validations
     name_exists: "Name already exists"
     100_char_max_length: "Name cannot be longer then 100 characters"
     only_alphanumeric_hyphens_and_spaces: "Name can only include alphanumeric characters, hyphens and spaces"
     no_obscenities: "No obscene language please"
+    no_within_allowed_values: "Not within allowed values"
+    must_be_boolean: "Must be true or false"
 
     search_error: "Error retrieving results"
     search_error_details: "We couldn’t get your search results, please try again."
