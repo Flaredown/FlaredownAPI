@@ -25,6 +25,8 @@ module Flaredown
     config.skylight.environments += ['staging']
     config.skylight.probes = %w(net_http redis)
 
+    config.force_ssl = true
+
     # for Raven/Sentry
     # config.action_dispatch.show_exceptions = false
 

@@ -3,6 +3,7 @@ en:
   unauthenticated:
     #login
     login: "Log in"
+    logging_you_in: "Logging in ..."
     you_are_already_logged_in: "You are already logged in!"
     email: "Email"
     email_placeholder: "name@domain.com"
@@ -163,7 +164,7 @@ en:
   # - start
   you_havent_checked_in_yet: "You haven't checked in yet today"
   tap_next_to_start: "Tap <b>next</b> to get started!"
-  
+
   # - end
   all_done: "All done!"
 
@@ -191,7 +192,7 @@ en:
   menu_item_print: "Print"
   menu_item_print_report: "Print report"
   menu_item_logout: "Logout"
-  
+
   #alarm
   alarm_reminder_title: "Reminder"
   alarm_reminder_text: "Don’t forget to check into Flaredown today!"
@@ -234,12 +235,12 @@ en:
 
   #reports
   reports_title: "Reports here"
-  
+
   #graph link
   see_your_graph: "See your graph at"
 
   #questioner
-  symptom_question_prompt: "How active is the symptom: %{name}?"  
+  symptom_question_prompt: "How active is the symptom: %{name}?"
   condition_question_prompt: "How active is the condition: %{name}?"
   conditions_question_prompt: "How active were your condition(s)?"
   catalog_question_prompt: "What is your current level of %{name}"
@@ -292,7 +293,7 @@ en:
     unknown_locale_description: "The date you specified was not valid."
     invite_not_found: "Invite Not Found"
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
-    
+
     search_error: "Error retrieving results"
     search_error_details: "We couldn’t get your search results, please try again."
     search_add_symptom_error: "Error creating symptom"
