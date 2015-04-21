@@ -1,4 +1,4 @@
 p = t("devise.mailer.invitation_instructions.hello", email: @resource.email)
 p = t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url)
-p: a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}" t("devise.mailer.invitation_instructions.accept")
+p: a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}" = t("devise.mailer.invitation_instructions.accept")
 p = t("devise.mailer.invitation_instructions.ignore").html_safe
