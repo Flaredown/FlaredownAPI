@@ -22,8 +22,10 @@ module Flaredown
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*_base.{rb,yml}').to_s]
 
-    config.skylight.environments += ['staging']
-    config.skylight.probes = %w(net_http redis)
+    if config.respond_to?(:skylight)
+      config.skylight.environments += ['staging']
+      config.skylight.probes = %w(net_http redis)
+    end
 
     config.force_ssl = true
 

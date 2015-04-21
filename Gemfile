@@ -16,9 +16,6 @@ gem "uglifier", ">= 1.3.0"
 # gem "emblem-rails"
 gem "slim"
 
-gem "skylight"
-gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
-
 gem "devise"
 gem 'devise_invitable'
 
@@ -40,7 +37,9 @@ gem 'paper_trail', github: "airblade/paper_trail", tag: "v4.0.0.beta2"
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'acts-as-taggable-on', '~> 3.4'
 
-group :production do
+group :production, :development, :staging do
+  gem "skylight"
+  gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
 end
 
 group :development, :staging do
