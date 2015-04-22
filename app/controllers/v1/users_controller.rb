@@ -12,7 +12,10 @@ class V1::UsersController < V1::BaseController
   end
 
   def update
+    onboarded_already = current_user.onboarded?
+
     if current_user.update_settings(user_params[:settings])
+      current_user.setup_first_checkin if current_user.onboarded? and not onboarded_already
       render_success
     else
       render_general_error

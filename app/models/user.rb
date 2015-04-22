@@ -44,6 +44,14 @@ class User < ActiveRecord::Base
     Entry.by_date_and_user_id.key([Date.today,self.id.to_s]).first.present?
   end
 
+  def setup_first_checkin
+    self.create_audit
+    Entry.new({user_id: self.id, date: Date.today }).setup_with_audit!
+  end
+
+  def onboarded?; settings["onboarded"] == "true"; end
+  def graphable?; settings["graphable"] == "true"; end
+
   def graph_data
     graph = CatalogGraph.new(self.id, self.catalogs)
     graph.catalogs_data

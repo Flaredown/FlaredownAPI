@@ -26,6 +26,25 @@ describe V1::UsersController, type: :controller do
 
   end
 
+  context "setup after onboarded" do
+    let(:user) { create :user }
+    let(:condition) { create(:condition, name: "allergies") }
+    before(:each) do
+      sign_in(user)
+      user.user_conditions.activate(condition)
+    end
+
+    it "sets up an entry for today with trackables" do
+      expect(user.entries.count).to eq 0
+
+      put :update, settings: {onboarded: true}
+
+      expect(user.entries.count).to eq 1
+      binding.pry
+      expect(user.entries.first.conditions).to include "allergies"
+    end
+  end
+
   context 'get invitee user' do
     let(:invitee) { User.invite!({email: "some_invitee@test.com"}) }
 
