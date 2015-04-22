@@ -295,6 +295,8 @@ en:
     invite_not_found_description: "We couldn't find that invitation, perhaps it's already been used."
     invalid_date: "Invalid Date"
     invalid_date_description: "We couldn't make sense of that date, please double check it."
+    future_date: "No Time Travel (forwards)"
+    future_date_description: "No future dates are allowed. Time travel backwards is alright."
 
 
     # Some Rails validations

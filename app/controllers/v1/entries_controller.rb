@@ -52,6 +52,7 @@ class V1::EntriesController < V1::BaseController
   # Returns 422 for errors along with errors json
 	def create
     date = Date.parse(params[:date])
+    return general_error_for("future_date") if date > Date.today
 
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
       render json: EntrySerializer.new(existing, scope: :existing), status: 200

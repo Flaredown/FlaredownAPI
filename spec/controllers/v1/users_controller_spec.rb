@@ -29,9 +29,11 @@ describe V1::UsersController, type: :controller do
   context "setup after onboarded" do
     let(:user) { create :user }
     let(:condition) { create(:condition, name: "allergies") }
+    let(:treatment) { create(:treatment, name: "snicker's bar") }
     before(:each) do
       sign_in(user)
       user.user_conditions.activate(condition)
+      user.user_treatments.activate(treatment)
     end
 
     it "sets up an entry for today with trackables" do
@@ -42,6 +44,17 @@ describe V1::UsersController, type: :controller do
       expect(user.entries.count).to eq 1
       expect(user.entries.first.conditions).to include "allergies"
     end
+
+    # Treatments don't carry over: https://tree.taiga.io/project/lmerriam-flaredown/issue/182
+    it "sets up an entry for today with trackables" do
+      expect(user.entries.count).to eq 0
+
+      put :update, settings: {onboarded: true}
+
+      expect(user.entries.count).to eq 1
+      expect(user.entries.first.treatments.first.name).to eql "snicker's bar"
+    end
+
   end
 
   context 'get invitee user' do
