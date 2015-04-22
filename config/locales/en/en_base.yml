@@ -50,6 +50,7 @@ en:
   onboarding:
     continue: "Continue"
     checkin: "Check-in"
+    change_these_later: "Don't worry, you can change these later"
 
     # account
     get_started: "Create an account to get started"
@@ -72,6 +73,7 @@ en:
 
     # research data
     optional_research: "Optional data for research:"
+
 
     ethnic_origin: Ethnic Origin
     ethnic_origin_placeholder: Ethnic Origin (select all that apply)
@@ -121,6 +123,7 @@ en:
 
     conditions_to_track: "What conditions will you track?"
     research_questions_for_conditions: "Here are some questions we’ll ask based on your conditions:"
+    no_research_questions_for_conditions: "No research questions for your conditions"
 
     symptoms_to_track: "What symptoms will you track?"
     treatments_to_track: "What treatments will you track?"
@@ -128,8 +131,6 @@ en:
     # complete
     setup_complete: "Set up complete!"
     ready_for_checkin: "You’re ready for your first check-in:"
-
-
 
     # - conditions
     add_condition: "Add Condition"
