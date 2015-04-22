@@ -40,7 +40,6 @@ describe V1::UsersController, type: :controller do
       put :update, settings: {onboarded: true}
 
       expect(user.entries.count).to eq 1
-      binding.pry
       expect(user.entries.first.conditions).to include "allergies"
     end
   end
