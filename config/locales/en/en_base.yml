@@ -19,7 +19,7 @@ en:
     back_to_login: "Back to Login"
     enable_early_access: "Enable Early Access"
     register: "Register"
-    request_password_reset: "Request password reset"
+    request_password_reset: "Forgot your password?"
     password_reset: "Reset your password"
     reset_instructions_sent: "Reset request received, please check your email."
 
