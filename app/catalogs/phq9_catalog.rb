@@ -80,7 +80,7 @@ module Phq9Catalog
       # 2 More than half the days
       # 3 Nearly every day
 
-      name: :eating_dysfunction,
+      name: :appetite_problems,
       kind: :select,
       inputs: [
         {value: 0, label: "not_at_all", meta_label: "", helper: nil},
@@ -160,7 +160,7 @@ module Phq9Catalog
 
   ]
 
-  SCORE_COMPONENTS  = %i( low_interest depressed_mood sleep_dysfunction fatigue eating_dysfunction feeling_of_failure poor_concentration movement_dysfunction thoughts_of_self_harm )
+  SCORE_COMPONENTS  = %i( low_interest depressed_mood sleep_dysfunction fatigue appetite_problems feeling_of_failure poor_concentration movement_dysfunction thoughts_of_self_harm )
   QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
   COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
 
@@ -172,7 +172,7 @@ module Phq9Catalog
         [:depressed_mood, [nil,*0..3]],
         [:sleep_dysfunction, [nil,*0..3]],
         [:fatigue, [nil,*0..3]],
-        [:eating_dysfunction, [nil,*0..3]],
+        [:appetite_problems, [nil,*0..3]],
         [:feeling_of_failure, [nil,*0..3]],
         [:poor_concentration, [nil,*0..3]],
         [:movement_dysfunction, [nil,*0..3]],
