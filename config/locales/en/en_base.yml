@@ -68,6 +68,8 @@ en:
     sex_options:
       male: male
       female: female
+      other: other
+      unspecified: prefer not to say
 
     gender: "Gender, if different"
 
