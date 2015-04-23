@@ -90,25 +90,18 @@ en:
      other: "Other"
      not_sure: "I'm not sure"
 
-    occupation: Occupation
+    occupation: How you spend most of your day
     occupation_options:
-      - managerial
-      - administrative
-      - sales
-      - trades
-      - service
-      - operator/laborer
-      - natural resources
+      - "sitting down or at a computer"
+      - "on your feet"
+      - "driving around"
+      - "working with your hands"
 
     occupation_options_descriptions:
-      - "e.g. architect, lawyer, pharmacist, physician, programmer, scientist, teacher"
-      - "e.g. bank manager, department supervisor hospital administrator"
-      - "e.g. administrative assistant, bank teller, data entry clerk, receptionist"
-      - "e.g. cashier, salesperson"
-      - "e.g. carpenter, electrician, mechanic"
-      - "e.g. cook, custodian, hairstylist, housekeeper, restaurant server"
-      - "e.g. garbage collector, machine operator, truck driver"
-      - "e.g. farm worker, forestry worker, fishery worker"
+      - "e.g. student, programmer, architect"
+      - "e.g. physician, retail salesperson, tour guide"
+      - "e.g. pharmaceutical representative, taxi driver, truck driver"
+      - "e.g. farmer, fishery worker, landscaper"
 
     highest_education: Highest level of education completed
     highest_education_options:
