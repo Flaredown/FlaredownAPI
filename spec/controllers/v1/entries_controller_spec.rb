@@ -144,7 +144,9 @@ describe V1::EntriesController, type: :controller do
       expect(user.versions.count).to eql 1
       expect(entry.using_latest_audit?).to be_true
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json # no more Crohn's disease
+      with_resque do
+        put :update, id: entry.date.to_s, entry: {responses:[]}.to_json # no more Crohn's disease
+      end
 
       expect(user.reload.versions.count).to eql 2
     end
@@ -153,14 +155,18 @@ describe V1::EntriesController, type: :controller do
       user.user_conditions.activate create(:condition, name: "Crohn's disease")
       entry = create :hbi_entry, date: Date.yesterday, user: user
 
+
       expect(user.versions.count).to eql 1 # for user creation, 10 days ago
       user.create_audit                    # creates audit for today
 
       expect(user.versions.count).to eql 2
       expect(entry.using_latest_audit?).to be_false
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json  # no more Crohn's disease
+      with_resque do
+        put :update, id: entry.date.to_s, entry: {responses:[]}.to_json  # no more Crohn's disease
+      end
 
+      # expect(EntryAuditUpdate).to have_queue_size_of(1)
       expect(user.versions.count).to eql 2
     end
 
@@ -172,15 +178,18 @@ describe V1::EntriesController, type: :controller do
       expect(user.versions.count).to eql 1
       # expect(user.active_catalogs).to include("hbi")
 
-      put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+      with_resque do
+        put :update, id: entry.date.to_s, entry: {responses:[]}.to_json
+      end
 
       user.reload
       expect(user.active_catalogs).to_not include("hbi")
       expect(user.versions.count).to eql 2
       expect(user.active_catalogs).to be_empty
 
-
-      put :update, id: entry.date.to_s, entry: {treatments:[{name: "Snake Oil", quantity: 10, unit: "cc"}]}.to_json
+      with_resque do
+        put :update, id: entry.date.to_s, entry: {treatments:[{name: "Snake Oil", quantity: 10, unit: "cc"}]}.to_json
+      end
 
       user.reload
       expect(user.versions.count).to eql 3
