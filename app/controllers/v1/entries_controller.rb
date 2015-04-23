@@ -82,8 +82,7 @@ class V1::EntriesController < V1::BaseController
     entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
     if entry.update_attributes(entry_params)
-      entry.update_audit
-
+      Resque.enqueue(EntryAuditUpdate, entry.id) # entry.update_audit
       render_success
     else
       render_error("inline", entry.errors, 422)
