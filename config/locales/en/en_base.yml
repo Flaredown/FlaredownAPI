@@ -48,6 +48,9 @@ en:
     saving: "Saving..."
     keep_typing: "Keep typing..."
 
+  today: "Today"
+  yesterday: "Yesterday"
+
   #onboarding
   #----------
   # - catalogs
