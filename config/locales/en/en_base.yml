@@ -254,6 +254,7 @@ en:
   research_questions_caps: "RESEARCH QUESTIONS"
 
   are_you_sure: "Are you sure?"
+  trackable_remove_tooltip: "No longer tracking this?"
   confirm_treatment_remove: "Are you sure you want to remove the treatment \"%{treatment}\" for this Checkin?"
   confirm_symptom_remove: "Are you sure you want to remove the symptom \"%{symptom}\" for this Checkin?"
   confirm_condition_remove: "Are you sure you want to remove the conditions \"%{condition}\" for this Checkin?"
