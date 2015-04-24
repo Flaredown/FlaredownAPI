@@ -2,6 +2,7 @@ class UserSerializer < ActiveModel::Serializer
   embed :ids
 
   has_many :treatments, include: true
+  # has_many :treatments, include: true
   has_many :symptoms, include: true
   has_many :conditions, include: true
 
@@ -19,6 +20,9 @@ class UserSerializer < ActiveModel::Serializer
 
     def catalogs
       object.catalogs
+    end
+    def treatments
+      object.active_treatments
     end
 
 end

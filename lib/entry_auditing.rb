@@ -72,6 +72,7 @@ module EntryAuditing
 
     TRACKABLES.each do |kind|
       existing = user.send("active_#{kind}").map(&:name)
+      existing = [] if kind == "treatments" # auditing for treatments only for adding, not removing
 
       if kind == "treatments"
         incoming = self.send(kind).map(&:name)
