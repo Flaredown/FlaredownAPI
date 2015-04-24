@@ -14,6 +14,8 @@ en:
     password: "Password"
     password_placeholder: ""
 
+
+
     login_register_now: "Register Now"
     login_button: "Login"
 
@@ -25,6 +27,8 @@ en:
     register: "Register"
     request_password_reset: "Forgot your password?"
     password_reset: "Reset your password"
+    new_password_placeholder: "New password"
+    new_password_confirmation_placeholder: "Confirm new password"
     reset_instructions_sent: "Reset request received, please check your email."
 
   nav:
