@@ -280,6 +280,11 @@ en:
     definite: "Definite"
     definite_and_tender: "Definite and tender"
 
+    not_at_all: "Not at all"
+    several_days: "Several days"
+    more_than_half_the_days: "More than half the days"
+    nearly_every_day: "Nearly every day"
+
   helpers:
     basic_0: "Not active"
     basic_1: "Not very active"
