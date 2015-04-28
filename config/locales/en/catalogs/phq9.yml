@@ -1,0 +1,46 @@
+catalog_description: "Patient Health Questionnaire (PHQ-9)"
+
+section_1_description: "Little interest or pleasure in doing things?"
+section_1_prompt: "Little interest or pleasure in doing things?"
+section_1_header: "Over the past two weeks, how often have you been bothered by ..."
+low_interest: "Lack of interest"
+
+section_2_description: "Feeling down, depressed, or hopeless?"
+section_2_prompt: "Feeling down, depressed, or hopeless?"
+section_2_header: "Over the past two weeks, how often have you been bothered by ..."
+depressed_mood: "Depressed mood"
+
+section_3_description: "Trouble falling or staying asleep, or sleeping too much?"
+section_3_prompt: "Trouble falling or staying asleep, or sleeping too much?"
+section_3_header: "Over the past two weeks, how often have you been bothered by ..."
+sleep_dysfunction: "Sleep dysfunction"
+
+section_4_description: "Feeling tired or having little energy?"
+section_4_prompt: "Feeling tired or having little energy?"
+section_4_header: "Over the past two weeks, how often have you been bothered by ..."
+fatigue: "Fatigue"
+
+section_5_description: "Poor appetite or overeating?"
+section_5_prompt: "Poor appetite or overeating?"
+section_5_header: "Over the past two weeks, how often have you been bothered by ..."
+appetite_problems: "Appetite problems"
+
+section_6_description: "Feeling bad about yourself - or that you are a failure or have let yourself or your family down?"
+section_6_prompt: "Feeling bad about yourself - or that you are a failure or have let yourself or your family down?"
+section_6_header: "Over the past two weeks, how often have you been bothered by ..."
+feeling_of_failure: "Feelings of failure"
+
+section_7_description: "Trouble concentrating on things, such as reading the newspaper or watching television?"
+section_7_prompt: "Trouble concentrating on things, such as reading the newspaper or watching television?"
+section_7_header: "Over the past two weeks, how often have you been bothered by ..."
+poor_concentration: "Poor concentration"
+
+section_8_description: "Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?"
+section_8_prompt: "Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?"
+section_8_header: "Over the past two weeks, how often have you been bothered by ..."
+movement_dysfunction: "Slowness or fidgeting"
+
+section_9_description: "Thoughts that you would be better off dead, or of hurting yourself in some way?"
+section_9_prompt: "Thoughts that you would be better off dead, or of hurting yourself in some way?"
+section_9_header: "Over the past two weeks, how often have you been bothered by ..."
+thoughts_of_self_harm: "Thoughts of self-harm"
