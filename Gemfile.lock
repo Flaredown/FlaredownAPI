@@ -84,11 +84,14 @@ GEM
       actionmailer (>= 3.2.6, < 5)
       devise (>= 3.2.0)
     diff-lcs (1.2.5)
+    discourse_api (0.1.2)
+      faraday (~> 0.8.8)
+      faraday_middleware (~> 0.9)
     distribution (0.7.1)
     docile (1.1.3)
-    dotenv (0.7.0)
-    dotenv-rails (0.7.0)
-      dotenv (= 0.7.0)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     easy_translate (0.4.0)
       json
       thread
@@ -112,11 +115,12 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
-    faraday (0.9.1)
-      multipart-post (>= 1.2, < 3)
-    foreman (0.64.0)
-      dotenv (~> 0.7.0)
-      thor (>= 0.13.6)
+    faraday (0.8.9)
+      multipart-post (~> 1.2.0)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
+    foreman (0.78.0)
+      thor (~> 0.19.1)
     hashie (2.0.5)
     highline (1.6.20)
     hike (1.2.3)
@@ -147,7 +151,7 @@ GEM
     minitest (5.6.0)
     mono_logger (1.1.0)
     multi_json (1.10.1)
-    multipart-post (2.0.0)
+    multipart-post (1.2.0)
     oauth (0.4.7)
     orm_adapter (0.5.0)
     pg (0.17.1)
@@ -312,10 +316,13 @@ DEPENDENCIES
   database_cleaner
   devise
   devise_invitable
+  discourse_api
   distribution (~> 0.7.1)
+  dotenv (~> 1.0)
   dotenv-rails
   eventmachine (~> 1.0.4)
   factory_girl_rails
+  faraday (~> 0.8.8)
   foreman
   hashie
   i18n-tasks (~> 0.2.10)

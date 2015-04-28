@@ -36,6 +36,8 @@ Flaredown::Application.routes.draw do
     get "users/invitee/:token", to: "users#invitee"
 
     get "/talk_sso",            to: "discourse#sso"
+    get "/talk/info",           to: "talk#info"
+
     get "locales/:locale", to: "locales#show"
     get "/graph" => "graph#show"
     get "/users/:id" => "users#show"

@@ -37,6 +37,10 @@ gem 'paper_trail', github: "airblade/paper_trail", tag: "v4.0.0.beta2"
 gem "codeclimate-test-reporter", group: :test, require: nil
 gem 'acts-as-taggable-on', '~> 3.4'
 
+gem "discourse_api"
+gem "faraday", "~> 0.8.8"
+gem "dotenv", "~> 1.0"
+
 group :production, :development, :staging do
   gem "skylight"
   gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
@@ -58,7 +62,7 @@ group :test, :development, :staging do
 end
 
 group :test, :development do
-  gem "dotenv-rails"
+  gem "dotenv-rails"#, "~> 1.0.0"
   gem "pry"
   gem "pry-remote"
   gem "i18n-tasks", "~> 0.2.10"
