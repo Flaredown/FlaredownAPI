@@ -5,6 +5,7 @@ describe V1::EntriesController, type: :controller do
   let(:user) { create :user, created_at: 10.days.ago }
   before(:each) do
     sign_in(user)
+    Timecop.return
     @request.env["HTTP_ACCEPT"] = "application/json"
   end
 
@@ -58,32 +59,67 @@ describe V1::EntriesController, type: :controller do
   context "CREATE" do
 
     it "authenticated user creates entry" do
-      post :create, date: "Sep-22-2014"
+      today = user.created_at.to_date
+      Timecop.freeze(today.to_time)
+      post :create, date: today.strftime("%b-%d-%Y")
 
-      expect(user.entries.first.date).to eq Date.parse("Sep-22-2014")
+      expect(user.entries.first.date).to eq today
       expect(json_response["entry"].keys.sort).to eql %w( id date catalogs catalog_definitions treatments complete just_created ).sort
 
       returns_code 201
     end
 
     it "entry already exists" do
-      entry = create :hbi_entry, user: user, date: Date.parse("Sep-22-2014")
-      post :create, date: "Sep-22-2014"
+      today = user.created_at.to_date
+      Timecop.freeze(today.to_time)
+
+      entry = create :hbi_entry, user: user, date: today
+      post :create, date: today.strftime("%b-%d-%Y")
 
       expect(json_response["entry"].keys).to include "catalog_definitions"
 
       expect(json_response["entry"]["responses"].detect{|q| q["name"] == "stools"}["value"]).to eq user.entries.first.hbi_stools
-      expect(Date.parse("Sep-22-2014")).to eq user.entries.first.date
+      expect(today).to eq user.entries.first.date
 
       returns_code 200
     end
 
-    # it "missing something" do
-    #   invalid_attrs = entry_attributes; invalid_attrs[:responses].delete("stools")
-    #   post entries_path({entry: invalid_attrs}.merge(api_credentials(user)))
-    #   expect(json_response["errors"].keys).to include("stools")
-    #   returns_code 422
-    # end
+    context "TIME TRAVEL" do
+      it "is a past date within allowed range" do
+        today = user.created_at.to_date+10.days
+        Timecop.freeze(today.to_time)
+
+        entry_date = today-5.days
+        post :create, date: (entry_date).strftime("%b-%d-%Y")
+        expect(user.entries.first.date).to eq entry_date
+
+        returns_code 201
+      end
+
+      it "is before first audit date (not allowed)" do
+        today = user.created_at.to_date+10.days
+        Timecop.freeze(today.to_time)
+
+        post :create, date: user.created_at.to_date-1.day
+
+        returns_groovy_error(name: "no_checkins_before_signup")
+      end
+
+      it "is a date in the future (not allowed)" do
+        post :create, date: "Sep-22-3000"
+        returns_groovy_error(name: "future_date")
+      end
+
+      it "is a date too far in the past (not allowed)" do
+        today = user.created_at.to_date+30.days
+        Timecop.freeze(today.to_time)
+
+        post :create, date: (today-15.days).strftime("%b-%d-%Y")
+        returns_groovy_error(name: "distant_past_date")
+      end
+
+    end
+
   end
 
   context "UPDATE" do

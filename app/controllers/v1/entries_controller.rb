@@ -1,5 +1,5 @@
 class V1::EntriesController < V1::BaseController
-
+  before_action :enforce_date_range, only: :create
   # def index
   #     start_date  = Date.parse(params[:start_date])
   #     end_date    = Date.parse(params[:end_date])
@@ -51,9 +51,6 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 if Entry exists for that date along with Entry json
   # Returns 422 for errors along with errors json
 	def create
-    date = Date.parse(params[:date])
-    return general_error_for("future_date") if date > Date.today
-
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
@@ -78,7 +75,6 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 if successful
   # Returns 422 for errors along with errors json
 	def update
-    date = Date.parse(params[:id])
     entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
     if entry.update_attributes(entry_params)
@@ -146,12 +142,19 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 with an Entry
   # Returns 404 if Entry does not exist for that date and user
 	def show
-    date = Date.parse(params[:id])
     @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
     @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
 	end
 
   private
+  def date
+    Date.parse(params[:date] || params[:id])
+  end
+  def enforce_date_range
+    return general_error_for("future_date") if date > Date.today
+    return general_error_for("distant_past_date") if date < (Date.today - 2.weeks)
+    return general_error_for("no_checkins_before_signup") if date < current_user.created_at.to_date
+  end
   def entry_params
     json_params = ActionController::Parameters.new( JSON.parse(params[:entry]) )
     json_params.permit(

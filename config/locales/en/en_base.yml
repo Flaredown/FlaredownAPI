@@ -310,6 +310,10 @@ en:
     invalid_date_description: "We couldn't make sense of that date, please double check it."
     future_date: "No Time Travel (forwards)"
     future_date_description: "No future dates are allowed. Time travel backwards is alright."
+    distant_past_date: "Too far back!"
+    distant_past_date_description: "You can only check in up to two weeks in the past"
+    no_checkins_before_signup: "Too far back!"
+    no_checkins_before_signup_description: "You can only check in on days after the date you originally signed up"
 
 
     # Some Rails validations
