@@ -7,7 +7,8 @@ en:
   unauthenticated:
     #login
     login: "Log in"
-    logging_you_in: "Logging in ..."
+    logging_you_in: "Logging In"
+    being_redirected: "Just a moment, you're being redirected..."
     you_are_already_logged_in: "You are already logged in!"
     email: "Email"
     email_placeholder: "name@domain.com"
@@ -229,6 +230,7 @@ en:
   no_scores_in_date_range: "No scores in date range"
   graph_date_range_label: "Date range"
   showing_symptoms_and_treatments_over_days: "Showing <b>3 of 4 symptoms</b> and <b>all treatments</b> over <b>%{noOfDays}</b> days"
+  editing_the_past_warning: "You are currently editing in the past, changes made here won't be taken into account for future checkins"
 
   #insights
   insights_title: "Insights here"
