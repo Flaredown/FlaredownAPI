@@ -113,8 +113,16 @@ describe Entry do
         { catalog: "hbi", name: "general_wellbeing", value: 4 },
         { catalog: "symptoms", name: "droopy lips", value: 3 },
         { catalog: "symptoms", name: "fat toes", value: 2 },
-        { catalog: "conditions", name: "Crohn's disease", value: 2 }
+        { catalog: "conditions", name: "Crohn's disease", value: 2 },
     ] }
+    let(:treatment_responses) {
+      { treatments: [
+          {name: "Tickles", quantity: "1.0", unit: "session"},
+          {name: "Tickles", quantity: "1.0", unit: "session"},
+          {name: "Orange Juice", quantity: "1.0", unit: "l"},
+        ]
+      }
+    }
 
     let(:entry) { create :entry }
     it "sets catalogs based on the responses" do
@@ -157,17 +165,29 @@ describe Entry do
       expect(entry.symptoms).to eql []
     end
 
-    it "sets tags from notes on Entry and User" do
-      expect(entry.tags).to eql []
+    # it "sets tags from notes on Entry and User" do
+    #   expect(entry.tags).to eql []
+    #
+    #   entry.notes = "Some #crazy tagging stuff with#lamepants tags in the #middle"
+    #   entry.process_responses
+    #   expect(entry.tags).to eql ["crazy", "middle"]
+    #   expect(entry.user.tag_list).to eql ["crazy", "middle"]
+    #
+    #   entry.notes = []
+    #   entry.process_responses
+    #   expect(entry.tags).to eql []
+    # end
 
-      entry.notes = "Some #crazy tagging stuff with#lamepants tags in the #middle"
-      entry.process_responses
-      expect(entry.tags).to eql ["crazy", "middle"]
-      expect(entry.user.tag_list).to eql ["crazy", "middle"]
+    it "allows for mulitple treatments of the same name" do
+      expect(entry.treatments).to eql []
 
-      entry.notes = []
+      entry.update_attributes treatment_responses
       entry.process_responses
-      expect(entry.tags).to eql []
+      expect(entry.treatments.map(&:name)).to eql ["Tickles", "Tickles", "Orange Juice"]
+
+      entry.responses = []
+      entry.process_responses
+      expect(entry.symptoms).to eql []
     end
 
   end
