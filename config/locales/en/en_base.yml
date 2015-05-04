@@ -268,6 +268,11 @@ en:
     severe: "Severe"
     extreme: "Extreme"
 
+    excellent: "Excellent"
+    very_good: "Very good"
+    good: "Good"
+    fair: "Fair"
+
     dubious: "Dubious"
     definite: "Definite"
     definite_and_tender: "Definite and tender"
@@ -276,6 +281,27 @@ en:
     several_days: "Several days"
     more_than_half_the_days: "More than half the days"
     nearly_every_day: "Nearly every day"
+
+    limited_more_than_3_months: "Limited for more than 3 months"
+    limited_3_months_or_less: "Limited for 3 months or less"
+    not_limited_at_all: "Not limited at all"
+
+    yes_more_than_3_months: "Yes, for more than 3 months"
+    yes_3_months_or_less: "Yes, for 3 months or less"
+    no: "No"
+
+    all_of_the_time: "All of the time"
+    most_of_the_time: "Most of the time"
+    a_good_bit_of_the_time: "A good bit of the time"
+    some_of_the_time: "Some of the time"
+    a_little_of_the_time: "A little of the time"
+    none_of_the_time: "None of the time"
+
+    definitely_true: "Definitely true"
+    mostly_true: "Mostly true"
+    not_sure: "Not sure"
+    mostly_false: "Mostly false"
+    definitely_false: "Definitely false"
 
   helpers:
     basic_0: "Not active"

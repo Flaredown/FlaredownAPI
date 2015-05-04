@@ -78,6 +78,34 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
+  factory :sf20_entry, class: Entry do
+    user
+    catalogs ["sf20"]
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    responses []
+
+    before(:create) do |entry|
+      # section B
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_vigorous_activity, value: 2})
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_moderate_activity, value: 3})
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_climbing_stairs, value: 2})
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_bending, value: 1})
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_walking, value: 2})
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_basic_activity, value: 1})            
+      # entry.responses << build(:response, {catalog: "rapid3", name: :global_estimate       , value: (0..10).step(0.5).to_a.sample})
+
+      Entry.class_eval{ include Sf20Catalog }
+    end
+    after(:create) do |entry|
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
+      entry.reload
+    end
+
+  end
+end
+
+FactoryGirl.define do
   factory :symptom_entry, class: Entry do
     user
     catalogs []
