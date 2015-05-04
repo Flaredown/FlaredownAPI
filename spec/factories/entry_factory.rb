@@ -86,6 +86,7 @@ FactoryGirl.define do
 
     before(:create) do |entry|
       # section B
+      entry.responses << build(:response, {catalog: "sf20", name: :general_health, value: 2})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_vigorous_activity, value: 2})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_moderate_activity, value: 3})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_climbing_stairs, value: 2})

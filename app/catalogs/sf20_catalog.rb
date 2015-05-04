@@ -385,7 +385,7 @@ module Sf20Catalog
   ]
 
   QUESTIONS  = %i( general_health limit_vigorous_activity limit_moderate_activity limit_climbing_stairs limit_bending limit_walking limit_basic_activity bodily_pain prevent_working prevent_certain_kinds_work limit_social_activities nervousness calmness downheartedness happiness despair somewhat_ill healthy_as_anybody excellent_health feeling_bad_lately )
-  SCORE_COMPONENTS = %i( section_b )
+  SCORE_COMPONENTS = %i( section_a section_b )
   SCORE_COMPONENT_QUESTIONS = [1,6,3,3,3,3,3]
   QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
   COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
@@ -476,13 +476,35 @@ module Sf20Catalog
     end[('a'..'z').to_a.index(section_name)]
   end
 
+  def scale_score(score, domain_min, domain_max, range_max)
+    domain_extent = domain_max - domain_min
+    range_max * (score - domain_min) / domain_extent
+  end
+
+  def sf20_section_a_score
+    scale_max = 3
+
+    general_health_recoding = {1 => 1, 2 => 1.64, 3 => 2.59, 4 => 4.01, 5 => 5}  # they made the items not equidistant
+
+    questions = questions_for_section("a")
+    avg = questions.reduce(0) do |sum, name|
+      sum+general_health_recoding[self.send("sf20_#{name}").round]  # round because it comes back as a float                                                                    # and we need to use it as a hash key above
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 5, scale_max)
+    scaled.round
+  end
+
   def sf20_section_b_score
+    scale_max = 3
+
     questions = questions_for_section("b")
-    binding.pry
     avg = questions.reduce(0) do |sum, name|
       sum+self.send("sf20_#{name}")
     end / questions.length
-    avg.round
+
+    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled.round
   end
 
 end
