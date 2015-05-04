@@ -5,8 +5,9 @@ class EntryTreatment
   property :name,      String
   property :quantity,  Float
   property :unit,      String
+  property :repetition,Integer
 
   def id
-    "#{name}_#{quantity}_#{unit}_#{base_doc.id}"
+    "#{name}_#{quantity}_#{unit}_#{repetition}_#{base_doc.id}"
   end
 end

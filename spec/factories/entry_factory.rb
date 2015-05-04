@@ -10,6 +10,19 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
+  factory :entry_with_treatments, class: Entry do
+    user
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    treatments [
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Orange Juice", quantity: "1.0", unit: "l"},
+    ]
+
+  end
+end
+
+FactoryGirl.define do
   factory :hbi_entry, class: Entry do
     user
     catalogs ["hbi"]

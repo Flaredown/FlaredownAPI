@@ -17,6 +17,7 @@ class Entry < CouchRest::Model::Base
   before_create :include_catalogs
   before_save   :include_catalogs
   after_save :process_responses
+  after_save :set_treatment_repetitions
   after_save :enqueue
 
   belongs_to :user
@@ -143,6 +144,14 @@ class Entry < CouchRest::Model::Base
   #   self.user.tag_list.add(self.tags)
   #   self.user.save
   # end
+
+  def set_treatment_repetitions
+    rep = 1
+    self.treatments.each_with_index do |treatment,i|
+      rep = treatment.name == self.treatments[i-1].try(:name) ? rep+1 : 1
+      treatment.repetition = rep
+    end
+  end
 
   def base_definition
     self.catalogs.reduce({}) do |definitions,catalog|
