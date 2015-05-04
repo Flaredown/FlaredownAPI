@@ -385,8 +385,8 @@ module Sf20Catalog
   ]
 
   QUESTIONS  = %i( general_health limit_vigorous_activity limit_moderate_activity limit_climbing_stairs limit_bending limit_walking limit_basic_activity bodily_pain prevent_working prevent_certain_kinds_work limit_social_activities nervousness calmness downheartedness happiness despair somewhat_ill healthy_as_anybody excellent_health feeling_bad_lately )
-  SCORE_COMPONENTS = %i( section_a section_b )
-  SCORE_COMPONENT_QUESTIONS = [1,6,3,3,3,3,3]
+  SCORE_COMPONENTS = %i( section_a section_b section_c section_d section_e)
+  SCORE_COMPONENT_QUESTIONS = [1,6,1,1,1,3,3]
   QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
   COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
 
@@ -466,6 +466,10 @@ module Sf20Catalog
   # def setup_hbi_scoring
   # end
 
+  def invert(n, domain_min, domain_max)
+    domain_max + domain_min - n
+  end
+
   def questions_for_section(section_name)
     questions = QUESTIONS
     SCORE_COMPONENT_QUESTIONS.reduce([]) do |memo,length|
@@ -488,7 +492,7 @@ module Sf20Catalog
 
     questions = questions_for_section("a")
     avg = questions.reduce(0) do |sum, name|
-      sum+general_health_recoding[self.send("sf20_#{name}").round]  # round because it comes back as a float                                                                    # and we need to use it as a hash key above
+      sum + general_health_recoding[self.send("sf20_#{name}").round]  # round because we need to use it as a hash key
     end / questions.length
 
     scaled = scale_score(avg, 1, 5, scale_max)
@@ -500,7 +504,43 @@ module Sf20Catalog
 
     questions = questions_for_section("b")
     avg = questions.reduce(0) do |sum, name|
-      sum+self.send("sf20_#{name}")
+      sum + self.send("sf20_#{name}")
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled.round
+  end
+
+  def sf20_section_c_score
+    scale_max = 3
+
+    questions = questions_for_section("c")
+    avg = questions.reduce(0) do |sum, name|
+      sum + self.send("sf20_#{name}")
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 6, scale_max)
+    scaled.round
+  end
+
+  def sf20_section_d_score
+    scale_max = 3
+
+    questions = questions_for_section("d")
+    avg = questions.reduce(0) do |sum, name|
+      sum + invert(self.send("sf20_#{name}"), 1, 3)
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled.round
+  end
+
+  def sf20_section_e_score
+    scale_max = 3
+
+    questions = questions_for_section("e")
+    avg = questions.reduce(0) do |sum, name|
+      sum + invert(self.send("sf20_#{name}"), 1, 3)
     end / questions.length
 
     scaled = scale_score(avg, 1, 3, scale_max)

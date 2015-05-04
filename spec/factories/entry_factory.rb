@@ -93,6 +93,9 @@ FactoryGirl.define do
       entry.responses << build(:response, {catalog: "sf20", name: :limit_bending, value: 1})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_walking, value: 2})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_basic_activity, value: 1})            
+      entry.responses << build(:response, {catalog: "sf20", name: :bodily_pain, value: 6})        
+      entry.responses << build(:response, {catalog: "sf20", name: :prevent_working, value: 1})        
+      entry.responses << build(:response, {catalog: "sf20", name: :prevent_certain_kinds_work, value: 0})        
       # entry.responses << build(:response, {catalog: "rapid3", name: :global_estimate       , value: (0..10).step(0.5).to_a.sample})
 
       Entry.class_eval{ include Sf20Catalog }
