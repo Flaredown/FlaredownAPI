@@ -96,6 +96,7 @@ class Entry < CouchRest::Model::Base
     }
 
     # process_notes
+    process_tags
 
     treatment_settings = self.treatments.reduce({}) do |accum,t|
       accum["treatment_#{t.name}_quantity"]  = t.quantity
@@ -132,6 +133,11 @@ class Entry < CouchRest::Model::Base
   end
 
   private
+  def process_tags
+    self.user.tag_list.add(self.tags)
+    self.user.save
+  end
+
   # def process_notes
   #   self.tags = HashtagParser.new(self.notes).parse
   #   self.user.tag_list.add(self.tags)

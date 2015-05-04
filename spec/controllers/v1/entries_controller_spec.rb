@@ -135,6 +135,8 @@ describe V1::EntriesController, type: :controller do
       put :update, id: entry.date.to_s, entry: attrs.to_json
 
       expect(entry.reload.hbi_stools).to eq 3
+      expect(entry.treatments.map(&:name)).to eq ["Tickles", "Tickles", "Orange Juice"]
+      expect(entry.tags).to eq ["crazy", "banana", "banzai"]
       returns_code 200
     end
 
@@ -253,6 +255,12 @@ end
 def entry_attributes
   {
     date: "Sep-22-2014",
-    responses: response_attributes.map{|r| {catalog: "hbi", name: r.first, value: r.last}}
+    responses: response_attributes.map{|r| {catalog: "hbi", name: r.first, value: r.last}},
+    tags: ["crazy", "banana", "banzai"],
+    treatments: [
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Orange Juice", quantity: "1.0", unit: "l"},
+    ]
   }
 end

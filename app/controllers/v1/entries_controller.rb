@@ -162,6 +162,7 @@ class V1::EntriesController < V1::BaseController
       :notes,
       :triggers,
       catalogs: [],
+      tags: [],
       responses: [:name, :value, :catalog],
       treatments: [:name, :quantity, :unit]
 

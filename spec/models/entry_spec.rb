@@ -178,6 +178,15 @@ describe Entry do
     #   expect(entry.tags).to eql []
     # end
 
+    it "sets tags from the tags in response" do
+      expect(entry.tags).to eql []
+
+      entry.update_attributes tags: ["crazy", "banana", "banzai"]
+      entry.process_responses
+      expect(entry.tags).to eql ["crazy", "banana", "banzai"]
+      expect(entry.user.tag_list).to eql ["crazy", "banana", "banzai"]
+    end
+
     it "allows for mulitple treatments of the same name" do
       expect(entry.treatments).to eql []
 
