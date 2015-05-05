@@ -19,8 +19,8 @@ Treatment.all.each{|t| t.destroy}
 
 # Cut down on the database size a bit to make heroku free level DB happy
 if Rails.env == "staging"
-  every = 6
-  SEED_TREATMENTS.select.with_index{|t,i| t if (i % every != 0)}
+  every = 5
+  SEED_TREATMENTS.reject.with_index{|t,i| t if (i % every != 0)}
 else
   SEED_TREATMENTS
 end.each do |treatment_name|
