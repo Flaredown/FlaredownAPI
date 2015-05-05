@@ -185,6 +185,7 @@ en:
   oops_no_treatments_being_tracked: "You aren't tracking any treatments."
   treatment_unit_prompt: "pills"
   add_treatment: "Add Treatment"
+  add_dose: "Add Dose"
   add_new_treatment: "Add new treatment"
   edit_treatments: "Edit Treatments"
   edit_treatments_caps: "EDIT TREATMENTS"
