@@ -18,8 +18,14 @@ describe Sf20Catalog do
       expect(entry.sf20_section_d_score).to eq 3
     end
     it "outputs a custom score for section e" do
-      expect(entry.sf20_section_e_score).to eq 99
+      expect(entry.sf20_section_e_score).to eq 3
     end    
+    it "outputs a custom score for section f" do
+      expect(entry.sf20_section_f_score).to eq 1
+    end
+    it "outputs a custom score for section g" do
+      expect(entry.sf20_section_g_score).to eq 3
+    end        
   end
   # describe "#score" do
   #   let(:user) { create :user }

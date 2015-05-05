@@ -85,17 +85,34 @@ FactoryGirl.define do
     responses []
 
     before(:create) do |entry|
-      # section B
+      # section A
       entry.responses << build(:response, {catalog: "sf20", name: :general_health, value: 2})
+      # section B
       entry.responses << build(:response, {catalog: "sf20", name: :limit_vigorous_activity, value: 2})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_moderate_activity, value: 3})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_climbing_stairs, value: 2})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_bending, value: 1})
       entry.responses << build(:response, {catalog: "sf20", name: :limit_walking, value: 2})
-      entry.responses << build(:response, {catalog: "sf20", name: :limit_basic_activity, value: 1})            
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_basic_activity, value: 1})     
+      # section C       
       entry.responses << build(:response, {catalog: "sf20", name: :bodily_pain, value: 6})        
+      # section D
       entry.responses << build(:response, {catalog: "sf20", name: :prevent_working, value: 1})        
-      entry.responses << build(:response, {catalog: "sf20", name: :prevent_certain_kinds_work, value: 0})        
+      # section E
+      entry.responses << build(:response, {catalog: "sf20", name: :prevent_certain_kinds_work, value: 1})   
+      # section F     
+      entry.responses << build(:response, {catalog: "sf20", name: :limit_social_activities, value: 1})        
+      entry.responses << build(:response, {catalog: "sf20", name: :nervousness, value: 2})        
+      entry.responses << build(:response, {catalog: "sf20", name: :calmness, value: 3})        
+      entry.responses << build(:response, {catalog: "sf20", name: :downheartedness, value: 4})        
+      entry.responses << build(:response, {catalog: "sf20", name: :happiness, value: 5})        
+      entry.responses << build(:response, {catalog: "sf20", name: :despair, value: 6})
+      # section G
+      entry.responses << build(:response, {catalog: "sf20", name: :somewhat_ill, value: 5})        
+      entry.responses << build(:response, {catalog: "sf20", name: :healthy_as_anybody, value: 1})        
+      entry.responses << build(:response, {catalog: "sf20", name: :excellent_health, value: 1})        
+      entry.responses << build(:response, {catalog: "sf20", name: :feeling_bad_lately, value: 5})
+
       # entry.responses << build(:response, {catalog: "rapid3", name: :global_estimate       , value: (0..10).step(0.5).to_a.sample})
 
       Entry.class_eval{ include Sf20Catalog }

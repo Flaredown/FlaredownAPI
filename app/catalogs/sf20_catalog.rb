@@ -385,8 +385,8 @@ module Sf20Catalog
   ]
 
   QUESTIONS  = %i( general_health limit_vigorous_activity limit_moderate_activity limit_climbing_stairs limit_bending limit_walking limit_basic_activity bodily_pain prevent_working prevent_certain_kinds_work limit_social_activities nervousness calmness downheartedness happiness despair somewhat_ill healthy_as_anybody excellent_health feeling_bad_lately )
-  SCORE_COMPONENTS = %i( section_a section_b section_c section_d section_e)
-  SCORE_COMPONENT_QUESTIONS = [1,6,1,1,1,3,3]
+  SCORE_COMPONENTS = %i( section_a section_b section_c section_d section_e section_f section_g)
+  SCORE_COMPONENT_QUESTIONS = [1,6,1,1,1,6,4]
   QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
   COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
 
@@ -544,6 +544,40 @@ module Sf20Catalog
     end / questions.length
 
     scaled = scale_score(avg, 1, 3, scale_max)
+    scaled.round
+  end
+
+  def sf20_section_f_score
+    scale_max = 3
+    questions_to_invert = [:calmness, :happiness]
+
+    questions = questions_for_section("f")
+    avg = questions.reduce(0) do |sum, name|
+      if questions_to_invert.include?(name)
+        sum + invert(self.send("sf20_#{name}"), 1, 6)
+      else
+        sum + self.send("sf20_#{name}")
+      end
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 6, scale_max)
+    scaled.round
+  end
+
+  def sf20_section_g_score
+    scale_max = 3
+    questions_to_invert = [:healthy_as_anybody, :excellent_health]
+
+    questions = questions_for_section("g")
+    avg = questions.reduce(0) do |sum, name|
+      if questions_to_invert.include?(name)
+        sum + invert(self.send("sf20_#{name}"), 1, 5)
+      else
+        sum + self.send("sf20_#{name}")
+      end
+    end / questions.length
+
+    scaled = scale_score(avg, 1, 5, scale_max)
     scaled.round
   end
 
