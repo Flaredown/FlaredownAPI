@@ -16,7 +16,14 @@ end
 
 UserTreatment.all.each{|ut| ut.destroy}
 Treatment.all.each{|t| t.destroy}
-SEED_TREATMENTS.each do |treatment_name|
+
+# Cut down on the database size a bit to make heroku free level DB happy
+if Rails.env == "staging"
+  every = 6
+  SEED_TREATMENTS.select.with_index{|t,i| t if (i % every != 0)}
+else
+  SEED_TREATMENTS
+end.each do |treatment_name|
   Treatment.create_with(locale: "en").find_or_create_by(name: treatment_name)
 end
 
