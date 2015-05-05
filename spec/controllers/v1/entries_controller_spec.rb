@@ -173,7 +173,7 @@ describe V1::EntriesController, type: :controller do
     end
 
   end
-  context "Auditing on UPDATE" do
+  context "Auditing on UPDATE", :disabled => true do
 
     it "adds a new version if it's the latest", versioning: true do
       user.user_conditions.activate create(:condition, name: "Crohn's disease")

@@ -17,7 +17,9 @@ module EntryAuditing
 
   # Reified user for the applicable audit
   def audit_user
-    applicable_audit ? applicable_audit.reify(has_many: true) : user
+    user
+    # TODO Renable/refactor for Questioner 2.0
+    # applicable_audit ? applicable_audit.reify(has_many: true) : user
   end
 
   # Add relevant associations to Entry based on applicable_audit
@@ -43,10 +45,11 @@ module EntryAuditing
     if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
       user.update_settings(self.settings)
 
-      sync_trackables
-
-      self.reload
-      user.create_audit
+      # TODO Renable/refactor for Questioner 2.0
+      # sync_trackables
+      #
+      # self.reload
+      # user.create_audit
     end
 
   end
