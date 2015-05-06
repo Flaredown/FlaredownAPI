@@ -1,0 +1,102 @@
+catalog_description: "Medical Outcomes Study (MOS) 20-Item Short Form Survey (SF-20)"
+
+section_1_description: "In general, would you say your health is:"
+section_1_prompt: "In general, would you say your health is:"
+section_1_header: ""
+general_health: "General health"
+
+section_2_description: "The kinds or amounts of <strong>vigorous</strong> activities you can do, like lifting heavy objects, running or participating in strenuous sports?"
+section_2_prompt: "The kinds or amounts of <strong>vigorous</strong> activities you can do, like lifting heavy objects, running or participating in strenuous sports?"
+section_2_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_vigorous_activity: "Limits on vigorous activity"
+
+section_3_description: "The kinds or amounts of <strong>moderate</strong> activities you can do, like moving a table, carrying groceries or bowling?"
+section_3_prompt: "The kinds or amounts of <strong>moderate</strong> activities you can do, like moving a table, carrying groceries or bowling?"
+section_3_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_moderate_activity: "Limits on moderate activity"
+
+section_4_description: "Walking uphill or climbing a few flights of stairs?"
+section_4_prompt: "Walking uphill or climbing a few flights of stairs?"
+section_4_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_climbing_stairs: "Limits on climbing stairs"
+
+section_5_description: "Bending, lifting, or stooping?"
+section_5_prompt: "Bending, lifting, or stooping?"
+section_5_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_bending: "Limits on bending"
+
+section_6_description: "Walking one block?"
+section_6_prompt: "Walking one block?"
+section_6_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_walking: "Limits on walking"
+
+section_7_description: "Eating, dressing, bathing, or using the toilet?"
+section_7_prompt: "Eating, dressing, bathing, or using the toilet?"
+section_7_header: "For how long (if at all) has your <strong>health limited you</strong> in ..."
+limit_basic_activity: "Limits on basic activities"
+
+section_8_description: "How much <strong>bodily</strong> pain have you had <strong>during the past 4 weeks</strong>?"
+section_8_prompt: "How much <strong>bodily</strong> pain have you had <strong>during the past 4 weeks</strong>?"
+section_8_header: ""
+bodily_pain: "Bodily pain"
+
+section_9_description: "Does your health <strong>keep</strong> you from working at a job, doing work around the house, or going to school?"
+section_9_prompt: "Does your health <strong>keep</strong> you from working at a job, doing work around the house, or going to school?"
+section_9_header: ""
+prevent_working: "Interfering with working"
+
+section_10_description: "Have you been unable to do <strong>certain kinds or amounts</strong> of work, housework, or schoolwork because of your health?"
+section_10_prompt: "Have you been unable to do <strong>certain kinds or amounts</strong> of work, housework, or schoolwork because of your health?"
+section_10_header: ""
+prevent_certain_kinds_work: "Interfering with certain kinds of work"
+
+section_11_description: "How much of the time, during the past month, has your <strong>health limited your social activities</strong> (like visiting with friends or close relatives)?"
+section_11_prompt: "How much of the time, during the past month, has your <strong>health limited your social activities</strong> (like visiting with friends or close relatives)?"
+section_11_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+limit_social_activities: "Limits on social activities"
+
+section_12_description: "How much of the time, during the past month, have you been a <strong>very nervous person</strong>?"
+section_12_prompt: "How much of the time, during the past month, have you been a <strong>very nervous person</strong>?"
+section_12_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+nervousness: "Nervousness"
+
+section_13_description: "During the past month, how much of the time have you felt <strong>calm and peaceful</strong>?"
+section_13_prompt: "During the past month, how much of the time have you felt <strong>calm and peaceful</strong>?"
+section_13_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+calmness: "Calmness"
+
+section_14_description: "How much of the time, during the past month, have you felt <strong>downhearted and blue</strong>?"
+section_14_prompt: "How much of the time, during the past month, have you felt <strong>downhearted and blue</strong>?"
+section_14_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+downheartedness: "Downheartedness"
+
+section_15_description: "During the past month, how much of the time have you been a <strong>happy person</strong>?"
+section_15_prompt: "During the past month, how much of the time have you been a <strong>happy person</strong>?"
+section_15_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+happiness: "Happiness"
+
+section_16_description: "How often, during the past month, have you felt so <strong>down in the dumps that nothing could cheer you up</strong>?"
+section_16_prompt: "How often, during the past month, have you felt so <strong>down in the dumps that nothing could cheer you up</strong>?"
+section_16_header: "Which answer comes <strong>closest</strong> to the way you have been feeling <strong>during the past month</strong>?"
+despair: "Despair"
+
+section_17_description: "I am somewhat ill."
+section_17_prompt: "I am somewhat ill."
+section_17_header: "Is this statement <strong>true</strong> or <strong>false</strong> for you?"
+somewhat_ill: "Somewhat ill"
+
+section_18_description: "I am as healthy as anybody I know."
+section_18_prompt: "I am as healthy as anybody I know."
+section_18_header: "Is this statement <strong>true</strong> or <strong>false</strong> for you?"
+healthy_as_anybody: "Healthy as anyone I know"
+
+section_19_description: "My health is excellent."
+section_19_prompt: "My health is excellent."
+section_19_header: "Is this statement <strong>true</strong> or <strong>false</strong> for you?"
+excellent_health: "Excellent health"
+
+section_20_description: "I have been feeling bad lately."
+section_20_prompt: "I have been feeling bad lately."
+section_20_header: "Is this statement <strong>true</strong> or <strong>false</strong> for you?"
+feeling_bad_lately: "Feeling bad lately"
+

@@ -1,0 +1,36 @@
+catalog_description: "Generalized Anxiety Disorder Assessment (GAD-7)"
+
+section_1_description: "Feeling nervous, anxious or on edge?"
+section_1_prompt: "Feeling nervous, anxious or on edge?"
+section_1_header: "Over the past two weeks, how often have you been bothered by ..."
+anxiety: "Anxiety"
+
+section_2_description: "Not being able to stop or control worrying?"
+section_2_prompt: "Not being able to stop or control worrying?"
+section_2_header: "Over the past two weeks, how often have you been bothered by ..."
+uncontrollable_worry: "Uncontrollable worry"
+
+section_3_description: "Worrying too much about different things?"
+section_3_prompt: "Worrying too much about different things?"
+section_3_header: "Over the past two weeks, how often have you been bothered by ..."
+excessive_worry: "Excessive worry"
+
+section_4_description: "Trouble relaxing?"
+section_4_prompt: "Trouble relaxing?"
+section_4_header: "Over the past two weeks, how often have you been bothered by ..."
+trouble_relaxing: "Trouble relaxing"
+
+section_5_description: "Being so restless that it is hard to sit still?"
+section_5_prompt: "Being so restless that it is hard to sit still?"
+section_5_header: "Over the past two weeks, how often have you been bothered by ..."
+restlessness: "Restlessness"
+
+section_6_description: "Becoming easily annoyed or irritable?"
+section_6_prompt: "Becoming easily annoyed or irritable?"
+section_6_header: "Over the past two weeks, how often have you been bothered by ..."
+irritability: "Irritability"
+
+section_7_description: "Feeling afraid as if something awful might happen?"
+section_7_prompt: "Feeling afraid as if something awful might happen?"
+section_7_header: "Over the past two weeks, how often have you been bothered by ..."
+impending_doom: "A sense of impending doom"
