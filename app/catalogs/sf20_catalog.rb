@@ -389,6 +389,7 @@ module Sf20Catalog
   SCORE_COMPONENT_QUESTIONS = [1,6,1,1,1,6,4]
   QUESTIONS         = DEFINITION.map{|questions| questions.map{|question| question[:name] }}.flatten
   COMPLICATIONS     = DEFINITION[4].map{|question| question[:name] }.flatten
+  SECTION_SCALE_MAX = 3
 
   included do |base_class|
     validate :sf20_response_ranges
@@ -486,8 +487,6 @@ module Sf20Catalog
   end
 
   def sf20_section_a_score
-    scale_max = 3
-
     general_health_recoding = {1 => 1, 2 => 1.64, 3 => 2.59, 4 => 4.01, 5 => 5}  # they made the items not equidistant
 
     questions = questions_for_section("a")
@@ -495,60 +494,51 @@ module Sf20Catalog
       sum + general_health_recoding[self.send("sf20_#{name}").round]  # round because we need to use it as a hash key
     end / questions.length
 
-    scaled = scale_score(avg, 1, 5, scale_max)
+    scaled = scale_score(avg, 1, 5, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_b_score
-    scale_max = 3
-
     questions = questions_for_section("b")
     avg = questions.reduce(0) do |sum, name|
       sum + self.send("sf20_#{name}")
     end / questions.length
 
-    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled = scale_score(avg, 1, 3, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_c_score
-    scale_max = 3
-
     questions = questions_for_section("c")
     avg = questions.reduce(0) do |sum, name|
       sum + self.send("sf20_#{name}")
     end / questions.length
 
-    scaled = scale_score(avg, 1, 6, scale_max)
+    scaled = scale_score(avg, 1, 6, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_d_score
-    scale_max = 3
-
     questions = questions_for_section("d")
     avg = questions.reduce(0) do |sum, name|
       sum + invert(self.send("sf20_#{name}"), 1, 3)
     end / questions.length
 
-    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled = scale_score(avg, 1, 3, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_e_score
-    scale_max = 3
-
     questions = questions_for_section("e")
     avg = questions.reduce(0) do |sum, name|
       sum + invert(self.send("sf20_#{name}"), 1, 3)
     end / questions.length
 
-    scaled = scale_score(avg, 1, 3, scale_max)
+    scaled = scale_score(avg, 1, 3, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_f_score
-    scale_max = 3
     questions_to_invert = [:calmness, :happiness]
 
     questions = questions_for_section("f")
@@ -560,12 +550,11 @@ module Sf20Catalog
       end
     end / questions.length
 
-    scaled = scale_score(avg, 1, 6, scale_max)
+    scaled = scale_score(avg, 1, 6, SECTION_SCALE_MAX)
     scaled.round
   end
 
   def sf20_section_g_score
-    scale_max = 3
     questions_to_invert = [:healthy_as_anybody, :excellent_health]
 
     questions = questions_for_section("g")
@@ -577,7 +566,7 @@ module Sf20Catalog
       end
     end / questions.length
 
-    scaled = scale_score(avg, 1, 5, scale_max)
+    scaled = scale_score(avg, 1, 5, SECTION_SCALE_MAX)
     scaled.round
   end
 
