@@ -226,6 +226,8 @@ en:
   tag_search_placeholder: "Add tag"
   add_tag_prompt: "Add this tag"
 
+  used_x_times_before: "used %{count} time(s) before"
+
   #graph
   #------
   # - index
