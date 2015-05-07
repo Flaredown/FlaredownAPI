@@ -11,7 +11,7 @@ class V1::TagsController < V1::BaseController
       { name: tag.name, count: tag.taggings_count, scope: "multi" }
     end
 
-    render json: (singleplayer+multiplayer).to_json, status: 200
+    render json: (singleplayer+multiplayer).uniq{|t| t[:name]}.to_json, status: 200
   end
 
   def popular
