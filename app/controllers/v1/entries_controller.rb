@@ -51,11 +51,12 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 if Entry exists for that date along with Entry json
   # Returns 422 for errors along with errors json
 	def create
+    now = Time.now
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
-      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :hour => Time.now.hour, :time_zone => Time.now.zone, :new => false })
+      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :local_time_hour => now.hour, :time_zone => now.zone, :day_of_week => now.wday, :new => false })
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
-      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :hour => Time.now.hour, :time_zone => Time.now.zone, :new => true })
+      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :local_time_hour => now.hour, :time_zone => now.zone, :day_of_week => now.wday, :new => true })
       entry = Entry.new({user_id: current_user.id, date: date }).setup_with_audit!
       render json: EntrySerializer.new(entry, scope: :new), status: 201
     end
