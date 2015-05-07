@@ -139,6 +139,9 @@ GEM
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
+    keen (0.8.10)
+      addressable (~> 2.3.5)
+      multi_json (~> 1.3)
     kgio (2.9.2)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -327,6 +330,7 @@ DEPENDENCIES
   hashie
   i18n-tasks (~> 0.2.10)
   json_spec
+  keen
   letter_opener
   oauth
   paper_trail!
