@@ -52,8 +52,10 @@ class V1::EntriesController < V1::BaseController
   # Returns 422 for errors along with errors json
 	def create
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
+      Keen.publish(:testing, { :date => date, :user_id => current_user.id.to_s, :new => false })
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
+      Keen.publish(:testing, { :date => date, :user_id => current_user.id.to_s, :new => true })
       entry = Entry.new({user_id: current_user.id, date: date }).setup_with_audit!
       render json: EntrySerializer.new(entry, scope: :new), status: 201
     end
