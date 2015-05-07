@@ -28,6 +28,7 @@ Flaredown::Application.routes.draw do
     ##################
 
     get "tags/search/:name" => "tags#search"
+    get "tags/popular" => "tags#popular"
 
     get "me",                   to: "users#index"
 

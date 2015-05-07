@@ -163,6 +163,8 @@ en:
 
   # - finish
   checkin_complete: "Checkin complete!"
+  no_rating: "No rating"
+
   x_of_y_sections_completed: "%{x} of %{y} sections completed"
 
   #notes
@@ -186,6 +188,7 @@ en:
   treatment_unit_prompt: "pills"
   add_treatment: "Add Treatment"
   add_dose: "Add Dose"
+  remove_dose: "Remove Dose"
   add_new_treatment: "Add new treatment"
   edit_treatments: "Edit Treatments"
   edit_treatments_caps: "EDIT TREATMENTS"
@@ -213,9 +216,15 @@ en:
   #edit-checkin
   # now_editing_checkin_date: "Now editing checkin for %{date}"
   # back_to_checkin: "Back to Checkin"
-  # edit_checkin_treatments: "Treatments"
-  # edit_checkin_conditions: "Conditions"
-  # edit_checkin_symptoms: "Symptoms"
+  treatments: "Treatments"
+  conditions: "Conditions"
+  symptoms: "Symptoms"
+
+  # tags
+  tag_your_day: "Tag your day"
+  popular: "Popular"
+  tag_search_placeholder: "Add tag"
+  add_tag_prompt: "Add this tag"
 
   #graph
   #------
@@ -257,6 +266,8 @@ en:
   number_question_prompt: "How many %{name} today?"
   complications_question_prompt: "Check any complications"
   add_trackable_prompt: "Add new %{kind}"
+
+
   add_trackable_users: "users"
   research_questions_caps: "RESEARCH QUESTIONS"
 
