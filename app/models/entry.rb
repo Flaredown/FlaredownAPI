@@ -100,8 +100,10 @@ class Entry < CouchRest::Model::Base
     process_tags
 
     treatment_settings = self.treatments.reduce({}) do |accum,t|
-      accum["treatment_#{t.name}_quantity"]  = t.quantity
-      accum["treatment_#{t.name}_unit"]      = t.unit
+      if t.quantity and t.unit
+        accum["treatment_#{t.name}_quantity"]  = t.quantity.to_s # as string for postgres comparison
+        accum["treatment_#{t.name}_unit"]      = t.unit.to_s
+      end
       accum
     end
 

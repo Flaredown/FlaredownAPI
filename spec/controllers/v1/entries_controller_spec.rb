@@ -163,6 +163,29 @@ describe V1::EntriesController, type: :controller do
       returns_code 200
     end
 
+    it "doesn't update user treatment settings when no dosage info present" do
+      entry = create :hbi_entry, date: Date.today, user: user
+
+      attrs = entry_attributes
+      attrs[:date] = entry.date.to_s
+
+      with_resque{ patch :update, id: entry.date.to_s, entry: attrs.to_json }
+
+      entry.reload
+      entry.user.reload
+      expect(entry.user.settings["treatment_Tickles_quantity"]).to eq "1.0"
+      expect(entry.user.settings["treatment_Tickles_unit"]).to eq "session"
+
+      attrs[:treatments] = [{name: "Tickles", quantity: false, unit: false}]
+
+      with_resque{ patch :update, id: entry.date.to_s, entry: attrs.to_json }
+
+      entry.reload
+      entry.user.reload
+      expect(entry.user.settings["treatment_Tickles_quantity"]).to eq "1.0"
+      expect(entry.user.settings["treatment_Tickles_unit"]).to eq "session"
+    end
+
     it "returns nested errors for bad response values" do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == :stools}.first[:value] = 999999

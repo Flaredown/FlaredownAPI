@@ -42,7 +42,10 @@ module EntryAuditing
   def update_audit
     self.reload
 
-    if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
+    if date.today? and not self.settings.eql?(user.settings)
+    # TODO put back in trackable check
+    # if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
+
       user.update_settings(self.settings)
 
       # TODO Renable/refactor for Questioner 2.0
