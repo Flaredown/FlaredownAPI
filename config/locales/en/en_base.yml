@@ -7,7 +7,7 @@ en:
   unauthenticated:
     #login
     login: "Log in"
-    logging_you_in: "Logging In"
+    logging_you_in: "Logging in"
     being_redirected: "Just a moment, you're being redirected..."
     you_are_already_logged_in: "You are already logged in!"
     email: "Email"
@@ -24,7 +24,7 @@ en:
     password_confirmation: "Confirm your password"
     password_confirmation_placeholder: ""
     back_to_login: "Back to Login"
-    enable_early_access: "Enable Early Access"
+    enable_early_access: "Enable early access"
     register: "Register"
     request_password_reset: "Forgot your password?"
     password_reset: "Reset your password"
@@ -76,17 +76,15 @@ en:
     dob_year: "Year"
     dob_year_placeholder: "1986"
 
-    sex: "Sex (genetic)"
+    sex: "Sex"
     sex_options:
-      male: male
-      female: female
-      other: other
-      unspecified: prefer not to say
-
-    gender: "Gender, if different"
+      male: Male
+      female: Female
+      other: Other
+      unspecified: Prefer not to say
 
     # research data
-    optional_research: "Optional data for research:"
+    optional_research: "Donate extra data for research (optional)"
 
 
     ethnic_origin: Ethnic Origin
@@ -106,10 +104,10 @@ en:
 
     occupation: How you spend most of your day
     occupation_options:
-      - "sitting down or at a computer"
-      - "on your feet"
-      - "driving around"
-      - "working with your hands"
+      - "Sitting down or at a computer"
+      - "On your feet"
+      - "Driving around"
+      - "Working with your hands"
 
     occupation_options_descriptions:
       - "e.g. student, programmer, architect"
@@ -119,11 +117,11 @@ en:
 
     highest_education: Highest level of education completed
     highest_education_options:
-     - "less than high school"
-     - "high school diploma"
-     - "some college or associate's degree"
-     - "bachelor's degree"
-     - "advanced degree"
+     - "Less than high school"
+     - "High school diploma"
+     - "Some college or associate's degree"
+     - "Bachelor's degree"
+     - "Advanced degree"
 
     # Trackables (conditions/symptoms/treatments)
     activity_level: "How many hours a day do you spend walking or exercising, on average?"
@@ -140,19 +138,19 @@ en:
     ready_for_checkin: "You’re ready for your first check-in:"
 
     # - conditions
-    add_condition: "Add Condition"
+    add_condition: "Add condition"
     add_new_condition: "Add new condition"
-    edit_conditions: "Edit Conditions"
-    edit_conditions_caps: "EDIT CONDITIONS"
+    edit_conditions: "Edit conditions"
+    edit_conditions_caps: "Edit conditions"
 
     # - symptoms
     your_first_check_in: "It's your first check-in"
     choose_up_to_8_symptoms: "Choose up to 8 symptoms to track"
-    add_a_symptom_title: "Add a Symptom"
-    add_symptom_button: "Add Symptom"
+    add_a_symptom_title: "Add a symptom"
+    add_symptom_button: "Add symptom"
     add_new_symptom: "Add new symptom"
-    edit_symptoms: "Edit Symptoms"
-    edit_symptoms_caps: "EDIT SYMPTOMS"
+    edit_symptoms: "Edit symptoms"
+    edit_symptoms_caps: "Edit symptoms"
 
 
   #questioner
@@ -169,7 +167,7 @@ en:
 
   #notes
   what_else_happened_today: "What else happened today?"
-  leave_a_note: "Leave  a note"
+  leave_a_note: "Leave a note"
 
   # - start
   you_havent_checked_in_yet: "You haven't checked in yet today"
@@ -185,16 +183,16 @@ en:
   # - treatments
   which_treatments_taken_today: "Which treatments did you take today?"
   oops_no_treatments_being_tracked: "You aren't tracking any treatments."
-  treatment_unit_prompt: "pills"
-  add_treatment: "Add Treatment"
-  add_dose: "Add Dose"
-  remove_dose: "Remove Dose"
+  treatment_unit_prompt: "mg"
+  add_treatment: "Add treatment"
+  add_dose: "Add dose"
+  remove_dose: "Remove dose"
   add_new_treatment: "Add new treatment"
-  edit_treatments: "Edit Treatments"
+  edit_treatments: "Edit treatments"
   edit_treatments_caps: "EDIT TREATMENTS"
   edit_treatment_name_placeholder: "Name of treatment"
-  edit_treatment_dose_placeholder: "Daily dose (i.e. ’30’)"
-  edit_treatment_unit_placeholder: "Units (i.e. ‘Milligrams’)"
+  edit_treatment_dose_placeholder: "Daily dose (i.e. 30)"
+  edit_treatment_unit_placeholder: "Units (i.e. mg)"
 
   #menu
   menu_item_graph: "GRAPH"
@@ -226,7 +224,60 @@ en:
   tag_search_placeholder: "Add tag"
   add_tag_prompt: "Add this tag"
 
-  used_x_times_before: "used %{count} time(s) before"
+  used_x_times_before: "used %{count} times"
+
+
+  #past questioner
+  #----------
+  past:
+    # - conditions
+    how_active_were_your_conditions: "How active were your conditions on this day?"
+    oops_no_conditions_being_tracked: "You weren't tracking any conditions on this day."
+
+    # - finish
+    checkin_complete: "Checkin complete!"
+    no_rating: "No rating"
+
+    x_of_y_sections_completed: "%{x} of %{y} sections completed"
+
+    #notes
+    what_else_happened_today: "What else happened today?"
+    leave_a_note: "Leave a note"
+
+    # - start
+    you_havent_checked_in_yet: "You didn't check in on this day"
+    tap_next_to_start: "Tap <b>next</b> to get started!"
+
+    # - end
+    all_done: "All done!"
+
+    # - symptoms
+    how_active_were_your_symptoms: "How active were your symptoms on this day?"
+    oops_no_symptoms_being_tracked: "You weren't tracking any symptoms on this day."
+
+    # - treatments
+    which_treatments_taken_today: "Which treatments did you take today?"
+    oops_no_treatments_being_tracked: "You weren't tracking any treatments on this day."
+    treatment_unit_prompt: "mg"
+    add_treatment: "Add treatment"
+    add_dose: "Add dose"
+    remove_dose: "Remove dose"
+    add_new_treatment: "Add new treatment"
+    edit_treatments: "Edit treatments"
+    edit_treatments_caps: "EDIT TREATMENTS"
+    edit_treatment_name_placeholder: "Name of treatment"
+    edit_treatment_dose_placeholder: "Daily dose (i.e. 30)"
+    edit_treatment_unit_placeholder: "Units (i.e. mgtags
+    tag_your_day: "Tag this past day"
+    popular: "Popular"
+    tag_search_placeholder: "Add tag"
+    add_tag_prompt: "Add this tag"
+
+    used_x_times_before: "used %{count} times"
+
+  # --- END PAST QUESTIONER ---
+
+
 
   #graph
   #------
@@ -658,7 +709,7 @@ en:
     ZW: Zimbabwe
     AX: 'Åland Islands'
 
-  unit_placeholder: "pill"
+  unit_placeholder: "mg"
   treatment_units:
     ml:          "ml"
     l:           "l"
