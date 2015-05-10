@@ -189,6 +189,7 @@ en:
   add_treatment: "Add Treatment"
   add_dose: "Add Dose"
   remove_dose: "Remove Dose"
+  not_taken: "Not taken"
   add_new_treatment: "Add new treatment"
   edit_treatments: "Edit Treatments"
   edit_treatments_caps: "EDIT TREATMENTS"
