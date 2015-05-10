@@ -267,7 +267,7 @@ en:
     edit_treatments_caps: "EDIT TREATMENTS"
     edit_treatment_name_placeholder: "Name of treatment"
     edit_treatment_dose_placeholder: "Daily dose (i.e. 30)"
-    edit_treatment_unit_placeholder: "Units (i.e. mgtags
+    edit_treatment_unit_placeholder: "Units (i.e. mgtags)"
     tag_your_day: "Tag this past day"
     popular: "Popular"
     tag_search_placeholder: "Add tag"
