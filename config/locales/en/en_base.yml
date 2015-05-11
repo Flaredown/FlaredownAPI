@@ -162,6 +162,7 @@ en:
   # - finish
   checkin_complete: "Checkin complete!"
   no_rating: "No rating"
+  not_taken: "Not taken"
 
   x_of_y_sections_completed: "%{x} of %{y} sections completed"
 
