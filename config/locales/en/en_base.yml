@@ -155,6 +155,9 @@ en:
 
   #questioner
   #----------
+  not_tracking_trackable: "You aren't tracking any %{type}."
+  tags: "Tags"
+
   # - conditions
   how_active_were_your_conditions: "How active were your conditions today?"
   oops_no_conditions_being_tracked: "You aren't tracking any conditions."
@@ -163,6 +166,7 @@ en:
   checkin_complete: "Checkin complete!"
   no_rating: "No rating"
   not_taken: "Not taken"
+  taken: "Taken"
 
   x_of_y_sections_completed: "%{x} of %{y} sections completed"
 
