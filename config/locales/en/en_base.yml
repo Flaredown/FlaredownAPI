@@ -17,14 +17,14 @@ en:
 
 
 
-    login_register_now: "Register Now"
+    login_register_now: "Register now"
     login_button: "Login"
 
     #register
     password_confirmation: "Confirm your password"
     password_confirmation_placeholder: ""
-    back_to_login: "Back to Login"
-    enable_early_access: "Enable early access"
+    back_to_login: "Back to login"
+    enable_early_access: "Unlock early access"
     register: "Register"
     request_password_reset: "Forgot your password?"
     password_reset: "Reset your password"
