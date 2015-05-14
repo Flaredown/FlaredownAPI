@@ -53,11 +53,31 @@ class V1::EntriesController < V1::BaseController
 	def create
     now = Time.now
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
-      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :local_time_hour => now.hour, :time_zone => now.zone, :day_of_week => now.wday, :new => false })
+      Keen.publish(
+        :entries,
+        {
+          :date => date,
+          :user_id => current_user.id.to_s,
+          :local_time_hour => now.hour,
+          :time_zone => now.zone,:day_of_week => now.wday,
+          :new => false,
+          :n_catalogs => existing.catalogs.length
+        }
+      )
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
-      Keen.publish(:entries, { :date => date, :user_id => current_user.id.to_s, :local_time_hour => now.hour, :time_zone => now.zone, :day_of_week => now.wday, :new => true })
       entry = Entry.new({user_id: current_user.id, date: date }).setup_with_audit!
+      Keen.publish(
+        :entries,
+        {
+          :date => date,
+          :user_id => current_user.id.to_s,
+          :local_time_hour => now.hour,
+          :time_zone => now.zone,:day_of_week => now.wday,
+          :new => true,
+          :n_catalogs => entry.catalogs.length
+        }
+      )
       render json: EntrySerializer.new(entry, scope: :new), status: 201
     end
 	end
