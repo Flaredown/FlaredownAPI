@@ -199,6 +199,21 @@ describe V1::EntriesController, type: :controller do
       expect(entry.treatments.map(&:name).uniq.length).to eq 2
     end
 
+    it "duplicate treatments" do
+      entry = create :hbi_entry, date: Date.today, user: user
+
+      attrs = entry_attributes
+      attrs[:date] = entry.date.to_s
+
+      with_resque{ patch :update, id: entry.date.to_s, entry: attrs.to_json }
+
+      entry.reload
+      tickles = entry.treatments.select{|t| t.name == "Tickles"}
+      expect(tickles.length).to eq 2
+      expect(tickles.first.repetition).to eql 1
+      expect(tickles.last.repetition).to eql 2
+    end
+
     it "returns nested errors for bad response values" do
       attrs = entry_attributes
       attrs[:responses].select{|q| q[:name] == :stools}.first[:value] = 999999
