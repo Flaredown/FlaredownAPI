@@ -119,7 +119,31 @@ class Entry < CouchRest::Model::Base
     (entry.catalogs | ["symptoms"]).each do |catalog|
       entry.send("save_score", catalog)
       entry.save_without_processing
+
+      # TODO: no idea whether this detect stuff will work or not
+      # catalog_score = entry.catalogs.detect {|c| c["name"] == catalog}
+
+      # catalog_to_keen = {
+      #   :date => date,
+      #   :user_id => current_user.id.to_s,
+      #   :catalog => catalog,
+      #   :score => catalog_score["score"] if catalog_score else nil
+      # }
+
+      # Keen.publish(:catalogs, catalog_to_keen)
+
     end
+
+    entry_to_keen = {
+      :date => date,
+      :user_id => current_user.id.to_s,
+      :local_time_hour => Time.now.hour,
+      :time_zone => Time.now.zone,
+      :day_of_week => Time.now.wday,
+      :n_catalogs => entry.catalogs.length
+    }
+
+    Keen.publish(:entries, entry_to_keen)
 
     entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
