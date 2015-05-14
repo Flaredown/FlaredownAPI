@@ -135,7 +135,7 @@ describe V1::EntriesController, type: :controller do
       put :update, id: entry.date.to_s, entry: attrs.to_json
 
       expect(entry.reload.hbi_stools).to eq 3
-      expect(entry.treatments.map(&:name)).to eq ["Tickles", "Tickles", "Orange Juice"]
+      expect(entry.treatments.map(&:name)).to match_array ["Tickles", "Tickles", "Orange Juice"]
       expect(entry.tags).to eq ["crazy", "banana", "banzai"]
       returns_code 200
     end

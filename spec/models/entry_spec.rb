@@ -192,7 +192,7 @@ describe Entry do
 
       entry.update_attributes treatment_responses
       entry.process_responses
-      expect(entry.treatments.map(&:name)).to eql ["Tickles", "Tickles", "Orange Juice"]
+      expect(entry.treatments.map(&:name)).to match_array ["Tickles", "Tickles", "Orange Juice"]
 
       entry.responses = []
       entry.process_responses
