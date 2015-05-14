@@ -5,7 +5,7 @@ class Entry < CouchRest::Model::Base
   include EntryAuditing
   include BasicQuestionTemplate
 
-  AVAILABLE_CATALOGS = %w( hbi rapid3 )
+  AVAILABLE_CATALOGS = %w( hbi rapid3 phq9 )
 
   @queue = :entries
 
@@ -134,17 +134,7 @@ class Entry < CouchRest::Model::Base
 
     end
 
-    entry_to_keen = {
-      :date => date,
-      :user_id => current_user.id.to_s,
-      :local_time_hour => Time.now.hour,
-      :time_zone => Time.now.zone,
-      :day_of_week => Time.now.wday,
-      :n_catalogs => entry.catalogs.length
-    }
-
-    Keen.publish(:entries, entry_to_keen)
-
+    Resque.enqueue_at(Date.tomorrow.beginning_of_day, EntrySendToKeen, entry.id)
     entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
   end
