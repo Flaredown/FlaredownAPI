@@ -1,12 +1,16 @@
 class EntrySendToKeen
   @queue = :entries
 
-  def self.perform(entry_id)
+  def self.perform(args)
+
+  	entry_id = args[:id]
+  	timestamp = args[:timestamp]
+
     entry = Entry.find(entry_id)
 
     #jobs = Resque.queues["entries"].find_all { |job| entry_id.match(job["args"][0]) }
 
-    timestamp = Time.now  # TODO: need to pass this in to get time entered, not time sent
+    #timestamp = Time.now  # TODO: need to pass this in to get time entered, not time sent
 
     entry_to_keen = {
       :date => entry.date,
@@ -17,6 +21,7 @@ class EntrySendToKeen
       :n_catalogs => entry.catalogs.length
     }
 
+    binding.pry_remote
     Keen.publish(:entries, entry_to_keen)
   end
 end

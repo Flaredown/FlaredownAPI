@@ -134,8 +134,7 @@ class Entry < CouchRest::Model::Base
 
     end
 
-    timestamp = Time.now
-    Resque.enqueue(EntrySendToKeen, entry.id)  # TODO: will need to pass timestamp in
+    Resque.enqueue(EntrySendToKeen, {id: entry.id, timestamp: Time.now})  # TODO: will need to pass timestamp in
     # Resque.enqueue_in(1.minute, EntrySendToKeen, entry.id)
     entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
