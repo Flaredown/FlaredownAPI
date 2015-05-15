@@ -4,6 +4,8 @@ class EntrySendToKeen
   def self.perform(entry_id)
     entry = Entry.find(entry_id)
 
+    #jobs = Resque.queues["entries"].find_all { |job| entry_id.match(job["args"][0]) }
+
     entry_to_keen = {
       :date => entry.date,
       :user_id => entry.user.id.to_s,

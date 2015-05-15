@@ -134,7 +134,7 @@ class Entry < CouchRest::Model::Base
 
     end
 
-    Resque.enqueue_at(Date.tomorrow.beginning_of_day, EntrySendToKeen, entry.id)
+    Resque.enqueue(EntrySendToKeen, entry.id)
     entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
   end
