@@ -151,7 +151,7 @@ class V1::EntriesController < V1::BaseController
     Date.parse(params[:date] || params[:id])
   end
   def enforce_date_range
-    return general_error_for("future_date") if date > Date.today
+    return general_error_for("future_date") if date > Date.tomorrow # Not today due to timezone difference possibilities (e.g., it's tomorrow Australia)
     return general_error_for("distant_past_date") if date < (Date.today - 2.weeks)
     return general_error_for("no_checkins_before_signup") if date < current_user.created_at.to_date
   end
