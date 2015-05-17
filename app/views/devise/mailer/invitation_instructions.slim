@@ -1,4 +1,23 @@
-p = t("emails.hello", email: @resource.email)
-p = t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url)
-p: a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}" = t("devise.mailer.invitation_instructions.accept")
-p = t("devise.mailer.invitation_instructions.ignore").html_safe
+h1 = t("emails.early_access_invite.title")
+p = t("emails.early_access_invite.send_key")
+br
+a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}"
+	img src="#{ENV['EMBER_HOST']}/assets/early_access_key.png" style="max-width: 250px;"
+p = t("emails.early_access_invite.mobile_app")
+br
+h3 = t("emails.early_access_invite.about_early_access")
+p = t("emails.early_access_invite.about_early_access_body")
+br
+h3 = t("emails.early_access_invite.wheres_the_graph")
+img src="#{ENV['EMBER_HOST']}/assets/fd_upcoming_graph.png" style="max-width: 600px;"
+p = t("emails.early_access_invite.wheres_the_graph_body")
+br
+h3 = t("emails.early_access_invite.enjoy")
+p = t("emails.early_access_invite.enjoy_body")
+
+
+
+
+/ p = t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url)
+/ p: a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}" = t("devise.mailer.invitation_instructions.accept")
+/ p = t("devise.mailer.invitation_instructions.ignore").html_safe
