@@ -21,6 +21,7 @@ module Flaredown
     config.active_record.schema_format = :sql
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*_base.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/emails.{rb,yml}').to_s]
 
     if config.respond_to?(:skylight)
       config.skylight.environments += ['staging']
