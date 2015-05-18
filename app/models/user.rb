@@ -46,9 +46,7 @@ class User < ActiveRecord::Base
 
   def setup_first_checkin
     self.create_audit
-    # TODO switch back to today after QA
-    Entry.new({user_id: self.id, date: 13.days.ago.to_date }).setup_with_audit!
-    # Entry.new({user_id: self.id, date: Date.today }).setup_with_audit!
+    Entry.new({user_id: self.id, date: Date.today }).setup_with_audit!
   end
 
   def onboarded?; settings["onboarded"] == "true"; end
