@@ -1,12 +1,14 @@
 en:
   emails:
     early_access_invite:
-      title: "Your unique access key is below!"
+      title: "Your key to Flaredown early access has arrived"
       send_key: "Want to send it to someone else? Just forward this email."
-      mobile_app: "Early access currently covers the Flaredown website. You will receive an invite to the mobile app when we release it."
+      unlock: "Unlock early access now"
+      mobile_app: "Currently open to the Flaredown website. As a backer you will receive an invite to the mobile app when we release it."
       about_early_access: "About early access"
-      about_early_access_body: "This is a BETA project, which means we will be making changes during early access. You may lose data as a result, although we will try our best to make sure that doesn’t happen."
+      about_early_access_body: "This is a BETA release, which means we will be making changes during early access. You may lose some data as a result, although we will try our best to make sure that doesn’t happen."
       wheres_the_graph: "Where's the graph?"
-      wheres_the_graph_body: "It’s coming! We decided to open up early access and let you start checking in your data so you’ll have plenty to work with when we release the graph."
+      wheres_the_graph_body: "It’s coming! We decided to open up early access and let you start checking in your data now so you’ll have plenty to work with once we release the graph."
+      upcoming_features_body: "Once you've logged in, you'll be able to see other upcoming features like doctor printouts and detailed statistics."
       enjoy: "Enjoy!"
-      enjoy_body: "Questions or comments? Email <a href=\"mailto:logan@flaredown.com\">logan@flaredown.com.</a>"
+      enjoy_body: "We can't wait for you to try out Flaredown. Questions or comments? Email <a href=\"mailto:logan@flaredown.com\">logan@flaredown.com.</a>"

@@ -1,23 +1,19 @@
-h1 = t("emails.early_access_invite.title")
-p = t("emails.early_access_invite.send_key")
-br
-a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}"
-	img src="#{ENV['EMBER_HOST']}/assets/early_access_key.png" style="max-width: 250px;"
-p = t("emails.early_access_invite.mobile_app")
-br
-h3 = t("emails.early_access_invite.about_early_access")
-p = t("emails.early_access_invite.about_early_access_body")
-br
-h3 = t("emails.early_access_invite.wheres_the_graph")
-img src="#{ENV['EMBER_HOST']}/assets/fd_upcoming_graph.png" style="max-width: 600px;"
-p = t("emails.early_access_invite.wheres_the_graph_body")
-br
-h3 = t("emails.early_access_invite.enjoy")
-p = t("emails.early_access_invite.enjoy_body")
-
-
-
-
-/ p = t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url)
-/ p: a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}" = t("devise.mailer.invitation_instructions.accept")
-/ p = t("devise.mailer.invitation_instructions.ignore").html_safe
+div style="text-align: center; max-width: 500px; font-family: helvetica, sans-serif; line-height: 1.4em;"
+	h1 style="line-height: 1.2em;" = t("emails.early_access_invite.title")
+	p = t("emails.early_access_invite.send_key")
+	br
+	a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}"
+		img src="#{ENV['EMBER_HOST']}/assets/early_access_key.png" style="width: 100%; max-width: 250px;"
+		p = t("emails.early_access_invite.unlock")
+	p = t("emails.early_access_invite.mobile_app")
+	br
+	h3 = t("emails.early_access_invite.about_early_access")
+	p style="text-align: left;" = t("emails.early_access_invite.about_early_access_body")
+	br
+	h3 = t("emails.early_access_invite.wheres_the_graph")
+	img src="#{ENV['EMBER_HOST']}/assets/fd_upcoming_graph.png" style="width: 100%; max-width: 600px;"
+	p style="text-align: left;" = t("emails.early_access_invite.wheres_the_graph_body")
+	p style="text-align: left;" = t("emails.early_access_invite.upcoming_features_body")
+	br
+	h3 = t("emails.early_access_invite.enjoy")
+	p style="text-align: left;" = t("emails.early_access_invite.enjoy_body").html_safe
