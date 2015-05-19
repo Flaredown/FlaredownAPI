@@ -29,6 +29,19 @@ class EntrySendToKeen
       	:n_tags => entry.tags.length,
     }
 
+    entry.conditions.each do |condition|
+    	condition_score = entry.responses.detect { |r| r["name"] == condition and r["catalog"] == "conditions"}
+
+    	condition_to_keen = {
+    		:name => condition,
+    		:entry_id => entry.id,
+    		:date => entry.date,
+    		:user_id => entry.user.id.to_s,
+    		:score => condition_score["value"],
+    	}
+    	Keen.publish(:conditions, condition_to_keen)
+    end
+
     entry.catalogs.each do |catalog|
     	catalog_score = entry.scores.detect {|s| s["name"] == catalog}
 
@@ -43,7 +56,7 @@ class EntrySendToKeen
     end
 
     entry.symptoms.each do |symptom|
-    	symptom_response = entry.responses.detect {|r| r["name"] == symptom}
+    	symptom_response = entry.responses.detect {|r| r["name"] == symptom  and r["catalog"] == "symptoms"}
 
     	symptom_to_keen = {
     		:name => symptom,
