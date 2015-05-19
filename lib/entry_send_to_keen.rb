@@ -23,7 +23,10 @@ class EntrySendToKeen
       	:local_time_hour => timestamp.hour,
       	:time_zone => timestamp.zone,
       	:day_of_week => timestamp.wday,
-      	:n_catalogs => entry.catalogs.length
+      	:n_catalogs => entry.catalogs.length,
+      	:n_symptoms => entry.symptoms.length,
+      	:n_treatments => entry.treatments.length,
+      	:n_tags => entry.tags.length,
     }
 
     entry.catalogs.each do |catalog|
@@ -63,6 +66,17 @@ class EntrySendToKeen
     		:repetition => treatment.repetition,
     	}
     	Keen.publish(:treatments, treatment_to_keen)
+    end
+
+    # can't test this until we merge with master
+    entry.tags.each do |tag|
+    	tag_to_keen = {
+    		:content => tag,
+    		:entry_id => entry.id,
+    		:date => entry.date,
+    		:user_id => entry.user.id.to_s,
+    	}
+    	Keen.publish(:tags, tag_to_keen)
     end
 
     Keen.publish(:entries, entry_to_keen)
