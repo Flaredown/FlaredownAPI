@@ -16,8 +16,8 @@ class Entry < CouchRest::Model::Base
 
   before_create :include_catalogs
   before_save   :include_catalogs
+  before_save :set_treatment_repetitions
 
-  after_save :set_treatment_repetitions
   after_save :process_responses
   after_save :enqueue
 
@@ -124,7 +124,8 @@ class Entry < CouchRest::Model::Base
       entry.save_without_processing
     end
 
-    entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
+    # TODO reenable Pusher
+    # entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
   end
 
@@ -150,12 +151,10 @@ class Entry < CouchRest::Model::Base
 
   def set_treatment_repetitions
     rep = 1
-    treatments_w_reps = self.treatments.sort_by(&:name).map.with_index do |treatment,i|
-      rep = treatment.name == self.treatments[i-1].try(:name) ? rep+1 : 1
-      treatment.repetition = rep
-      treatment
+    self.treatments.sort_by(&:name).each.with_index do |treatment,i|
+      rep = treatment.name == self.treatments.sort_by(&:name)[i-1].try(:name) ? rep+1 : 1
+      self.treatments[i-1].repetition = rep
     end
-    self.update_attributes treatments: treatments_w_reps
   end
 
   def base_definition
