@@ -14,6 +14,7 @@ en:
     email_placeholder: "name@domain.com"
     password: "Password"
     password_placeholder: ""
+    get_account: "Get an account"
 
 
 
@@ -26,8 +27,8 @@ en:
     back_to_login: "Back to login"
     enable_early_access: "Unlock early access"
     register: "Register"
-    request_password_reset: "Forgot your password?"
-    password_reset: "Reset your password"
+    request_password_reset: "Reset your password"
+    password_reset: "Forgot password"
     new_password_placeholder: "New password"
     new_password_confirmation_placeholder: "Confirm new password"
     reset_instructions_sent: "Reset request received, please check your email."
@@ -157,6 +158,7 @@ en:
   #----------
   not_tracking_trackable: "You aren't tracking any %{type}."
   tags: "Tags"
+  note: "Note"
 
   # - conditions
   how_active_were_your_conditions: "How active were your conditions today?"
