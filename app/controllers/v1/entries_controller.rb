@@ -77,7 +77,14 @@ class V1::EntriesController < V1::BaseController
 	def update
     entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
 
-    if entry.update_attributes(entry_params)
+    success = false
+    begin
+      success = if entry.update_attributes(entry_params) then true else false end
+    rescue RestClient::Conflict => e
+      success = if entry.update_attributes(entry_params) then true else false end
+    end
+
+    if success
       Resque.enqueue(EntryAuditUpdate, entry.id) # entry.update_audit
       render_success
     else
@@ -147,6 +154,9 @@ class V1::EntriesController < V1::BaseController
 	end
 
   private
+  def couch_conflict
+
+  end
   def date
     Date.parse(params[:date] || params[:id])
   end
