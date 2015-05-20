@@ -81,6 +81,7 @@ class V1::EntriesController < V1::BaseController
     begin
       success = if entry.update_attributes(entry_params) then true else false end
     rescue RestClient::Conflict => e
+      entry.reload
       success = if entry.update_attributes(entry_params) then true else false end
     end
 
