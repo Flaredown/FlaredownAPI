@@ -10,19 +10,26 @@ class UserSerializer < ActiveModel::Serializer
     :catalogs,
     :settings,
     :obfuscated_id,
+    :intercom_hash,
     :email,
     :authentication_token,
     :locale,
     :symptom_colors,
     :treatment_colors,
     :checked_in_today,
-    :settings
+    :settings,
+    :created_at
 
     def catalogs
       object.catalogs
     end
     def treatments
       object.active_treatments
+    end
+
+    # for Intercom.io secure mode
+    def intercom_hash
+      OpenSSL::HMAC.hexdigest("sha256", ENV["INTERCOM_SECRET"], object.email)
     end
 
 end
