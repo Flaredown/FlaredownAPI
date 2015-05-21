@@ -23,6 +23,7 @@ class EntrySendToKeen
       	:local_time_hour => timestamp.hour,
       	:time_zone => timestamp.zone,
       	:day_of_week => timestamp.wday,
+      	:n_conditions => entry.conditions.length,
       	:n_catalogs => entry.catalogs.length,
       	:n_symptoms => entry.symptoms.length,
       	:n_treatments => entry.treatments.length,
