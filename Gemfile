@@ -42,6 +42,10 @@ gem 'discourse_api'
 gem 'faraday', "~> 0.8.8"
 gem 'dotenv', "~> 1.0"
 
+group :production, :staging do
+  gem 'rails_12factor'
+end
+
 group :production, :development, :staging do
   gem 'skylight'
   gem 'sentry-raven', :git => 'https://github.com/getsentry/raven-ruby.git'
