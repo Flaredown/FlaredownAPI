@@ -1,4 +1,61 @@
-catalog_description: "Rapid3"
+catalog_description: "Rapid 3"
 
-section_1_description: "Placeholder question?"
-section_1_prompt: "Placeholder question?"
+section_1_description: "Dress yourself, including tying shoelaces and doing buttons?"
+section_1_prompt: "Dress yourself, including tying shoelaces and doing buttons?"
+section_1_header: "Over the last week were you able to ..."
+dress_yourself: "Dressing yourself"
+
+section_2_description: "Get in and out of bed?"
+section_2_prompt: "Get in and out of bed?"
+section_2_header: "Over the last week were you able to ..."
+get_in_out_of_bed: "Getting in and out of bed"
+
+section_3_description: "Lift a full glass of water to your mouth?"
+section_3_prompt: "Lift a full glass of water to your mouth?"
+section_3_header: "Over the last week were you able to ..."
+lift_full_glass: "Lifting a full glass"
+
+section_4_description: "Walk outdoors on flat ground?"
+section_4_prompt: "Walk outdoors on flat ground?"
+section_4_header: "Over the last week were you able to ..."
+walk_outdoors: "Walking outdoors"
+
+section_5_description: "Wash and dry your entire body?"
+section_5_prompt: "Wash and dry your entire body?"
+section_5_header: "Over the last week were you able to ..."
+wash_and_dry_yourself: "Washing yourself"
+
+section_6_description: "Bend down to pick up clothing from the floor?"
+section_6_prompt: "Bend down to pick up clothing from the floor?"
+section_6_header: "Over the last week were you able to ..."
+bend_down: "Bending down"
+
+section_7_description: "Turn regular faucets on and off?"
+section_7_prompt: "Turn regular faucets on and off?"
+section_7_header: "Over the last week were you able to ..."
+turn_faucet: "Turning faucets"
+
+section_8_description: "Get in and out of a car, bus, train, or airplane?"
+section_8_prompt: "Get in and out of a car, bus, train, or airplane?"
+section_8_header: "Over the last week were you able to ..."
+enter_exit_vehicles: "Entering and exiting vehicles"
+
+section_9_description: "Walk two miles or three kilometers, if you wish?"
+section_9_prompt: "Walk two miles or three kilometers, if you wish?"
+section_9_header: "Over the last week were you able to ..."
+walk_two_miles: "Walking two miles"
+
+section_10_description: "Participate in recreational activities and sports as you would like, if you wish?"
+section_10_prompt: "Participate in recreational activities and sports as you would like, if you wish?"
+section_10_header: "Over the last week were you able to ..."
+play_sports: "Playing sports"
+
+section_11_description: "How much pain have you had because of your condition OVER THE PAST WEEK?"
+section_11_prompt: "How much pain have you had because of your condition OVER THE PAST WEEK?"
+section_11_header: ""
+pain_tolerance: "Pain"
+
+section_12_description: "Considering all the ways in which illness and health conditions may affect you at this time, please indicate below how you are doing."
+section_12_prompt: "Considering all the ways in which illness and health conditions may affect you at this time, please indicate below how you are doing."
+section_12_header: ""
+global_estimate: "Faring poorly in general"
