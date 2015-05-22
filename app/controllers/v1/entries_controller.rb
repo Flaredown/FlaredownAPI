@@ -155,9 +155,6 @@ class V1::EntriesController < V1::BaseController
 	end
 
   private
-  def couch_conflict
-
-  end
   def date
     Date.parse(params[:date] || params[:id])
   end
