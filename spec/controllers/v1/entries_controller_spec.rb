@@ -100,7 +100,7 @@ describe V1::EntriesController, type: :controller do
         today = user.created_at.to_date+10.days
         Timecop.freeze(today.to_time)
 
-        post :create, date: user.created_at.to_date-1.day
+        post :create, date: user.created_at.to_date-2.days
 
         returns_groovy_error(name: "no_checkins_before_signup")
       end
