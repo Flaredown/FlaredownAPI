@@ -16,6 +16,8 @@ en:
     password_placeholder: ""
     get_account: "Get an account"
 
+    legal: "agreement"
+
 
 
     login_register_now: "Register now"
