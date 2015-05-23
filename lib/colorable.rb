@@ -1,6 +1,6 @@
 module Colorable
   PALETTES = {
-    symptoms: (1..9).to_a,
+    symptoms: (1..8).to_a,
     treatments: (1..8).to_a
   }
 
