@@ -136,7 +136,7 @@ class Entry < CouchRest::Model::Base
       # Keen.publish(:catalogs, catalog_to_keen)
     end
 
-    Resque.enqueue_at(10.seconds.from_now, EntrySendToKeen, {id: entry.id, timestamp: Time.now.to_s})
+    Resque.enqueue_at(1.day.from_now, EntrySendToKeen, {id: entry.id, timestamp: Time.now.to_s})
     # TODO reenable Pusher
     # entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
