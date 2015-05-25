@@ -1,4 +1,9 @@
 en:
+  devise:
+    mailer:
+      invitation_instructions:
+        subject: 'Your Flaredown early access key'
+
   emails:
     early_access_invite:
       title: "Your key to Flaredown early access has arrived"
