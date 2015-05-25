@@ -5,7 +5,7 @@ class Entry < CouchRest::Model::Base
   include EntryAuditing
   include BasicQuestionTemplate
 
-  AVAILABLE_CATALOGS = %w( hbi rapid3 )
+  AVAILABLE_CATALOGS = %w( hbi rapid3 phq9 )
 
   @queue = :entries
 
@@ -122,8 +122,21 @@ class Entry < CouchRest::Model::Base
     (entry.catalogs | ["symptoms"]).each do |catalog|
       entry.send("save_score", catalog)
       entry.save_without_processing
+
+      # TODO: no idea whether this detect stuff will work or not
+      # catalog_score = entry.catalogs.detect {|c| c["name"] == catalog}
+
+      # catalog_to_keen = {
+      #   :date => date,
+      #   :user_id => current_user.id.to_s,
+      #   :catalog => catalog,
+      #   :score => catalog_score["score"] if catalog_score else nil
+      # }
+
+      # Keen.publish(:catalogs, catalog_to_keen)
     end
 
+    Resque.enqueue_at(10.seconds.from_now, EntrySendToKeen, {id: entry.id, timestamp: Time.now.to_s})
     # TODO reenable Pusher
     # entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
     true
