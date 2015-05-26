@@ -218,7 +218,10 @@ en:
   alarm_off_caps: "OFF"
 
   # account
-  edit_account: "Edit account"
+  account:
+    email: "Email"
+    edit: "Edit account"
+
 
   #edit-checkin
   # now_editing_checkin_date: "Now editing checkin for %{date}"
@@ -370,8 +373,8 @@ en:
     basic_4: "Extremely active"
 
   nice_errors:
-    field_required: "\"%{field}\" is required"
-    field_invalid: "\"%{field}\" is invalid"
+    field_required: "%{field} is required"
+    field_invalid: "%{field} is invalid"
 
     general_error: "Oops!"
     general_error_description: "Something went wrong here, please check all the usually suspects and try again."
