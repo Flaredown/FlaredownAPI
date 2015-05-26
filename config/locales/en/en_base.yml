@@ -79,7 +79,7 @@ en:
     dob_year: "Year"
     dob_year_placeholder: "1986"
 
-    sex: "Gender"
+    sex: "Sex"
     sex_options:
       male: Male
       female: Female
