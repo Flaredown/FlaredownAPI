@@ -107,12 +107,14 @@ en:
 
     occupation: How you spend most of your day
     occupation_options:
+      - "Lying down"
       - "Sitting down or at a computer"
       - "On your feet"
       - "Driving around"
       - "Working with your hands"
 
     occupation_options_descriptions:
+      - "bedridden"
       - "e.g. student, programmer, architect"
       - "e.g. physician, retail salesperson, tour guide"
       - "e.g. pharmaceutical representative, taxi driver, truck driver"
