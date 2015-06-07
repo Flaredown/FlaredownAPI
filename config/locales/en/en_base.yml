@@ -65,7 +65,7 @@ en:
   onboarding:
     continue: "Continue"
     checkin: "Check-in"
-    change_these_later: "Don't worry, you can change these later"
+    change_these_later: "Not required, and you can change these later"
 
     # account
     get_started: "Create an account to get started"
