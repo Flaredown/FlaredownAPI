@@ -2,7 +2,8 @@ en:
   tips:
     onboarding_conditions: "A condition is an umbrella problem that may include many symptoms. For example, Crohn’s Disease or fibromyalgia."
     onboarding_symptoms: "Symptoms are the specific physical or mental problems that you want to treat. For example, chest pain or fatigue."
-    onboarding_treatments: "Treatments can be anything you use to improve your symptoms. For example: prednisone or a dairy-free diet. List all treatments you are currently using, each day we will ask which you took."
+    onboarding_treatments: "Treatments can be anything you use to improve your symptoms. For example: prednisone or a dairy-free diet."
+    onboarding_treatments_2: "List all treatments you are currently using, each day we will ask which you took, and let you enter dosages."
 
   unauthenticated:
     #login
