@@ -40,7 +40,7 @@ class V1::UsersController < V1::BaseController
 
   private
   def user_params
-    params.permit(settings: [:graphable, :onboarded, :location, :dobDay, :dobMonth, :dobYear, :sex, :gender, :occupation, :highestEducation, :activityLevel, ethnicOrigin: [] ] )
+    params.permit(settings: [:onboarded, :location, :dobDay, :dobMonth, :dobYear, :sex, :gender, :occupation, :highestEducation, :activityLevel, ethnicOrigin: [] ] )
   end
 
   def only_current_user
