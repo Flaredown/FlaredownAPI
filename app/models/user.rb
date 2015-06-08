@@ -50,7 +50,6 @@ class User < ActiveRecord::Base
   end
 
   def onboarded?; settings["onboarded"] == "true"; end
-  def graphable?; settings["graphable"] == "true"; end
 
   def graph_data
     graph = CatalogGraph.new(self.id, self.catalogs)
