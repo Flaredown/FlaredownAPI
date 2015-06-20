@@ -1,7 +1,6 @@
 module Colorable
   PALETTES = {
-    symptoms: (1..8).to_a,
-    treatments: (1..8).to_a
+    flaredown: (1..8).to_a
   }
 
   # Generate a list of as-unique-as-possible colors
