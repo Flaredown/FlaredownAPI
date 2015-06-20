@@ -14,9 +14,9 @@ module Colorable
   #
   #   colors_for([{name: "symptom_droopy lips", date: DateTime.now, active: true}, {name: "symptom_slippery tongue", date: DateTime.now, active: true}])
   #
-  #   => [ ["symptom_droopy lips", "#F7977A"], ["symptom_slippery tongue","#F9AD81"] ]
+  #   => [ ["symptom_droopy lips", 1], ["symptom_slippery tongue", 2] ]
   #
-  # Returns an array of active colorable names with hex colors
+  # Returns an array of active colorable names with their matching palette values
   def colors_for(colorables, palette: nil)
     raise "Color palette not found" unless PALETTES.keys.include?(palette)
     palette       = PALETTES[palette.to_sym]
