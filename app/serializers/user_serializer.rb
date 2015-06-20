@@ -14,12 +14,14 @@ class UserSerializer < ActiveModel::Serializer
     :email,
     :authentication_token,
     :locale,
-    :symptom_colors,
-    :treatment_colors,
+    :colors,
     :checked_in_today,
     :settings,
     :created_at
 
+    def colors
+      object.trackable_colors
+    end
     def catalogs
       object.catalogs
     end
