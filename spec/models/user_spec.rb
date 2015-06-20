@@ -28,8 +28,10 @@ describe User do
     end
   end
 
-  describe "colors" do
-    it "#colors" do
+  describe "#trackable_colors" do
+
+    before(:each) do
+      # treatments
       [
         {name: "Tickles", quantity: "1.0", unit: "session"},
         {name: "Laughing Gas", quantity: "10.5", unit: "cc"}
@@ -38,16 +40,46 @@ describe User do
         user.user_treatments.activate t
       end
 
-      # TODO add ones for all trackable types (sanity check)
+      # symptoms
+      ["droopy lips", "fat toes", "slippery tongue"].each do |name|
+        s = Symptom.create_with(locale: "en").find_or_create_by(name: name)
+        user.user_symptoms.activate s
+      end
 
-      first_result = user.trackable_colors
-      expect(first_result).to be_an Array
-      expect(first_result.first).to be_an Array
-      expect(first_result).to have(2).items
+      user.user_conditions.activate create(:condition, name: "Crohn's disease")
+    end
 
+    it "composition" do
+      expect(user.trackable_colors).to be_an Array
+      expect(user.trackable_colors.first).to be_an Array
+
+      # 2 treatments
+      # 3 symptoms
+      # 1 condition
+      # 5 HBI symptoms
+      expect(user.trackable_colors).to have(11).items
+    end
+
+    it "for treatments" do
+      expect(user.trackable_colors.map{|c| c[0]}).to include "treatments_Tickles"
+    end
+
+    it "for conditions" do
+      expect(user.trackable_colors.map{|c| c[0]}).to include "conditions_Crohn's disease"
+    end
+
+    it "for symptoms" do
+      expect(user.trackable_colors.map{|c| c[0]}).to include "symptoms_droopy lips"
+    end
+
+    it "for catalogs" do
+      expect(user.trackable_colors.map{|c| c[0]}).to include "hbi_ab_pain"
+    end
+
+    it "deactivating a trackable doesn't drop it from output" do
+      expect(user.trackable_colors).to have(11).items
       user.user_treatments.deactivate Treatment.first
-      expect(user.trackable_colors).to have(2).items
-      expect(user.trackable_colors).to eql first_result
+      expect(user.reload.trackable_colors).to have(11).items
     end
   end
 
