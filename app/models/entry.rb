@@ -124,8 +124,11 @@ class Entry < CouchRest::Model::Base
       entry.save_without_processing
     end
 
+    Resque.logger.info { ":::::::: Enqueuing Keen data collectiong for Entry" }
     Resque.enqueue_at(1.day.from_now, EntrySendToKeen, {id: entry.id, timestamp: Time.now.to_s})
-    entry.user.notify!("entry_processed", {entry_date: entry.date}) if entry.complete? and notify
+
+    Resque.logger.info { ":::::::: Sending Pusher event for entry update" }
+    entry.user.notify!("entry_processed", {entry_date: entry.date.strftime("%b-%d-%Y")}) #if entry.complete? and notify
     true
   end
 
