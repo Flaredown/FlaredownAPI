@@ -84,7 +84,8 @@ describe V1::EntriesController, type: :controller do
       returns_code 200
     end
 
-    context "TIME TRAVEL" do
+
+    context "TIME TRAVEL FOR NON-EXISTENT ENTRY" do
       it "is a past date within allowed range" do
         today = user.created_at.to_date+10.days
         Timecop.freeze(today.to_time)
@@ -116,6 +117,33 @@ describe V1::EntriesController, type: :controller do
 
         post :create, date: (today-15.days).strftime("%b-%d-%Y")
         returns_groovy_error(name: "distant_past_date")
+      end
+
+    end
+
+    context "TIME TRAVEL FOR EXISTING ENTRY" do
+      it "is a past date within allowed range" do
+        today = user.created_at.to_date+10.days
+        Timecop.freeze(today.to_time)
+
+        entry_creation = today-5.days
+        entry = create :hbi_entry, user: user, date: entry_creation
+        post :create, date: (entry_creation).strftime("%b-%d-%Y")
+        expect(user.entries.first.date).to eq entry_creation
+
+        returns_code 200
+      end
+
+      it "editing an existing entry in more than 2 weeks ago (allowed)" do
+        today = user.created_at.to_date+30.days
+        entry_creation = today-15.days
+        entry = create :hbi_entry, user: user, date: entry_creation
+        Timecop.freeze(today.to_time)
+
+
+        post :create, date: entry_creation.strftime("%b-%d-%Y")
+        expect(user.entries.first.date).to eq entry_creation
+        returns_code 200
       end
 
     end

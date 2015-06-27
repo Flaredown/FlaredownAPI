@@ -1,5 +1,4 @@
 class V1::EntriesController < V1::BaseController
-  before_action :enforce_date_range, only: :create
   # def index
   #     start_date  = Date.parse(params[:start_date])
   #     end_date    = Date.parse(params[:end_date])
@@ -54,6 +53,14 @@ class V1::EntriesController < V1::BaseController
     if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
+      ### Check some date stuff. TODO this should probably go somewhere else
+      # Not today due to timezone difference possibilities (e.g., it's tomorrow Australia)
+      return general_error_for("future_date") if date > Date.tomorrow
+      # No creation more than 2 weeks ago
+      return general_error_for("distant_past_date") if date < (Date.today - 2.weeks)
+      # Add 24 hours due to timezone difference possibilities (e.g., evening in California is tomorrow UTC).
+      return general_error_for("no_checkins_before_signup") if date < (current_user.created_at.to_date-1.day)
+
       entry = Entry.new({user_id: current_user.id, date: date }).setup_with_audit!
       render json: EntrySerializer.new(entry, scope: :new), status: 201
     end
@@ -157,11 +164,6 @@ class V1::EntriesController < V1::BaseController
   private
   def date
     Date.parse(params[:date] || params[:id])
-  end
-  def enforce_date_range
-    return general_error_for("future_date") if date > Date.tomorrow # Not today due to timezone difference possibilities (e.g., it's tomorrow Australia)
-    return general_error_for("distant_past_date") if date < (Date.today - 2.weeks)
-    return general_error_for("no_checkins_before_signup") if date < (current_user.created_at.to_date-1.day) # Add 24 hours due to timezone difference possibilities (e.g., evening in California is tomorrow UTC).
   end
   def entry_params
     json_params = ActionController::Parameters.new( JSON.parse(params[:entry]) )
