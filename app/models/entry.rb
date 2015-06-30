@@ -2,6 +2,7 @@ class Entry < CouchRest::Model::Base
   include ActiveModel::SerializerSupport
   include CatalogScore
   include SymptomsCatalog
+  include ConditionsCatalog
   include EntryAuditing
   include BasicQuestionTemplate
 
@@ -119,7 +120,7 @@ class Entry < CouchRest::Model::Base
   def self.perform(entry_id, notify=true)
     entry = Entry.find(entry_id)
 
-    (entry.catalogs | ["symptoms"]).each do |catalog|
+    (entry.catalogs | PSEUDO_CATALOG_COMPONENTS).each do |catalog|
       entry.send("save_score", catalog)
       entry.save_without_processing
     end

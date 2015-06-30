@@ -1,13 +1,15 @@
 class CatalogGraph
+  PSEUDO_CATALOG_COMPONENTS = %w(symptoms conditions)
   attr_accessor :user_id, :catalogs, :start_date, :end_date
-  def initialize(user_id, catalogs, start_date=nil, end_date=nil)
+  def initialize(user_id, start_date=nil, end_date=nil)
     @user_id    = user_id
-    @catalogs   = catalogs
+    @catalogs   = User.find(@user_id).catalogs | PSEUDO_CATALOG_COMPONENTS
 
     @start_date = start_date  || 2.week.ago.to_date
     @end_date   = end_date    || Date.today
 
-    @all_symptom_names = User.find(@user_id).symptoms.map(&:name)
+    @all_symptoms_names = User.find(@user_id).symptoms.map(&:name)
+    @all_conditions_names = User.find(@user_id).conditions.map(&:name)
   end
 
   def date_range(start_date, end_date)
@@ -34,7 +36,11 @@ class CatalogGraph
     end_date    ||= @end_date
     date_range(start_date, end_date).map do |entry_date|
 
-      components = ((catalog == "symptoms") ? @all_symptom_names : "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS"))
+      components = if PSEUDO_CATALOG_COMPONENTS.include?(catalog)
+        self.instance_variable_get("@all_#{catalog}_names")
+      else
+        "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS")
+      end
 
       components.each_with_index.map do |component, i|
         value = REDIS.hget("#{user_id}:scores:#{entry_date}:#{catalog}", component.to_s)

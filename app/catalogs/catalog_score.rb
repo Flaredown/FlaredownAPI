@@ -1,6 +1,7 @@
 module CatalogScore
+  PSEUDO_CATALOG_COMPONENTS = %w(symptoms conditions)
 
-   def save_score(catalog)
+  def save_score(catalog)
     @catalog = catalog
     score, components = calculate_score
 
@@ -50,7 +51,7 @@ module CatalogScore
   #
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
-    if @catalog == "symptoms"
+    if PSEUDO_CATALOG_COMPONENTS.include?(@catalog)
       responses.select{|r| r.catalog == @catalog }.map do |response|
         {name: response.name, score: response.value }
       end
