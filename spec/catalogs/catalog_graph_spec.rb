@@ -11,6 +11,9 @@ describe CatalogGraph do
     ["Crohn's disease", "Depression",].each do |name|
       user.user_conditions.activate user.conditions.create name: name, locale: "en"
     end
+    ["Tickles", "Orange Juice",].each do |name|
+      user.user_treatments.activate user.treatments.create name: name, locale: "en"
+    end
   end
 
   it "#date_range" do
@@ -61,6 +64,10 @@ describe CatalogGraph do
       end
     end
 
+    it "should return a limit chart for a limited date range" do
+      expect(chart.score_coordinates("hbi", Date.today-1.day, Date.today).count).to eq 10
+    end
+
     describe "#score_coordinates for symptoms" do
 
       let(:coordinates) { chart.score_coordinates("symptoms") }
@@ -91,8 +98,20 @@ describe CatalogGraph do
       end
     end
 
-    it "should return a limit chart for a limited date range" do
-      expect(chart.score_coordinates("hbi", Date.today-1.day, Date.today).count).to eq 10
+    describe "#score_coordinates for treatments" do
+
+      let(:coordinates) { chart.score_coordinates("treatments") }
+      it "should return coordinates" do
+        expect(coordinates.count).to be >= 3 # 3 entries w/ at least one treatment each
+        expect(coordinates.first).to have_key(:x)
+        expect(coordinates.first).to have_key(:order)
+        expect(coordinates.first).not_to have_key(:score)
+      end
+
+      it "should return unix time for x and an order" do
+        expect(DateTime.strptime(coordinates.first[:x].to_s, "%s")).to be_a DateTime
+        expect(coordinates.first[:order]).to be_an Integer
+      end
     end
 
   end

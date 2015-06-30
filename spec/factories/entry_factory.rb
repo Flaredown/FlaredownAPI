@@ -1,3 +1,15 @@
+def randomized_treatments
+  treatments = []
+
+  (0..3).to_a.sample.times do |t|
+    treatments << {name: "Orange Juice", quantity: "1.0", unit: "l"}
+  end
+
+  treatments << {name: "Tickles", quantity: "1.0", unit: "session"}
+
+  treatments
+end
+
 def random_boolean
   [0,1].sample
 end
@@ -18,7 +30,6 @@ FactoryGirl.define do
       {name: "Tickles", quantity: "1.0", unit: "session"},
       {name: "Orange Juice", quantity: "1.0", unit: "l"},
     ]
-
   end
 end
 
@@ -28,6 +39,11 @@ FactoryGirl.define do
     catalogs ["hbi"]
     sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
+    treatments [
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Tickles", quantity: "1.0", unit: "session"},
+      {name: "Orange Juice", quantity: "1.0", unit: "l"},
+    ]
 
     before(:create) do |entry|
       # setup_hbi_questions
@@ -132,11 +148,29 @@ FactoryGirl.define do
 end
 
 FactoryGirl.define do
+  factory :treatment_entry, class: Entry do
+    user
+    catalogs []
+    sequence(:date) {|n| (n-1).days.from_now.to_date}
+    responses []
+    treatments randomized_treatments
+
+    after(:create) do |entry|
+      Entry.skip_callback(:save, :after, :enqueue)
+      Entry.perform entry.id, false
+      entry.reload
+    end
+
+  end
+end
+
+FactoryGirl.define do
   factory :hbi_and_symptoms_entry, class: Entry do
     user
     catalogs ["hbi"]
     sequence(:date) {|n| (n-1).days.from_now.to_date}
     responses []
+    treatments randomized_treatments
 
     before(:create) do |entry|
       # setup_hbi_questions

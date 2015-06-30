@@ -1,6 +1,4 @@
 module CatalogScore
-  PSEUDO_CATALOG_COMPONENTS = %w(symptoms conditions)
-
   def save_score(catalog)
     @catalog = catalog
     score, components = calculate_score
@@ -51,9 +49,17 @@ module CatalogScore
   #
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
-    if PSEUDO_CATALOG_COMPONENTS.include?(@catalog)
-      responses.select{|r| r.catalog == @catalog }.map do |response|
-        {name: response.name, score: response.value }
+
+    # TODO what an ugly logic split ... gotta wait for Trackables refactor ...
+    if Globals::PSEUDO_CATALOGS.include?(@catalog)
+      if @catalog == "treatments"
+        treatments.map do |treatment|
+          {name: treatment.name, score: 0 }
+        end
+      else
+        responses.select{|r| r.catalog == @catalog }.map do |response|
+          {name: response.name, score: response.value }
+        end
       end
     else
       catalog_module.const_get("SCORE_COMPONENTS").map do |component|

@@ -63,7 +63,7 @@ describe CatalogScore do
       expect(component_score.to_i).to be_an Integer
     end
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(3).items # hbi + symptoms + conditions
+      expect(entry.reload.scores).to have(4).items # hbi + treatments + symptoms + conditions
     end
   end
 
@@ -89,7 +89,7 @@ describe CatalogScore do
     end
 
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(2).item # symptoms and conditions (empty)
+      expect(entry.reload.scores).to have(3).item # symptoms and treatments/conditions (empty)
     end
 
     it "calculates scores for any responses in the 'symptoms' catalog" do
@@ -138,7 +138,7 @@ describe CatalogScore do
     end
 
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(2).items # conditions and symptoms (empty)
+      expect(entry.reload.scores).to have(3).items # conditions and treatments/symptoms (empty)
     end
 
     it "calculates scores for any responses in the 'conditions' catalog" do
@@ -163,6 +163,26 @@ describe CatalogScore do
       expect(anxiety_score).to eql ""
     end
 
+  end
+
+  describe "with treatments catalog" do
+    let!(:user) do
+      u=create :user
+      ["Orange Juice", "Tickles",].each do |name|
+        u.user_treatments.activate u.treatments.create name: name, locale: "en"
+      end
+      u
+    end
+    let!(:entry) { with_resque{ create :treatment_entry, user: user } }
+
+    it "#save_score" do
+      tickles = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
+      expect(tickles).to be_present
+    end
+
+    it "saves the score on the entry document" do
+      expect(entry.reload.scores).to have(3).items # treatments and conditions/symptoms (empty)
+    end
   end
 
 

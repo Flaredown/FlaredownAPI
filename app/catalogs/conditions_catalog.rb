@@ -22,16 +22,10 @@ module ConditionsCatalog
   end
 
   def filled_conditions_entry?
-    # TODO this could become false on changing active_conditions... loosen criteria? Only applicable to unscored entries?
-    user.active_conditions.map(&:name) - responses.select{|r| r.catalog == "conditions"}.map(&:name) == []
+    true # we don't care for conditions about completion
   end
 
   def complete_conditions_entry?
     filled_conditions_entry?
   end
-
-  # def setup_symptoms_scoring
-  # end
-
-
 end
