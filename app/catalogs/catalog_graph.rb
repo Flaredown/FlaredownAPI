@@ -42,30 +42,4 @@ class CatalogGraph
     end.flatten.compact
   end
 
-  # def treatment_coordinates(start_date=nil, end_date=nil)
-  #   start_date  ||= @start_date
-  #   end_date    ||= @end_date
-  #   treatments  = User.find(@user_id).treatments.map(&:name)
-  #
-  #   date_range(start_date, end_date).map do |entry_date|
-  #     treatments.each_with_index.map do |name, i|
-  #       value = REDIS.hget("#{user_id}:treatments:#{entry_date}:treatments", name.to_s)
-  #       value.nil? ? nil : {x: entry_date, order: i+1, points: value.to_i, name: name.to_s}
-  #     end
-  #
-  #   end.flatten.compact
-  #
-  #   # return []
-  #
-  #   # coords = score_coordinates("symptoms").map{|c| c[:x]}.uniq
-  #   # treatments = (coords.map do |day|
-  #   #   {order: 1, x: day, name: "B12", quantity: "1.0", unit: "tab"}
-  #   # end |
-  #   # coords.map.with_index do |day, index|
-  #   #   {order: 2, x: day, name: "methotrexate", quantity: "20", unit: "mg"} if index % 7 == 0
-  #   # end).compact!
-  #   # treatments ||= []
-  #   # treatments
-  # end
-
 end

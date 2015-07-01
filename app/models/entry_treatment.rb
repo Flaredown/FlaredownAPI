@@ -7,6 +7,10 @@ class EntryTreatment
   property :unit,      String
   property :repetition,Integer
 
+  def taken?
+    quantity.present?
+  end
+
   def id
     "#{name}_#{quantity}_#{unit}_#{repetition}_#{base_doc.id}"
   end

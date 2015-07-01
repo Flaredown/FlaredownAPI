@@ -176,8 +176,16 @@ describe CatalogScore do
     let!(:entry) { with_resque{ create :treatment_entry, user: user } }
 
     it "#save_score" do
-      tickles = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
-      expect(tickles).to be_present
+      tickles_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
+      expect(tickles_score).to be_present
+      expect(tickles_score).to eql "1.0"
+    end
+
+    it "doesn't save point for non-taken treatment" do
+      entry = with_resque{ create :treatment_entry, user: user, treatments: [{name: "Tickles", quantity: nil, unit: nil}] }
+
+      tickles_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
+      expect(tickles_score).to eql "0.0"
     end
 
     it "saves the score on the entry document" do

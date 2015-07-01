@@ -56,6 +56,7 @@ describe CatalogGraph do
         expect(coordinates.count).to eq 15
         expect(coordinates.first).to have_key(:x)
         expect(coordinates.first).to have_key(:order)
+        expect(coordinates.first).to have_key(:points)
       end
 
       it "should return unix time for x and an order" do
@@ -75,6 +76,7 @@ describe CatalogGraph do
         expect(coordinates.count).to eq 9 # 3 entries x 3 symptoms
         expect(coordinates.first).to have_key(:x)
         expect(coordinates.first).to have_key(:order)
+        expect(coordinates.first).to have_key(:points)
       end
 
       it "should return unix time for x and an order" do
@@ -90,6 +92,7 @@ describe CatalogGraph do
         expect(coordinates.count).to eq 6 # 3 entries x 2 conditions
         expect(coordinates.first).to have_key(:x)
         expect(coordinates.first).to have_key(:order)
+        expect(coordinates.first).to have_key(:points)
       end
 
       it "should return unix time for x and an order" do
@@ -105,7 +108,7 @@ describe CatalogGraph do
         expect(coordinates.count).to be >= 3 # 3 entries w/ at least one treatment each
         expect(coordinates.first).to have_key(:x)
         expect(coordinates.first).to have_key(:order)
-        expect(coordinates.first).not_to have_key(:score)
+        expect(coordinates.first).to have_key(:points)
       end
 
       it "should return unix time for x and an order" do

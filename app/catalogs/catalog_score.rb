@@ -12,6 +12,10 @@ module CatalogScore
 
     unix_utc = date.to_time.utc.beginning_of_day.to_i
 
+    # clear it first
+    REDIS.hset("#{user_id}:scores:#{unix_utc}", @catalog, nil)
+    REDIS.set("#{user_id}:scores:#{unix_utc}:#{@catalog}_score", nil)
+
     components.each do |component|
       REDIS.hset("#{user_id}:scores:#{unix_utc}:#{@catalog}", component[:name], component[:score])
     end
@@ -54,8 +58,8 @@ module CatalogScore
     if Globals::PSEUDO_CATALOGS.include?(@catalog)
       if @catalog == "treatments"
         treatments.map do |treatment|
-          {name: treatment.name, score: 0 }
-        end
+          {name: treatment.name, score: (treatment.taken? ? 1.0 : 0.0) }
+        end.compact
       else
         responses.select{|r| r.catalog == @catalog }.map do |response|
           {name: response.name, score: response.value }
