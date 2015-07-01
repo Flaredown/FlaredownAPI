@@ -63,7 +63,7 @@ describe CatalogScore do
       expect(component_score.to_i).to be_an Integer
     end
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(2).items # hbi + symptoms
+      expect(entry.reload.scores).to have(4).items # hbi + treatments + symptoms + conditions
     end
   end
 
@@ -89,7 +89,7 @@ describe CatalogScore do
     end
 
     it "saves the score on the entry document" do
-      expect(entry.reload.scores).to have(1).item # just symptoms
+      expect(entry.reload.scores).to have(3).item # symptoms and treatments/conditions (empty)
     end
 
     it "calculates scores for any responses in the 'symptoms' catalog" do
@@ -115,5 +115,83 @@ describe CatalogScore do
     end
 
   end
+
+  describe "with conditions catalog" do
+    let!(:user) do
+      u=create :user
+      ["Crohn's disease", "Depression",].each do |name|
+        u.user_conditions.activate u.conditions.create name: name, locale: "en"
+      end
+      u
+    end
+    let!(:entry) { with_resque{ create :condition_entry, user: user } }
+
+    it "#save_score" do
+      total_score     = REDIS.get("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions_score")
+      component_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions", "Depression")
+
+      expect(total_score).to be_present
+      expect(component_score).to be_present
+
+      expect(total_score.to_i).to be_an Integer
+      expect(component_score.to_i).to be_an Integer
+    end
+
+    it "saves the score on the entry document" do
+      expect(entry.reload.scores).to have(3).items # conditions and treatments/symptoms (empty)
+    end
+
+    it "calculates scores for any responses in the 'conditions' catalog" do
+      entry.responses << {catalog: "conditions", name: "Depression" , value: 2}
+      user.user_conditions.activate user.conditions.create name: "Depression", locale: "en"
+
+      with_resque{ entry.save; Entry.perform(entry.id) }
+
+      depression_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions", "Depression")
+      expect(depression_score).to eql "2.0"
+    end
+
+    it "resets nil scores" do
+      REDIS.hset("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions", "Anxiety", "2")
+
+      entry.responses << {catalog: "conditions", name: "Anxiety" , value: nil}
+      user.user_conditions.activate user.conditions.create name: "Anxiety", locale: "en"
+
+      with_resque{ entry.save; Entry.perform(entry.id) }
+
+      anxiety_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions", "Anxiety")
+      expect(anxiety_score).to eql ""
+    end
+
+  end
+
+  describe "with treatments catalog" do
+    let!(:user) do
+      u=create :user
+      ["Orange Juice", "Tickles",].each do |name|
+        u.user_treatments.activate u.treatments.create name: name, locale: "en"
+      end
+      u
+    end
+    let!(:entry) { with_resque{ create :treatment_entry, user: user } }
+
+    it "#save_score" do
+      tickles_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
+      expect(tickles_score).to be_present
+      expect(tickles_score).to eql "1.0"
+    end
+
+    it "doesn't save point for non-taken treatment" do
+      entry = with_resque{ create :treatment_entry, user: user, treatments: [{name: "Tickles", quantity: nil, unit: nil}] }
+
+      tickles_score = REDIS.hget("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:treatments", "Tickles")
+      expect(tickles_score).to eql "0.0"
+    end
+
+    it "saves the score on the entry document" do
+      expect(entry.reload.scores).to have(3).items # treatments and conditions/symptoms (empty)
+    end
+  end
+
 
 end

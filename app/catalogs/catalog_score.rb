@@ -1,6 +1,5 @@
 module CatalogScore
-
-   def save_score(catalog)
+  def save_score(catalog)
     @catalog = catalog
     score, components = calculate_score
 
@@ -12,6 +11,10 @@ module CatalogScore
     end
 
     unix_utc = date.to_time.utc.beginning_of_day.to_i
+
+    # clear it first
+    REDIS.hset("#{user_id}:scores:#{unix_utc}", @catalog, nil)
+    REDIS.set("#{user_id}:scores:#{unix_utc}:#{@catalog}_score", nil)
 
     components.each do |component|
       REDIS.hset("#{user_id}:scores:#{unix_utc}:#{@catalog}", component[:name], component[:score])
@@ -50,9 +53,17 @@ module CatalogScore
   #
   # Returns an array of component scores like: {name: "some_component", score: 123}
   def calculate_score_components
-    if @catalog == "symptoms"
-      responses.select{|r| r.catalog == @catalog }.map do |response|
-        {name: response.name, score: response.value }
+
+    # TODO what an ugly logic split ... gotta wait for Trackables refactor ...
+    if Globals::PSEUDO_CATALOGS.include?(@catalog)
+      if @catalog == "treatments"
+        treatments.map do |treatment|
+          {name: treatment.name, score: (treatment.taken? ? 1.0 : 0.0) }
+        end.compact
+      else
+        responses.select{|r| r.catalog == @catalog }.map do |response|
+          {name: response.name, score: response.value }
+        end
       end
     else
       catalog_module.const_get("SCORE_COMPONENTS").map do |component|
