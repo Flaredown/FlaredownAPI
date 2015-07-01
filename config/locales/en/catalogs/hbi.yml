@@ -18,6 +18,8 @@ ab_mass: "Abdominal mass"
 
 section_5_description: "Do you have any associated complications?"
 section_5_prompt: "Check any complications that apply"
+
+complications: "Complications"
 complication_arthralgia: "Arthalgia"
 complication_uveitis: "Uveitis"
 complication_erythema_nodosum: "Eythema Nodosum"

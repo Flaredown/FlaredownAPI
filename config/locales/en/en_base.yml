@@ -307,7 +307,9 @@ en:
 
   no_scores_in_date_range: "No scores in date range"
   graph_date_range_label: "Date range"
-  showing_symptoms_and_treatments_over_days: "Showing <b>3 of 4 symptoms</b> and <b>all treatments</b> over <b>%{noOfDays}</b> days"
+  showing_symptoms_and_treatments_over_days: "Displaying <b>%{numSymptoms}</b>, <b>%{numConditions}</b>, and <b>%{numTreatments}</b> with <b>%{numDays}</b> days visible"
+  x_of_y_things: "%{x} of %{y} %{things}"
+  all_things: "all %{things}"
   editing_the_past_warning: "You are currently editing in the past, changes made here won't be taken into account for future checkins"
 
   #insights
