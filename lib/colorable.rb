@@ -1,6 +1,6 @@
 module Colorable
   PALETTES = {
-    flaredown: (1..8).to_a
+    flaredown: (1..34).to_a
   }
 
   # Generate a list of as-unique-as-possible colors
