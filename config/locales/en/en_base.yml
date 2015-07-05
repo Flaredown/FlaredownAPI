@@ -207,9 +207,11 @@ en:
   edit_treatment_unit_placeholder: "Units (i.e. mg)"
 
   #menu
-  menu_item_graph: "GRAPH"
-  menu_item_stats: "STATS"
-  menu_item_investigations: "INVESTIGATIONS"
+  menu_item_graph: "graph"
+  menu_item_stats: "stats"
+  menu_item_investigations: "investigations"
+  menu_item_upcoming: "upcoming"
+  menu_item_talk: "discussion"
   menu_item_account: "Account"
   menu_item_print: "Print"
   menu_item_print_report: "Print report"
