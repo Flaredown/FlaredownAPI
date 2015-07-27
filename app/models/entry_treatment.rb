@@ -8,6 +8,7 @@ class EntryTreatment
   property :repetition,Integer
 
   def taken?
+    return false if quantity == -1.0
     quantity.present?
   end
 
