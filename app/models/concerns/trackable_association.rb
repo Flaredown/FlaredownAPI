@@ -4,7 +4,7 @@ module TrackableAssociation
     item.class.to_s.downcase.to_sym
   end
 
-  def activate(item, activated=true)
+  def activate(item, activated=true) # activate(item,false) means add it as deactivated
     if existing = find_by(:"#{item_class_name(item)}_id" => item.id)
       existing.update_attribute(:active, activated)
     else

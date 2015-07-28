@@ -42,16 +42,15 @@ module EntryAuditing
   def update_audit
     self.reload
 
+    # TODO refactor for Trackables 2.0
+    # currently for past-added trackables
+    sync_trackables unless date.today?
+
     if date.today? and not self.settings.eql?(user.settings)
     # TODO put back in trackable check
     # if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
 
       user.update_settings(self.settings)
-
-    else
-      # TODO Renable/refactor for Trackables 2.0
-      # currently for past-added trackables
-      sync_trackables
       #
       # self.reload
       # user.create_audit
@@ -93,9 +92,7 @@ module EntryAuditing
 
     end
 
-    # TODO for Trackables 2.0,only do adds until then
     [adds,removes]
-    # [adds,{}]
   end
 
   # Adds/removes trackables based on difference between audit and live user version
