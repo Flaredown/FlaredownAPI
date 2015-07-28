@@ -7,9 +7,11 @@ class CatalogGraph
     @start_date = start_date  || 2.week.ago.to_date
     @end_date   = end_date    || Date.today
 
-    @all_symptoms_names = User.find(@user_id).symptoms.map(&:name)
-    @all_conditions_names = User.find(@user_id).conditions.map(&:name)
-    @all_treatments_names = User.find(@user_id).treatments.map(&:name)
+    user = User.find(@user_id)
+
+    @all_symptoms_names = user.symptoms.map(&:name)
+    @all_conditions_names = user.conditions.map(&:name)
+    @all_treatments_names = user.treatments.map(&:name)
   end
 
   def date_range(start_date, end_date)

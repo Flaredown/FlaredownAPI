@@ -4,11 +4,11 @@ module TrackableAssociation
     item.class.to_s.downcase.to_sym
   end
 
-  def activate(item)
+  def activate(item, activated=true)
     if existing = find_by(:"#{item_class_name(item)}_id" => item.id)
-      existing.update_attribute(:active, true)
+      existing.update_attribute(:active, activated)
     else
-      self.create_with(active: true).create(:"#{item_class_name(item)}_id" => item.id)
+      self.create_with(active: activated).create(:"#{item_class_name(item)}_id" => item.id)
     end
   end
 

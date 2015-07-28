@@ -13,8 +13,8 @@ module CatalogScore
     unix_utc = date.to_time.utc.beginning_of_day.to_i
 
     # clear it first
-    REDIS.hset("#{user_id}:scores:#{unix_utc}", @catalog, nil)
-    REDIS.set("#{user_id}:scores:#{unix_utc}:#{@catalog}_score", nil)
+    REDIS.del("#{user_id}:scores:#{unix_utc}:#{@catalog}")
+    REDIS.del("#{user_id}:scores:#{unix_utc}:#{@catalog}_score")
 
     components.each do |component|
       REDIS.hset("#{user_id}:scores:#{unix_utc}:#{@catalog}", component[:name], component[:score])

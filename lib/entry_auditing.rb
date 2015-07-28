@@ -48,8 +48,10 @@ module EntryAuditing
 
       user.update_settings(self.settings)
 
-      # TODO Renable/refactor for Questioner 2.0
-      # sync_trackables
+    else
+      # TODO Renable/refactor for Trackables 2.0
+      # currently for past-added trackables
+      sync_trackables
       #
       # self.reload
       # user.create_audit
@@ -91,7 +93,9 @@ module EntryAuditing
 
     end
 
+    # TODO for Trackables 2.0,only do adds until then
     [adds,removes]
+    # [adds,{}]
   end
 
   # Adds/removes trackables based on difference between audit and live user version
@@ -112,7 +116,8 @@ module EntryAuditing
 
     names.each do |name|
       trackable = klass.find_or_create_by(name: name)
-      assoc.send(action,trackable)
+      # assoc.send(action,trackable,true)
+      assoc.send(action,trackable,false) # don't make active immediately
     end
   end
 
