@@ -166,24 +166,38 @@ module Rapid3Catalog
     # }],
 
     ### How much pain have you had because of your condition OVER THE PAST WEEK?
+    # [{
+    #   name: :pain_tolerance,
+    #   kind: :range,
+    #   step: 0.5,
+    #   inputs: [
+    #     {value: 0.0, label: "no_pain", meta_label: "", helper: nil},
+    #     {value: 10.0, label: "maximum_pain", meta_label: "", helper: nil},
+    #   ]
+    # }],
     [{
       name: :pain_tolerance,
-      kind: :range,
-      step: 0.5,
+      kind: :number,
       inputs: [
-        {value: 0.0, label: "no_pain", meta_label: "", helper: nil},
-        {value: 10.0, label: "maximum_pain", meta_label: "", helper: nil},
+        {value: 0.0, step: 0.5, min: 0.0, label: "pain_tolerance", meta_label: nil, helper: nil}
       ]
     }],
 
     ### Considering all the ways in which illness and health conditions may affect you at this time, please indicate below how you are doing:
+    # [{
+    #   name: :global_estimate,
+    #   kind: :range,
+    #   step: 0.5,
+    #   inputs: [
+    #     {value: 0.0, label: "very_well", meta_label: "", helper: nil},
+    #     {value: 10.0, label: "very_poorly", meta_label: "", helper: nil},
+    #   ]
+    # }],
     [{
       name: :global_estimate,
-      kind: :range,
-      step: 0.5,
+      kind: :number,
       inputs: [
-        {value: 0.0, label: "very_well", meta_label: "", helper: nil},
-        {value: 10.0, label: "very_poorly", meta_label: "", helper: nil},
+        {value: 0.0, step: 0.5, min: 0.0, label: "global_estimate", meta_label: nil, helper: nil}
       ]
     }],
   ]

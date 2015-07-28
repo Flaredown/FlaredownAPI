@@ -374,6 +374,11 @@ en:
     more_than_half_the_days: "More than half the days"
     nearly_every_day: "Nearly every day"
 
+    no_difficulty: "Without any difficulty"
+    some_difficulty: "With some difficulty"
+    much_difficulty: "With much difficulty"
+    unable: "Unable to do"
+
   helpers:
     basic_0: "Not active"
     basic_1: "Not very active"
