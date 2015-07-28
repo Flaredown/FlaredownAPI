@@ -42,14 +42,15 @@ module EntryAuditing
   def update_audit
     self.reload
 
+    # TODO refactor for Trackables 2.0
+    # currently for past-added trackables
+    sync_trackables unless date.today?
+
     if date.today? and not self.settings.eql?(user.settings)
     # TODO put back in trackable check
     # if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
 
       user.update_settings(self.settings)
-
-      # TODO Renable/refactor for Questioner 2.0
-      # sync_trackables
       #
       # self.reload
       # user.create_audit
@@ -112,7 +113,8 @@ module EntryAuditing
 
     names.each do |name|
       trackable = klass.find_or_create_by(name: name)
-      assoc.send(action,trackable)
+      # assoc.send(action,trackable,true)
+      assoc.send(action,trackable,false) # don't make active immediately
     end
   end
 
