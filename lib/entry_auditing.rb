@@ -113,8 +113,9 @@ module EntryAuditing
 
     names.each do |name|
       trackable = klass.find_or_create_by(name: name)
-      # assoc.send(action,trackable,true)
-      assoc.send(action,trackable,false) # don't make active immediately
+
+      # if new trackable (in the past), add as deactivated
+      assoc.send(action,trackable,false) if trackable.new_record?
     end
   end
 
