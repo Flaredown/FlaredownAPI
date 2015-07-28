@@ -43,6 +43,9 @@ module HbiCatalog
     [{
       name: :stools,
       kind: :number,
+      step: 1,
+      min: 0,
+      max: 100,
       inputs: [
         {value: 0, label: nil, meta_label: nil, helper: "stools_daily"}
       ]
