@@ -2,7 +2,8 @@ en:
   devise:
     mailer:
       invitation_instructions:
-        subject: 'Your Flaredown early access key'
+        subject_early_access: 'Your Flaredown early access key'
+        subject: 'Be The first to try the Flaredown graph'
 
   emails:
     early_access_invite:
@@ -17,3 +18,9 @@ en:
       upcoming_features_body: "Once you've logged in, you'll be able to see other upcoming features like doctor printouts and detailed statistics."
       enjoy: "Enjoy!"
       enjoy_body: "We can't wait for you to try out Flaredown. Questions or comments? Email <a href=\"mailto:logan@flaredown.com\">logan@flaredown.com.</a>"
+    qa_invite:
+      title: "Join us for Flaredown QA round 2"
+      intro: "Thanks for helping us QA the first release of Flaredown! If you still want to help, we are doing our next round for our latest release, which includes the graph."
+      instructions: "Click the invite link below to create an account. Instructions this time are simple: just check in daily as you would in your normal routine for the next week. If you find unexpected behavior, check donedone.com (if you don't have an account, email me at logan@flaredown.com) and log the ticket if it doesn't exist. If you aren't sure whether something is a bug, check in with us on Slack. That's it!"
+      invite: "Accept invite"
+      thanks: "Thanks again for the help!"
