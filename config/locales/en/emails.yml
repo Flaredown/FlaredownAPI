@@ -2,7 +2,8 @@ en:
   devise:
     mailer:
       invitation_instructions:
-        subject: 'Your Flaredown early access key'
+        subject_early_access: 'Your Flaredown early access key'
+        subject: 'Be The first to try the Flaredown graph'
 
   emails:
     early_access_invite:
