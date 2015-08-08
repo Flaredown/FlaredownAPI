@@ -12,6 +12,8 @@ class EntrySerializer < ActiveModel::Serializer
     :notes,
     :complete,
     :tags,
+    :created_at,
+    :updated_at,
     :just_created
 
   def just_created; scope == :new ? true : false  end
