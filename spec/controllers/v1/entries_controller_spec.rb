@@ -37,7 +37,7 @@ describe V1::EntriesController, type: :controller do
 
       returns_code 200
 
-      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs responses treatments notes tags complete just_created ).sort
+      expect(json_response["entry"].keys).to include *%w( id date catalogs responses treatments notes tags complete just_created )
     end
 
     it "can't be accessed by another user" do
@@ -64,7 +64,7 @@ describe V1::EntriesController, type: :controller do
       post :create, date: today.strftime("%b-%d-%Y")
 
       expect(user.entries.first.date).to eq today
-      expect(json_response["entry"].keys.sort).to eql %w( id date catalogs catalog_definitions treatments complete just_created ).sort
+      expect(json_response["entry"].keys).to include *%w( id date catalogs catalog_definitions treatments complete just_created )
 
       returns_code 201
     end
