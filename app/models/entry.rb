@@ -102,11 +102,15 @@ class Entry < CouchRest::Model::Base
     # process_notes
     process_tags
 
-    treatment_settings = self.treatments.reduce({}) do |accum,t|
-      if t.quantity and t.unit
-        accum["treatment_#{t.name}_quantity"]  = t.quantity.to_s # as string for postgres comparison
-        accum["treatment_#{t.name}_unit"]      = t.unit.to_s
+    treatment_settings = self.treatments.group_by(&:name).reduce({}) do |accum,(name,treatment_group)|
+
+      treatment_group.each_with_index do |t,i|
+        if t.quantity and t.unit
+          accum["treatment_#{name}_#{i+1}_quantity"]  = t.quantity.to_s # as string for postgres comparison
+          accum["treatment_#{name}_#{i+1}_unit"]      = t.unit.to_s
+        end
       end
+
       accum
     end
 
