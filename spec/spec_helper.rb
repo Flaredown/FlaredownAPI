@@ -9,8 +9,6 @@ ENV["RAILS_ENV"] ||= 'test'
 # require "simplecov"
 # SimpleCov.start "rails"
 
-require "couchrest"
-
 require File.expand_path("../../config/application", __FILE__)
 require File.expand_path("../../config/environment", __FILE__)
 I18n.default_locale = :en
@@ -110,6 +108,6 @@ RSpec.configure do |config|
 
     REDIS.flushdb
     DatabaseCleaner.clean # cleanup of the test
-    Entry.all.each{|e| e.destroy} # destroy CouchDB docs
+    Entry.all.each{|e| e.destroy}
   end
 end

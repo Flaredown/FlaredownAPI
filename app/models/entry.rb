@@ -1,4 +1,4 @@
-class Entry# < CouchRest::Model::Base
+class Entry
   include Mongoid::Document
   include Mongoid::Timestamps
 
