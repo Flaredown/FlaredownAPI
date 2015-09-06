@@ -7,7 +7,7 @@ module CatalogScore
     if entry_score
       entry_score.write_attribute("value", score)
     else
-      scores << {name: @catalog, value: score}
+      scores << Score.new({name: @catalog, value: score})
     end
 
     unix_utc = date.to_time.utc.beginning_of_day.to_i

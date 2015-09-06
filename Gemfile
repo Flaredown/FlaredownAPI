@@ -7,6 +7,7 @@ gem 'rails', "4.1.6"
 
 gem 'pg'
 gem 'couchrest_model'
+gem 'mongoid', '~> 5.0.0.beta'
 
 gem 'unicorn'
 

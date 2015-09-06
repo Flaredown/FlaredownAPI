@@ -3,4 +3,6 @@ class EntryTreatmentSerializer < ActiveModel::Serializer
     :name,
     :quantity,
     :unit
+
+  def id; object.id.to_s; end
 end

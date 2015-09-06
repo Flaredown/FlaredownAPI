@@ -44,7 +44,7 @@ describe Entry do
 
     it "is complete when all it's catalogs (1 or more) are complete" do
       expect(entry).to be_complete
-      entry.responses.delete(entry.responses.first)
+      entry.responses.first.delete
       expect(entry).to_not be_complete
     end
   end

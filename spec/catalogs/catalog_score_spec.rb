@@ -93,7 +93,7 @@ describe CatalogScore do
     end
 
     it "calculates scores for any responses in the 'symptoms' catalog" do
-      entry.responses << {catalog: "symptoms", name: "unibrow" , value: 2}
+      entry.responses << Response.new({catalog: "symptoms", name: "unibrow" , value: 2})
       user.user_symptoms.activate user.symptoms.create name: "unibrow", locale: "en"
 
       with_resque{ entry.save; Entry.perform(entry.id) }
@@ -105,7 +105,7 @@ describe CatalogScore do
     it "resets nil scores" do
       REDIS.hset("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:symptoms", "unibrow", "2")
 
-      entry.responses << {catalog: "symptoms", name: "unibrow" , value: nil}
+      entry.responses << Response.new({catalog: "symptoms", name: "unibrow" , value: nil})
       user.user_symptoms.activate user.symptoms.create name: "unibrow", locale: "en"
 
       with_resque{ entry.save; Entry.perform(entry.id) }
@@ -142,7 +142,7 @@ describe CatalogScore do
     end
 
     it "calculates scores for any responses in the 'conditions' catalog" do
-      entry.responses << {catalog: "conditions", name: "Depression" , value: 2}
+      entry.responses << Response.new({catalog: "conditions", name: "Depression" , value: 2})
       user.user_conditions.activate user.conditions.create name: "Depression", locale: "en"
 
       with_resque{ entry.save; Entry.perform(entry.id) }
@@ -154,7 +154,7 @@ describe CatalogScore do
     it "resets nil scores" do
       REDIS.hset("#{user.id}:scores:#{entry.date.to_time.utc.beginning_of_day.to_i}:conditions", "Anxiety", "2")
 
-      entry.responses << {catalog: "conditions", name: "Anxiety" , value: nil}
+      entry.responses << Response.new({catalog: "conditions", name: "Anxiety" , value: nil})
       user.user_conditions.activate user.conditions.create name: "Anxiety", locale: "en"
 
       with_resque{ entry.save; Entry.perform(entry.id) }

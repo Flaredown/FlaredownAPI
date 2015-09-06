@@ -1,11 +1,13 @@
 class Score
   include ActiveModel::SerializerSupport
-  include CouchRest::Model::Embeddable
+  include Mongoid::Document
 
-  property :name,      String
-  property :value,     Float
+  embedded_in :entry
+
+  field :name, type: String
+  field :value, type: Float
 
   def id
-    "#{name}_#{base_doc.id}"
+    "#{name}_#{entry.id}"
   end
 end

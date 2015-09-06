@@ -16,6 +16,7 @@ class EntrySerializer < ActiveModel::Serializer
     :updated_at,
     :just_created
 
+  def id; object.id.to_s; end
   def just_created; scope == :new ? true : false  end
   def catalogs;     object.catalogs | ["symptoms"]; end
   def date;         object.date.strftime("%b-%d-%Y"); end

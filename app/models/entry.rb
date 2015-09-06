@@ -1,4 +1,7 @@
-class Entry < CouchRest::Model::Base
+class Entry# < CouchRest::Model::Base
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
   include ActiveModel::SerializerSupport
   include CatalogScore
   include SymptomsCatalog
@@ -11,10 +14,30 @@ class Entry < CouchRest::Model::Base
 
   @queue = :entries
 
-  def initialize(attributes={}, options={})
-    super(attributes, options)
-    include_catalogs
+  field :user_id,    type: Integer
+  def user; @user ||= User.find(self.user_id); end
+  def user=(user)
+    raise "Not a User" unless user and user.class == User
+    self.user_id = user.id
+    @user = user
   end
+
+  field :date,       type: Date
+  field :settings,   type: Hash,  default: {}
+  field :catalogs,   type: Array, default: []
+  field :conditions, type: Array, default: []
+  field :symptoms,   type: Array, default: []
+
+  field :notes,      type: String, default: ""
+  field :tags,       type: Array, default: []
+
+  embeds_many :treatments, class_name: "EntryTreatment"
+  embeds_many :responses
+  embeds_many :scores
+
+  attr_accessor :user_audit_version
+
+  after_initialize :include_catalogs
 
   before_create :include_catalogs
   before_save   :include_catalogs
@@ -23,33 +46,8 @@ class Entry < CouchRest::Model::Base
   after_save :process_responses
   after_save :enqueue
 
-  belongs_to :user
-
-  property :date,       Date
-  property :settings,   Hash,     default: {}
-  property :catalogs,   [String], default: []
-  property :conditions, [String], default: []
-  property :symptoms,   [String], default: []
-  property :treatments, [EntryTreatment], default: []
-
-  property :responses,  [Response], default: []
-  property :notes,      String, default: ""
-  property :tags,       [String], default: []
-
-  property :scores,     [Score], default: []
-
-  attr_accessor :user_audit_version
-
-  timestamps!
-
-  design do
-    view :by_date
-    view :by_user_id
-    view :by_date_and_user_id
-  end
-
-  def user
-    @user ||= User.find(user_id)
+  def by_date(startkey,endkey)
+    where(:date.gte => startkey, :date.lte => endkey)
   end
 
   def catalog_definitions
