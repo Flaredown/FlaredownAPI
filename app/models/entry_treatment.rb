@@ -1,11 +1,13 @@
 class EntryTreatment
   include ActiveModel::SerializerSupport
-  include CouchRest::Model::Embeddable
+  include Mongoid::Document
 
-  property :name,      String
-  property :quantity,  Float
-  property :unit,      String
-  property :repetition,Integer
+  embedded_in :entry
+
+  field :name,      type: String
+  field :quantity,  type: Float
+  field :unit,      type: String
+  field :repetition,type: Integer
 
   def taken?
     return false if quantity == -1.0
@@ -13,6 +15,6 @@ class EntryTreatment
   end
 
   def id
-    "#{name}_#{quantity}_#{unit}_#{repetition}_#{base_doc.id}"
+    "#{name}_#{quantity}_#{unit}_#{repetition}_#{entry.id}"
   end
 end

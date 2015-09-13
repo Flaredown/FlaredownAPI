@@ -3,4 +3,6 @@ class ResponseSerializer < ActiveModel::Serializer
     :name,
     :value,
     :catalog
+
+  def id; object.id.to_s; end
 end

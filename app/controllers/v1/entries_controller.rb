@@ -50,7 +50,7 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 if Entry exists for that date along with Entry json
   # Returns 422 for errors along with errors json
 	def create
-    if (existing = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first)
+    if (existing = Entry.where(user_id: current_user.id, date: date).first)
       render json: EntrySerializer.new(existing, scope: :existing), status: 200
     else
       ### Check some date stuff. TODO this should probably go somewhere else
@@ -82,17 +82,18 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 if successful
   # Returns 422 for errors along with errors json
 	def update
-    entry = Entry.by_date_and_user_id.key([date,current_user.id.to_s]).first
+    entry = Entry.where(user_id: current_user.id, date: date).first
 
-    success = false
-    begin
-      success = if entry.update_attributes(entry_params) then true else false end
-    rescue RestClient::Conflict => e
-      entry.reload
-      success = if entry.update_attributes(entry_params) then true else false end
-    end
+    # NOTE: catch for old Couch conflict behavior, supposedly not needed with Mongo
+    # success = false
+    # begin
+    #   success = if entry.update_attributes(entry_params) then true else false end
+    # rescue RestClient::Conflict => e
+    #   entry.reload
+    #   success = if entry.update_attributes(entry_params) then true else false end
+    # end
 
-    if success
+    if entry.update_attributes(entry_params)
       Resque.enqueue(EntryAuditUpdate, entry.id) # entry.update_audit
       render_success
     else
@@ -157,7 +158,7 @@ class V1::EntriesController < V1::BaseController
   # Returns 200 with an Entry
   # Returns 404 if Entry does not exist for that date and user
 	def show
-    @entry = Entry.by_date(key: date).detect{|e| e.user_id == current_user.id.to_s}
+    @entry = Entry.where(date: date, user_id: current_user.id).first
     @entry ? render(json: EntrySerializer.new(@entry)) : four_oh_four
 	end
 

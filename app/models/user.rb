@@ -38,10 +38,10 @@ class User < ActiveRecord::Base
   def catalogs; self.conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact ;end
   def active_catalogs; self.active_conditions.map { |c| CATALOG_CONDITIONS[c.name] }.compact; end
 
-  def entries; Entry.by_user_id.key(self.id.to_s); end
+  def entries; Entry.where(user_id: self.id.to_s); end
 
   def checked_in_today
-    Entry.by_date_and_user_id.key([Date.today,self.id.to_s]).first.present?
+    Entry.where(user_id: self.id, date: Date.today).first.present?
   end
 
   def setup_first_checkin
