@@ -17,7 +17,8 @@ class UserSerializer < ActiveModel::Serializer
     :colors,
     :checked_in_today,
     :settings,
-    :created_at
+    :created_at,
+    :updated_at
 
     def colors
       object.trackable_colors
