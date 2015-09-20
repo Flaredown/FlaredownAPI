@@ -227,7 +227,7 @@ describe V1::EntriesController, type: :controller do
       expect(entry.treatments.map(&:name).uniq.length).to eq 2
     end
 
-    it "allows duplicate treatments in user.settings" do
+    it "allows duplicate treatments in user.settings", :disabled => true do
       entry = create :hbi_entry, date: Date.today, user: user
 
       attrs = entry_attributes
