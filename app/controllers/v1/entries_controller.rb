@@ -171,8 +171,6 @@ class V1::EntriesController < V1::BaseController
     json_params.permit(
       :date,
       :notes,
-      :triggers,
-      catalogs: [],
       tags: [],
       responses: [:name, :value, :catalog],
       treatments: [:name, :quantity, :unit]
