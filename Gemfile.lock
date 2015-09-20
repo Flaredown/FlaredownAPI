@@ -336,6 +336,7 @@ DEPENDENCIES
   json_spec
   keen
   letter_opener
+  mongo
   mongoid (~> 5.0.0.beta)
   oauth
   paper_trail!
