@@ -82,13 +82,12 @@ class Entry
   def response_conditions
     # Don't use catalogs, not all conditions have them
     # self.response_catalogs.map{ |c| CATALOG_CONDITIONS.invert[c] }.compact
-    responses.select{|r| r[:catalog] == "conditions"}.map(&:name).compact
+    self.responses.select{|r| r[:catalog] == "conditions"}.map(&:name).compact
   end
 
   def response_symptoms
-    responses.select{|r| r[:catalog] == "symptoms"}.map(&:name).compact
+    self.responses.select{|r| r[:catalog] == "symptoms"}.map(&:name).compact
   end
-
 
   def process_responses
     self.attributes = {
