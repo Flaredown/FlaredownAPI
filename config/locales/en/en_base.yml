@@ -198,6 +198,8 @@ en:
   treatment_unit_prompt: "mg"
   add_treatment: "Add treatment"
   add_dose: "Add dose"
+  use_different_dose: "Use a different dose..."
+  use_prior_settings_label: "Use %{dosages}"
   remove_dose: "Remove dose"
   add_new_treatment: "Add new treatment"
   edit_treatments: "Edit treatments"
@@ -841,7 +843,7 @@ en:
     <p>In using the Services, Members are free to skip any non-required questions or data fields that make them feel uncomfortable. Members are also free to stop using this service at any time. If a Member chooses to deactivate his/her account, Flaredown will not display or share the data in that account with Partners as of the date of deactivation. However, the Member’s data will remain in the system for auditing purposes, and research conducted prior to the deactivation of a Member’s account will still include the Member’s data.</p>
     <h5>Questions about the Privacy Policy</h5>
     <p>If you have questions or comments about our Privacy Policy, email us at contact@flaredown.com, or contact us at:</p><span>Flaredown, LLC</span><br/><span>75 E 4th St #4157</span><br/><span>New York, NY 10003</span>
-  
+
   terms_of_service: |
     <h2>Flaredown </h2>
     <h4>Terms of Service</h4>
