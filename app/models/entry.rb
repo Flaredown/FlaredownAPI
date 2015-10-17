@@ -98,20 +98,8 @@ class Entry
 
     # process_notes
     process_tags
+    process_settings if self.settings
 
-    treatment_settings = self.treatments.group_by(&:name).reduce({}) do |accum,(name,treatment_group)|
-
-      treatment_group.each_with_index do |t,i|
-        if t.quantity and t.unit
-          accum["treatment_#{name}_#{i+1}_quantity"]  = t.quantity.to_s # as string for postgres comparison
-          accum["treatment_#{name}_#{i+1}_unit"]      = t.unit.to_s
-        end
-      end
-
-      accum
-    end
-
-    self.settings = settings.merge!(treatment_settings)
     save_without_processing
   end
 
@@ -144,6 +132,38 @@ class Entry
   end
 
   private
+  def process_settings
+    treatment_settings = self.treatments.group_by(&:name).reduce({}) do |accum,(name,treatment_group)|
+
+      treatment_group.each_with_index do |t,i|
+        if t.quantity and t.unit
+          accum["treatment_#{name}_#{i+1}_quantity"]  = t.quantity.to_s # as string for postgres comparison
+          accum["treatment_#{name}_#{i+1}_unit"]      = t.unit.to_s
+        end
+      end
+
+      accum
+    end
+
+    settings.merge!(treatment_settings)
+
+    if settings[:dobDay] and settings[:dobMonth] and settings[:dobYear]
+      settings[:dobDay]   = settings[:dobDay].to_i
+      settings[:dobMonth] = settings[:dobMonth].to_i
+      settings[:dobYear]  = settings[:dobYear].to_i
+    end
+
+    settings[:ethnicOrigin] = if settings[:ethnicOrigin] and settings[:ethnicOrigin].is_a?(String)
+      JSON.parse(settings[:ethnicOrigin])
+    else
+      []
+    end
+
+    if settings[:onboarded] and settings[:onboarded].is_a?(String)
+      settings[:onboarded] = settings[:onboarded] == "true"
+    end
+  end
+
   def process_tags
     self.user.tag_list.add(self.tags)
     self.user.save

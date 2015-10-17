@@ -115,6 +115,15 @@ describe Entry do
         { catalog: "symptoms", name: "fat toes", value: 2 },
         { catalog: "conditions", name: "Crohn's disease", value: 2 },
     ] }
+    let(:entry_settings) {
+      {
+        dobDay: "13",
+        dobMonth: "08",
+        dobYear: "1986",
+        onboarded: "true",
+        ethnicOrigin: "[\"Latino or Hispanic\"]"
+      }
+    }
     let(:treatment_responses) {
       { treatments: [
           {name: "Tickles", quantity: "1.0", unit: "session"},
@@ -177,6 +186,25 @@ describe Entry do
     #   entry.process_responses
     #   expect(entry.tags).to eql []
     # end
+
+    context "Entry settings" do
+
+      it "coerces some of the string settings into integers and such" do
+        entry.update_attribute(:settings,entry_settings)
+        expect(entry.settings[:dobDay]).to eql 13
+        expect(entry.settings[:dobMonth]).to eql 8
+        expect(entry.settings[:dobYear]).to eql 1986
+        expect(entry.settings[:onboarded]).to be_true
+        expect(entry.settings[:ethnicOrigin]).to eql ["Latino or Hispanic"]
+      end
+
+      it "for empty ethnicOrigin, just sets an empty array" do
+        entry_settings.delete(:ethnicOrigin)
+        entry.update_attribute(:settings, entry_settings)
+        expect(entry.settings[:ethnicOrigin]).to eql []
+      end
+
+    end
 
     it "sets tags from the tags in response" do
       expect(entry.tags).to eql []
