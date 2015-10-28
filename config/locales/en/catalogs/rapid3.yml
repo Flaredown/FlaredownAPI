@@ -59,3 +59,5 @@ section_12_description: "Considering all the ways in which illness and health co
 section_12_prompt: "Considering all the ways in which illness and health conditions may affect you at this time, please indicate below how you are doing."
 section_12_header: ""
 global_estimate: "Faring poorly in general"
+
+functional_status: "Functional status"
