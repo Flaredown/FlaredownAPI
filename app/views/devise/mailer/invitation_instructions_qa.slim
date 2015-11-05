@@ -1,0 +1,7 @@
+div style="max-width: 500px; font-family: helvetica, sans-serif; line-height: 1.4em;"
+	h1 style="line-height: 1.2em;" = t("emails.qa_invite.title")
+	p = t("emails.qa_invite.intro")
+	p = t("emails.qa_invite.instructions")
+	a href="#{ENV['EMBER_HOST']}/accept-invitation/#{@token}"
+		p = t("emails.qa_invite.invite")
+	p = t("emails.qa_invite.thanks")
