@@ -137,7 +137,7 @@ class Entry
 
     # clear existing treatment settings to make way for new ones
     treatments_by_name.each do |name,_group|
-      settings.delete_if {|key,_value| key =~ Regexp.new(Regexp.quote("treatment_#{name}")) }
+      settings.delete_if {|key| key =~ Regexp.new(Regexp.quote("treatment_#{name}")) }
     end
 
     treatment_settings = treatments_by_name.reduce({}) do |accum,(name,treatment_group)|
