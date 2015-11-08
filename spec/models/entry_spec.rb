@@ -218,17 +218,23 @@ describe Entry do
 
         entry.update_attributes exercise
         entry.process_responses
+        entry.update_audit
 
+        expect(entry.settings["treatment_Tickles_1_quantity"]).to be_present
         expect(entry.settings["treatment_Exercise_1_quantity"]).to eql "10.0"
         expect(entry.settings["treatment_Exercise_1_unit"]).to eql "minute"
         expect(entry.settings["treatment_Exercise_2_quantity"]).to eql "20.0"
+        expect(entry.user.settings["treatment_Exercise_2_quantity"]).to eql "20.0"
 
         entry.update_attributes new_exercise
         entry.process_responses
+        entry.update_audit
 
+        expect(entry.settings["treatment_Tickles_1_quantity"]).to be_present
         expect(entry.settings["treatment_Exercise_1_quantity"]).to eql "1.0"
         expect(entry.settings["treatment_Exercise_1_unit"]).to eql "hour"
         expect(entry.settings["treatment_Exercise_2_quantity"]).to eql nil
+        expect(entry.user.settings["treatment_Exercise_2_quantity"]).to eql nil
       end
 
     end

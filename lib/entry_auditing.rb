@@ -50,6 +50,11 @@ module EntryAuditing
     # TODO put back in trackable check
     # if date.today? and (trackables_present? or not self.settings.eql?(user.settings))
 
+      # clear existing treatment settings to make way for new ones
+      treatments.uniq.each do |treatment|
+        user.settings.delete_if {|key| key =~ Regexp.new(Regexp.quote("treatment_#{treatment.name}")) and treatment.taken? }
+      end
+
       user.update_settings(self.settings)
       #
       # self.reload
