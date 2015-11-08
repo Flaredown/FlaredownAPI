@@ -133,8 +133,14 @@ class Entry
 
   private
   def process_settings
-    treatment_settings = self.treatments.group_by(&:name).reduce({}) do |accum,(name,treatment_group)|
+    treatments_by_name = self.treatments.group_by(&:name)
 
+    # clear existing treatment settings to make way for new ones
+    treatments_by_name.each do |name,_group|
+      settings.delete_if {|key,_value| key =~ Regexp.new(Regexp.quote("treatment_#{name}")) }
+    end
+
+    treatment_settings = treatments_by_name.reduce({}) do |accum,(name,treatment_group)|
       treatment_group.each_with_index do |t,i|
         if t.quantity and t.unit
           accum["treatment_#{name}_#{i+1}_quantity"]  = t.quantity.to_s # as string for postgres comparison

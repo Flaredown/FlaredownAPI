@@ -204,6 +204,33 @@ describe Entry do
         expect(entry.settings[:ethnicOrigin]).to eql []
       end
 
+      it "new treatment settings replace old ones if present" do
+        exercise = treatment_responses.deep_dup
+        exercise[:treatments].concat [
+          {name: "Exercise", quantity: "10.0", unit: "minute"},
+          {name: "Exercise", quantity: "20.0", unit: "minute"},
+        ]
+
+        new_exercise = treatment_responses.deep_dup
+        new_exercise[:treatments].concat [
+          {name: "Exercise", quantity: "1.0", unit: "hour"}
+        ]
+
+        entry.update_attributes exercise
+        entry.process_responses
+
+        expect(entry.settings["treatment_Exercise_1_quantity"]).to eql "10.0"
+        expect(entry.settings["treatment_Exercise_1_unit"]).to eql "minute"
+        expect(entry.settings["treatment_Exercise_2_quantity"]).to eql "20.0"
+
+        entry.update_attributes new_exercise
+        entry.process_responses
+
+        expect(entry.settings["treatment_Exercise_1_quantity"]).to eql "1.0"
+        expect(entry.settings["treatment_Exercise_1_unit"]).to eql "hour"
+        expect(entry.settings["treatment_Exercise_2_quantity"]).to eql nil
+      end
+
     end
 
     it "sets tags from the tags in response" do
