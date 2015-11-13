@@ -56,8 +56,7 @@ class V1::EntriesController < V1::BaseController
       ### Check some date stuff. TODO this should probably go somewhere else
       # Not today due to timezone difference possibilities (e.g., it's tomorrow Australia)
       return general_error_for("future_date") if date > Date.tomorrow
-      # No creation more than 2 weeks ago
-      return general_error_for("distant_past_date") if date < (Date.today - 2.weeks)
+
       # Add 24 hours due to timezone difference possibilities (e.g., evening in California is tomorrow UTC).
       return general_error_for("no_checkins_before_signup") if date < (current_user.created_at.to_date-1.day)
 
