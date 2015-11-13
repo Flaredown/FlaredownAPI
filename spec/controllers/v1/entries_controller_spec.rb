@@ -110,15 +110,6 @@ describe V1::EntriesController, type: :controller do
         post :create, date: "Sep-22-3000"
         returns_groovy_error(name: "future_date")
       end
-
-      it "is a date too far in the past (not allowed)" do
-        today = user.created_at.to_date+30.days
-        Timecop.freeze(today.to_time)
-
-        post :create, date: (today-15.days).strftime("%b-%d-%Y")
-        returns_groovy_error(name: "distant_past_date")
-      end
-
     end
 
     context "TIME TRAVEL FOR EXISTING ENTRY" do
