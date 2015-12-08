@@ -222,6 +222,8 @@ en:
   #alarm
   alarm_reminder_title: "Reminder"
   alarm_reminder_text: "Don’t forget to check into Flaredown today!"
+  treatment_reminder_title: "Treatment Reminder"
+  treatment_reminder_text: "Don't forget to take "
   alarm_off_caps: "OFF"
 
   # account
