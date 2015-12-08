@@ -56,6 +56,8 @@ en:
     save: "Save"
     saving: "Saving..."
     keep_typing: "Keep typing..."
+    checkin_reminder_title: "Remind me to check in"
+    treatment_reminder_title: "Treatment reminders"
 
   today: "Today"
   yesterday: "Yesterday"
@@ -389,13 +391,16 @@ en:
     basic_2: "Fairly active"
     basic_3: "Very active"
     basic_4: "Extremely active"
-
+  
+  confirmation_message:
+    settings_saved: "Settings saved"
+    
   nice_errors:
     field_required: "%{field} is required"
     field_invalid: "%{field} is invalid"
 
     general_error: "Oops!"
-    general_error_description: "Something went wrong here, please check all the usually suspects and try again."
+    general_error_description: "Something went wrong here, please check all the usual suspects and try again."
     bad_credentials: "Invalid Login Credentials"
     bad_credentials_description: "Either the email or password you submitted was incorrect."
     unknown_locale: "Unknown Locale"
@@ -412,7 +417,8 @@ en:
     distant_past_date_description: "You can only check in up to two weeks in the past"
     no_checkins_before_signup: "Too far back!"
     no_checkins_before_signup_description: "You can only check in on days after the date you originally signed up"
-
+    api_error: "API Error"
+    api_error_description: "Error retrieving information from the API. Please check your connection and try again."
 
     # Some Rails validations
     name_exists: "Name already exists"
