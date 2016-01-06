@@ -1,6 +1,7 @@
 Flaredown::Application.routes.draw do
 
   root "application#app"
+  get "minimumClient", to: "application#minimum_client"
 
   namespace :v1, defaults: { format: 'json' } do
 
@@ -42,7 +43,6 @@ Flaredown::Application.routes.draw do
     get "locales/:locale", to: "locales#show"
     get "/graph" => "graph#show"
     get "/users/:id" => "users#show"
-
   end
 
 end

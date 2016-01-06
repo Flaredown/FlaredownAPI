@@ -17,6 +17,19 @@ class ApplicationController < ActionController::Base
   def app
   end
 
+  def minimum_client
+    render json: {
+      ios: {
+        major: 0,
+        minor: 0
+      },
+      android: {
+        major: 0,
+        minor: 0
+      },
+      locales: 1
+    }, status: 200
+  end
   protected
 
   def configure_permitted_parameters
