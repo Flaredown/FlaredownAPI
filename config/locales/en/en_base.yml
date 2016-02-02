@@ -50,8 +50,14 @@ en:
     edit: "Edit"
     edit_caps: "EDIT"
     edit_lowercase": "edit"
+    update: "Update"
+    update_caps: "UPDATE"
+    update_lowercase: "update"
 
-
+  URI:
+    android_app_uri: ""
+    ios_app_uri: ""
+    
   forms:
     save: "Save"
     saving: "Saving..."
@@ -419,6 +425,8 @@ en:
     no_checkins_before_signup_description: "You can only check in on days after the date you originally signed up"
     api_error: "API Error"
     api_error_description: "Error retrieving information from the API. Please check your connection and try again."
+    minimum_client_error: "Update Required"
+    minimum_client_error_description: "An update to Flaredown is required."
 
     # Some Rails validations
     name_exists: "Name already exists"
