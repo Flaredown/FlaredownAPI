@@ -9,25 +9,31 @@ module UserColors
   def symptom_colorables
     user_symptoms.map do |assoc|
       symptom = assoc.symptom
-      {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: true } # active_symptoms.include?(symptom.id.to_s)
+      if symptom
+        {name: "symptoms_#{symptom.name}", date: assoc.created_at, active: true } # active_symptoms.include?(symptom.id.to_s)
+      end
     end
   end
 
   def condition_colorables
     user_conditions.map do |assoc|
       condition = assoc.condition
-      {name: "conditions_#{condition.name}", date: assoc.created_at, active: true }
+      if condition
+        {name: "conditions_#{condition.name}", date: assoc.created_at, active: true }
+      end
     end
   end
 
   def catalog_colorables
     user_conditions.reduce([]) do |accum,assoc|
       condition = assoc.condition
-      catalog   = CATALOG_CONDITIONS[condition.name]
+      if condition
+        catalog = CATALOG_CONDITIONS[condition.name]
 
-      if catalog
-        "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
-          accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
+        if catalog
+          "#{catalog.capitalize}Catalog".constantize.const_get("SCORE_COMPONENTS").map do |component|
+            accum << {name: "#{catalog}_#{component}", date: assoc.created_at, active: true } # active_conditions.include?(condition.id.to_s)
+          end
         end
       end
       accum
@@ -37,8 +43,11 @@ module UserColors
   def treatment_colorables
     user_treatments.map do |assoc|
       treatment = assoc.treatment
-      {name: "treatments_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
+      if treatment
+        {name: "treatments_#{treatment.name}", date: assoc.created_at, active: true } # active_treatments.include?(treatment.id.to_s)
+      end
     end
   end
 
 end
+
